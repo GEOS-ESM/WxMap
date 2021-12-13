@@ -4,7 +4,7 @@
 # files.
 # =========================================================================
 
-config_path: $install_path/share:$install_path/share/themes:$install_path/share/missions:$install_path/share/special:/home/jardizzo/src/FLUID/wxmap/examples
+config_path: $install_path/share:$install_path/share/themes:$install_path/share/missions:$install_path/share/examples
 
 # Define the default configuration ($install_path/share/wxmap)
 # ============================================================
