@@ -1,0 +1,37 @@
+stream:
+
+  M2LTM:
+
+    long_name: MERRA-2 LTM
+    type: analysis
+    institution: NASA Global Modeling and Assimilation Office
+    description: MERRA-2 Long-Term Mean
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/ltm/clim_1981_2010_%b_MERRA2.$collection.nc4
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  M2CONST:
+
+    long_name: MERRA-2 Constants
+    type: analysis
+    institution: NASA Global Modeling and Assimilation Office
+    description: MERRA-2 Constants
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/const/MERRA2_400.const_2d_asm_Nx.00000000.nc4
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  M2ANOM:
+
+    long_name: MERRA-2 Anomaly
+    type: analysis
+    institution: Global Modeling and Assimilation Office (GMAO)
+    description: Modern-Era Retrospective analysis for Research and Applications (MERRA-2)
+    uri: /discover/nobackup/projects/gmao/merra2/data/products/opendap/$collection
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  M2SPD:
+
+    long_name: MERRA-2 Wind Speed
+    type: analysis
+    institution: Global Modeling and Assimilation Office (GMAO)
+    description: Modern-Era Retrospective analysis for Research and Applications (MERRA-2)
+    uri: /discover/nobackup/mbosilov/MERRA2/wspd/MERRA2_mon_wspd_%Y%m.nc
+    logos: [nasa-logo-ul, gmao-logo-ur]

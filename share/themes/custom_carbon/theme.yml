@@ -1,0 +1,92 @@
+theme:
+
+  plot:
+
+    co2sfc:
+      long_name: CO2SFC
+      levels: [0]
+      layers: [co2sfc]
+      title: 'Surface CO`b2`n'
+
+    xco2:
+      long_name: XCO2 
+      levels: [0] 
+      layers: [xco2]
+      title: 'Column Averaged CO`b2`n'
+
+  layer:
+
+    co2sfc:
+      gxout: shaded
+      expr: _co2sfc*1e+6
+      cbar: KM
+      cbunits: '[dry-air ppmv]'
+      nsub: 20
+      skip: 20
+      cmin: 380
+      cmax: 450
+      cint: 10
+      cdict: custom_dict_sfc
+      
+    xco2:
+      gxout: shaded
+      expr: _xco2*1e+6
+      cbar: COL 
+      cbunits: '[dry-air ppmv]'
+      nsub: 10
+      skip: 10
+      cmin: 400 
+      cmax: 410 
+      cint: 10
+      cdict: custom_dict_column
+    
+  attribute:
+
+    custom_dict_sfc:
+
+      - {'%Y':'2000', cmin: 344, cmax: 414, cint: 10} 
+      - {'%Y':'2001', cmin: 346, cmax: 416, cint: 10} 
+      - {'%Y':'2002', cmin: 348, cmax: 418, cint: 10} 
+      - {'%Y':'2003', cmin: 350, cmax: 420, cint: 10} 
+      - {'%Y':'2004', cmin: 352, cmax: 422, cint: 10} 
+      - {'%Y':'2005', cmin: 354, cmax: 424, cint: 10} 
+      - {'%Y':'2006', cmin: 356, cmax: 426, cint: 10} 
+      - {'%Y':'2007', cmin: 358, cmax: 428, cint: 10} 
+      - {'%Y':'2008', cmin: 360, cmax: 430, cint: 10} 
+      - {'%Y':'2009', cmin: 362, cmax: 432, cint: 10} 
+      - {'%Y':'2010', cmin: 364, cmax: 434, cint: 10} 
+      - {'%Y':'2011', cmin: 366, cmax: 436, cint: 10} 
+      - {'%Y':'2012', cmin: 368, cmax: 438, cint: 10} 
+      - {'%Y':'2013', cmin: 370, cmax: 440, cint: 10} 
+      - {'%Y':'2014', cmin: 372, cmax: 442, cint: 10} 
+      - {'%Y':'2015', cmin: 375, cmax: 445, cint: 10} 
+      - {'%Y':'2016', cmin: 378, cmax: 448, cint: 10} 
+      - {'%Y':'2017', cmin: 380, cmax: 450, cint: 10} 
+      - {'%Y':'2018', cmin: 382, cmax: 452, cint: 10} 
+      - {'%Y':'2019', cmin: 385, cmax: 455, cint: 10} 
+      - {'%Y':'2020', cmin: 387, cmax: 457, cint: 10}
+    
+    custom_dict_column:
+
+      - {'%Y':'2000', cmin: 364, cmax: 374, cint: 1} 
+      - {'%Y':'2001', cmin: 366, cmax: 376, cint: 1} 
+      - {'%Y':'2002', cmin: 368, cmax: 378, cint: 1} 
+      - {'%Y':'2003', cmin: 370, cmax: 380, cint: 1} 
+      - {'%Y':'2004', cmin: 372, cmax: 382, cint: 1} 
+      - {'%Y':'2005', cmin: 374, cmax: 384, cint: 1} 
+      - {'%Y':'2006', cmin: 376, cmax: 386, cint: 1} 
+      - {'%Y':'2007', cmin: 378, cmax: 388, cint: 1} 
+      - {'%Y':'2008', cmin: 380, cmax: 390, cint: 1} 
+      - {'%Y':'2009', cmin: 382, cmax: 392, cint: 1} 
+      - {'%Y':'2010', cmin: 384, cmax: 394, cint: 1} 
+      - {'%Y':'2011', cmin: 386, cmax: 396, cint: 1} 
+      - {'%Y':'2012', cmin: 388, cmax: 398, cint: 1} 
+      - {'%Y':'2013', cmin: 390, cmax: 400, cint: 1} 
+      - {'%Y':'2014', cmin: 392, cmax: 402, cint: 1} 
+      - {'%Y':'2015', cmin: 395, cmax: 405, cint: 1} 
+      - {'%Y':'2016', cmin: 398, cmax: 408, cint: 1} 
+      - {'%Y':'2017', cmin: 400, cmax: 410, cint: 1} 
+      - {'%Y':'2018', cmin: 402, cmax: 412, cint: 1} 
+      - {'%Y':'2019', cmin: 405, cmax: 415, cint: 1} 
+      - {'%Y':'2020', cmin: 407, cmax: 417, cint: 1}
+

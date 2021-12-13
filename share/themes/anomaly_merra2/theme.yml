@@ -1,0 +1,1410 @@
+layout1: &LAYOUT1
+# geometry: 500x375
+  geometry: 490x367
+  scale: 1.8
+  tight: 1
+  bbox: 0 70 1024 730
+  no_title: 1
+  no_label: 1
+  no_logo: 1
+# no_cbar: 1
+  shape: 0
+
+
+theme:
+
+  plot:
+
+    lwtup_all:
+      long_name: OLR
+      levels: [0]
+      header: $model
+      title: 'Upwelling Longwave Flux at TOA [W/m`a2`n]'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: lwtup_mean, pos: 11, label: 'Monthly Mean'}
+        - {field: lwtup_ltm,  pos: 21, label: Climate Mean}
+        - {field: lwtup_anom, pos: 12, label: Monthly Anomaly}
+        - {field: lwtup_std,  pos: 22, label: Climate Std Dev}
+
+    swgdn_all:
+      long_name: SWGDN
+      levels: [0]
+      header: $model
+      title: 'Surface Incoming Shortwave Flux [W/m`a2`n]'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: swgdn_mean, pos: 11, label: Monthly Mean}
+        - {field: swgdn_ltm,  pos: 21, label: Climate Mean}
+        - {field: swgdn_anom, pos: 12, label: Monthly Anomaly}
+        - {field: swgdn_std,  pos: 22, label: Climate Std Dev}
+
+    prectotcorr_all:
+      long_name: Precip
+      levels: [0]
+      header: $model
+      title: 'Precipitation Rate (Corr) [mm/day]'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: prectotcorr_mean, pos: 11, label: Monthly Mean}
+        - {field: prectotcorr_ltm,  pos: 21, label: Climate Mean}
+        - {field: prectotcorr_anom, pos: 12, label: Monthly Anomaly}
+        - {field: prectotcorr_std,  pos: 22, label: Climate Std Dev}
+
+    prectot_all:
+      long_name: Precip
+      levels: [0]
+      header: $model
+      title: 'Precipitation Rate [mm/day]'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: prectot_mean, pos: 11, label: Monthly Mean}
+        - {field: prectot_ltm,  pos: 21, label: Climate Mean}
+        - {field: prectot_anom, pos: 12, label: Monthly Anomaly}
+        - {field: prectot_std,  pos: 22, label: Climate Std Dev}
+
+    empw_all:
+      long_name: E-P Water
+      levels: [0]
+      header: $model
+      title: 'E-P [mm/day] (Ocean Only)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: empw_mean, pos: 11, label: Monthly Mean}
+        - {field: empw_ltm,  pos: 21, label: Climate Mean}
+        - {field: empw_anom, pos: 12, label: Monthly Anomaly}
+        - {field: empw_std,  pos: 22, label: Climate Std Dev}
+
+    empl_all:
+      long_name: E-P Land
+      levels: [0]
+      header: $model
+      title: 'E-P [mm/day] (Land Only)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: empl_mean, pos: 11, label: Monthly Mean}
+        - {field: empl_ltm,  pos: 21, label: Climate Mean}
+        - {field: empl_anom, pos: 12, label: Monthly Anomaly}
+        - {field: empl_std,  pos: 22, label: Climate Std Dev}
+
+    gwetprof_all:
+      long_name: GWETPROF
+      levels: [0]
+      header: $model
+      title: 'Profile Soil Moisture'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: gwetprof_mean, pos: 11, label: Monthly Mean}
+        - {field: gwetprof_ltm,  pos: 21, label: Climate Mean}
+        - {field: gwetprof_anom, pos: 12, label: Monthly Anomaly}
+        - {field: gwetprof_std,  pos: 22, label: Climate Std Dev}
+
+    gwetroot_all:
+      long_name: GWETROOT
+      levels: [0]
+      header: $model
+      title: 'Root-Zone Soil Moisture'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: gwetroot_mean, pos: 11, label: Monthly Mean}
+        - {field: gwetroot_ltm,  pos: 21, label: Climate Mean}
+        - {field: gwetroot_anom, pos: 12, label: Monthly Anomaly}
+        - {field: gwetroot_std,  pos: 22, label: Climate Std Dev}
+
+    gwettop_all:
+      long_name: GWETTOP
+      levels: [0]
+      header: $model
+      title: 'Surface Soil Moisture'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: gwettop_mean, pos: 11, label: Monthly Mean}
+        - {field: gwettop_ltm,  pos: 21, label: Climate Mean}
+        - {field: gwettop_anom, pos: 12, label: Monthly Anomaly}
+        - {field: gwettop_std,  pos: 22, label: Climate Std Dev}
+
+    tqv_all:
+      long_name: TPW
+      levels: [0]
+      header: $model
+      title: 'Total Precipitable Water [kg/m`a2`n]'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: tqv_mean, pos: 11, label: Monthly Mean}
+        - {field: tqv_ltm,  pos: 21, label: Climate Mean}
+        - {field: tqv_anom, pos: 12, label: Monthly Anomaly}
+        - {field: tqv_std,  pos: 22, label: Climate Std Dev}
+
+    rh_all:
+      long_name: RH
+      levels: [850,700,500,200]
+      header: $model
+      title: '$level mb Relative Humidity (%), Z* (m)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: rh_mean, pos: 11, label: Monthly Mean}
+        - {field: rh_ltm,  pos: 21, label: Climate Mean}
+        - {field: rh_anom, pos: 12, label: Monthly Anomaly}
+        - {field: rh_std,  pos: 22, label: Climate Std Dev}
+
+    t_all:
+      long_name: T
+      levels: [850,700,500,200]
+      header: $model
+      title: '$level mb Temperature (C), Z* (m)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: t_mean, pos: 11, label: Monthly Mean}
+        - {field: t_ltm,  pos: 21, label: Climate Mean}
+        - {field: t_anom, pos: 12, label: Monthly Anomaly}
+        - {field: t_std,  pos: 22, label: Climate Std Dev}
+
+    h_all:
+      long_name: H
+      levels: [850,700,500,200]
+      header: $model
+      title: '$level mb Heights (m), Z* (m)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: h_mean, scale: 1.3, pos: 11, label: Monthly Mean}
+        - {field: h_ltm, scale: 1.3,  pos: 21, label: Climate Mean}
+        - {field: h_anom, pos: 12, label: Monthly Anomaly}
+        - {field: h_std,  pos: 22, label: Climate Std Dev}
+
+    u_all:
+      long_name: U
+      levels: [850,700,500,200]
+      header: $model
+      title: '$level mb U-wind (m/s), Z* (m)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: u_mean, pos: 11, label: Monthly Mean}
+        - {field: u_ltm,  pos: 21, label: Climate Mean}
+        - {field: u_anom, pos: 12, label: Monthly Anomaly}
+        - {field: u_std,  pos: 22, label: Climate Std Dev}
+
+    v_all:
+      long_name: V
+      levels: [850,700,500,200]
+      header: $model
+      title: '$level mb V-wind (m/s), Z* (m)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: v_mean, pos: 11, label: Monthly Mean}
+        - {field: v_ltm,  pos: 21, label: Climate Mean}
+        - {field: v_anom, pos: 12, label: Monthly Anomaly}
+        - {field: v_std,  pos: 22, label: Climate Std Dev}
+
+    u50m_all:
+      long_name: U50M
+      levels: [0]
+      header: $model
+      title: 'U-wind at 50-meters (m/s)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: u50m_mean, pos: 11, label: Monthly Mean}
+        - {field: u50m_ltm,  pos: 21, label: Climate Mean}
+        - {field: u50m_anom, pos: 12, label: Monthly Anomaly}
+        - {field: u50m_std,  pos: 22, label: Climate Std Dev}
+
+    v50m_all:
+      long_name: V50M
+      levels: [0]
+      header: $model
+      title: 'V-wind at 50-meters (m/s)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: v50m_mean, pos: 11, label: Monthly Mean}
+        - {field: v50m_ltm,  pos: 21, label: Climate Mean}
+        - {field: v50m_anom, pos: 12, label: Monthly Anomaly}
+        - {field: v50m_std,  pos: 22, label: Climate Std Dev}
+
+    t2m_all:
+      long_name: T2M
+      levels: [0]
+      header: $model
+      title: 'Temperature at 2-meters (C)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: t2m_mean, pos: 11, label: Monthly Mean}
+        - {field: t2m_ltm,  pos: 21, label: Climate Mean}
+        - {field: t2m_anom, pos: 12, label: Monthly Anomaly}
+        - {field: t2m_std,  pos: 22, label: Climate Std Dev}
+
+    slp_all:
+      long_name: SLP
+      levels: [0]
+      header: $model
+      title: 'Sea Level Pressure (mb)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: slp_mean, scale: 1.3, pos: 11, label: Monthly Mean}
+        - {field: slp_ltm,  scale: 1.3, pos: 21, label: Climate Mean}
+        - {field: slp_anom, pos: 12, label: Monthly Anomaly}
+        - {field: slp_std,  pos: 22, label: Climate Std Dev}
+
+    wspd_all:
+      long_name: Wind Speed
+      levels: [850,700,500,200]
+      header: $model
+      title: '$level mb Wind Speed (m/s)'
+      xlabel: '$tm_string'
+      layout: *LAYOUT1
+      panels:
+        - {field: wspd_mean, pos: 11, label: 'Monthly Mean'}
+        - {field: wspd_ltm,  pos: 21, label: Climate Mean}
+        - {field: wspd_anom, pos: 12, label: Monthly Anomaly}
+#       - {field: wspd_std,  pos: 22, label: Climate Std Dev}
+
+    prectot_anom:
+      long_name: Precip Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Precipitation Rate [mm/day]'
+      shaded:
+        expr: (_prectot-_prectot_ltm)*86400
+        cdict: prectot_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    prectot_std:
+      long_name: Precip STD
+      levels: [0]
+      layers: [shaded]
+      title: 'Precipitation Rate [mm/day]'
+      shaded:
+        expr: _prectot_std*86400
+        cbar: Blues
+        cdict: prectot_std_attr
+        cmin: 0
+        cmax: 1.0
+        cint: 0.1
+
+    prectot_ltm:
+      long_name: Precip Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Precipitation Rate [mm/day]'
+      shaded:
+        gxout: shaded
+        expr: _prectot_ltm*86400
+        cbar: MeanPrecip
+        cdict: prectot_attr
+        cmin: 0
+        cmax: 20
+        cint: 2
+
+    prectot_mean:
+      long_name: Precip Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Precipitation Rate [mm/day]'
+      shaded:
+        gxout: shaded
+        expr: _prectot*86400
+        cbar: MeanPrecip
+        cdict: prectot_attr
+        cmin: 0
+        cmax: 20
+        cint: 2
+
+    prectotcorr_anom:
+      long_name: Precip Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Precipitation Rate (Corr) [mm/day]'
+      shaded:
+        expr: (_prectotcorr-_prectotcorr_ltm)*86400
+        cdict: prectotcorr_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    prectotcorr_std:
+      long_name: Precip STD
+      levels: [0]
+      layers: [shaded]
+      title: 'Precipitation Rate (Corr) [mm/day]'
+      shaded:
+        expr: _prectotcorr_std*86400
+        cbar: Blues
+        cdict: prectotcorr_std_attr
+        cmin: 0
+        cmax: 1.0
+        cint: 0.1
+
+    prectotcorr_ltm:
+      long_name: Precip Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Precipitation Rate (Corr) [mm/day]'
+      shaded:
+        gxout: shaded
+        expr: _prectotcorr_ltm*86400
+        cbar: MeanPrecip
+        cdict: prectotcorr_attr
+        cmin: 0
+        cmax: 20
+        cint: 2
+
+    prectotcorr_mean:
+      long_name: Precip Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Precipitation Rate (Corr) [mm/day]'
+      shaded:
+        gxout: shaded
+        expr: _prectotcorr*86400
+        cbar: MeanPrecip
+        cdict: prectotcorr_attr
+        cmin: 0
+        cmax: 20
+        cint: 2
+
+    empw_anom:
+      long_name: E-P Water Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'E-P [mm/day] (Ocean Only)'
+      map:
+        layers: [basic-gray01]
+      shaded:
+        expr: (_empw-_empw_ltm)*86400
+        cdict: empw_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    empw_std:
+      long_name: E-P Water STD
+      levels: [0]
+      layers: [shaded]
+      title: 'E-P [mm/day] (Ocean Only)'
+      map:
+        layers: [basic-gray01]
+      shaded:
+        expr: sqrt(_empw_std*_empw_std)*86400
+        cbar: Blues
+        cdict: empw_std_attr
+        cmin: 0
+        cmax: 4.0
+        cint: 0.5
+
+    empw_ltm:
+      long_name: E-P Water Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'E-P [mm/day] (Ocean Only)'
+      map:
+        layers: [basic-gray01]
+      shaded:
+        gxout: shaded
+        expr: _empw_ltm*86400
+        cbar: coldwarm
+        cdict: empw_attr
+        cmin: -12
+        cmax: 12
+        cint: 2
+
+    empw_mean:
+      long_name: E-P Water Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'E-P [mm/day] (Ocean Only)'
+      map:
+        layers: [basic-gray01]
+      shaded:
+        gxout: shaded
+        expr: _empw*86400
+        cbar: coldwarm
+        cdict: empw_attr
+        cmin: -12
+        cmax: 12
+        cint: 2
+
+    empl_anom:
+      long_name: E-P Land Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'E-P [mm/day] (Land Only)'
+      map:
+        layers: [basic-gray01]
+      shaded:
+        expr: (_empl-_empl_ltm)*86400
+        cdict: empl_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    empl_std:
+      long_name: E-P Land STD
+      levels: [0]
+      layers: [shaded]
+      title: 'E-P [mm/day] (Land Only)'
+      map:
+        layers: [basic-gray01]
+      shaded:
+        expr: sqrt(_empl_std*_empl_std)*86400
+        cbar: Blues
+        cdict: empl_std_attr
+        cmin: 0
+        cmax: 4.0
+        cint: 0.5
+
+    empl_ltm:
+      long_name: E-P Land Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'E-P [mm/day] (Land Only)'
+      map:
+        layers: [basic-gray01]
+      shaded:
+        gxout: shaded
+        expr: _empl_ltm*86400
+        cbar: coldwarm
+        cdict: empl_attr
+        cmin: -12
+        cmax: 12
+        cint: 2
+
+    empl_mean:
+      long_name: E-P Land Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'E-P [mm/day] (Land Only)'
+      map:
+        layers: [basic-gray01]
+      shaded:
+        gxout: shaded
+        expr: _empl*86400
+        cbar: coldwarm
+        cdict: empl_attr
+        cmin: -6
+        cmax: 6
+        cint: 1
+
+    slp_anom:
+      long_name: SLP Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Sea Level Pressure (mb)'
+      shaded:
+        expr: (_slp-_slp_ltm) / 100
+        cdict: slp_anom_attr
+        cmin: -20
+        cmax: 20
+        cint: 4
+
+    slp_std:
+      long_name: SLP Stdev
+      levels: [0]
+      layers: [shaded]
+      title: 'Sea Level Pressure (mb)'
+      shaded:
+        expr: _slp_std / 100
+        cbar: Blues
+        cdict: slp_std_attr
+        cmin: 0
+        cmax: 10
+        cint: 1
+
+    slp_ltm:
+      long_name: SLP Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Sea Level Pressure (mb)'
+      shaded:
+        expr: _slp_ltm / 100
+        cbar: Rainbow
+        cdict: slp_attr
+        cmin: 980
+        cmax: 1030
+        cint: 5
+
+    slp_mean:
+      long_name: SLP Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Sea Level Pressure (mb)'
+      shaded:
+        expr: _slp / 100
+        cbar: Rainbow
+        cdict: slp_attr
+        cmin: 980
+        cmax: 1030
+        cint: 5
+
+    t2m_anom:
+      long_name: T2M Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Temperature at 2-meters (C)'
+      shaded:
+        expr: _t2m-_t2m_ltm
+        cdict: t2m_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    t2m_std:
+      long_name: T2M Stdev
+      levels: [0]
+      layers: [shaded]
+      title: 'Temperature at 2-meters (C)'
+      shaded:
+        expr: _t2m_std
+        cbar: Blues
+        cdict: t2m_std_attr
+        cmin: 0
+        cmax: 10
+        cint: 1
+
+    t2m_ltm:
+      long_name: T2M Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Temperature at 2-meters (C)'
+      shaded:
+        expr: _t2m_ltm-273.15
+        cbar: Rainbow
+        cdict: t2m_attr
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    t2m_mean:
+      long_name: T2M Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Temperature at 2-meters (C)'
+      shaded:
+        expr: _t2m-273.15
+        cbar: Rainbow
+        cdict: t2m_attr
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    u50m_anom:
+      long_name: U50M Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'U-wind at 50-meters (m/s)'
+      shaded:
+        expr: _u50m-_u50m_ltm
+        cdict: u50m_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    u50m_std:
+      long_name: U50M STD
+      levels: [0]
+      layers: [shaded]
+      title: 'U-wind at 50-meters (m/s)'
+      shaded:
+        expr: _u50m_std
+        cbar: Blues
+        cdict: u50m_std_attr
+        cmin: 0
+        cmax: 10
+        cint: 1
+
+    u50m_ltm:
+      long_name: U50M Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'U-wind at 50-meters (m/s)'
+      shaded:
+        expr: _u50m_ltm
+        cdict: u50m_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    u50m_mean:
+      long_name: U50M Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'U-wind at 50-meters (m/s)'
+      shaded:
+        expr: _u50m
+        cdict: u50m_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    v50m_anom:
+      long_name: V50M Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'V-wind at 50-meters (m/s)'
+      shaded:
+        expr: _v50m-_v50m_ltm
+        cdict: v50m_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    v50m_std:
+      long_name: V50M STD
+      levels: [0]
+      layers: [shaded]
+      title: 'V-wind at 50-meters (m/s)'
+      shaded:
+        expr: _v50m_std
+        cbar: Blues
+        cdict: v50m_std_attr
+        cmin: 0
+        cmax: 10
+        cint: 1
+
+    v50m_ltm:
+      long_name: V50M Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'V-wind at 50-meters (m/s)'
+      shaded:
+        expr: _v50m_ltm
+        cdict: v50m_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    v50m_mean:
+      long_name: V50M Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'V-wind at 50-meters (m/s)'
+      shaded:
+        expr: _v50m
+        cdict: v50m_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    h_anom:
+      long_name: H Anom
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb Heights Anomaly (meters)'
+      shaded:
+        expr: _h-_h_ltm
+        cdict: h_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    h_std:
+      long_name: H Stdev
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb Heights Stdev (meters)'
+      shaded:
+        expr: _h_std
+        cbar: Blues
+        cdict: h_std_attr
+        cmin: 0
+        cmax: 5
+        cint: 0.5
+
+    h_ltm:
+      long_name: H Clim
+      levels: [850,700,500,200]
+      layers: [shaded, h1_ltm, h2_ltm]
+      title: '$level mb Heights (meters)'
+      shaded:
+        expr: _h_ltm
+        cbar: Rainbow
+        cdict: h_attr
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    h_mean:
+      long_name: H Mean
+      levels: [850,700,500,200]
+      layers: [shaded, h1_mean, h2_mean]
+      title: '$level mb Heights (meters)'
+      shaded:
+        expr: _h
+        cbar: Rainbow
+        cdict: h_attr
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    t_anom:
+      long_name: T Anom
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb Temperature Anomaly (C)'
+      shaded:
+        expr: _t-_t_ltm
+        cdict: t_anom_attr
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    t_std:
+      long_name: T Stdev
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb Temperature Stdev (C)'
+      shaded:
+        expr: _t_std
+        cbar: Blues
+        cdict: t_std_attr
+        cmin: 0
+        cmax: 5
+        cint: 0.5
+
+    t_ltm:
+      long_name: T Clim
+      levels: [850,700,500,200]
+      layers: [shaded, h1_ltm, h2_ltm]
+      title: '$level mb Temperature (C)'
+      shaded:
+        expr: _t_ltm-273.15
+        cbar: Rainbow
+        cdict: t_attr
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    t_mean:
+      long_name: T Mean
+      levels: [850,700,500,200]
+      layers: [shaded, h1_mean, h2_mean]
+      title: '$level mb Temperature (C)'
+      shaded:
+        expr: _t-273.15
+        cbar: Rainbow
+        cdict: t_attr
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    u_anom:
+      long_name: U-Wind Anom
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb U-wind (m/s)'
+      shaded:
+        expr: _u-_u_ltm
+        cdict: u_anom_attr
+        cmin: -20
+        cmax: 20
+        cint: 4
+
+    u_std:
+      long_name: U-Wind STD
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb U-wind (m/s)'
+      shaded:
+        expr: _u_std
+        cbar: Blues
+        cdict: u_std_attr
+        cmin: 0
+        cmax: 20
+        cint: 2
+
+    u_ltm:
+      long_name: U-wind Clim
+      levels: [850,700,500,200]
+      layers: [shaded, h1_ltm, h2_ltm]
+      title: '$level mb U-wind (m/s)'
+      shaded:
+        cbar: coldwarm
+        expr: _u_ltm
+        cdict: u_attr
+
+    u_mean:
+      long_name: U-wind Mean
+      levels: [850,700,500,200]
+      layers: [shaded, h1_mean, h2_mean]
+      title: '$level mb U-wind (m/s)'
+      shaded:
+        cbar: coldwarm
+        expr: _u
+        cdict: u_attr
+
+    wspd_mean:
+      long_name: Wind Speed Mean
+      levels: [850,700,500,200]
+      layers: [shaded, vector, h1_mean, h2_mean]
+      title: '$level mb Wind Speed (m/s)'
+      shaded:
+        cbar: coldwarm
+        expr: _wspd
+        cdict: wspd_attr
+      vector:
+        uexpr: _u
+        vexpr: _v
+      map:
+        line_color: 150 150 150
+
+    wspd_ltm:
+      long_name: Wind Speed Mean
+      levels: [850,700,500,200]
+      layers: [shaded, vector, h1_mean, h2_mean]
+      title: '$level mb Wind Speed (m/s)'
+      shaded:
+        cbar: coldwarm
+        expr: _wspd_ltm
+        cdict: wspd_attr
+      vector:
+        uexpr: _u_ltm
+        vexpr: _v_ltm
+      map:
+        line_color: 150 150 150
+
+    wspd_anom:
+      long_name: Wind Speed Anom
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb Wind Speed (m/s)'
+      shaded:
+        cbar: coldwarm
+        expr: _wspd-_wspd_ltm
+#       cdict: wspd_anom_attr
+        cmin: -20
+        cmax: 20
+        cint: 4
+
+    v_anom:
+      long_name: V-Wind Anom
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb V-wind (m/s)'
+      shaded:
+        expr: _v-_v_ltm
+        cdict: v_anom_attr
+        cmin: -20
+        cmax: 20
+        cint: 4
+
+    v_std:
+      long_name: V-Wind STD
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb V-wind (m/s)'
+      shaded:
+        expr: _v_std
+        cbar: Blues
+        cdict: v_std_attr
+        cmin: 0
+        cmax: 8
+        cint: 1
+
+    v_ltm:
+      long_name: V-wind Clim
+      levels: [850,700,500,200]
+      layers: [shaded, h1_ltm, h2_ltm]
+      title: '$level mb V-wind (m/s)'
+      shaded:
+        cbar: coldwarm
+        expr: _v_ltm
+        cdict: v_attr
+
+    v_mean:
+      long_name: V-wind Mean
+      levels: [850,700,500,200]
+      layers: [shaded, h1_mean, h2_mean]
+      title: '$level mb V-wind (m/s)'
+      shaded:
+        cbar: coldwarm
+        expr: _v
+        cdict: v_attr
+
+    rh_anom:
+      long_name: RH Anom
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb Relative Humidity (%)'
+      shaded:
+        expr: _rh-_rh_ltm
+        cdict: rh_anom_attr
+        cmin: -20
+        cmax: 20
+        cint: 4
+
+    rh_std:
+      long_name: RH STD
+      levels: [850,700,500,200]
+      layers: [shaded]
+      title: '$level mb Relative Humidity (%)'
+      shaded:
+        expr: _rh_std
+        cbar: Blues
+        cdict: rh_std_attr
+        cmin: 0
+        cmax: 50
+        cint: 5
+
+    rh_ltm:
+      long_name: RH Clim
+      levels: [850,700,500,200]
+      layers: [shaded, h1_ltm, h2_ltm]
+      title: '$level mb Relative Humidity (%)'
+      shaded:
+        cbar: drymoist
+        expr: _rh_ltm
+        cdict: rh_attr
+
+    rh_mean:
+      long_name: RH Mean
+      levels: [850,700,500,200]
+      layers: [shaded, h1_mean, h2_mean]
+      title: '$level mb Relative Humidity (%)'
+      shaded:
+        cbar: drymoist
+        expr: _rh
+        cdict: rh_attr
+
+    tqv_anom:
+      long_name: TPW Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Total Precipitable Water [kg m-2]'
+      shaded:
+        expr: _tqv-_tqv_ltm
+        cdict: tqv_anom_attr
+        cmin: -20
+        cmax: 20
+        cint: 4
+
+    tqv_std:
+      long_name: TPW STD
+      levels: [0]
+      layers: [shaded]
+      title: 'Total Precipitable Water [kg m-2]'
+      shaded:
+        expr: _tqv_std
+        cbar: Blues
+        cdict: tqv_std_attr
+        cmin: 0
+        cmax: 24
+        cint: 2
+
+    tqv_ltm:
+      long_name: TPW Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Total Precipitable Water [kg m-2]'
+      shaded:
+        gxout: shaded
+        expr: _tqv_ltm
+        cbar: TPWmellow
+        cdict: tqv_attr
+        cmin: 0
+        cmax: 75
+        cint: 5
+
+    tqv_mean:
+      long_name: TPW Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Total Precipitable Water [kg m-2]'
+      shaded:
+        gxout: shaded
+        expr: _tqv
+        cbar: TPWmellow
+        cdict: tqv_attr
+        cmin: 0
+        cmax: 75
+        cint: 5
+
+    lwtup_anom:
+      long_name: OLR Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Upwelling Longwave Flux at TOA [W m-2]'
+      shaded:
+        expr: _lwtup-_lwtup_ltm
+        cdict: lwtup_anom_attr
+        cmin: -20
+        cmax: 20
+        cint: 4
+
+    lwtup_std:
+      long_name: OLR STD
+      levels: [0]
+      layers: [shaded]
+      title: 'Upwelling Longwave Flux at TOA [W m-2]'
+      shaded:
+        expr: _lwtup_std
+        cbar: Blues
+        cdict: lwtup_std_attr
+        cmin: 0
+        cmax: 24
+        cint: 3
+
+    lwtup_ltm:
+      long_name: OLR Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Upwelling Longwave Flux at TOA [W m-2]'
+      shaded:
+        gxout: shaded
+        expr: _lwtup_ltm
+        cbar: OLR02
+        reverse: 1
+        cdict: lwtup_attr
+        cmin: 100
+        cmax: 360
+        cint: 20
+
+    lwtup_mean:
+      long_name: OLR Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Upwelling Longwave Flux at TOA [W m-2]'
+      shaded:
+        gxout: shaded
+        expr: _lwtup
+        cbar: OLR02
+        reverse: 1
+        cdict: lwtup_attr
+        cmin: 100
+        cmax: 360
+        cint: 20
+
+    swgdn_anom:
+      long_name: SWGDN Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Incoming Shortwave Flux [W m-2]'
+      shaded:
+        expr: _swgdn-_swgdn_ltm
+        cdict: swgdn_anom_attr
+        cmin: -50
+        cmax: 50
+        cint: 10
+
+    swgdn_std:
+      long_name: SWGDN STD
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Incoming Shortwave Flux [W m-2]'
+      shaded:
+        expr: _swgdn_std
+        cbar: Blues
+        cdict: swgdn_std_attr
+        cmin: 0
+        cmax: 50
+        cint: 5
+
+    swgdn_ltm:
+      long_name: SWGDN Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Incoming Shortwave Flux [W m-2]'
+      shaded:
+        gxout: shaded
+        expr: _swgdn_ltm
+        cbar: solar
+        cdict: swgdn_attr
+
+    swgdn_mean:
+      long_name: SWGDN Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Incoming Shortwave Flux [W m-2]'
+      shaded:
+        gxout: shaded
+        expr: _swgdn
+        cbar: solar
+        cdict: swgdn_attr
+
+    gwetprof_anom:
+      long_name: GWETPROF Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Profile Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        expr: _gwetprof-_gwetprof_ltm
+        cdict: gwetprof_anom_attr
+        cmin: -0.5
+        cmax: 0.5
+        cint: 0.1
+
+    gwetprof_std:
+      long_name: GWETPROF STD
+      levels: [0]
+      layers: [shaded]
+      title: 'Profile Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        expr: _gwetprof_std
+        cbar: Blues
+        cdict: gwetprof_std_attr
+        cmin: 0
+        cmax: 0.2
+        cint: 0.02
+
+    gwetprof_ltm:
+      long_name: GWETPROF Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Profile Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        gxout: shaded
+        expr: _gwetprof_ltm
+        cbar: drywet
+        cdict: gwetprof_attr
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+
+    gwetprof_mean:
+      long_name: GWETPROF Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Profile Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        gxout: shaded
+        expr: _gwetprof
+        cbar: drywet
+        cdict: gwetprof_attr
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+
+    gwetroot_anom:
+      long_name: GWETROOT Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Root-Zone Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        expr: _gwetroot-_gwetroot_ltm
+        cdict: gwetroot_anom_attr
+        cmin: -0.5
+        cmax: 0.5
+        cint: 0.1
+
+    gwetroot_std:
+      long_name: GWETROOT STD
+      levels: [0]
+      layers: [shaded]
+      title: 'Root-Zone Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        expr: _gwetroot_std
+        cbar: Blues
+        cdict: gwetroot_std_attr
+        cmin: 0
+        cmax: 0.2
+        cint: 0.02
+
+    gwetroot_ltm:
+      long_name: GWETROOT Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Root-Zone Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        gxout: shaded
+        expr: _gwetroot_ltm
+        cbar: drywet
+        cdict: gwetroot_attr
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+
+    gwetroot_mean:
+      long_name: GWETROOT Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Root-Zone Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        gxout: shaded
+        expr: _gwetroot
+        cbar: drywet
+        cdict: gwetroot_attr
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+
+    gwettop_anom:
+      long_name: GWETTOP Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        expr: _gwettop-_gwettop_ltm
+        cdict: gwettop_anom_attr
+        cmin: -0.5
+        cmax: 0.5
+        cint: 0.1
+
+    gwettop_std:
+      long_name: GWETTOP STD
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        expr: _gwettop_std
+        cbar: Blues
+        cdict: gwettop_std_attr
+        cmin: 0
+        cmax: 0.2
+        cint: 0.02
+
+    gwettop_ltm:
+      long_name: GWETTOP Clim
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        gxout: shaded
+        expr: _gwettop_ltm
+        cbar: drywet
+        cdict: gwettop_attr
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+
+    gwettop_mean:
+      long_name: GWETTOP Mean
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Soil Moisture'
+      map:
+        masks: [water_mask]
+      shaded:
+        gxout: shaded
+        expr: _gwettop
+        cbar: drywet
+        cdict: gwettop_attr
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+
+  layer:
+
+    shaded:
+      gxout: shaded
+      cbunits: ''
+      cbar: bwr
+      nsub: 10
+      skip: 10
+
+    vector:
+      gxout: vector
+      skip: 5 5
+      ccolor: 0 0 0
+      cthick: 6
+      arrscl: 0.2
+      arrfill: 1
+      arrowhead: 0.06
+
+    contour:
+      gxout: contour
+      clab: masked
+      cthick: 5
+      ccolor: 0 0 0
+      clsize: 0.18
+      contour: 'off'
+
+    h1_mean:
+      gxout: contour
+      clab: masked
+      cthick: 5
+      cstyle: 1
+      ccolor: 0 0 0
+      clsize: 0.18
+      expr: '_h-ave(_h,lon=0,lon=360,"-b")'
+      cmin: 0
+      cint: 20
+      cdict: zstar_attr
+
+    h2_mean:
+      gxout: contour
+      clab: masked
+      cstyle: 2
+      cthick: 5
+      ccolor: 0 0 0
+      clsize: 0.18
+      expr: '_h-ave(_h,lon=0,lon=360,"-b")'
+      cmax: 0
+      cint: 20
+      cdict: zstar_attr
+
+    h1_ltm:
+      gxout: contour
+      clab: masked
+      cthick: 5
+      cstyle: 1
+      ccolor: 0 0 0
+      clsize: 0.18
+      expr: '_h_ltm-ave(_h_ltm,lon=0,lon=360,"-b")'
+      cmin: 0
+      cint: 20
+      cdict: zstar_attr
+
+    h2_ltm:
+      gxout: contour
+      clab: masked
+      cstyle: 2
+      cthick: 5
+      ccolor: 0 0 0
+      clsize: 0.18
+      expr: '_h_ltm-ave(_h_ltm,lon=0,lon=360,"-b")'
+      cmax: 0
+      cint: 20
+      cdict: zstar_attr
+
+  attribute:
+
+    zstar_attr:
+      - {cint: 20}
+      - {'$region': 'atlantic', cint: 40}
+      - {'$region': 'global', cint: 40}
+      - {'$region': 'nam', cint: 40}
+      - {'$region': 'natl', cint: 40}
+      - {'$region': 'npac', cint: 40}
+      - {'$region': 'nps', cint: 40}
+      - {'$region': 'ortho', cint: 40}
+      - {'$region': 'pacific', cint: 40}
+      - {'$region': 'sps', cint: 40}

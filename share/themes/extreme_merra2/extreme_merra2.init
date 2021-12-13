@@ -1,0 +1,7 @@
+config: [extreme_merra2]
+streams: [NCA_INDICES]
+
+default:
+  field: pcntl_t2m
+  region: conus
+  level: '0'

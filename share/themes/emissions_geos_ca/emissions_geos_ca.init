@@ -1,0 +1,8 @@
+theme: [custom]
+config: [geos_cf, classic_geos_cf, emissions_geos_ca]
+streams: [GEOSCFAN]
+
+default:
+  field: emis_no_lght
+  region: nam
+  level: '0'

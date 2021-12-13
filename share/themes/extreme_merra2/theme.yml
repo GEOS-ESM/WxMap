@@ -1,0 +1,483 @@
+theme:
+
+  plot:
+
+    tn10p:
+      long_name: Min T2m < 10th Percentile
+      levels: [0]
+      layers: [tn10p]
+      title: '% of Days with Minimum 2m Temperature < 10th Percentile'
+    tx10p:
+      long_name: Max T2m < 10th Percentile
+      levels: [0]
+      layers: [tx10p]
+      title: '% of Days with Maximum 2m Temperature < 10th Percentile'
+
+    tn90p:
+      long_name: Min T2m > 90th Percentile
+      levels: [0]
+      layers: [tn90p]
+      title: '% of Days with Minimum 2m Temperature > 90th Percentile'
+
+    tx90p:
+      long_name: Max T2m > 90th Percentile
+      levels: [0]
+      layers: [tx90p]
+      title: '% of Days with Maximum 2m Temperature > 90th Percentile'
+
+    dtr:
+      long_name: Diurnal T2m Range
+      levels: [0]
+      layers: [dtr]
+      title: 'Diurnal Temperature Range [K]'
+
+    r90p:
+      long_name: Precip > 90th Percentile
+      levels: [0]
+      layers: [r90p]
+      title: 'Precipitation on Days Exceeding the 90th Percentile [mm/day]'
+
+    r95p:
+      long_name: Precip > 95th Percentile
+      levels: [0]
+      layers: [r95p]
+      title: 'Precipitation on Days Exceeding the 95th Percentile [mm/day]'
+
+    r99p:
+      long_name: Precip > 99th Percentile
+      levels: [0]
+      layers: [r99p]
+      title: 'Precipitation on Days Exceeding the 99th Percentile [mm/day]'
+
+    r90d:
+      long_name: Days w/ Precip > 90th Percentile
+      levels: [0]
+      layers: [r90d]
+      title: '# Days > 90th Percentile of Precipitation'
+
+    r95d:
+      long_name: Days w/ Precip > 95th Percentile
+      levels: [0]
+      layers: [r95d]
+      title: '# Days > 95th Percentile of Precipitation'
+
+    r99d:
+      long_name: Days w/ Precip > 99th Percentile
+      levels: [0]
+      layers: [r99d]
+      title: '# Days > 99th Percentile of Precipitation'
+
+    drydays:
+      long_name: Dry Days
+      levels: [0]
+      layers: [dry]
+      title: 'Dry Days [days]'
+
+    wetdays:
+      long_name: Wet Days
+      levels: [0]
+      layers: [wet]
+      title: 'Wet Days [days]'
+
+    cdd:
+      long_name: Consecutive Dry Days
+      levels: [0]
+      layers: [cdd]
+      title: 'Consecutive Dry Days [days]'
+
+    cwd:
+      long_name: Consecutive Wet Days
+      levels: [0]
+      layers: [cwd]
+      title: 'Consecutive Wet Days [days]'
+
+    rx1d:
+      long_name: Max 1 Day Precip
+      levels: [0]
+      layers: [rx1day]
+      title: 'Maximum 1 Day Precipitation [mm]'
+
+    rx5dhighest:
+      long_name: Max 5 Day Precip
+      levels: [0]
+      layers: [rx5dayhighest]
+      title: 'Maximum 5 Day Precipitation [mm/5 days]'
+    
+    rx5dnumber:
+      long_name: Number of 5 day heavy rainfall
+      levels: [0]
+      layers: [rx5daynumber] 
+      title: 'Number of 5 Day Periods with Heavy Rainfall'
+
+    hwfmean:
+      long_name: Heat Wave Frequency
+      levels: [0]
+      layers: [hwfmean]
+      title: 'Number of Days with Heat Wave Conditions'
+
+    hwmmean:
+      long_name: Heat Wave Mean Intensity
+      levels: [0]
+      layers: [hwmmean]
+      title: 'Mean Temperature Anomaly on Heat Wave Days'
+
+
+    pcntl_prec:
+      long_name: Precip PCNTL
+      levels: [0]
+      layers: [gridfill]
+      title: 'Total Precipitation Percentiles'
+      #subtitle: 'Data: MERRA2 bias corrected total monthly precipitation. 	Period: 1980-2016'
+      gridfill:
+        cbar: Basic
+        cbunits: '%'
+        expr: _pcntl_prec
+        clevs: 0 10 20 30 40 50 60 70 80 90 100
+        nsub: 2
+        skip: 2
+
+    pcntl_t2m:
+      long_name: T2M PCNTL
+      levels: [0]
+      layers: [gridfill]
+      title: '2-Meter Temperature Percentiles'
+      #subtitle: 'Modern-Era Retrospective Analysis (MERRA-2)'
+      #main: 'Period: 1980-2016'
+      gridfill:
+        cbar: Basic_r
+        cbunits: '%'
+        expr: _pcntl_t2m
+        clevs: 0 10 20 30 40 50 60 70 80 90 100
+        nsub: 2
+        skip: 2
+
+#    pcntl_w10m:
+#      long_name: W10M PCNTL
+#      levels: [0]
+#      layers: [gridfill]
+#      title: '10-Meter Wind Speed Percentiles'
+#      #subtitle: 'Modern-Era Retrospective Analysis (MERRA-2)'
+#      #main: 'Period: 1980-2016'
+#      gridfill:
+#        cbar: Basic_r
+#        cbunits: '%'
+#        expr: percent.M2PERCMONW10M.tavgM_2d_slv_Nx(z=1,t=1)
+#        clevs: 0 10 20 30 40 50 60 70 80 90 100
+#        nsub: 2
+#        skip: 2
+
+
+
+  layer:
+
+    gridfill:
+      gxout: grfill
+      cbar: Rainbow
+      nsub: 4
+      skip: 4
+      type: linear
+
+    tn10p:
+      gxout: shaded
+      expr: _tn10p
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 70
+      cint: 10
+      nsub: 10
+      skip: 10
+      cbunits: '%'
+      cdict: tn10p
+
+
+    tn90p:
+      gxout: shaded
+      expr: _tn90p
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 70
+      cint: 10
+      nsub: 10
+      skip: 10
+      cbunits: '%'
+      cdict: tn90p
+
+    dtr:
+      gxout: shaded
+      expr: _dtr
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 18
+      cint: 1
+      nsub: 10
+      skip: 10
+      cbunits: 'K'
+      cdict: dtr
+
+    tx10p:
+      gxout: shaded
+      expr: _tx10p
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 70
+      cint: 10
+      nsub: 10
+      skip: 10
+      cbunits: '%'
+      cdict: tx10p
+
+    tx90p:
+      gxout: shaded
+      expr: _tx90p
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 90
+      cint: 10
+      nsub: 10
+      skip: 10
+      cbunits: '%'
+      cdict: tx90p
+
+    r90p:
+      gxout: shaded
+      expr: _r90p
+      cbar: Precip
+      clevs:
+      cmin: 0
+      cmax: 200
+      cint: 10
+      nsub: 10
+      skip: 10
+      cbunits: 'mm day`a-1`n'
+      cdict: r90p
+
+    r95p:
+      gxout: shaded
+      expr: _r95p
+      cbar: Precip
+      clevs:
+      cmin: 0
+      cmax: 200
+      cint: 10
+      nsub: 10
+      skip: 10
+      cbunits: 'mm day`a-1`n'
+      cdict: r95p
+
+    r99p:
+      gxout: shaded
+      expr: _r99p
+      cbar: Precip
+      clevs:
+      cmin: 0
+      cmax: 200
+      cint: 10
+      nsub: 10
+      skip: 10
+      cbunits: 'mm day`a-1`n'
+      cdict: r99p
+
+    r90d:
+      gxout: shaded
+      expr: _r90d
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 12
+      cint: 1
+      nsub: 10
+      skip: 10
+      cbunits: 'days'
+      cdict: r90d
+
+    r95d:
+      gxout: shaded
+      expr: _r95d
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 12
+      cint: 1
+      nsub: 10
+      skip: 10
+      cbunits: 'days'
+      cdict: r95d
+
+    r99d:
+      gxout: shaded
+      expr: _r99d
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 6
+      cint: 1
+      nsub: 10
+      skip: 10
+      cbunits: 'days'
+      cdict: r99d
+
+    cdd:
+      gxout: shaded
+      expr: _cdd
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 31
+      cint: 2
+      nsub: 10
+      skip: 10
+      cbunits: 'days'
+      cdict: cdd
+
+    cwd:
+      gxout: shaded
+      expr: _cwd
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 31
+      cint: 2
+      nsub: 10
+      skip: 10
+      cbunits: 'days'
+      cdict: cwd
+
+    dry:
+      gxout: shaded
+      expr: _drydays
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 31
+      cint: 2
+      nsub: 10
+      skip: 10
+      cbunits: 'days'
+      cdict: dry
+
+    wet:
+      gxout: shaded
+      expr: _wetdays
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 31
+      cint: 2
+      nsub: 10
+      skip: 10
+      cbunits: 'days'
+      cdict: wet
+
+    hwfmean:
+      gxout: shaded
+      expr: _hwf
+      cbar: HW
+      clevs:
+      cmin: 0
+      cmax: 31
+      cint: 2
+      nsub: 10
+      skip: 10
+      cbunits: 'days'
+      cdict: hwfmean
+
+    hwmmean:
+      gxout: shaded
+      expr: _hwm
+      cbar: HW
+      clevs:
+      cmin: 0
+      cmax: 15
+      cint: 1
+      nsub: 10
+      skip: 10
+      cbunits: 'K'
+      cdict: hwmmean
+
+    rx5daynumber:
+      gxout: shaded
+      expr: _rx5daycount
+      cbar: parula
+      clevs:
+      cmin: 0
+      cmax: 20
+      cint: 2
+      nsub: 10
+      skip: 10
+      cbunits: 'Days'
+      cdict: rx5daynumber
+
+    rx5dayhighest:
+      gxout: shaded
+      expr: _rx5day
+      cbar: Precip
+      clevs:
+      cmin: 0
+      cmax: 300
+      cint: 30
+      nsub: 10
+      skip: 10
+      cbunits: 'mm per 5 days'
+      cdict: rx5dayhighest
+
+    rx1day:
+      gxout: shaded
+      expr: _rx1day
+      cbar: Precip
+      clevs: 1 15 30 45 60 75 90 105 120 135 150 165 180 195
+      nsub: 1
+      skip: 1
+      cbunits: 'mm'
+      cdict: rx1day
+
+  attribute:
+
+    tn10p:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 60, cint: 5}
+    tn90p:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 60, cint: 5}
+    dtr:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 20, cint: 1}
+    tx10p:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 60, cint: 5}
+    tx90p:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 70, cint: 7}
+    r90p:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 150, cint: 10}
+    r95p:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 200, cint: 10}
+    r99p:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 200, cint: 10}
+    r90d:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 14, cint: 1}
+    r95d:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 12, cint: 1}
+    r99d:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 6, cint: 1}
+    cdd:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 90, cint: 5}
+    cwd:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 90, cint: 5}
+    dry:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 90, cint: 5}
+    wet:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 90, cint: 5}
+    hwfmean:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 60, cint: 3}
+    hwmmean:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 12, cint: 1}
+    rx5daynumber:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 30, cint: 3}
+    rx5dayhighest:
+      - {'$stream': 'SEASONAL', cmin: 0, cmax: 300, cint: 30}
+    rx1day:
+      - {'$stream': 'SEASONAL', clevs: 1 15 30 45 60 75 90 105 120 135 150 165 180 195}
+
+    VERIF:
+      default: '%B %Y'
+      SEASONAL: '%3 %Y'

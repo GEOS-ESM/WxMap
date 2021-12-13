@@ -1,0 +1,10 @@
+region:
+
+  nhem:
+  
+    long_name: N Hem
+    lon: 0 360
+    lat: -10 90
+    mpdset: hires
+    mproj: latlon
+    rectangle: [190 -5 240 5] 

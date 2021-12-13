@@ -1,0 +1,18 @@
+wxmapscustom:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [surface]
+
+      surface:
+        long_name: Surface
+        type: button
+        items:
+          - o3sfc: O3
+          - no2sfc: NO2
+          - cosfc: CO
+          - so2sfc: SO2
+          - pm25sfc: PM2.5

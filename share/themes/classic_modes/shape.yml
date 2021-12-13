@@ -1,0 +1,12 @@
+shape:
+
+  default:
+    line_color: 0 0 0
+    line_width: 5
+    line_style: 1
+
+  rectangle:
+    line_color: 255 255 0
+    line_width: 10
+    line_style: 1
+    fill_color: 0 0 0 0

@@ -1,0 +1,5 @@
+reset: [region, playlist]
+config: [missions, MOSAIC]
+
+default:
+  region: mosaic_lg

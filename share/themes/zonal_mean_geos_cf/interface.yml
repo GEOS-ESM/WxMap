@@ -1,0 +1,14 @@
+wxmapscustom:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [zonal_mean]
+
+      zonal_mean:
+        long_name: Zonal Mean
+        type: button
+        items:
+          - o3zonal: O3

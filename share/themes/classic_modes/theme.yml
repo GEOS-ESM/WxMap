@@ -1,0 +1,217 @@
+layout1: &LAYOUT1
+  geometry: 1024x750
+  scale: 1.2
+  tight: 1
+  bbox: 0 70 1024 760
+  no_logo: 1
+
+theme:
+
+  plot:
+
+    enso:
+      long_name: ENSO
+      levels: [0]
+      title: 'El Nino Southern Oscillation'
+      xlabel: ''
+      layout: *LAYOUT1
+      panels:
+        - {field: enso_rev, pos: 11}
+        - {field: enso_rpc, pos: 12}
+
+    enso_rev:
+      long_name: ENSO REV
+      levels: [0]
+      layers: [rev]
+      subheader: 'Using MERRA-2, DJF, DEC 1980 - FEB 2019'
+      title: '250mb Geopotential Height Anomaly (m)'
+      map:
+        layers: [bluemarble-modes]
+      rev:
+        expr: _rev(t=3)
+
+    enso_rpc:
+      long_name: ENSO RPC
+      levels: [0]
+      layers: [rpc, index, zero]
+      subheader: ''
+      title: 'ENSO PC Time Series & Indices from Nino3.4, SST (cyan)'
+      parea: 0.5 10.5 2.2 4.2
+      ylab: 'SST Anomaly'
+      shape: 'off'
+      rpc:
+        x: 3
+      index:
+        expr: _enso_index
+      zero:
+        expr: 'const(_enso_index,0.0,"-a")'
+
+    ao:
+      long_name: AO
+      levels: [0]
+      title: 'Arctic Oscillation'
+      xlabel: ''
+      layout: *LAYOUT1
+      panels:
+        - {field: ao_rev, pos: 11}
+        - {field: ao_rpc, pos: 12}
+
+    ao_rev:
+      long_name: AO REV
+      levels: [0]
+      layers: [rev]
+      subheader: 'Using MERRA-2, DJF, DEC 1980 - FEB 2019'
+      title: '250mb Geopotential Height Anomaly (m)'
+      shape: 'off'
+      map:
+        layers: [bluemarble-modes]
+      rev:
+        expr: _rev(t=2)
+
+    ao_rpc:
+      long_name: AO RPC
+      levels: [0]
+      layers: [rpc, index, zero]
+      subheader: ''
+      title: 'AO PC Time Series (red) & AO Index (cyan)'
+      parea: 0.5 10.5 2.2 4.2
+      ylab: 'SST Anomaly'
+      shape: 'off'
+      rpc:
+        x: 2
+      index:
+        expr: _ao_index
+      zero:
+        expr: 'const(_ao_index,0.0,"-a")'
+
+    nao:
+      long_name: NAO
+      levels: [0]
+      title: 'North Atlantic Oscillation'
+      xlabel: ''
+      layout: *LAYOUT1
+      panels:
+        - {field: nao_rev, pos: 11}
+        - {field: nao_rpc, pos: 12}
+
+    nao_rev:
+      long_name: NAO REV
+      levels: [0]
+      layers: [rev]
+      subheader: 'Using MERRA-2, DJF, DEC 1980 - FEB 2019'
+      title: '250mb Geopotential Height Anomaly (m)'
+      shape: 'off'
+      map:
+        layers: [bluemarble-modes]
+      rev:
+        expr: _rev(t=1)
+
+    nao_rpc:
+      long_name: NAO RPC
+      levels: [0]
+      layers: [rpc, index, zero]
+      subheader: ''
+      title: 'NAO PC Time Series (red) & NAO Index (cyan)' 
+      parea: 0.5 10.5 2.2 4.2
+      ylab: 'SST Anomaly'
+      shape: 'off'
+      rpc:
+        x: 1
+      index:
+        expr: _nao_index
+      zero:
+        expr: 'const(_nao_index,0.0,"-a")'
+
+    pna:
+      long_name: PNA
+      levels: [0]
+      title: 'Pacific North American'
+      xlabel: ''
+      layout: *LAYOUT1
+      panels:
+        - {field: pna_rev, pos: 11}
+        - {field: pna_rpc, pos: 12}
+    
+    pna_rev:
+      long_name: PNA REV
+      levels: [0]
+      layers: [rev]
+      subheader: 'Using MERRA-2, DJF, DEC 1980 - FEB 2019'
+      title: '250mb Geopotential Height Anomaly (m)'
+      shape: 'off'
+      map:
+        layers: [bluemarble-modes]
+      rev:
+        expr: _rev(t=4)
+
+    pna_rpc:
+      long_name: PNA RPC
+      levels: [0]
+      layers: [rpc, index, zero]
+      subheader: ''
+      title: 'PNA PC Time Series (red) & PNA Index (cyan)'
+      parea: 0.5 10.5 2.2 4.2
+      ylab: 'SST Anomaly'
+      shape: 'off'
+      rpc:
+        x: 4
+      index:
+        expr: _pna_index
+        x: 5
+      zero:
+        expr: 'const(_pna_index,0.0,"-a")'
+
+  layer:
+
+    rev:
+      gxout: shaded
+      expr: _rev(t=3)
+      cbar: BWR
+      cbunits:
+      nsub: 10
+      skip: 10
+      cmin: -80
+      cmax: 80
+      cint: 10
+      alpha:
+        - 0.00 1.00 1.00
+        - 0.25 0.90 0.90
+        - 0.50 0.00 0.00
+        - 0.75 0.90 0.90
+        - 1.00 1.00 1.00
+
+    rpc:
+      gxout: contour
+      expr: _rpc
+      ccolor: 255 0 0
+      cthick: 7
+      cstyle: 1
+      cmark: 0
+      x: 3
+      y: 1
+      z: 1
+      t: 1 117
+      xaxis: 1980 2018 2
+      vrange: -3 3
+
+    index: &index_ref
+      gxout: contour
+      expr: _enso_index
+      ccolor: 0 255 255
+      cthick: 7
+      cstyle: 3
+      cmark: 0
+      x: 1
+      y: 1
+      z: 1
+      t: 91 207
+      xaxis: 1980 2018 2
+      vrange: -3 3
+
+    zero:
+      <<: *index_ref
+      expr: 'const(_enso_index,0.0,"-a")'
+      ccolor: 1
+      cthick: 5
+      cstyle: 3
+      cmark: 0

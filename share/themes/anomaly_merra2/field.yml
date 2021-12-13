@@ -1,0 +1,363 @@
+field:
+
+  M2ANOM:
+
+    _lwi:
+      long_name: LWI
+      units: 1
+      expression: lwi.tavgM_2d_chm_Nx(t=1)
+
+    _frlandice:
+      long_name: Land Ice Fraction
+      units: 1
+      expression: frlandice.M2CONST.const_2d_asm_Nx(t=1)
+
+    _frland:
+      long_name: Land Ice Fraction
+      units: 1
+      expression: frland.M2CONST.const_2d_asm_Nx(t=1)
+
+    _frocean:
+      long_name: Land Ice Fraction
+      units: 1
+      expression: frocean.M2CONST.const_2d_asm_Nx(t=1)
+
+    _slp:
+      long_name: Sea Level Pressure
+      units: mb
+      expression: slp.tavgM_2d_slv_Nx
+
+    _slp_ltm:
+      long_name: Sea Level Pressure
+      units: mb
+      expression: ltm_slp.M2LTM.tavgM_2d_Nx(t=1)
+
+    _slp_std:
+      long_name: Sea Level Pressure
+      units: mb
+      expression: std_slp.M2LTM.tavgM_2d_Nx(t=1)
+
+    _lwtup:
+      long_name: Upwelling Longwave Flux at TOA
+      units: W m-2
+      expression: lwtup.tavgM_2d_rad_Nx
+
+    _lwtup_ltm:
+      long_name: Upwelling Longwave Flux at TOA
+      units: W m-2
+      expression: ltm_lwtup.M2LTM.tavgM_2d_Nx(t=1)
+
+    _lwtup_std:
+      long_name: Upwelling Longwave Flux at TOA
+      units: W m-2
+      expression: std_lwtup.M2LTM.tavgM_2d_Nx(t=1)
+
+    _swgdn:
+      long_name: Surface Incoming Shortwave Flux
+      units: W m-2
+      expression: swgdn.tavgM_2d_rad_Nx
+
+    _swgdn_ltm:
+      long_name: Surface Incoming Shortwave Flux
+      units: W m-2
+      expression: ltm_swgdn.M2LTM.tavgM_2d_Nx(t=1)
+
+    _swgdn_std:
+      long_name: Surface Incoming Shortwave Flux
+      units: W m-2
+      expression: std_swgdn.M2LTM.tavgM_2d_Nx(t=1)
+
+    _gwetprof:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: gwetprof.tavgM_2d_lnd_Nx
+
+    _gwetprof_ltm:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: ltm_gwetprof.M2LTM.tavgM_2d_Nx(t=1)
+
+    _gwetprof_std:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: std_gwetprof.M2LTM.tavgM_2d_Nx(t=1)
+
+    _gwetroot:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: gwetroot.tavgM_2d_lnd_Nx
+
+    _gwetroot_ltm:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: ltm_gwetroot.M2LTM.tavgM_2d_Nx(t=1)
+
+    _gwetroot_std:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: std_gwetroot.M2LTM.tavgM_2d_Nx(t=1)
+
+    _gwettop:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: maskout(maskout(gwettop.tavgM_2d_lnd_Nx,0.1-_frocean),-_frlandice)
+
+    _gwettop_ltm:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: maskout(maskout(ltm_gwettop.M2LTM.tavgM_2d_Nx(t=1),0.1-_frocean),-_frlandice)
+
+    _gwettop_std:
+      long_name: Soil Moisture Profile
+      units: 1
+      expression: maskout(maskout(std_gwettop.M2LTM.tavgM_2d_Nx(t=1),0.1-_frocean),-_frlandice)
+
+    _evap:
+      long_name: Evaporation From Turbulence
+      units: kg m-2 s-1
+      expression: evap.tavgM_2d_int_Nx
+
+    _evap_ltm:
+      long_name: Evaporation From Turbulence
+      units: kg m-2 s-1
+      expression: ltm_evap.M2LTM.tavgM_2d_Nx(t=1)
+
+    _evap_std:
+      long_name: Evaporation From Turbulence
+      units: kg m-2 s-1
+      expression: std_evap.M2LTM.tavgM_2d_Nx(t=1)
+
+    _prectot:
+      long_name: Total Precipitation
+      units: kg m-2 s-1
+      expression: prectot.tavgM_2d_flx_Nx
+
+    _prectot_ltm:
+      long_name: Total Precipitation
+      units: kg m-2 s-1
+      expression: ltm_prectot.M2LTM.tavgM_2d_Nx(t=1)
+
+    _prectot_std:
+      long_name: Total Precipitation
+      units: kg m-2 s-1
+      expression: std_prectot.M2LTM.tavgM_2d_Nx(t=1)
+
+    _empw:
+      long_name: E-P
+      units: kg m-2 s-1
+      expression: maskout(_evap-_prectot,-_lwi)
+
+    _empw_ltm:
+      long_name: E-P
+      units: kg m-2 s-1
+      expression: maskout(ltm_emp.M2LTM.tavgM_2d_Nx(t=1),-_lwi)
+
+    _empw_std:
+      long_name: E-P
+      units: kg m-2 s-1
+      expression: maskout(std_emp.M2LTM.tavgM_2d_Nx(t=1),-_lwi)
+
+    _empl:
+      long_name: E-P Land
+      units: kg m-2 s-1
+      expression: maskout(maskout(_evap-_prectot,0.7-_frocean),-_frlandice)
+
+    _empl_ltm:
+      long_name: E-P Land
+      units: kg m-2 s-1
+      expression: maskout(maskout(ltm_emp.M2LTM.tavgM_2d_Nx(t=1),0.7-_frocean),-_frlandice)
+
+    _empl_std:
+      long_name: E-P Land
+      units: kg m-2 s-1
+      expression: maskout(maskout(std_emp.M2LTM.tavgM_2d_Nx(t=1),0.7-_frocean),-_frlandice)
+
+    _prectotcorr:
+      long_name: Total Precipitation Corrected
+      units: kg m-2 s-1
+      expression: prectotcorr.tavgM_2d_flx_Nx
+
+    _prectotcorr_ltm:
+      long_name: Total Precipitation Corrected
+      units: kg m-2 s-1
+      expression: ltm_prectotcorr.M2LTM.tavgM_2d_Nx(t=1)
+
+    _prectotcorr_std:
+      long_name: Total Precipitation Corrected
+      units: kg m-2 s-1
+      expression: std_prectotcorr.M2LTM.tavgM_2d_Nx(t=1)
+
+    _tqv:
+      long_name: Total Precipitable Water Vapor
+      units: kg m-2
+      expression: tqv.tavgM_2d_slv_Nx
+
+    _tqv_ltm:
+      long_name: Total Precipitable Water Vapor
+      units: kg m-2
+      expression: ltm_tqv.M2LTM.tavgM_2d_Nx(t=1)
+
+    _tqv_std:
+      long_name: Total Precipitable Water Vapor
+      units: kg m-2
+      expression: std_tqv.M2LTM.tavgM_2d_Nx(t=1)
+
+    _t2m:
+      long_name: 2m Air Temperature
+      units: K
+      expression: t2m.tavgM_2d_slv_Nx
+
+    _t2m_ltm:
+      long_name: 2m Air Temperature
+      units: K
+      expression: ltm_t2mmean.M2LTM.tavgM_2d_Nx(t=1)
+
+    _t2m_std:
+      long_name: 2m Air Temperature
+      units: K
+      expression: std_t2mmean.M2LTM.tavgM_2d_Nx(t=1)
+
+    _u50m:
+      long_name: 50-Meter Eastward Wind
+      units: m s-1
+      expression: u50m.tavgM_2d_slv_Nx
+
+    _u50m_ltm:
+      long_name: 50-Meter Eastward Wind
+      units: m s-1
+      expression: ltm_u50m.M2LTM.tavgM_2d_Nx(t=1)
+
+    _u50m_std:
+      long_name: 50-Meter Eastward Wind
+      units: m s-1
+      expression: std_u50m.M2LTM.tavgM_2d_Nx(t=1)
+
+    _v50m:
+      long_name: 50-Meter Northward Wind
+      units: m s-1
+      expression: v50m.tavgM_2d_slv_Nx
+
+    _v50m_ltm:
+      long_name: 50-Meter Northward Wind
+      units: m s-1
+      expression: ltm_v50m.M2LTM.tavgM_2d_Nx(t=1)
+
+    _v50m_std:
+      long_name: 50-Meter Northward Wind
+      units: m s-1
+      expression: std_v50m.M2LTM.tavgM_2d_Nx(t=1)
+
+    _h:
+      long_name: Heights
+      units: m
+      expression: h.instM_3d_asm_Np
+
+    _h_ltm:
+      long_name: Heights
+      units: m
+      expression: ltm_h.M2LTM.instM_3d_asm_Np(t=1)
+
+    _h_std:
+      long_name: Heights
+      units: m
+      expression: std_h.M2LTM.instM_3d_asm_Np(t=1)
+
+    _t:
+      long_name: Temperature
+      units: K
+      expression: t.instM_3d_asm_Np
+
+    _t_ltm:
+      long_name: Temperature
+      units: K
+      expression: ltm_t.M2LTM.instM_3d_asm_Np(t=1)
+
+    _t_std:
+      long_name: Temperature
+      units: K
+      expression: std_t.M2LTM.instM_3d_asm_Np(t=1)
+
+    _wspd:
+      long_name: Wind Speed
+      units: m s-1
+      expression: wspd$level.M2SPD.tavgM_2d_slv_Nx(t=1,z=1)
+
+    _wspd_ltm:
+      long_name: Wind Speed
+      units: m s-1
+      expression: wspd$level.M2LTM.wspd(t=1,z=1)
+
+    _u:
+      long_name: Eastward Wind
+      units: m s-1
+      expression: u.instM_3d_asm_Np
+
+    _u_ltm:
+      long_name: Eastward Wind
+      units: m s-1
+      expression: ltm_u.M2LTM.instM_3d_asm_Np(t=1)
+
+    _u_std:
+      long_name: Eastward Wind
+      units: m s-1
+      expression: std_u.M2LTM.instM_3d_asm_Np(t=1)
+
+    _v:
+      long_name: Northward Wind
+      units: m s-1
+      expression: v.instM_3d_asm_Np
+
+    _v_ltm:
+      long_name: Northward Wind
+      units: m s-1
+      expression: ltm_v.M2LTM.instM_3d_asm_Np(t=1)
+      
+    _v_std:
+      long_name: Northward Wind
+      units: m s-1
+      expression: std_v.M2LTM.instM_3d_asm_Np(t=1)
+
+    _rh:
+      long_name: Relative Humidity
+      units: '%'
+      expression: rh.instM_3d_asm_Np*100
+
+    _rh_ltm:
+      long_name: Relative Humidity
+      units: '%'
+      expression: ltm_rh.M2LTM.instM_3d_asm_Np(t=1)*100
+
+    _rh_std:
+      long_name: Relative Humidity
+      units: '%'
+      expression: std_rh.M2LTM.instM_3d_asm_Np(t=1)*100
+
+    _t:
+      long_name: Air Temperature
+      units: K
+      expression: t.instM_3d_asm_Np
+
+    _t_ltm:
+      long_name: Air Temperature
+      units: K
+      expression: ltm_t.M2LTM.instM_3d_asm_Np(t=1)
+
+    _t_std:
+      long_name: Air Temperature
+      units: K
+      expression: std_t.M2LTM.instM_3d_asm_Np(t=1)
+
+    _qv:
+      long_name: Specific Humidity
+      units: kg kg-1
+      expression: qv.instM_3d_asm_Np
+
+    _qv_ltm:
+      long_name: Specific Humidity
+      units: kg kg-1
+      expression: ltm_qv.M2LTM.instM_3d_asm_Np(t=1)
+
+    _qv_std:
+      long_name: Specific Humidity
+      units: kg kg-1
+      expression: std_qv.M2LTM.instM_3d_asm_Np(t=1)

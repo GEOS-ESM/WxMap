@@ -1,0 +1,5 @@
+reset: [region, annotate, playlist]
+config: [missions, TRACER-AQ]
+
+default:
+  region: tracer_lg

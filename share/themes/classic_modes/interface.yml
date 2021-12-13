@@ -1,0 +1,17 @@
+theme:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [modes]
+
+      modes:
+        long_name: Modes
+        type: button
+        items:
+          - enso
+          - nao
+          - ao
+          - pna

@@ -1,0 +1,8 @@
+theme: [custom]
+config: [geos_cf, zonal_mean_geos_cf]
+streams: [GEOSCF]
+
+default:
+  field: o3zonal
+  region: nam
+  level: '0'

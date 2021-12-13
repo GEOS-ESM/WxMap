@@ -1,0 +1,8 @@
+theme: [custom]
+config: [geos_cf, totcol_geos_cf, totcol_geos_ca]
+streams: [GEOSCFAN]
+
+default:
+  field: no2col
+  region: nam
+  level: '0'

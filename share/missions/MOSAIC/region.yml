@@ -1,0 +1,23 @@
+region:
+
+  mosaic_sm:
+
+    long_name: MOSAiC (Small)
+    lon: -180 180
+    lat: 80 90
+    mpdset: hires
+    mproj: nps
+    frame: circle
+
+    track: [/gpfsm/dhome/jardizzo/src/FLUID/sandbox/share/missions/MOSAIC/tmp/mosaic.txt]
+
+  mosaic_lg:
+
+    long_name: MOSAiC (Large)
+    lon: -180 180
+    lat: 70 90
+    mpdset: hires
+    mproj: nps
+    frame: circle
+
+    track: [/gpfsm/dhome/jardizzo/src/FLUID/sandbox/share/missions/MOSAIC/tmp/mosaic.txt]

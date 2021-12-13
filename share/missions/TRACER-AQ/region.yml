@@ -1,0 +1,73 @@
+tracer_stations: &TRACER_STATIONS
+
+  stations:
+
+    data: [-95.36 29.75, -95.33 29.90, -95.06 29.67, -95.34 29.72, -94.76 30.09, -94.37 29.02, -94.77 29.53, -95.43 30.35]
+
+tracer_places: &TRACER_PLACES
+
+  places_br:
+
+    position: 'br'
+    data: [-95.36 29.75 Houston]
+
+  places_tc:
+
+    position: 'tc'
+    data: [-95.34 29.70 UH]
+
+  places_bl:
+
+    data: [-95.33 29.90 Aldine, -95.06 29.67 La Porte, -94.76 30.09 Liberty, -94.37 29.02 Site, -94.77 29.53 SP/GB, -95.43 30.35 Conroe]
+
+tracer_lines: &TRACER_LINES
+
+  uh_ns:
+    line_color: 255 0 0
+    line_width: 4
+    data: [-95.34 27.72 -95.34 31.72]
+
+  uh_nwse:
+    line_color: 255 0 0
+    line_width: 4
+    data: [-97.34 31.72 -93.34 27.72]
+
+  uh_ew:
+    line_color: 255 0 0
+    line_width: 4
+    data: [-97.34 29.72 -93.34 29.72]
+
+  uh_nesw:
+    line_color: 255 0 0
+    line_width: 4
+    data: [-97.34 27.72 -93.34 31.72]
+
+region:
+
+  tracer_lg:
+
+    long_name: TRACER Lg
+    lon: -103 -87.5
+    lat: 25.5 37
+    mpdset: hires
+    mproj: latlon
+    addlayers: [US_Counties]
+    station:
+      <<: *TRACER_STATIONS
+    line:
+      <<: *TRACER_LINES
+
+  tracer_sm:
+    
+    long_name: TRACER Sm
+    lon: -97.5 -93
+    lat: 28 31.5
+    mpdset: hires
+    mproj: latlon
+    addlayers: [US_Counties] 
+    string: 
+      <<: *TRACER_PLACES
+    station:
+      <<: *TRACER_STATIONS
+    line:
+      <<: *TRACER_LINES

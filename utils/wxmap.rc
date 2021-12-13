@@ -1,0 +1,60 @@
+
+# config_path is the path to all default and user-defined directories
+# containing WxMap instances (also referred to as themes) and configuration
+# files.
+# =========================================================================
+
+config_path: $install_path/share:$install_path/share/themes:$install_path/share/missions:$install_path/share/special:/home/jardizzo/src/FLUID/wxmap/examples
+
+# Define the default configuration ($install_path/share/wxmap)
+# ============================================================
+
+config: [wxmap]
+
+# shape_path is the path to the installed shapefile database
+# ==========================================================
+
+shape_path: /discover/nobackup/jardizzo/maps
+
+# logo_path is the path to the installed logo images for branding maps produced
+# by WxMap.
+# =============================================================================
+
+logo_path: $install_path/share/files
+
+# map_path is the path where WxMap caches background map images for fast
+# retrieval.
+# ======================================================================
+
+map_path: /discover/nobackup/$USER/fluid/map
+
+# track_path is the path where storm track files are located. These files are
+# used to plot tropical storm tracks on map images.
+# ===========================================================================
+
+track_path: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/track
+
+# Default font files for regular, bold and monospace are defined below.
+# =====================================================================
+
+font: $install_path/share/files/helr45w.ttf
+bfont: $install_path/share/files/helr65w.ttf
+mfont: $install_path/share/files/VeraMono.ttf
+
+# bin_path is the location of "compiled" JSON files derived from YAML. This is
+# mainly used by the WxMap front-end for faster ingest of configuration.
+# ============================================================================
+
+bin_path: $install_path/bin
+
+# The keymap settings below are used to normalize the caching signature for
+# generated images to be insensitive to the listed parameters.
+# =========================================================================
+
+keymap:
+  shape_path: /data/maps
+  logo_path: /data/logos
+  map_path: /data/maps
+  colorbar: cbart.gs
+  font: helr45w.ttf
+  mfont: VeraMono.ttf

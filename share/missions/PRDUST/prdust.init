@@ -1,0 +1,5 @@
+reset: [region, annotate, playlist]
+config: [PRDUST]
+
+default:
+  region: prdust_i

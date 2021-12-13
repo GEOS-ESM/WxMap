@@ -1,0 +1,45 @@
+wxmapsclassicpub:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [surface, precip, land, upper]
+
+      surface:
+        long_name: Near Surface
+        type: button
+        items:
+          - slp_all: SLP
+          - u50m_all: U50M
+          - v50m_all: V50M
+          - t2m_all: T2M
+          - swgdn_all: SWGDN
+          - lwtup_all: OLR
+
+      precip:
+        long_name: Precip
+        type: button
+        items:
+          - tqv_all: TPW
+          - prectot_all: PRECTOT
+          - prectotcorr_all: PRECTOTCORR
+
+      land:
+        long_name: Land
+        type: button
+        items:
+          - gwetprof_all: GWETPROF
+          - gwetroot_all: GWETROOT
+          - gwettop_all: GWETTOP
+          - emp_all: E-P
+
+      upper:
+        long_name: Pressure
+        type: button
+        items:
+          - u_all: U
+          - v_all: V
+          - t_all: T
+          - rh_all: RH

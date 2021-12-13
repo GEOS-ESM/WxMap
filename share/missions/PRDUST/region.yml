@@ -1,0 +1,67 @@
+n_lines: &N_LINES
+
+  -  -20 0  -20 35
+  -  -40 0  -40 35
+  -  -60 0  -60 35
+  -  -80 0  -80 35
+  - -100 0 -100 35
+
+w_lines: &W_LINES
+
+  - -100 10 0 10
+  - -100 20 0 20
+  - -100 30 0 30
+
+stations: &STATIONS
+  - -65.6199035645 18.3845005035 Cape San Juan AERO https://fluid.nccs.nasa.gov/gram/du/18.3845005035x-65.6199035645/?region=prdust
+  - -77.85 21.42 Camaguey Cuba https://fluid.nccs.nasa.gov/gram/du/21.42x-77.85/?region=prdust
+  - -59.4320335388 13.1650180817 Ragged Point AERO https://fluid.nccs.nasa.gov/gram/du/13.1650180817x-59.4320335388/?region=prdust
+  - -89.65 20.98 Merida Yuca Mexico https://fluid.nccs.nasa.gov/gram/du/20.98x-89.65/?region=prdust
+  - -80.1633300781 25.7319660187 Key Biscayne AERO https://fluid.nccs.nasa.gov/gram/du/25.7319660187x-80.1633300781/?region=prdust
+  - -61.55 16.27 Guadaloupe https://fluid.nccs.nasa.gov/gram/du/16.27x-61.55/?region=prdust
+  - -61.02 14.64 Martinique https://fluid.nccs.nasa.gov/gram/du/14.64x-61.02/?region=prdust
+  - -52.31 4.92 Cayenne French Guiana https://fluid.nccs.nasa.gov/gram/du/4.92x-52.31/?region=prdust
+  - -23.0 16.7 Cape Verde Sal Island https://fluid.nccs.nasa.gov/gram/du/16.7x-23.0/?region=prdust
+  - -44.50 17.00 Mid-Atlantic https://fluid.nccs.nasa.gov/gram/du/17.0x-44.5/?region=prdust
+
+places: &PLACES
+  - -65 18.3845005035 Cape San Juan
+  - -77 21.42 Camaguey Cuba
+  - -59 13.1650180817 Ragged Point
+  - -89 20.98 Merida Yuca Mexico
+  - -79.6 25.7319660187 Key Biscayne
+  - -61 16.27 Guadaloupe
+  - -60.5 14.64 Martinique
+  - -51.8 4.92 French Guiana
+  - -22.5 16.7 Sal Island
+  - -44 17.00 Mid-Atlantic
+
+region:
+
+  prdust: &PRDUST
+
+    long_name: PRDUST
+    lon: -105 15
+    lat: -10 50
+    mpdset: hires
+    mproj: latlon
+
+    stations: *STATIONS
+
+  prdust_i:
+
+    <<: *PRDUST
+
+    long_name: iPRDUST
+
+    stations: *STATIONS
+    places: *PLACES
+    n_lines: *N_LINES
+    w_lines: *W_LINES
+
+    rectangle:
+      iSms:
+        line_color: 0 0 0
+        line_width: 3
+        line_style: 2
+        data: [-100.000000 0. 0.000000 35.000000]

@@ -1,0 +1,931 @@
+wxmapscustom:
+
+  plot:
+
+    cocl:
+      long_name: CO Column
+      levels: [0]
+      layers: [co_total_column]
+      title: '\\\\ Total CO [10`a18 `n molecules cm`a-2 `n]'
+      map:
+        layers: [shader-BrnWht]
+
+    coclbbae:
+      long_name: CO Biomass Burning Eurasia
+      levels: [0]
+      layers: [cobb_eurasia]
+      title: 'Asia/Europe CO Biomass Burning [10`a18`n molecules cm`a-2`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    coclbbna:
+      long_name: CO Biomass Burning North America
+      levels: [0]
+      layers: [cobb_north_america]
+      title: 'N. America CO Biomass Burning [10`a18`n molecules cm`a-2`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    bcocsmass:
+      long_name: BC+OC Sfc Mass
+      levels: [0]
+      layers: [bcoc_surface_mass]
+      title: '\\\\ BC + OC Surface Mass [`3m`f13g/m`a3`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    bcoccmass:
+      long_name: BC+OC Col Mass
+      levels: [0]
+      layers: [bcoc_column_mass, streamlines]
+      title: '\\\\ BC + OC Column Mass [mg/m`a2`n]'
+      streamlines:
+        uexpr: (_bcfluxu+_ocfluxu)/(_bccmass+_occmass)
+        vexpr: (_bcfluxv+_ocfluxv)/(_bccmass+_occmass)
+      map:
+        layers: [shader-BrnWht]
+
+    bcocaot:
+      long_name: BC+OC AOT
+      levels: [0]
+      layers: [blackorganic_carbon_aot]
+      title: '\\\\ Black + Organic Carbon AOT'
+      map:
+        layers: [shader-BrnWht]
+
+    bcoc_z:
+      long_name: BC+OC
+      title: '\\ $level ft BCOC [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [bcoc_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      bcoc_nz:
+        expr: _bcoc_nh*1.0e+9
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    so4_z:
+      long_name: Sulfate
+      title: '\\ $level ft SO4 [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [so4_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      so4_nz:
+        expr: _so4_nh*1.0e+9
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    suaot:
+      long_name: Sulfate AOT
+      levels: [0] 
+      layers: [sulfate_aot]
+      title: '\\\\ Sulfate AOT'
+
+    so4smass:
+      long_name: Sulfate Sfc Mass
+      levels: [0]
+      layers: [so4_surface_mass]
+      title: '\\\\ Sulfate Surface Mass [`3m`f13g/m`a3`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    pm25_z:
+      long_name: PM2.5
+      title: '\\ $level ft PM2.5 [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [pm_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      pm_nz:
+        expr: _pm25_nh*1.0e+9
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    pm_z:
+      long_name: PM
+      title: '\\ $level ft PM [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [pm_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      pm_nz:
+        expr: _pm_nh*1.0e+9
+        clevs: 2 4 6 8 12 16 20 25 30 40 60 100 200 500
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    du_z:
+      long_name: Dust
+      title: '\\ $level ft Dust [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [pm_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      pm_nz:
+        expr: _du_nh*1.0e+9
+        clevs: 2 4 6 8 12 16 20 25 30 40 60 100 200 500
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    fineaot:
+      long_name: Fine AOT
+      levels: [0]
+      layers: [fine_aot]
+      title: '\\\\ Fine Aerosol Optical Thickness'
+
+    pm25smass:
+      long_name: PM2.5 Sfc Mass
+      levels: [0]
+      layers: [pm25_surface_mass]
+      title: '\\\\ PM 2.5 Surface Mass [`3m`f13g/m`a3`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    bcoc_n1: &BCOC
+      long_name: 'BCOC (20W)'
+      label: 20W
+      levels: [0]
+      layers: [ground, bcoc_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b BCOC [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 0 35
+      lon: -20
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    bcoc_n2:
+      <<: *BCOC
+      long_name: 'BCOC (40W)'
+      label: 40W
+      lon: -40
+
+    bcoc_n3:
+      <<: *BCOC
+      long_name: 'BCOC (60W)'
+      label: 60W
+      lon: -60
+
+    bcoc_n4:
+      <<: *BCOC
+      long_name: 'BCOC (80W)'
+      label: 80W
+      lon: -80
+
+    bcoc_n5:
+      <<: *BCOC
+      long_name: 'BCOC (100W)'
+      label: 100W
+      lon: -100
+
+    bcoc_w1: &BCOCw
+      long_name: 'BCOC (10N)'
+      label: 10N
+      levels: [0]
+      layers: [ground, bcoc_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b BCOC [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 10
+      lon: -100 0
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    bcoc_w2:
+      <<: *BCOCw
+      long_name: 'BCOC (20N)'
+      label: 20N
+      lat: 20
+
+    bcoc_w3:
+      <<: *BCOCw
+      long_name: 'BCOC (30N)'
+      label: 30N
+      lat: 30
+
+    so4_n1: &SO4
+      long_name: 'SO4 (20W)'
+      label: 20W
+      levels: [0]
+      layers: [ground, so4_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b SO4 [`4m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 0 35
+      lon: -20
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    so4_n2:
+      <<: *SO4
+      long_name: 'SO4 (40W)'
+      label: 40W
+      lon: -40
+
+    so4_n3:
+      <<: *SO4
+      long_name: 'SO4 (60W)'
+      label: 60W
+      lon: -60
+
+    so4_n4:
+      <<: *SO4
+      long_name: 'SO4 (80W)'
+      label: 80W
+      lon: -80
+
+    so4_n5:
+      <<: *SO4
+      long_name: 'SO4 (100W)'
+      label: 100W
+      lon: -100
+
+    so4_w1: &SO4w
+      long_name: 'SO4 (10N)'
+      label: 10N
+      levels: [0]
+      layers: [ground, so4_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b SO4 [`4m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 10
+      lon: -100 0
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    so4_w2:
+      <<: *SO4w
+      long_name: 'SO4 (20N)'
+      label: 20N
+      lat: 20
+
+    so4_w3:
+      <<: *SO4w
+      long_name: 'SO4 (30N)'
+      label: 30N
+      lat: 30
+
+    pm25_n1: &PM25
+
+      long_name: 'PM25 (20W)'
+      label: 20W
+      levels: [0]
+      layers: [ground, pm_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b PM2.5 [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 0 35
+      lon: -20
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    pm25_n2:
+      <<: *PM25
+      long_name: 'PM25 (40W)'
+      label: 40W
+      lon: -40
+
+    pm25_n3:
+      <<: *PM25
+      long_name: 'PM25 (60W)'
+      label: 60W
+      lon: -60
+
+    pm25_n4:
+      <<: *PM25
+      long_name: 'PM25 (80W)'
+      label: 80W
+      lon: -80
+
+    pm25_n5:
+      <<: *PM25
+      long_name: 'PM25 (100W)'
+      label: 100W
+      lon: -100
+
+    pm25_w1: &PM25w
+
+      long_name: 'PM25 (10N)'
+      label: 10N
+      levels: [0]
+      layers: [ground, pm_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b PM2.5 [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 10
+      lon: -100 0
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    pm25_w2:
+      <<: *PM25w
+      long_name: 'PM25 (20N)'
+      label: 20N
+      lat: 20
+
+    pm25_w3:
+      <<: *PM25w
+      long_name: 'PM25 (30N)'
+      label: 30N
+      lat: 30
+
+    pm_n1: &PM
+
+      long_name: 'PM (20W)'
+      label: 20W
+      levels: [0]
+      layers: [ground, pm_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b PM [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 0 35
+      lon: -20
+      ylab: 'Altitude (m)'
+      shape: 'off'
+      pm_nz:
+        expr: maskout(1.0e+9*(_pm_nz),_agl_nz)
+        clevs: 2 4 6 8 12 16 20 25 30 40 60 100 200 500
+
+    pm_n2:
+      <<: *PM
+      long_name: 'PM (40W)'
+      label: 40W
+      lon: -40
+
+    pm_n3:
+      <<: *PM
+      long_name: 'PM (60W)'
+      label: 60W
+      lon: -60
+
+    pm_n4:
+      <<: *PM
+      long_name: 'PM (80W)'
+      label: 80W
+      lon: -80
+
+    pm_n5:
+      <<: *PM
+      long_name: 'PM (100W)'
+      label: 100W
+      lon: -100
+
+    pm_w1: &PMw
+
+      long_name: 'PM (10N)'
+      label: 10N
+      levels: [0]
+      layers: [ground, pm_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b PM [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 10
+      lon: -100 0
+      ylab: 'Altitude (m)'
+      shape: 'off'
+      pm_nz:
+        expr: maskout(1.0e+9*(_pm_nz),_agl_nz)
+        clevs: 2 4 6 8 12 16 20 25 30 40 60 100 200 500
+
+    pm_w2:
+      <<: *PMw
+      long_name: 'PM (20N)'
+      label: 20N
+      lat: 20
+
+    pm_w3:
+      <<: *PMw
+      long_name: 'PM (30N)'
+      label: 30N
+      lat: 30
+
+    du_n1: &DUST
+
+      long_name: 'DUST (20W)'
+      label: 20W
+      levels: [0]
+      layers: [ground, pm_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b DUST [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 0 35
+      lon: -20
+      ylab: 'Altitude (m)'
+      shape: 'off'
+      pm_nz:
+        expr: maskout(1.0e+9*(_du_nz),_agl_nz)
+        clevs: 2 4 6 8 12 16 20 25 30 40 60 100 200 500
+
+    du_n2:
+      <<: *DUST
+      long_name: 'DUST (40W)'
+      label: 40W
+      lon: -40
+
+    du_n3:
+      <<: *DUST
+      long_name: 'DUST (60W)'
+      label: 60W
+      lon: -60
+
+    du_n4:
+      <<: *DUST
+      long_name: 'DUST (80W)'
+      label: 80W
+      lon: -80
+
+    du_n5:
+      <<: *DUST
+      long_name: 'DUST (100W)'
+      label: 100W
+      lon: -100
+
+    du_w1: &DUSTw
+
+      long_name: 'DUST (10N)'
+      label: 10N
+      levels: [0]
+      layers: [ground, pm_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b DUST [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 10
+      lon: -100 0
+      ylab: 'Altitude (m)'
+      shape: 'off'
+      pm_nz:
+        expr: maskout(1.0e+9*(_du_nz),_agl_nz)
+        clevs: 2 4 6 8 12 16 20 25 30 40 60 100 200 500
+
+    du_w2:
+      <<: *DUSTw
+      long_name: 'DUST (20N)'
+      label: 20N
+      lat: 20
+
+    du_w3:
+      <<: *DUSTw
+      long_name: 'DUST (30N)'
+      label: 30N
+      lat: 30
+
+
+    rh_n1: &RH
+
+      long_name: 'RH (20W)'
+      label: 20W
+      levels: [0]
+      layers: [ground, rh_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b Relative Humidity [%], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 0 35
+      lon: -20
+      ylab: 'Altitude (m)'
+      shape: 'off'
+      barbs_nz:
+        ccolor: 0 130 0
+
+    rh_n2:
+      <<: *RH
+      long_name: 'RH (40W)'
+      label: 40W
+      lon: -40
+
+    rh_n3:
+      <<: *RH
+      long_name: 'RH (60W)'
+      label: 60W
+      lon: -60
+
+    rh_n4:
+      <<: *RH
+      long_name: 'RH (80W)'
+      label: 80W
+      lon: -80
+
+    rh_n5:
+      <<: *RH
+      long_name: 'RH (100W)'
+      label: 100W
+      lon: -100
+
+    rh_w1: &RHw
+
+      long_name: 'RH (10N)'
+      label: 10N
+      levels: [0]
+      layers: [ground, rh_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b Relative Humidity [%], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 10000
+      lat: 10
+      lon: -100 0
+      ylab: 'Altitude (m)'
+      shape: 'off'
+      barbs_nz:
+        ccolor: 0 130 0
+
+    rh_w2:
+      <<: *RHw
+      long_name: 'RH (20N)'
+      label: 20N
+      lat: 20
+
+    rh_w3:
+      <<: *RHw
+      long_name: 'RH (30N)'
+      label: 30N
+      lat: 30
+
+    default: *BCOC
+
+  layer:
+
+    ground:
+      expr: const(const(_agl_nz,1.0),0.0,'-u')
+      gxout: grfill
+      cmin: 0
+      cmax: 1
+      cint: 1
+      cbar: BW
+      skip: --auto
+      nsub: 1
+
+    shading: &SHADING
+      gxout: shaded
+      cbar: EPRainbow
+      nsub: 4
+      skip: 4
+      type: linear
+
+    streamlines:
+      gxout: stream
+      uexpr: _uwnd
+      vexpr: _vwnd
+      ccolor: 80 80 80
+      cthick: 2
+      strmden: 1
+
+    barbs:
+      gxout: barb
+      uexpr: _uwnd*1.94384
+      vexpr: _vwnd*1.94384
+      ccolor: 0 0 0
+      cthick: 3
+      size: 0.05
+
+    pblh:
+      gxout: contour
+      expr: (_phis/9.80665+_pblh)
+      cint: 100000
+      ccolor: 215 0 0
+      cstyle: 1
+      cthick: 8
+      cmark: 0
+      clab: 'off'
+      vrange: 0 10000
+      z: 1
+
+    barbs_nz:
+      gxout: barb
+      uexpr: _uwnd_nz*1.94384
+      vexpr: _vwnd_nz*1.94384
+      skip: 4 1
+      size: 0.05
+      ccolor: 130 130 130
+      cthick: 3
+
+    rh_nz:
+      gxout: shaded
+      expr: maskout(_rh_nz*100,_agl_nz)
+      cbar: MRedBlues
+      cbunits: '[%]'
+      clevs: 10 20 30 40 50 60 70 80 90
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+#     alpha:
+#       - 0.000 0.000 0.000
+#       - 0.040 0.000 0.000
+#       - 0.100 1.000 1.000
+#       - 1.000 1.000 1.000
+
+    co_total_column:
+      gxout: shaded
+      expr: _cocl*2150
+      cbar: smoke01
+      clevs:
+      cmin: 1.5
+      cmax: 5
+      cint: 0.05
+      nsub: 1
+      skip: 10
+      scale: exp_scale30
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.010 0.000 0.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    cobb_eurasia:
+      gxout: shaded
+      expr: _coclbbae*2150
+      cbar: smoke01
+      clevs:
+      cmin: 0.0
+      cmax: 1
+      cint: 0.1
+      nsub: 10
+      skip: 10
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.080 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    cobb_north_america:
+      gxout: shaded
+      expr: _coclbbna*2150
+      cbar: smoke01
+      clevs:
+      cmin: 0.0
+      cmax: 1
+      cint: 0.1
+      nsub: 10
+      skip: 10
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.080 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    blackorganic_carbon_aot:
+      gxout: shaded
+      expr: _bcexttau+_ocexttau
+      cbar: smoke01
+      clevs:
+      cmin: 0
+      cmax: 2
+      cint: 0.2
+      scale: exp_scale30
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 0.000 0.000
+        - 0.200 1.000 1.000
+        - 1.000 1.000 1.000
+
+    bcoc_surface_mass:
+      gxout: shaded
+      expr: (_bcsmass+_ocsmass)*1.0e+9
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    bcoc_column_mass:
+      gxout: shaded
+      expr: (_bccmass+_occmass)*1.0e+6
+      cbar: smoke01
+      cbunits: '[mg/m`a2`n]'
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    bcoc_nz:
+      gxout: shaded
+      expr: maskout(1.0e+9*(_bcoc_nz),_agl_nz)
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 1 2 4 6 8 12 16 20 25 30 40 60 100 200
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    so4_nz:
+      gxout: shaded
+      expr: maskout(1.0e+9*(_so4_nz),_agl_nz)
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 1 2 4 6 8 12 16 20 25 30 40 60 100 200
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    sulfate_aot:
+      gxout: shaded
+      expr: _suexttau
+      cbar: EPRainbow
+      clevs: so4aotclevs
+      nsub: 8
+      skip: 4
+      type: linear
+
+    so4_surface_mass:
+      gxout: shaded
+      expr: (_so4smass)*1.0e+9
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    pm_nz:
+      gxout: shaded
+      expr: maskout(1.0e+9*(_pm25_nz),_agl_nz)
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 1 2 4 6 8 12 16 20 25 30 40 60 100 200
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    pm25_surface_mass:
+      gxout: shaded
+      expr: (_pm25sfc)*1.0e+9
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    fine_aot:
+      gxout: shaded
+      cbar: FineAOT
+      clevs: fineaotclevs
+      cmin: 0.01
+      cmax: 2.5
+      cint: 
+      expr: _suexttau + _ocexttau + _bcexttau
+      nsub: 10
+      skip: 10
+      type: exp_scale30
+
+    so4_surface_mass:
+      gxout: shaded
+      expr: (_so4smass)*1.0e+9
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    agl_nz:
+      gxout: contour
+      expr: _agl_nz
+      cmin: 800
+      cmax: 1600
+      cint: 200
+      ccolor: 0 0 0
+      cstyle: 3
+      clab: masked
+
+    theta_nz:
+      gxout: contour
+      expr: maskout(smth9(_theta_nz),_agl_nz)
+      cint: 5
+      ccolor: 0 0 0
+      cstyle: 1
+      clab: masked
+
+    cloud_water_nz:
+      gxout: contour
+      expr: (_qi_nz+_ql_nz) * 1000
+      ccolor: 0 0 255
+      cthick: 8
+      clab: masked
+      clsize: 0.06
+      clevs: 0.01 0.08 0.16 0.24 0.32
+
+    puffy_cloud:
+      gxout: shaded
+      expr: (_qi_nz+_ql_nz) * 1000
+      cbar: allgray
+      cbunits: 'Cloud Water [g/kg]'
+      nsub: 1
+      skip: 1
+      type: linear
+      clevs: 0.01 0.08 0.16 0.24 0.32
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.010 0.000 0.400
+        - 0.333 0.400 0.400
+        - 0.667 0.400 0.400
+        - 1.000 0.400 0.400
+
+    qfed1:
+      gxout: grid
+      cmark: 9
+      digsiz: 0.1
+      ccolor: 255 165 0
+      cthick: 5
+      expr: maskout(_biomass, _biomass-0.0000001)
+
+    qfed2:
+      gxout: grid
+      cmark: 8
+      digsiz: 0.1
+      ccolor: 0 0 0
+      cthick: 5
+      expr: maskout(_biomass, _biomass-0.0000001)
+
+  attribute: 
+
+    fineaotclevs: 0.01 0.05 0.1 0.16 0.23 0.32 0.41 0.52 0.66 0.81 1. 1.21 1.46 1.75 2.1 2.5
+
+    so4aotclevs: &so4levs
+      prdust: 0.025 0.05 .075 0.1 .25 0.5 0.75 1 1.25 1.5 1.75 2 2.25
+      prdust_i: 0.025 0.05 .075 0.1 .25 0.5 0.75 1 1.25 1.5 1.75 2 2.25

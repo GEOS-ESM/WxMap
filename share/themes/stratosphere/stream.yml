@@ -1,0 +1,11 @@
+stream:
+
+  M2LTM:
+
+    long_name: MERRA-2 LTM
+    type: analysis
+    institution: NASA Global Modeling and Assimilation Office
+    description: MERRA-2 Long-Term Mean
+#   uri: /discover/nobackup/adezfuli/pub/M2_Clim_1981_2010/clim_1981_2010_%b_MERRA2.$collection.nc4
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/ltm/clim_1981_2010_%b_MERRA2.$collection.nc4
+    logos: [nasa-logo-ul, gmao-logo-ur]

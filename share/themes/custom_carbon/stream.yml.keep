@@ -1,0 +1,32 @@
+stream:
+
+  m2cc1:
+
+    description: GEOS5.0 MERRA-2 Carbon Constituent Reanalysis
+    long_name: m2cc_ana
+    uri: /discover/nobackup/projects/gmao/geos_carb/pub/$collection/m2cc_ana.$collection.%Y%m%d_%H00z.nc4
+    type: analysis
+    animation: enabled
+    institution: Global Modeling and Assimilation Office (GMAO)
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  m2cc2:
+
+    description: GEOS5.0 MERRA-2 Carbon Constituent Reanalysis
+    long_name: m2cc_ana
+    uri: /discover/nobackup/projects/gmao/geos_carb/klmorga5/m2cc_ana/$collection/Y%Y/M%m/m2cc_ana.$collection.%Y%m%d_%H00z.nc4
+    type: analysis
+    animation: enabled
+    institution: Global Modeling and Assimilation Office (GMAO)
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  m2cc:
+
+    description: GEOS5.0 MERRA-2 Carbon Constituent Reanalysis
+    long_name: m2cc_ana
+    uri: /discover/nobackup/projects/gmao/geos_carb/pub/$collection/Y%Y/M%m/m2cc_ana.$collection.%Y%m%d_%H00z.nc4
+    type: analysis
+    animation: enabled
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: Global Modeling and Assimilation Office (GMAO)
+    logos: [nasa-logo-ul, gmao-logo-ur]

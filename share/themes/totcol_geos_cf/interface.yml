@@ -1,0 +1,16 @@
+wxmapscustom:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [total_column]
+
+      total_column:
+        long_name: Total Column
+        type: button
+        items:
+          - o3col: O3
+          - no2col: NO2
+          - cocol: CO

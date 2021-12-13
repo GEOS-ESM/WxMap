@@ -1,0 +1,25 @@
+theme:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [surface, column]
+
+      surface:
+        long_name: Surface
+        type: button
+        items:
+          - co2sfc: CO2
+         # - cosfc: CO
+         # - ch4sfc: CH4
+
+      column:
+        long_name: Column
+        type: button
+        items:
+          - xco2: XCO2
+         # - xco: XCO
+         # - xch4: XCH4
+

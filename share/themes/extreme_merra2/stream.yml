@@ -1,0 +1,41 @@
+stream:
+
+  MERRA2: &merra
+
+    long_name: MERRA-2
+    description: Modern-Era Retrospective Analysis for Research and Applications, Version 2 (MERRA-2)
+    type: analysis
+    downloading: enabled
+    access: public
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/products/opendap/$collection
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    animation: enabled
+    max_frames: 20
+    institution: Global Modeling and Assimilation Office (GMAO)
+    reference: https://gmao.gsfc.nasa.gov/reanalysis/MERRA-2
+    link: https://gmao.gsfc.nasa.gov/reanalysis/MERRA-2
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  M2PERCm:
+
+    <<: *merra
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/percentiles/current/MERRA2.statM_2d_pct_Nx.%Y%m.nc4
+
+  M2PERCs:
+
+    <<: *merra
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/percentiles/current/MERRA2.statS_2d_pct_Nx.%Y%m.nc4
+
+  CCDIm:
+
+    <<: *merra
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/NCAindices/MERRA2.statM_2d_edi_Nx.%Y%m.nc4
+
+  CCDIs:
+
+    <<: *merra
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/NCAindices/MERRA2.statS_2d_edi_Nx.%Y%m.nc4
+
+  MONTHLY: *merra
+
+  SEASONAL: *merra

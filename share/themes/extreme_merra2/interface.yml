@@ -1,0 +1,40 @@
+theme:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [pcntls, indices]
+
+      pcntls:
+        long_name: Percentiles
+        type: button
+        items:
+          - pcntl_t2m
+          - pcntl_prec
+
+      indices:
+        long_name: Indices
+        type: button
+        items:
+          - drydays
+          - cdd
+          - wetdays
+          - cwd
+          - tn10p
+          - tx10p
+          - tn90p
+          - tx90p
+          - dtr
+          - hwfmean
+          - hwmmean
+          - r90d
+          - r95d
+          - r99d
+          - r90p
+          - r95p
+          - r99p
+          - rx1d
+          - rx5dnumber
+          - rx5dhighest

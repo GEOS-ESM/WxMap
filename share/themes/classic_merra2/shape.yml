@@ -1,0 +1,72 @@
+shape:
+
+  default:
+    line_color: 0 0 0
+    line_width: 5
+    line_style: 1
+
+  string:
+    line_color: 255 0 0
+    str_size: 0.12
+    font: bold
+    zorder: -2
+
+  mark:
+    line_color: 255 0 0
+    fill_color: 255 0 0
+    size: 0.1
+    mark: 3
+    zorder: -3
+
+  station_mark:
+    zorder: -3
+
+  rectangle:
+    zorder: -4
+
+  line:
+    zorder: -5
+
+  symbol:
+    line_color: 0 0 0
+    line_width: 5
+    line_style: 1
+    type: SHP
+    size: 5
+
+  track:
+    line_color: 255 0 0
+    line_width: 10
+    line_style: 1
+    str_color: 1
+    str_width: 5
+    str_size: 0.15
+    position: r
+    font: bold
+    size: 1.8
+    window: 10000
+    spacing: 12
+
+  ships:
+    class: symbol
+    type: SHP
+    size: 3
+
+  places:
+    class: string
+    font: bold
+    str_size: 0.1
+    position: 'bl'
+    line_color: 0 0 0
+    zorder: -2
+
+  stations:
+    class: station_mark
+    line_color: 255 0 0
+    fill_color: 255 255 255
+    inner_size: 0.07
+    outer_size: 0.07
+    outer_line: ''
+    line_width: 4
+    mark_type: 3 2
+    zorder: -3

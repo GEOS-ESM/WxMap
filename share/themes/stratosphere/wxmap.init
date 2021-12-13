@@ -1,0 +1,6 @@
+config: [stratosphere]
+
+default:
+  region: nam
+  field: epv
+  level: '100'

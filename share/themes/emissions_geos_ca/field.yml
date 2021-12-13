@@ -1,0 +1,24 @@
+field:
+  
+  GEOSCFAN: &GEOSCFANref
+
+    _emis_no_lght:
+      long_name: Nitrogen Oxide Lightning Emissions
+      units: g mol-1
+      expression: emis_no_lght.ems_tavg_1hr_g1440x721_x1(z=1)
+
+    _emis_no_soil:
+      long_name: Nitrogen Oxide Soil Emissions
+      units: g mol-1
+      expression: emis_no_soil.ems_tavg_1hr_g1440x721_x1(z=1)
+
+    _emis_co_bb:
+      long_name: Carbon Monoxide Biomass Emissions
+      units: g mol-1
+      expression: emis_co_bb.ems_tavg_1hr_g1440x721_x1(z=1)
+    # expression: emis_co_bb.ems_tavg_1hr_g1440x721_x1(z=1)/airdens.met_tavg_1hr_g1440x721_v36(lev=72)/28.0*28.97*1e+9
+
+    _biomass:
+      long_name: Biomass
+      units: 1
+      expression: biomass.QFED.QFED(z=1,t=1)

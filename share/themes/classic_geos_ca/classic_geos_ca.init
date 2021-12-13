@@ -1,0 +1,8 @@
+theme: [custom]
+config: [geos_cf, classic_geos_cf, classic_geos_ca]
+streams: [GEOSCFAN]
+
+default:
+  field: no2sfc
+  region: nam
+  level: '0'

@@ -1,0 +1,4 @@
+ltm_wspd:
+
+  LTM_FILE: $NOBACKUP/merra2/clim_1981_2010_%b_MERRA2.wspd.nc4
+  MONTH_FILE: /discover/nobackup/mbosilov/MERRA2/wspd/MERRA2_mon_wspd_%Y%m.nc

@@ -1,0 +1,16 @@
+field:
+
+  m2cc:
+  
+     _co2sfc:
+
+       long_name: CO2 Surface Concentration
+       units: ppmv
+#      expression: co2sfc.inst3_3d_carb_Nv(lev=72)
+       expression: co2.inst3_3d_carb_Nv(z=1)
+
+     _xco2:
+
+      long_name: Column Averaged CO2 Concentration
+      units: ppmv
+      expression: xco2.inst3_2d_xco2_Nx 

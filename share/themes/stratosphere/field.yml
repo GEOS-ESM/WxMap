@@ -1,0 +1,82 @@
+field:
+  
+  G5FPFC: &geos
+
+    _epv:
+      long_name: Ertels Potential Vorticity
+      units: m s-1
+      expression: epv.inst3_3d_asm_Np
+
+    _t2m:
+      long_name: Temperature 2-Meters
+      units: K
+      expression: t2m.inst3_2d_smp_Nx
+
+    _t2mdt24:
+      long_name: 24 Hour Temperature Change at 2-Meters
+      units: K
+      expression: t2m.inst3_2d_smp_Nx-t2m.inst3_2d_smp_Nx(td=-8)
+
+    _uwnd:
+      long_name: East-West Wind
+      units: m s-1
+      expression: u.inst3_3d_asm_Np
+
+    _uana:
+      long_name: East-West Wind
+      units: m s-1
+      expression: u.GEOSANA.inst3_3d_asm_Np
+
+    _vwnd:
+      long_name: North-South Wind
+      units: m s-1
+      expression: v.inst3_3d_asm_Np
+
+    _vana:
+      long_name: East-West Wind
+      units: m s-1
+      expression: v.GEOSANA.inst3_3d_asm_Np
+
+    _troppb:
+      long_name: Tropopause Pressure Based on Blended Estimate
+      units: Pa
+      expression: troppb.tavg1_2d_slv_Nx(z=1)
+
+    _tmpu:
+      long_name: Temperature
+      units: K
+      expression: t.inst3_3d_asm_Np
+
+    _hght:
+      long_name: Heights
+      units: m
+      expression: h.inst3_3d_asm_Np
+
+    _tmpu_ltm:
+      long_name: Temperature
+      units: K
+      expression: ltm_t.M2LTM.instM_3d_asm_Np(t=1)
+
+    _to3:
+      long_name: Total Column Ozone
+      units: Dobson
+      expression: to3.inst1_2d_hwl_Nx
+
+  GEOSANA: *geos
+
+  MERRA2:
+
+    _tmpu_ltm:
+      long_name: Temperature
+      units: K
+      expression: ltm_t.M2LTM.instM_3d_asm_Np(t=1)
+
+    _epv:
+      long_name: Ertels Potential Vorticity
+      units: m s-1
+      expression: epv.inst3_3d_asm_Np
+
+    _hght:
+      long_name: Heights
+      units: m
+      expression: h.inst3_3d_asm_Np

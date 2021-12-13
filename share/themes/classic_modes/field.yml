@@ -1,0 +1,33 @@
+field:
+  
+  MODES:
+
+    _rev:
+      long_name: REV
+      units: m
+      expression: rev.REV.none
+
+    _rpc:
+      long_name: RPC
+      units: deg
+      expression: rpc.RPC.none
+
+    _enso_index:
+      long_name: ENSO Index
+      units: deg
+      expression: nino.ENSO.none
+
+    _ao_index:
+      long_name: AO Index
+      units: deg
+      expression: ao.AO.none
+
+    _nao_index:
+      long_name: NAO Index
+      units: deg
+      expression: tele.NAO.none
+
+    _pna_index:
+      long_name: PNA Index
+      units: deg
+      expression: tele.PNA.none

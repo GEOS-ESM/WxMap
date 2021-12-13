@@ -1,0 +1,54 @@
+    v50m_anom:
+      long_name: V50M Anom
+      levels: [0]
+      layers: [shaded]
+      title: 'V-wind at 50-meters (m/s)'
+      shaded:
+        expr: _v50m-_v50m_ltm
+        cmin: -10
+        cmax: 10
+        cint: 2
+
+    v50m_std:
+      long_name: V50M STD
+      levels: [0]
+      layers: [shaded]
+      title: 'V-wind at 50-meters (m/s)'
+      shaded:
+        expr: _v50m_std
+        cbar: Blues
+        cmin: 0
+        cmax: 10
+        cint: 1
+
+    v50m_ltm:
+      long_name: V50M Clim
+      levels: [0]
+      layers: [shaded, contour]
+      title: 'V-wind at 50-meters (m/s)'
+      shaded:
+        expr: _v50m_ltm
+        cmin: -10
+        cmax: 10
+        cint: 2
+      contour:
+        expr: _v50m_ltm
+        cmin: -20
+        cmax: 20
+        cint: 4
+
+    v50m_mean:
+      long_name: V50M Mean
+      levels: [0]
+      layers: [shaded, contour]
+      title: 'V-wind at 50-meters (m/s)'
+      shaded:
+        expr: _v50m
+        cmin: -10
+        cmax: 10
+        cint: 2
+      contour:
+        expr: _v50m
+        cmin: -20
+        cmax: 20
+        cint: 4

@@ -1,0 +1,174 @@
+wxmapschem2d:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [Aerosols, CO, Other Gases]
+
+      Aerosols:
+        long_name: Aerosols
+        type: button
+        items:
+          - bcaot: BC AOT
+          - bcsmass: BC Sfc Mass
+          - ocaot: OC AOT
+          - dusmass: Dust Sfc Mass
+          - ocsmass: OC Sfc Mass
+          - duaot: Dust AOT
+          - ssaot: Seasalt AOT
+          - suaot: Sulfate AOT
+          - fineaot: Fine AOT
+          - niaot: Nitrate AOT
+          - totaot: Total AOT
+
+      CO:
+        long_name: Carbon Monoxide
+        type: button
+        items:
+          - cobbae: CO BB Eurasia
+          - cobbaf: CO BB Africa
+          - cobbla: CO BB S. Amer.
+          - cobbna: CO BB N. Amer.
+          - cocl: CO Column
+          - conbas: CO FF Asia
+          - conbeu: CO FF Europe
+          - conbna: CO FF N. Amer.
+          - cosc: CO Surface
+
+      Other Gases:
+        long_name: Other Gases
+        type: button
+        items:
+          - nismass: NO3 Sfc Mass
+          - so2cmass: SO2 Col Mass
+          - so2smass: SO2 Sfc Mass
+          - to3: Total Ozone
+
+wxmapscustom:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [PM25, PM, DUST, CO, BCOC, RH]
+
+      PM25:
+        long_name: PM 2.5
+        type: button
+        items:
+          - fineaot
+          - pm25_z: PM2.5 Mass (z-coord)
+          - pm25_n1
+          - pm25_n2
+          - pm25_n3
+          - pm25_n4
+          - pm25_n5
+          - pm25_w1
+          - pm25_w2
+          - pm25_w3
+
+      PM:
+        long_name: PM Total
+        type: button
+        items:
+          - pm_z: PM Mass (z-coord)
+          - pm_n1
+          - pm_n2
+          - pm_n3
+          - pm_n4
+          - pm_n5
+          - pm_w1
+          - pm_w2
+          - pm_w3
+
+      DUST:
+        long_name: Dust
+        type: button
+        items:
+          - du_z: Dust Mass (z-coord)
+          - du_n1
+          - du_n2
+          - du_n3
+          - du_n4
+          - du_n5
+          - du_w1
+          - du_w2
+          - du_w3
+
+      CO:
+        long_name: CO
+        type: button
+        items:
+          - cocl: CO Column
+          - coclbbae
+          - coclbbna
+
+      BCOC:
+        long_name: BC+OC Carbon
+        type: button
+        items:
+          - bcocaot: BC+OC AOT
+          - bcocsmass: BC+OC Sfc Mass
+          - bcoc_z: BC+OC Mass (z-coord)
+          - bcoc_n1
+          - bcoc_n2
+          - bcoc_n3
+          - bcoc_n4
+          - bcoc_n5
+          - bcoc_w1
+          - bcoc_w2
+          - bcoc_w3
+
+      RH:
+        long_name: Relative Humidity
+        type: button
+        items:
+          - rh_n1
+          - rh_n2
+          - rh_n3
+          - rh_n4
+          - rh_n5
+          - rh_w1
+          - rh_w2
+          - rh_w3
+
+
+wxmapsmission:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [Precip, Other]
+
+      Precip:
+        long_name: Precip/Clouds
+        type: button
+        items:
+          - precip
+          - cldlow
+          - cldmid
+          - cldhgh
+          - cldtot
+          - cldprs
+          - cldwat
+          - taulow
+          - taumid
+          - tauhgh
+
+      Other:
+        long_name: Other
+        type: button
+        items:
+          - rh
+          - tmpu
+          - wspd
+          - vort
+          - omega
+          - epv
+          - pblh
+          - tropp
