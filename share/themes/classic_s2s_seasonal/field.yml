@@ -1,0 +1,48 @@
+field:
+
+  S2SMON: &s2smon
+
+    _t2m:
+      long_name: 2m Air Temperature
+      units: K
+      expression: ave(t2m.geosgcm_surf(t=1),e=1,e=9)
+
+    _t2m_ltm:
+      long_name: 2m Air Temperature
+      units: K
+      expression: t2m.S2SLTM.geosgcm_surf(t=1)
+
+    _t2m_spread:
+      long_name: 2m Air Temperature
+      units: K
+      expression: sqrt(ave(pow(t2m.geosgcm_surf(t=1)-ave(t2m.geosgcm_surf(t=1),e=1,e=9),2),e=1,e=9))
+
+    _t10m:
+      long_name: 10m Air Temperature
+      units: K
+      expression: ave(t10m.geosgcm_surf(t=1),e=1,e=9)
+
+    _t10m_ltm:
+      long_name: 10m Air Temperature
+      units: K
+      expression: t10m.S2SLTM.geosgcm_surf(t=1)
+
+    _t10m_spread:
+      long_name: 10m Air Temperature
+      units: K
+      expression: sqrt(ave(pow(t10m.geosgcm_surf(t=1)-ave(t10m.geosgcm_surf(t=1),e=1,e=9),2),e=1,e=9))
+
+    _wet2:
+      long_name: Root Zone Soil Wetness
+      units: 1
+      expression: ave(wet2.geosgcm_surf(t=1),e=1,e=9)
+
+    _wet2_ltm:
+      long_name: Root Zone Soil Wetness
+      units: 1
+      expression: wet2.S2SLTM.geosgcm_surf(t=1)
+
+    _wet2_spread:
+      long_name: Root Zone Soil Wetness
+      units: 1
+      expression: sqrt(ave(pow(wet2.geosgcm_surf(t=1)-ave(wet2.geosgcm_surf(t=1),e=1,e=9),2),e=1,e=9))

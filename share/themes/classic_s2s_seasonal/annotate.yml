@@ -1,0 +1,50 @@
+defs:
+  PERIOD: '(1981-2010)'
+
+annotate:
+
+  tm_valid: '%B %Y'
+  tm_verif: '%B %Y'
+  tm_start: '%B %Y'
+  tm_alt:   '%B (1981-2010)'
+
+  header:
+    string: 'Statistics based on 30-year climatology (1981 to 2010)'
+    color: 4
+    size: 0.125
+    position: 'c'
+    margin: 0.05
+    font: variable
+  subheader:
+    string: $model
+    color: 1
+    size: 0.125
+    position: 'c'
+    margin: 0.1
+    font: variable
+  main:
+    string: $title
+    color: 1
+    size: 0.2
+    position: 'c'
+    margin: 0.1
+    font: variable
+  xlabel:
+    string: $tm_string
+    color: 1
+    size: 0.17 0.17
+    position: 'c'
+    margin: 0.3
+    font: fixed
+  title:
+    color: 1
+    size: 0.4 0.4
+    position: 'c'
+    margin: 0.15
+    font: regular
+  label:
+    color: 1
+    size: 0.3 0.3
+    position: 'c'
+    margin: 0.15
+    font: regular

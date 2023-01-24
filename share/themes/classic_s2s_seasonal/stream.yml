@@ -1,0 +1,21 @@
+stream:
+
+  S2SMON:
+
+    long_name: S2S Monthly
+    type: analysis
+    institution: Global Modeling and Assimilation Office (GMAO)
+    description: GEOS S2S_2.1
+    uri: /discover/nobackup/jardizzo/S2S/data/opendap/seasonal/s2s.$collection.monthly.%Y%m.latest
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  S2SLTM:
+
+    long_name: S2S Monthly LTM
+    type: analysis
+    institution: Global Modeling and Assimilation Office (GMAO)
+    description: GEOS S2S_2.1
+    uri: /discover/nobackup/projects/gmao/oceanval/post_processing/data/S2S-2_1/ensmean/DRFT/jan/jan.$collection.drift.1982_201101.nc4
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    logos: [nasa-logo-ul, gmao-logo-ur]

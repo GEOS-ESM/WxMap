@@ -1,0 +1,170 @@
+
+theme:
+
+  plot:
+
+    t2m_anom:
+      long_name: T2M Anom
+      levels: [0]
+      layers: [shaded]
+      title: '[Anomaly] Temperature at 2-meters (C)'
+      shaded:
+        expr: _t2m-_t2m_ltm
+        cmin: -4
+        cmax: 4
+        cint: 1
+
+    t2m_ltm:
+      long_name: T2M Clim
+      levels: [0]
+      layers: [shaded]
+      title: '[Climate Mean] Temperature at 2-meters (C)'
+      xlabel: $tm_alt
+      shaded:
+        expr: _t2m_ltm-273.15
+        cbar: Rainbow
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    t2m_mean:
+      long_name: T2M Mean
+      levels: [0]
+      layers: [shaded]
+      title: '[Monthly Mean] Temperature at 2-meters (C)'
+      shaded:
+        expr: _t2m-273.15
+        cbar: Rainbow
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    t2m_spread:
+      long_name: T2M Spread
+      levels: [0]
+      layers: [shaded]
+      title: '[Ensemble Spread] Temperature at 2-meters (C)'
+      shaded:
+        expr: _t2m_spread
+        cbar: YlOrRd
+        cmin: 0
+        cmax: 3
+        cint: 0.2
+        nsub: 5
+        skip: 5
+
+    t10m_anom:
+      long_name: T10M Anom
+      levels: [0]
+      layers: [shaded]
+      title: '[Anomaly] Temperature at 10-meters (C)'
+      shaded:
+        expr: _t10m-_t10m_ltm
+        cmin: -4
+        cmax: 4
+        cint: 1
+
+    t10m_ltm:
+      long_name: T10M Clim
+      levels: [0]
+      layers: [shaded]
+      title: '[Climate Mean] Temperature at 10-meters (C)'
+      xlabel: $tm_alt
+      shaded:
+        expr: _t10m_ltm-273.15
+        cbar: Rainbow
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    t10m_mean:
+      long_name: T10M Mean
+      levels: [0]
+      layers: [shaded]
+      title: '[Monthly Mean] Temperature at 10-meters (C)'
+      shaded:
+        expr: _t10m-273.15
+        cbar: Rainbow
+        cmin: -30
+        cmax: 30
+        cint: 5
+
+    t10m_spread:
+      long_name: T10M Spread
+      levels: [0]
+      layers: [shaded]
+      title: '[Ensemble Spread] Temperature at 10-meters (C)'
+      shaded:
+        expr: _t10m_spread
+        cbar: YlOrRd
+        cmin: 0
+        cmax: 3
+        cint: 0.2
+        nsub: 5
+        skip: 5
+
+    wet2_anom:
+      long_name: RZSW Anom
+      levels: [0]
+      layers: [shaded]
+      title: '[Anomaly] Root-Zone Soil Wetness'
+      shaded:
+        expr: _wet2-_wet2_ltm
+        cbar: BrBG
+        cmin: -0.6
+        cmax: 0.6
+        cint: 0.1
+
+    wet2_ltm:
+      long_name: RZSW Clim
+      levels: [0]
+      layers: [shaded]
+      title: '[Climate Mean] Root-Zone Soil Wetness'
+      xlabel: $tm_alt
+      shaded:
+        expr: _wet2_ltm
+        cbar: YlGn
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+
+    wet2_mean:
+      long_name: RZSW Mean
+      levels: [0]
+      layers: [shaded]
+      title: '[Monthly Mean] Root-Zone Soil Wetness'
+      shaded:
+        expr: _wet2
+        cbar: YlGn
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+
+    wet2_spread:
+      long_name: RZSW Spread
+      levels: [0]
+      layers: [shaded]
+      title: '[Ensemble Spread] Root-Zone Soil Wetness'
+      shaded:
+        expr: _wet2_spread
+        cbar: YlOrRd
+        cmin: 0
+        cmax: 0.1
+        cint: 0.01
+
+  layer:
+
+    shaded:
+      gxout: shaded
+      cbunits: ''
+      cbar: bwr
+      nsub: 10
+      skip: 10
+
+    contour:
+      gxout: contour
+      clab: masked
+      cthick: 5
+      ccolor: 0 0 0
+      clsize: 0.18
+      contour: 'off'
