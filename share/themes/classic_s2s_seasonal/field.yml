@@ -46,3 +46,18 @@ field:
       long_name: Root Zone Soil Wetness
       units: 1
       expression: sqrt(ave(pow(wet2.geosgcm_surf(t=1)-ave(wet2.geosgcm_surf(t=1),e=1,e=9),2),e=1,e=9))
+
+    _lsprcp:
+      long_name: Nonanvil Large Scale Precipitation
+      units: kg m-2 s-1
+      expression: ave(lsprcp.geosgcm_surf(t=1),e=1,e=9)
+
+    _lsprcp_ltm:
+      long_name: Nonanvil Large Scale Precipitation
+      units: kg m-2 s-1
+      expression: lsprcp.S2SLTM.geosgcm_surf(t=1)
+
+    _lsprcp_spread:
+      long_name: Nonanvil Large Scale Precipitation
+      units: kg m-2 s-1
+      expression: sqrt(ave(pow(lsprcp.geosgcm_surf(t=1)-ave(lsprcp.geosgcm_surf(t=1),e=1,e=9),2),e=1,e=9))

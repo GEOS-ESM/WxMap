@@ -152,6 +152,57 @@ theme:
         cmax: 0.1
         cint: 0.01
 
+    lsprcp_anom:
+      long_name: LSPRCP Anom
+      levels: [0]
+      layers: [shaded]
+      title: '[Anomaly] Nonanvil Large Scale Precipitation (mm/day)'
+      shaded:
+        expr: (_lsprcp-_lsprcp_ltm)*86400
+        cdict: lsprcp_anom_attr
+        cmin: -5
+        cmax: 5
+        cint: 1
+
+    lsprcp_ltm:
+      long_name: LSPRCP Clim
+      levels: [0]
+      layers: [shaded]
+      title: '[Climate Mean] Nonanvil Large Scale Precipitation (mm/day)'
+      xlabel: $tm_alt
+      shaded:
+        expr: _lsprcp_ltm*86400
+        cbar: MeanPrecip
+        cmin: 0
+        cmax: 10
+        cint: 1
+
+    lsprcp_mean:
+      long_name: LSPRCP Mean
+      levels: [0]
+      layers: [shaded]
+      title: '[Monthly Mean] Nonanvil Large Scale Precipitation (mm/day)'
+      shaded:
+        expr: _lsprcp*86400
+        cbar: MeanPrecip
+        cmin: 0
+        cmax: 10
+        cint: 1
+
+    lsprcp_spread:
+      long_name: LSPRCP Spread
+      levels: [0]
+      layers: [shaded]
+      title: '[Ensemble Spread] Nonanvil Large Scale Precipitation (mm/day)'
+      shaded:
+        expr: (_lsprcp_spread)*86400
+        cbar: YlOrRd
+        cmin: 0
+        cmax: 3
+        cint: 0.2
+        nsub: 5
+        skip: 5
+
   layer:
 
     shaded:
