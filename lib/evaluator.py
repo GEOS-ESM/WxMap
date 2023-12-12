@@ -11,7 +11,7 @@ class Evaluator(object):
         self.config  = config
         self.request = request
         self.lang    = gdsvml.GDSVML()
-        self.defined = []
+        self.defined = ['RANDOM']
 
         self.quote   = False
         self.qchar   = "'"

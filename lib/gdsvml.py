@@ -93,7 +93,7 @@ class GDSVML(object):
                           'const','maskout','skip','smth9','hcurl','hdivg',
                           'mag','gr2stn','oacres','re','stnave','stnmin',
                           'stnmax','cdiff','tloop','tvrh2q','tvrh2t',
-                          'lat', 'lon', 'x', 'y', 'sum'
+                          'lat', 'lon', 'x', 'y', 'sum', 'min', 'max'
                          ]
 
         self.udf = self.readUDFT()
@@ -115,10 +115,12 @@ class GDSVML(object):
                          'draw recf', 'draw wxsym', 'draw map', 'draw shp',
                          'draw subtitle', 'draw tmstring', 'draw logo',
                          'draw label', 'draw grid', 'draw cbar', 'draw basemap',
-                         'draw arrow', 'draw hilo', 'draw symbol']
+                         'draw arrow', 'draw hilo', 'draw symbol',
+                         'draw gridlines']
 
         self.special = ['draw basemap', 'draw line', 'draw polyf',
-                        'draw string', 'draw mark', 'draw hilo']
+                        'draw string', 'draw mark', 'draw hilo',
+                        'draw gridlines']
 
         self.addon   = ['set ARRFILL', 'set SLICE', 'set SKIP', 'set CLIP']
 

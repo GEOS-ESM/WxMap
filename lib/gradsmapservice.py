@@ -50,6 +50,7 @@ class Service(MapService):
                         'DRAW_ARROW'      : self.draw_arrow,
                         'DRAW_GRID'       : self.draw_grid,
                         'DRAW_BASEMAP'    : self.draw_basemap,
+                        'DRAW_GRIDLINES'  : self.draw_gridlines,
                         'BASEMAP'         : self.ignore,
                         'DISPLAY_GRID'    : self.display_grid,
                         'DISPLAY_VECTOR'  : self.display_vector,
@@ -753,6 +754,9 @@ class Service(MapService):
         mark = kwargs['hmark']
         if sense == 'L': mark = kwargs['lmark']
 
+        if not mark or mark == 'off':
+            return
+
         i = 2
         points = []
 
@@ -1062,7 +1066,7 @@ class Service(MapService):
         if not line: return
 
         x1, y1 = line[0]
-        x2, y2 = line[1]
+        x2, y2 = line[-1]
 
         self.ds('draw line %s %s %s %s'%(x1,y1,x2,y2))
 
@@ -1104,8 +1108,12 @@ class Service(MapService):
 
         cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
 
-        x1, y1 = self.w2xy(cmd[2], cmd[3])
-        x2, y2 = self.w2xy(cmd[4], cmd[5])
+        if cmd[-1] != 'xy':
+            x1, y1 = self.w2xy(cmd[2], cmd[3])
+            x2, y2 = self.w2xy(cmd[4], cmd[5])
+        else:
+            x1, y1 = (cmd[2], cmd[3])
+            x2, y2 = (cmd[4], cmd[5])
 
         self.ds('draw recf %s %s %s %s'%(x1,y1,x2,y2))
 
@@ -1178,12 +1186,139 @@ class Service(MapService):
         bmap['land_brightness']  = float(bmap.get('land_brightness', default))
         bmap['water_brightness'] = float(bmap.get('water_brightness', default))
 
+        default                  = float(bmap.get('saturation', '1.0'))
+        bmap['saturation']       = default
+        bmap['land_saturation']  = float(bmap.get('land_saturation', default))
+        bmap['water_saturation'] = float(bmap.get('water_saturation', default))
+
+        default                = float(bmap.get('contrast', '1.0'))
+        bmap['contrast']       = default
+        bmap['land_contrast']  = float(bmap.get('land_contrast', default))
+        bmap['water_contrast'] = float(bmap.get('water_contrast', default))
+
         bmap['face_color'] = 'white'
         if bmap['lights_off']: bmap['face_color'] = 'black'
 
         bmap['grayscale'] = bmap.get('grayscale', False)
 
         self.maps.append(bmap)
+
+    def draw_gridlines(self, obj):
+
+        ax   = Axes(self.ds,clip=True)
+
+        black = self.lang.get_color('set rgb $* 0 0 0')
+        white = self.lang.get_color('set rgb $* 255 255 255')
+        self.ds('set rgb %d %s'%(black, '0 0 0'))
+        self.ds('set rgb %d %s'%(white, '255 255 255'))
+
+        argstr = obj.cmds[-1][15:]
+        options = json.loads(argstr)
+        options = {k:v for k,v in options.iteritems() if v != '--auto'}
+
+        mpvals = options['mpvals'].split() + options['lat'].split()
+        lon1, lon2, lat1, lat2 = [int(s) for s in mpvals[0:4]]
+        
+        xlbeg = round(options.get('xlbeg', lon1))
+        xlend = int(options.get('xlend', lon2))
+        ylbeg = round(options.get('ylbeg', lat1))
+        ylend = int(options.get('ylend', lat2))
+        xlint = round(options.get('xlint', (lon2-lon1)/5.0))
+        ylint = round(options.get('ylint', (lat2-lat1)/5.0))
+
+        xlevs = range(int(xlbeg), int(xlend+1), int(xlint))
+        clevs = xlevs
+        clevs += [x-360 for x in xlevs if x >= 180]
+        clevs += [x+360 for x in xlevs if x < 0]
+        clevs = sorted(list(set(clevs)))
+        clevs = [str(x) for x in clevs]
+
+        self.ds('set gxout contour')
+        self.ds('set clevs ' + ' '.join(clevs))
+        self.ds('set clab off')
+        self.ds('set clopts 1 6 0.12')
+        self.ds('set ccolor 15')
+        self.ds('set cstyle 1')
+        self.ds('set cthick 1')
+        self.ds('d lon') 
+
+#       self.ds('set gxout contour')
+#       self.ds('set clevs -180 0 180')
+#       self.ds('set clab off')
+#       self.ds('set ccolor 7')
+#       self.ds('set cstyle 1')
+#       self.ds('set cthick 8')
+#       self.ds('d lon')
+
+        lat = (lat1 + lat2) / 2.0
+
+        print 'clevs = ' + str(clevs)
+        for lon in clevs:
+
+            ilon = int(lon)
+            if ilon >= 180: ilon -= 360
+            if ilon < 0:
+                clon = str(abs(ilon)) + 'W'
+            else:
+                clon = str(ilon) + 'E'
+            
+            x, y = self.w2xy(lon, lat)
+            if ax.is_clipped((x-0.001,y)): continue
+            if ax.is_clipped((x+0.001,y)): continue
+
+            self.ds('set font 0')
+            self.ds('set strsiz 0.08')
+            self.ds('set string ' + str(black) + ' c 12')
+            self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clon)
+            self.ds('set string ' + str(white) + ' c 5')
+            self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clon)
+
+        ylevs = range(int(ylbeg), int(ylend+1), int(ylint))
+        clevs = [str(y) for y in ylevs]
+
+        self.ds('set gxout contour')
+        self.ds('set clevs ' + ' '.join(clevs))
+        self.ds('set clab off')
+        self.ds('set ccolor 15')
+        self.ds('set cstyle 1')
+        self.ds('set cthick 1')
+        self.ds('d lat')
+
+        self.ds('set gxout contour')
+        self.ds('set clevs 66.3')
+        self.ds('set clab off')
+        self.ds('set ccolor 7')
+        self.ds('set cstyle 1')
+        self.ds('set cthick 8')
+        self.ds('d lat')
+
+        lon = (lon1 + lon2) / 2.0
+
+        for lat in clevs:
+
+            ilat = int(lat)
+            if ilat < 0:
+                clat = str(abs(ilat)) + 'S'
+            else:
+                clat = str(ilat) + 'N'
+
+            if abs(ilat) == 90 or ilat == 0: continue
+
+            x, y = self.w2xy(lon, lat)
+            if ax.is_clipped((x,y-0.001)): continue
+            if ax.is_clipped((x,y+0.001)): continue
+
+        #   self.ds('set font 0')
+        #   self.ds('set strsiz 0.08')
+        #   self.ds('set string 15 c 6')
+        #   self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clat)
+
+            self.ds('set font 0')
+            self.ds('set strsiz 0.08')
+            self.ds('set string ' + str(black) + ' c 12')
+            self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clat)
+            self.ds('set string ' + str(white) + ' c 5')
+            self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clat)
 
     def draw_map(self, zorder=0):
 
@@ -1218,6 +1353,12 @@ class Service(MapService):
         brightness        = kwargs['brightness']
         land_brightness   = kwargs['land_brightness']
         water_brightness  = kwargs['water_brightness']
+        saturation        = kwargs['saturation']
+        land_saturation   = kwargs['land_saturation']
+        water_saturation  = kwargs['water_saturation']
+        contrast          = kwargs['contrast']
+        land_contrast     = kwargs['land_contrast']
+        water_contrast    = kwargs['water_contrast']
         water_color       = [int(c * 255) for c in kwargs['water_color']]
         land_color        = [int(c * 255) for c in kwargs['land_color']]
         tint_color        = [int(c * 255) for c in kwargs['tint_color']]
@@ -1250,10 +1391,14 @@ class Service(MapService):
         land  = self.imfill(land, 0, land_color)
         land  = self.imtint(land, land_tint_color)
         land  = self.imbright(land, land_brightness)
+        land  = self.imsat(land, land_saturation)
+        land  = self.imcontrast(land, land_contrast)
 
         water = self.imfill(water, 255, water_color)
         water = self.imtint(water, water_tint_color)
         water = self.imbright(water, water_brightness)
+        water = self.imsat(water, water_saturation)
+        water = self.imcontrast(water, water_contrast)
 
         fg.paste(land, (0,0), land)
         fg.paste(water, (0,0), water)
@@ -1261,14 +1406,14 @@ class Service(MapService):
 #       Re-size and position the map image on a background image
 #       matching the size of the final GrADS image.
 
-        fg = fg.resize((xpixels, ypixels), Image.ANTIALIAS)
+        fg = fg.resize((xpixels+3, ypixels+3), Image.ANTIALIAS)
 
         if isGrayscale: 
             bg = Image.new("RGB", [xsize, ysize], face_color).convert('LA')
         else:
             bg = Image.new("RGB", [xsize, ysize], face_color)
 
-        bg.paste(fg, (xpos, ypos), fg)
+        bg.paste(fg, (xpos-2, ypos-1), fg)
         bg.save(fname, "PNG")
         bg.close()
 
@@ -1329,6 +1474,20 @@ class Service(MapService):
         enhancer = ImageEnhance.Brightness(src)
         return enhancer.enhance(brightness)
 
+    def imsat(self, src, saturation):
+
+        if saturation == 1.0: return src
+        
+        enhancer = ImageEnhance.Color(src)
+        return enhancer.enhance(saturation)
+
+    def imcontrast(self, src, contrast):
+        
+        if contrast == 1.0: return src
+
+        enhancer = ImageEnhance.Contrast(src)
+        return enhancer.enhance(contrast)
+
     def is_solid(self, color): 
         if len(color) < 4: return True
         if color[3] > 0.0: return True
@@ -1380,7 +1539,7 @@ class Service(MapService):
         elif service == 'drawlsmask':
             print 'Using cached mask'
         else:
-            map.arcgisimage(service=service, xpixels = 1000)
+            map.arcgisimage(service=service, xpixels = 5000)
 
     def create_mask(self, map, **kwargs):
 
@@ -1411,7 +1570,7 @@ class Service(MapService):
         lon_center = lon1 + 180
 
         plt.clf()
-        plt.figure(figsize=(xsize*2/300.0, ysize*2/300.0), dpi=100)
+        fig = plt.figure(figsize=(xsize*2/300.0, ysize*2/300.0), dpi=100)
         plt.gca().set_axis_off()
 
         if mproj == 'nps' and lat2 == 90:
@@ -1486,7 +1645,9 @@ class Service(MapService):
                         'land_color', 'water_color', 'ocean_color',
                         'lake_color', 'tint_color', 'land_tint_color',
                         'water_tint_color', 'brightness', 'service',
-                        'land_brightness', 'water_brightness']
+                        'land_brightness', 'water_brightness', 'saturation',
+                        'land_saturation', 'water_saturation', 'contrast',
+                        'land_contrast', 'water_contrast']
 
         for bmap in bmaps:
             d = {k:bmap[k] for k in basemap_keys}

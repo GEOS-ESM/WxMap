@@ -111,6 +111,10 @@ def parse_args(args=None):
     )
 
     parser.add_argument(
+        '--tight', action='store_true', help='Tight colorbar'
+    )
+
+    parser.add_argument(
         '--no_title', action='store_true', help='Title on/off flag'
     )
 

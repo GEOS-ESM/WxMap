@@ -1,5 +1,7 @@
 import copy
 import json
+import calendar
+
 import mydatetime as dt
 from plot import *
 
@@ -124,10 +126,19 @@ class PlotService(object):
         field      = request['field']
         ftime      = request.get('fcst_dt',None)
 
-#       region             = request['region']
-#       path               = ['region', region]
-#       handle.xlab        = self.config(path + ['xlab'],  'on')
-#       handle.ylab        = self.config(path + ['ylab'],  'on')
+   #    region             = request['region']
+   #    path               = ['region', region]
+   #    map                = self.config(path)
+   #    lats = [ float(lat) for lat in map['lat'].split() if lat != ' ' ]
+   #    lons = [ float(lon) for lon in map['lon'].split() if lon != ' ' ]
+   #    mpvals = [ float(v) for v in map['mpvals'].split() if v != ' ' ]
+   #    if not mpvals: mpvals = lons
+   #    if len(mpvals) < 4: mpvals += lats
+   #    handle.lon1        = str(mpvals[0])
+   #    handle.lon2        = str(mpvals[1])
+   #    handle.lat1        = str(mpvals[2])
+   #    handle.lat2        = str(mpvals[3])
+   #    handle.region_name = map['long_name']
 
         path               = ['stream',stream]
         handle.model       = self.config(path + ['description'])
@@ -177,6 +188,7 @@ class PlotService(object):
         tm_verif           = plot.get_attr(adict, 'tm_verif', '')
         tm_start           = plot.get_attr(adict, 'tm_start', '')
         tm_string          = plot.get_attr(adict, 'tm_string', '')
+        tm_alt             = plot.get_attr(adict, 'tm_alt', '')
 
         parea              = request.get('parea', None)
         labsiz             = request.get('label_size', None)
@@ -191,6 +203,19 @@ class PlotService(object):
         if request.get('lights_off', 0): handle.background = 0
 
         handle.month     = str(time.month)
+        handle.mm1       = str(time.month-1)
+        handle.mm2       = str(time.month-2)
+
+        if time.month-1 <= 0: handle.mm1 = str(time.month-1+12)
+        if time.month-2 <= 0: handle.mm2 = str(time.month-2+12)
+
+        handle.jday      = time.strftime("%j")
+        handle.doy       = handle.jday
+
+        julian_day = int(handle.jday)
+        if calendar.isleap(time.year) and julian_day > 59:
+            handle.doy = str(julian_day - 1)
+
         days5            = dt.timedelta(days=5)
         days10           = dt.timedelta(days=10)
 
@@ -198,16 +223,19 @@ class PlotService(object):
             handle.tau       = 0
             handle.tm_start  = time.strftime(tm_start)
             handle.tm_verif  = time.strftime(tm_verif)
+            handle.tm_alt    = time.strftime(tm_alt)
             handle.tm_string = handle.tm_verif
             handle.cycle     = 'Analysis'
             handle.tbeg      = time.strftime("%H:%Mz%d%b%Y")
             handle.t5day     = (time+days5).strftime("%H:%Mz%d%b%Y")
             handle.t10day    = (time+days10).strftime("%H:%Mz%d%b%Y")
+            handle.lead_month = 0
         else:
             tau              = time - ftime
             hour             = int(tau.total_seconds() / 3600)
             handle.tau       = "%03d"%(hour,)
             handle.tm_valid  = time.strftime(tm_valid)
+            handle.tm_alt    = time.strftime(tm_alt)
             handle.tm_start  = ftime.strftime(tm_start)
             handle.tm_string = tm_string
             handle.tbeg      = ftime.strftime("%H:%Mz%d%b%Y")
@@ -216,6 +244,17 @@ class PlotService(object):
 
             handle.cycle     = 'Forecast'
             if hour <= 0: handle.cycle = 'Analysis'
+
+          # Lead month calculation for S2S applications.
+          # ============================================
+
+            handle.lead_month = time.month - ftime.month + 1
+            if handle.lead_month <= 0:
+                handle.lead_month += 12
+
+        # Add contextual parameters
+
+        self.add_cf_context(plot)
 
         plot.cmd("""
           &INIT
@@ -239,6 +278,96 @@ class PlotService(object):
         )
 
         return layers
+
+    def add_cf_context(self, plot):
+        """
+        Adds contextual parameters for GEOS CF instances
+
+        This method defines parameters needed for configuring
+        GEOS CF instances; especially those parameters needed for
+        daily anomaly calculations. 
+
+        Parameters
+        ----------
+        plot : Plot
+            Plot object
+        plot.handle.doy1 : string
+            lower bound day of year for interpolating daily means
+        plot.handle.doy2 : string
+            upper bound day of year for interpolating daily means
+        plot.handle.r1 : string
+            lower bound interpolation factor (see notes)
+        plot.handle.r2 : string
+            upper bound interpolation factor (see notes)
+        plot.handle.tm_begin : string
+            beginning of daily mean period in user specified format (see note.5)
+        plot.handle.tm_end : string
+            end of daily mean period in user specified format (see note.5)
+
+        Notes
+        -----
+        (1) Interpolation for daily means: val = r1*data(doy1) + r2*data(doy2)
+        (2) Daily long-term means are assumed to be from 00Z to 23Z.
+        (3) A request at hour 12Z (for example) will interpolate between the
+            current day and the next day since the daily mean will be
+            calculated from 12Z to 11Z of the next day.
+        (4) The day of year (doy) is an integer index. Long-term mean files
+            are expected to have 365 day entries. For that reason, leap-day is
+            set to 59 to keep all other day indices the same for leap years.
+        (5) Beginning and ending time formats are defined in the "annotate"
+            block of the configuration. For example:
+            tm_begin: %Y-%m-%d %HZ
+            tm_end: %Y-%m-%d %HZ
+
+        Returns
+        -------
+        None
+            No return value
+
+        """
+
+        handle  = plot.handle
+        request = plot.request
+        
+        time = request['time_dt']
+
+        # Add interpolation factors for deriving the daily long-term mean
+        # (see notes).
+
+        dt1 = time.strftime("%Y%m%d")
+        dt2 = (time + dt.timedelta(days=1)).strftime("%Y%m%d")
+            
+        dt1 = dt.fromiso(dt1)
+        dt2 = dt.fromiso(dt2)
+            
+        r1 = (dt2 - time).total_seconds() / (dt2 - dt1).total_seconds()
+        r2 = (time - dt1).total_seconds() / (dt2 - dt1).total_seconds()
+
+        doy1 = dt1.timetuple().tm_yday
+        doy2 = dt2.timetuple().tm_yday
+
+        if calendar.isleap(dt1.year) and doy1 > 59:
+            doy1 -= 1
+        if calendar.isleap(dt2.year) and doy2 > 59:
+            doy2 -= 1
+
+        handle.doy1 = str(doy1)
+        handle.doy2 = str(doy2)
+        handle.r1 = str(r1)
+        handle.r2 = str(r2)
+
+        print '===>', handle.doy1, handle.doy2, handle.r1, handle.r2
+
+        # Add start and end date/time for the daily mean. End time is
+        # assumed to be equal to the start time plus 23 hours.
+
+        path = ['annotate'] 
+        adict = self.config(path, {})
+        tm_begin = plot.get_attr(adict, 'tm_begin', '')
+        tm_end = plot.get_attr(adict, 'tm_end', '')
+
+        handle.tm_begin = time.strftime(tm_begin)
+        handle.tm_end = (time + dt.timedelta(hours=24)).strftime(tm_end)
 
     def plot_vort(self, plot, name, **kwargs):
 
@@ -410,7 +539,7 @@ class PlotService(object):
 
         kwargs.update(plot.get_vars(layer))
         kwargs['layer_name'] = name
-        kwargs['zorder'] = plot.get_attr(layer,'zorder','-1')
+        kwargs['zorder'] = plot.get_attr(layer,'zorder','0')
 
         path = [theme, 'plot', field]
         handle.lat     = self.config(path+['lat'],'--auto')
@@ -542,6 +671,8 @@ class PlotService(object):
           set SLICE $slice
           set zlog $zlog
           set z $z
+        # set rgb 200 200 200 200
+        # set ccolor 200
           set datawarn off
           set gxout $gxout
           set vrange $vrange
@@ -991,6 +1122,46 @@ class PlotService(object):
 
         return {'expr': expr}
 
+    def shtorh(self, plot, name):
+
+        handle  = plot.handle
+        request = plot.request
+        time    = request['time_dt']
+
+        layer   = plot.get_layer(name)
+        if not layer: return
+
+        expr = plot.get_attr(layer,'expr')
+
+        handle.gtime     = time.strftime("%H:%Mz%d%b%Y")
+        handle.rh        = plot.get_name()
+        handle.a         = plot.get_name()
+        handle.b         = plot.get_name()
+        handle.es        = plot.get_name()
+        handle.qs        = plot.get_name()
+        handle.rhum      = plot.get_name()
+        handle.arg_temp  = plot.get_attr(layer,'temp')
+        handle.arg_shum  = plot.get_attr(layer,'shum')
+        handle.arg_pres  = plot.get_attr(layer,'pres')
+
+        plot.cmd("""
+          set dfile $#
+          set time $gtime
+          set lev $level
+          define $a     = 21.874
+          define $b     = 7.66
+          define $a     = maskout($a, -$arg_temp+273.16)
+          define $b     = maskout($b, -$arg_temp+273.16)
+          define $a     = const($a, 17.269, "-u")
+          define $b     = const($b, 35.86, "-u")
+          define $es    = 6.11*exp($a*($arg_temp-273.16)/($arg_temp-$b))
+          define $qs    = 0.622*($es/($arg_pres-0.378*$es))
+          define $rhum  = ($arg_shum/$qs)*100
+        """
+        )
+
+        return {'expr': expr}
+
     def set_shade(self, plot, layer, zorder=0):
 
         clevs  = plot.get_attr(layer,'clevs',None)
@@ -1084,6 +1255,8 @@ class PlotService(object):
         return (exp(x * log(a+1.0)) - 1.0) / a
 
     def log_scale(self, x): return self.nlog(x,10.0)
+
+    def log_scale1(self, x): return self.nlog(x,1.0)
 
     def exp_scale(self, x): return self.nexp(x,10.0)
 
