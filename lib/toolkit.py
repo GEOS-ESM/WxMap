@@ -1,3 +1,4 @@
+import json
 import mydatetime as dt
 
 class Toolkit(object):
@@ -428,22 +429,8 @@ class Toolkit(object):
 
     def read_track_data(self, file):
 
-        feature = {}
-        rows    = []
-
-        with open(file,'r') as f: lines = f.readlines()
-
-        for line in lines:
-
-            line = " ".join(line.split())
-            columns = [s.strip() for s in line.split(',') if s != '']
-
-            if len(columns) == 3:
-                name = "_".join(columns[0:-1])
-                rows = []
-                feature[name] = rows
-            else:
-                rows.append(columns)
+        with open(file, 'r') as f:
+            feature = json.load(f)
 
         return feature
 
@@ -513,15 +500,10 @@ class Toolkit(object):
 
     def track_unpack(self, record):
 
-        date, time, dummy, type, lat, lon = record[0:6]
-        time_dt = dt.fromiso(date+time)
+        year, month, day, hour, type, lat, lon = record[0:7]
+        time_dt = dt.datetime(year, month, day, hour)
 
-        rlon = float(lon[0:-1])
-        rlat = float(lat[0:-1])
-        if lon[-1] == 'W': rlon *= -1.0
-        if lat[-1] == 'S': rlat *= -1.0
-
-        return (time_dt, type, rlat, rlon)
+        return (time_dt, str(type), lat, lon)
 
     __call__ = draw
 

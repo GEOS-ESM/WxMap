@@ -15,11 +15,10 @@ class Request(dict):
         self.hotkeys  = ['fcst_dt', 'time_dt', 'field', 'level', 'region',
                          'geometry', 'stream', 'collection', 'basemap']
 
+        # Convert all datetime objects to mydatetime objects
+
         if not encoder:
             for k,v in self.iteritems():
-              # if type(v) is datetime.datetime:
-              #     self[k] = dt.datetime(v.year, v.month, v.day,
-              #                           v.hour, v.minute)
                 try:
                     self[k] = dt.datetime(v.year, v.month, v.day,
                                           v.hour, v.minute)
@@ -47,7 +46,6 @@ class Request(dict):
             keystr += ',' + encoder.encode(request)
 
         keystr = keystr.replace("u'", "'")
-        print '===>', keystr
         return str(uuid.uuid3(uuid.NAMESPACE_DNS,keystr))
 
     def get_rname(self, request=None):
