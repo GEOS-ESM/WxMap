@@ -1978,7 +1978,7 @@ class HorizontalColorbar(Colorbar):
             ncolors = len(cbar.colors)
 
             length = ax.xhigh - ax.xlow
-            if cbar_only: length = 10
+      #     if cbar_only: length = 10
             offset = (1.0 - 0.9) * (length / nbars) / 2.0
             xbeg   = (length / nbars) * index + ax.xlow + offset
             ybeg   = ax.ylow - 0.9

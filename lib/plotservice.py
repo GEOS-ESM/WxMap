@@ -356,8 +356,6 @@ class PlotService(object):
         handle.r1 = str(r1)
         handle.r2 = str(r2)
 
-        print '===>', handle.doy1, handle.doy2, handle.r1, handle.r2
-
         # Add start and end date/time for the daily mean. End time is
         # assumed to be equal to the start time plus 23 hours.
 
