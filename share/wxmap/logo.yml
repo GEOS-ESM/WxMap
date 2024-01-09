@@ -86,3 +86,15 @@ logo:
     position: ul
     size: 6
     margin: 1
+
+  nrl-logo: &NRL
+    file: nrl-logo.png
+    position: ul
+    size: 6
+    margin: 1
+
+  nrl-logo-dark:
+    file: nrl-logo.png
+    position: ul
+    size: 6
+    margin: 1
