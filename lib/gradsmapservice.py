@@ -185,8 +185,11 @@ class Service(MapService):
         bg.close()
 
       # Plot the logos on the image
-
-        if not self.options.get('no_logo',0):
+            
+        no_logo = (self.options.get('no_logo',0) or
+                      self.request.get('no_logo',0))
+            
+        if not no_logo:
             bbox = (0, 0, bg.size[0], bg.size[1])
             self.draw_logo(oname, plot.options['_logos_'], bbox=bbox)
 
