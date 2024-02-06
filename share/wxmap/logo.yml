@@ -87,7 +87,7 @@ logo:
     size: 6
     margin: 1
 
-  nrl-logo: &NRL
+  nrl-logo:
     file: nrl-logo.png
     position: ul
     size: 6
@@ -95,6 +95,42 @@ logo:
 
   nrl-logo-dark:
     file: nrl-logo.png
+    position: ul
+    size: 6
+    margin: 1
+
+  thailand-logo:
+    file: thailand-logo.png
+    position: ul
+    size: 6
+    margin: 1
+    
+  thailand-logo-dark:
+    file: thailand-logo.png
+    position: ul
+    size: 6
+    margin: 1
+
+  ucla-logo:
+    file: ucla-logo.png
+    position: ul
+    size: 6
+    margin: 1
+
+  ucla-logo-dark:
+    file: ucla-logo.png
+    position: ul
+    size: 6
+    margin: 1
+
+  yonsei-logo:
+    file: yonsei-logo.png
+    position: ul
+    size: 6
+    margin: 1
+
+  yonsei-logo-dark:
+    file: yonsei-logo.png
     position: ul
     size: 6
     margin: 1
