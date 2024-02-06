@@ -11,7 +11,7 @@ from string import *
 import numpy as np
 
 import matplotlib
-#matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mc
 
@@ -577,6 +577,7 @@ class Plot(object):
             if draw is not None:
                 attr = dict(map)
                 attr['time_dt'] = self.request['time_dt']
+                attr['fcst_dt'] = self.request.get('fcst_dt', None)
                 attr.update(self.config(['shape',shape],{}))
                 draw(self,map[shape],**attr)
 
@@ -604,7 +605,7 @@ class Plot(object):
         attr['time_dt'] = self.request['time_dt']
         attr.update(self.config(['shape','track'],{}))
         attr.update(self.config(rpath, {}))
-        tk.track(self, track_files_for_year, **attr)
+        tk.track(self, track_files, **attr)
 
     def plot_logos(self):
 
@@ -801,6 +802,7 @@ class Plot(object):
         if map is None:
 
             addlayers = []
+            fullframe = request.get('fullframe', False)
             field     = request['field']
             region    = request['region']
             map       = copy.deepcopy(self.config(['map','default'],{}))
@@ -813,6 +815,11 @@ class Plot(object):
             map.update(copy.deepcopy(self.config(path)))
             addlayers += self.config(path+['addlayers'],[])
 
+            mproj = map.get('mproj', 'latlon')
+            if fullframe and mproj == 'latlon':
+                mproj = 'scaled'
+
+            map['mproj'] = mproj
             map['mpvals'] = map.get('mpvals',None)
             map['frame']  = map.get('frame', 'on')
             map['grid']   = map.get('grid', '--auto')
