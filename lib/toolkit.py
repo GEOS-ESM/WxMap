@@ -1,3 +1,4 @@
+import os
 import json
 import mydatetime as dt
 
@@ -333,11 +334,11 @@ class Toolkit(object):
 
             else:
 
-                track_data = self.read_track_data(t)
                 plot_dt    = kwargs['time_dt']
                 lons       = kwargs['lon'].split()
                 wlon, elon = [float(l) for l in lons if l != ''][0:2]
                 start_dt   = plot_dt - dt.timedelta(hours=window)
+                track_data = self.read_track_data(t, **kwargs)
 
                 for name,record in track_data.iteritems():
 
@@ -374,9 +375,9 @@ class Toolkit(object):
         prev_dt   = None
         locations = []
 
-        for rec in record:
+        for n, rec in enumerate(record):
 
-            time_dt, type, rlat, rlon = rec
+            time_dt, type, rlat, rlon = rec[0:4]
 
           # Skip the track location if it is outside
           # the desired time window.
@@ -411,6 +412,17 @@ class Toolkit(object):
                 self.symbol(plot, [locations[-1]], **kwargs)
                 prev_dt = time_dt
 
+            if type == 'traj' and rec[4]:
+                if n%2 == 0:
+                    kwargs['position'] = 'r'
+                    self.string(plot, [loc + ' ' + str(rec[4])+'---'], **kwargs)
+             #  else:
+             #      self.string(plot, [loc + ' ' + '--'], **kwargs)
+                if (n+1)%2 == 0:
+                    time = str((n-1)*3)
+                    kwargs['position'] = 'l'
+                    self.string(plot, [loc + ' ' + '--'+time+'h'], **kwargs)
+
       # Plot the line segments for the track
                        
         for n in range(1,len(locations)):
@@ -418,16 +430,30 @@ class Toolkit(object):
             if not locations[n]: continue
             self.line(plot, [' '.join(locations[n-1:n+1])], **kwargs)
 
+        if type == 'traj':
+            return
+
       # Plot the label for the track
 
         locations = [loc for loc in locations if loc]
         if not locations: return
 
-        name = name.split('_')[1]
+        name = name.split('_')[-1]
         loc  = locations[-1]
         self.string(plot, [loc + ' ' + name], **kwargs)
 
-    def read_track_data(self, file):
+    def read_track_data(self, file, **kwargs):
+
+        time_dt = kwargs['time_dt']
+        fcst_dt = kwargs.get('fcst_dt', None)
+
+        if (time_dt):
+            file = time_dt.strftime(file)
+        if (fcst_dt):
+            file = fcst_dt.strftime(file)
+
+        if not os.path.isfile(file):
+            return {}
 
         with open(file, 'r') as f:
             feature = json.load(f)
@@ -446,6 +472,7 @@ class Toolkit(object):
     def track_interpolate(self, record):
 
         if len(record) < 2: return record
+        if record[0][1] == 'traj': return record
 
         start_dt = record[0][0]
         if start_dt.year < 1980: return record # datetime throws exception
@@ -459,7 +486,7 @@ class Toolkit(object):
 
         for rec in record:
 
-            time_dt, type, rlat, rlon = rec
+            time_dt, type, rlat, rlon = rec[0:4]
 
             if not lons: slon = rlon
             rlon = slon + self.dirdif(slon, rlon)
@@ -503,7 +530,7 @@ class Toolkit(object):
         year, month, day, hour, type, lat, lon = record[0:7]
         time_dt = dt.datetime(year, month, day, hour)
 
-        return (time_dt, str(type), lat, lon)
+        return [time_dt, str(type)] + record[5:]
 
     __call__ = draw
 

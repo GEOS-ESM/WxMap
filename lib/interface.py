@@ -141,6 +141,15 @@ def parse_args(args=None):
         help='pathname or expression'
     )
 
+    parser.add_argument(
+        '--navigate', metavar='NAVIGATE', default='on',
+        help='navigate on/off (default: %(default)s)'
+    )
+
+    parser.add_argument(
+        '--fullframe', action='store_true', help='Turn full frame on'
+    )
+
     if not len(args):
         parser.print_help()
         sys.exit(1)
@@ -173,6 +182,9 @@ def parse_args(args=None):
     p_args['start_dt'] = dt.datetime.strptime(p_args['start_dt'],'%Y%m%dT%H%M%S')
     p_args['end_dt']   = dt.datetime.strptime(p_args['end_dt'],'%Y%m%dT%H%M%S')
     p_args['t_deltat'] = dt.timedelta(hours=p_args['t_deltat'])
+
+    if p_args.get('fullframe', False):
+        p_args['parea'] = '0 11 0 8.5'
 
 #   Record user activity
 

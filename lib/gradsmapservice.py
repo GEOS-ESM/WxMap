@@ -185,19 +185,21 @@ class Service(MapService):
         bg.close()
 
       # Plot the logos on the image
-            
+
         no_logo = (self.options.get('no_logo',0) or
                       self.request.get('no_logo',0))
-            
+
         if not no_logo:
             bbox = (0, 0, bg.size[0], bg.size[1])
             self.draw_logo(oname, plot.options['_logos_'], bbox=bbox)
 
       # Write out navigational information
 
-        navfile = '.'.join(oname.split('.')[0:-1]) + '.nav'
-        if hotspot:
-            with open(navfile, 'w') as f: json.dump(hotspot, f)
+        if self.request.get('navigate', 'on') != 'off':
+
+            navfile = '.'.join(oname.split('.')[0:-1]) + '.nav'
+            if hotspot:
+                with open(navfile, 'w') as f: json.dump(hotspot, f)
 
         return oname
 
@@ -332,7 +334,8 @@ class Service(MapService):
 
       # Write out navigational information.
 
-        with open(navfile, 'w') as f: json.dump(data, f)
+        if self.request.get('navigate', 'on') != 'off':
+            with open(navfile, 'w') as f: json.dump(data, f)
 
     def clear_map(self):
 
@@ -866,8 +869,19 @@ class Service(MapService):
 
     def save_symbol(self, obj):
 
+        ax = Axes(self.ds)
+
         params = obj.cmds[-1].split()[2:]
         self.symbols.append(params)
+
+        cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+                        
+        x, y = self.w2xy(cmd[3], cmd[4])
+                        
+        if x < ax.xlow or x > ax.xhigh: return
+        if y < ax.ylow or y > ax.yhigh: return
+                        
+        if len(cmd) > 6: self.imap.append((x,y,float(cmd[5])) + tuple(cmd[6:]))
 
     def save_label(self, obj):
 
@@ -1152,7 +1166,8 @@ class Service(MapService):
 
         self.ds('draw mark %s %f %f %s'%(cmd[2],x,y,cmd[5]))
 
-        if len(cmd) > 6: self.imap.append((x,y,float(cmd[5])) + tuple(cmd[6:]))
+        if len(cmd) > 6:
+            self.imap.append((x,y,float(cmd[5])) + tuple(cmd[6:]))
 
     def draw_basemap(self, obj):
 
@@ -1203,6 +1218,8 @@ class Service(MapService):
         if bmap['lights_off']: bmap['face_color'] = 'black'
 
         bmap['grayscale'] = bmap.get('grayscale', False)
+
+        bmap['fullframe'] = self.request.get('fullframe', False)
 
         self.maps.append(bmap)
 
@@ -1654,6 +1671,9 @@ class Service(MapService):
 
         for bmap in bmaps:
             d = {k:bmap[k] for k in basemap_keys}
+            if bmap.get('fullframe', False):
+                d['fullframe'] = True
+            basemap_keys.append('fullframe')
             keystr += json.dumps(d)
 
         keystr = keystr.replace("u'", "'")
