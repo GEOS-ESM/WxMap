@@ -1,0 +1,67 @@
+map:
+
+  shaderelief-gray:
+    line_color: 0 0 0
+    line_width: 2
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0 
+ #  grayscale: 1
+    saturation: 0.1
+    layers: [standard, shaderelief, lsmask]
+
+  world_topo-01:
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    layers: [clearmap, world_topo, lsmask]
+
+  world_shaded_relief-01:
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    line_color: 0 0 0
+    line_width: 2
+  # grayscale: 1
+    saturation: 0.1
+    layers: [standard, world_shaded_relief, lsmask]
+
+  world_street-01:
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    saturation: 1.6
+    contrast: 1.6
+    layers: [water, land, world_street, lsmask]
+
+  world_imagery-01:
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    brightness: 1.2
+    layers: [standard, water, world_imagery, lsmask]
+
+  world_imagery-02:
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    brightness: 1.0
+    saturation: 0.6
+    layers: [clearmap, world_imagery, lsmask]
+
+  esri_world_imagery-01:
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    layers: [clearmap, esri_world_imagery, lsmask]
+
+  natgeo_world_map-01:
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    layers: [water, land, coastlines, political, natgeo_world_map, lsmask]
+
+  natgeo_world_map-midatl:
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    layers: [clearmap, natgeo_world_map, lsmask]
+
+  bluemarble01:
+    line_color: 0 0 0
+    line_width: 2
+    land_color: 0 0 0 0
+    land_brightness: 1.2
+    water_color: 0 0 80
+    layers: [standard, water, bluemarble, lsmask]

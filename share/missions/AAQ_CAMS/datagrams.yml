@@ -1,0 +1,3244 @@
+wxmapscustom:
+
+  plot:
+
+    bc_gram000: &BC
+      long_name: 'bc'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [bc]
+      title: 'Black Carbon'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    bc_gram001:
+      <<: *BC
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    bc_gram002:
+      <<: *BC
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    bc_gram003:
+      <<: *BC
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    bc_gram004:
+      <<: *BC
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    bc_gram005:
+      <<: *BC
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    bc_gram006:
+      <<: *BC
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    bc_gram007:
+      <<: *BC
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    bc_gram008:
+      <<: *BC
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    bc_gram009:
+      <<: *BC
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    bc_gram010:
+      <<: *BC
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    bc_gram011:
+      <<: *BC
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    bc_gram012:
+      <<: *BC
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    bc_gram013:
+      <<: *BC
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    bc_gram014:
+      <<: *BC
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    bc_gram015:
+      <<: *BC
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    bc_gram016:
+      <<: *BC
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    bc_gram017:
+      <<: *BC
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    bc_gram018:
+      <<: *BC
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    bc_gram019:
+      <<: *BC
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    bc_gram020:
+      <<: *BC
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    bc_gram021:
+      <<: *BC
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    bc_gram022:
+      <<: *BC
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    bc_gram023:
+      <<: *BC
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    bc_gram024:
+      <<: *BC
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    bc_gram025:
+      <<: *BC
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    bc_gram026:
+      <<: *BC
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    bc_gram027:
+      <<: *BC
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    bc_gram028:
+      <<: *BC
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    bc_gram029:
+      <<: *BC
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    bc_gram030:
+      <<: *BC
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    bc_gram031:
+      <<: *BC
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    bc_gram032:
+      <<: *BC
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    bc_gram033:
+      <<: *BC
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    bc_gram034:
+      <<: *BC
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    bc_gram035:
+      <<: *BC
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    bc_gram036:
+      <<: *BC
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    bc_gram037:
+      <<: *BC
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    bc_gram038:
+      <<: *BC
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    bc_gram039:
+      <<: *BC
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    bc_gram040:
+      <<: *BC
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    bc_gram041:
+      <<: *BC
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    bc_gram042:
+      <<: *BC
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    bc_gram043:
+      <<: *BC
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    bc_gram044:
+      <<: *BC
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    co_gram000: &CO
+      long_name: 'co'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [co]
+      title: 'CO'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    co_gram001:
+      <<: *CO
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    co_gram002:
+      <<: *CO
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    co_gram003:
+      <<: *CO
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    co_gram004:
+      <<: *CO
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    co_gram005:
+      <<: *CO
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    co_gram006:
+      <<: *CO
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    co_gram007:
+      <<: *CO
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    co_gram008:
+      <<: *CO
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    co_gram009:
+      <<: *CO
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    co_gram010:
+      <<: *CO
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    co_gram011:
+      <<: *CO
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    co_gram012:
+      <<: *CO
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    co_gram013:
+      <<: *CO
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    co_gram014:
+      <<: *CO
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    co_gram015:
+      <<: *CO
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    co_gram016:
+      <<: *CO
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    co_gram017:
+      <<: *CO
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    co_gram018:
+      <<: *CO
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    co_gram019:
+      <<: *CO
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    co_gram020:
+      <<: *CO
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    co_gram021:
+      <<: *CO
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    co_gram022:
+      <<: *CO
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    co_gram023:
+      <<: *CO
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    co_gram024:
+      <<: *CO
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    co_gram025:
+      <<: *CO
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    co_gram026:
+      <<: *CO
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    co_gram027:
+      <<: *CO
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    co_gram028:
+      <<: *CO
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    co_gram029:
+      <<: *CO
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    co_gram030:
+      <<: *CO
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    co_gram031:
+      <<: *CO
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    co_gram032:
+      <<: *CO
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    co_gram033:
+      <<: *CO
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    co_gram034:
+      <<: *CO
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    co_gram035:
+      <<: *CO
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    co_gram036:
+      <<: *CO
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    co_gram037:
+      <<: *CO
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    co_gram038:
+      <<: *CO
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    co_gram039:
+      <<: *CO
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    co_gram040:
+      <<: *CO
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    co_gram041:
+      <<: *CO
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    co_gram042:
+      <<: *CO
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    co_gram043:
+      <<: *CO
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    co_gram044:
+      <<: *CO
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    du_gram000: &DU
+      long_name: 'du'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [du]
+      title: 'dust aerosol'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    du_gram001:
+      <<: *DU
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    du_gram002:
+      <<: *DU
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    du_gram003:
+      <<: *DU
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    du_gram004:
+      <<: *DU
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    du_gram005:
+      <<: *DU
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    du_gram006:
+      <<: *DU
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    du_gram007:
+      <<: *DU
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    du_gram008:
+      <<: *DU
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    du_gram009:
+      <<: *DU
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    du_gram010:
+      <<: *DU
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    du_gram011:
+      <<: *DU
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    du_gram012:
+      <<: *DU
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    du_gram013:
+      <<: *DU
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    du_gram014:
+      <<: *DU
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    du_gram015:
+      <<: *DU
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    du_gram016:
+      <<: *DU
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    du_gram017:
+      <<: *DU
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    du_gram018:
+      <<: *DU
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    du_gram019:
+      <<: *DU
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    du_gram020:
+      <<: *DU
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    du_gram021:
+      <<: *DU
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    du_gram022:
+      <<: *DU
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    du_gram023:
+      <<: *DU
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    du_gram024:
+      <<: *DU
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    du_gram025:
+      <<: *DU
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    du_gram026:
+      <<: *DU
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    du_gram027:
+      <<: *DU
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    du_gram028:
+      <<: *DU
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    du_gram029:
+      <<: *DU
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    du_gram030:
+      <<: *DU
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    du_gram031:
+      <<: *DU
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    du_gram032:
+      <<: *DU
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    du_gram033:
+      <<: *DU
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    du_gram034:
+      <<: *DU
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    du_gram035:
+      <<: *DU
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    du_gram036:
+      <<: *DU
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    du_gram037:
+      <<: *DU
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    du_gram038:
+      <<: *DU
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    du_gram039:
+      <<: *DU
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    du_gram040:
+      <<: *DU
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    du_gram041:
+      <<: *DU
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    du_gram042:
+      <<: *DU
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    du_gram043:
+      <<: *DU
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    du_gram044:
+      <<: *DU
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    no1_gram000: &NO1
+      long_name: 'no1'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [no1]
+      title: 'NO'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    no1_gram001:
+      <<: *NO1
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    no1_gram002:
+      <<: *NO1
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    no1_gram003:
+      <<: *NO1
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    no1_gram004:
+      <<: *NO1
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    no1_gram005:
+      <<: *NO1
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    no1_gram006:
+      <<: *NO1
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    no1_gram007:
+      <<: *NO1
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    no1_gram008:
+      <<: *NO1
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    no1_gram009:
+      <<: *NO1
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    no1_gram010:
+      <<: *NO1
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    no1_gram011:
+      <<: *NO1
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    no1_gram012:
+      <<: *NO1
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    no1_gram013:
+      <<: *NO1
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    no1_gram014:
+      <<: *NO1
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    no1_gram015:
+      <<: *NO1
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    no1_gram016:
+      <<: *NO1
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    no1_gram017:
+      <<: *NO1
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    no1_gram018:
+      <<: *NO1
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    no1_gram019:
+      <<: *NO1
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    no1_gram020:
+      <<: *NO1
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    no1_gram021:
+      <<: *NO1
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    no1_gram022:
+      <<: *NO1
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    no1_gram023:
+      <<: *NO1
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    no1_gram024:
+      <<: *NO1
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    no1_gram025:
+      <<: *NO1
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    no1_gram026:
+      <<: *NO1
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    no1_gram027:
+      <<: *NO1
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    no1_gram028:
+      <<: *NO1
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    no1_gram029:
+      <<: *NO1
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    no1_gram030:
+      <<: *NO1
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    no1_gram031:
+      <<: *NO1
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    no1_gram032:
+      <<: *NO1
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    no1_gram033:
+      <<: *NO1
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    no1_gram034:
+      <<: *NO1
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    no1_gram035:
+      <<: *NO1
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    no1_gram036:
+      <<: *NO1
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    no1_gram037:
+      <<: *NO1
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    no1_gram038:
+      <<: *NO1
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    no1_gram039:
+      <<: *NO1
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    no1_gram040:
+      <<: *NO1
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    no1_gram041:
+      <<: *NO1
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    no1_gram042:
+      <<: *NO1
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    no1_gram043:
+      <<: *NO1
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    no1_gram044:
+      <<: *NO1
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    no2_gram000: &NO2
+      long_name: 'no2'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [no2]
+      title: 'NO2'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    no2_gram001:
+      <<: *NO2
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    no2_gram002:
+      <<: *NO2
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    no2_gram003:
+      <<: *NO2
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    no2_gram004:
+      <<: *NO2
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    no2_gram005:
+      <<: *NO2
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    no2_gram006:
+      <<: *NO2
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    no2_gram007:
+      <<: *NO2
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    no2_gram008:
+      <<: *NO2
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    no2_gram009:
+      <<: *NO2
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    no2_gram010:
+      <<: *NO2
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    no2_gram011:
+      <<: *NO2
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    no2_gram012:
+      <<: *NO2
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    no2_gram013:
+      <<: *NO2
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    no2_gram014:
+      <<: *NO2
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    no2_gram015:
+      <<: *NO2
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    no2_gram016:
+      <<: *NO2
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    no2_gram017:
+      <<: *NO2
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    no2_gram018:
+      <<: *NO2
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    no2_gram019:
+      <<: *NO2
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    no2_gram020:
+      <<: *NO2
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    no2_gram021:
+      <<: *NO2
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    no2_gram022:
+      <<: *NO2
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    no2_gram023:
+      <<: *NO2
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    no2_gram024:
+      <<: *NO2
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    no2_gram025:
+      <<: *NO2
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    no2_gram026:
+      <<: *NO2
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    no2_gram027:
+      <<: *NO2
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    no2_gram028:
+      <<: *NO2
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    no2_gram029:
+      <<: *NO2
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    no2_gram030:
+      <<: *NO2
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    no2_gram031:
+      <<: *NO2
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    no2_gram032:
+      <<: *NO2
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    no2_gram033:
+      <<: *NO2
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    no2_gram034:
+      <<: *NO2
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    no2_gram035:
+      <<: *NO2
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    no2_gram036:
+      <<: *NO2
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    no2_gram037:
+      <<: *NO2
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    no2_gram038:
+      <<: *NO2
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    no2_gram039:
+      <<: *NO2
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    no2_gram040:
+      <<: *NO2
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    no2_gram041:
+      <<: *NO2
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    no2_gram042:
+      <<: *NO2
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    no2_gram043:
+      <<: *NO2
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    no2_gram044:
+      <<: *NO2
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    oc_gram000: &OC
+      long_name: 'oc'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [oc]
+      title: 'Organic Carbon'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    oc_gram001:
+      <<: *OC
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    oc_gram002:
+      <<: *OC
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    oc_gram003:
+      <<: *OC
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    oc_gram004:
+      <<: *OC
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    oc_gram005:
+      <<: *OC
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    oc_gram006:
+      <<: *OC
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    oc_gram007:
+      <<: *OC
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    oc_gram008:
+      <<: *OC
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    oc_gram009:
+      <<: *OC
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    oc_gram010:
+      <<: *OC
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    oc_gram011:
+      <<: *OC
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    oc_gram012:
+      <<: *OC
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    oc_gram013:
+      <<: *OC
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    oc_gram014:
+      <<: *OC
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    oc_gram015:
+      <<: *OC
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    oc_gram016:
+      <<: *OC
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    oc_gram017:
+      <<: *OC
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    oc_gram018:
+      <<: *OC
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    oc_gram019:
+      <<: *OC
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    oc_gram020:
+      <<: *OC
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    oc_gram021:
+      <<: *OC
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    oc_gram022:
+      <<: *OC
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    oc_gram023:
+      <<: *OC
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    oc_gram024:
+      <<: *OC
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    oc_gram025:
+      <<: *OC
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    oc_gram026:
+      <<: *OC
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    oc_gram027:
+      <<: *OC
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    oc_gram028:
+      <<: *OC
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    oc_gram029:
+      <<: *OC
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    oc_gram030:
+      <<: *OC
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    oc_gram031:
+      <<: *OC
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    oc_gram032:
+      <<: *OC
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    oc_gram033:
+      <<: *OC
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    oc_gram034:
+      <<: *OC
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    oc_gram035:
+      <<: *OC
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    oc_gram036:
+      <<: *OC
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    oc_gram037:
+      <<: *OC
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    oc_gram038:
+      <<: *OC
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    oc_gram039:
+      <<: *OC
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    oc_gram040:
+      <<: *OC
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    oc_gram041:
+      <<: *OC
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    oc_gram042:
+      <<: *OC
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    oc_gram043:
+      <<: *OC
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    oc_gram044:
+      <<: *OC
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    pm25_gram000: &PM25
+      long_name: 'pm25'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [pm25]
+      title: 'PM2.5'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    pm25_gram001:
+      <<: *PM25
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    pm25_gram002:
+      <<: *PM25
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    pm25_gram003:
+      <<: *PM25
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    pm25_gram004:
+      <<: *PM25
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    pm25_gram005:
+      <<: *PM25
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    pm25_gram006:
+      <<: *PM25
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    pm25_gram007:
+      <<: *PM25
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    pm25_gram008:
+      <<: *PM25
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    pm25_gram009:
+      <<: *PM25
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    pm25_gram010:
+      <<: *PM25
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    pm25_gram011:
+      <<: *PM25
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    pm25_gram012:
+      <<: *PM25
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    pm25_gram013:
+      <<: *PM25
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    pm25_gram014:
+      <<: *PM25
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    pm25_gram015:
+      <<: *PM25
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    pm25_gram016:
+      <<: *PM25
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    pm25_gram017:
+      <<: *PM25
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    pm25_gram018:
+      <<: *PM25
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    pm25_gram019:
+      <<: *PM25
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    pm25_gram020:
+      <<: *PM25
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    pm25_gram021:
+      <<: *PM25
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    pm25_gram022:
+      <<: *PM25
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    pm25_gram023:
+      <<: *PM25
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    pm25_gram024:
+      <<: *PM25
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    pm25_gram025:
+      <<: *PM25
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    pm25_gram026:
+      <<: *PM25
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    pm25_gram027:
+      <<: *PM25
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    pm25_gram028:
+      <<: *PM25
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    pm25_gram029:
+      <<: *PM25
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    pm25_gram030:
+      <<: *PM25
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    pm25_gram031:
+      <<: *PM25
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    pm25_gram032:
+      <<: *PM25
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    pm25_gram033:
+      <<: *PM25
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    pm25_gram034:
+      <<: *PM25
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    pm25_gram035:
+      <<: *PM25
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    pm25_gram036:
+      <<: *PM25
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    pm25_gram037:
+      <<: *PM25
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    pm25_gram038:
+      <<: *PM25
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    pm25_gram039:
+      <<: *PM25
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    pm25_gram040:
+      <<: *PM25
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    pm25_gram041:
+      <<: *PM25
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    pm25_gram042:
+      <<: *PM25
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    pm25_gram043:
+      <<: *PM25
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    pm25_gram044:
+      <<: *PM25
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    so2_gram000: &SO2
+      long_name: 'so2'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [so2]
+      title: 'SO2'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    so2_gram001:
+      <<: *SO2
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    so2_gram002:
+      <<: *SO2
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    so2_gram003:
+      <<: *SO2
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    so2_gram004:
+      <<: *SO2
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    so2_gram005:
+      <<: *SO2
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    so2_gram006:
+      <<: *SO2
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    so2_gram007:
+      <<: *SO2
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    so2_gram008:
+      <<: *SO2
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    so2_gram009:
+      <<: *SO2
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    so2_gram010:
+      <<: *SO2
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    so2_gram011:
+      <<: *SO2
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    so2_gram012:
+      <<: *SO2
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    so2_gram013:
+      <<: *SO2
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    so2_gram014:
+      <<: *SO2
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    so2_gram015:
+      <<: *SO2
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    so2_gram016:
+      <<: *SO2
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    so2_gram017:
+      <<: *SO2
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    so2_gram018:
+      <<: *SO2
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    so2_gram019:
+      <<: *SO2
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    so2_gram020:
+      <<: *SO2
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    so2_gram021:
+      <<: *SO2
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    so2_gram022:
+      <<: *SO2
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    so2_gram023:
+      <<: *SO2
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    so2_gram024:
+      <<: *SO2
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    so2_gram025:
+      <<: *SO2
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    so2_gram026:
+      <<: *SO2
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    so2_gram027:
+      <<: *SO2
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    so2_gram028:
+      <<: *SO2
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    so2_gram029:
+      <<: *SO2
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    so2_gram030:
+      <<: *SO2
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    so2_gram031:
+      <<: *SO2
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    so2_gram032:
+      <<: *SO2
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    so2_gram033:
+      <<: *SO2
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    so2_gram034:
+      <<: *SO2
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    so2_gram035:
+      <<: *SO2
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    so2_gram036:
+      <<: *SO2
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    so2_gram037:
+      <<: *SO2
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    so2_gram038:
+      <<: *SO2
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    so2_gram039:
+      <<: *SO2
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    so2_gram040:
+      <<: *SO2
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    so2_gram041:
+      <<: *SO2
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    so2_gram042:
+      <<: *SO2
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    so2_gram043:
+      <<: *SO2
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    so2_gram044:
+      <<: *SO2
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    ss_gram000: &SS
+      long_name: 'ss'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [ss]
+      title: 'sea salt aerosol'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    ss_gram001:
+      <<: *SS
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    ss_gram002:
+      <<: *SS
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    ss_gram003:
+      <<: *SS
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    ss_gram004:
+      <<: *SS
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    ss_gram005:
+      <<: *SS
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    ss_gram006:
+      <<: *SS
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    ss_gram007:
+      <<: *SS
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    ss_gram008:
+      <<: *SS
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    ss_gram009:
+      <<: *SS
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    ss_gram010:
+      <<: *SS
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    ss_gram011:
+      <<: *SS
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    ss_gram012:
+      <<: *SS
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    ss_gram013:
+      <<: *SS
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    ss_gram014:
+      <<: *SS
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    ss_gram015:
+      <<: *SS
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    ss_gram016:
+      <<: *SS
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    ss_gram017:
+      <<: *SS
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    ss_gram018:
+      <<: *SS
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    ss_gram019:
+      <<: *SS
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    ss_gram020:
+      <<: *SS
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    ss_gram021:
+      <<: *SS
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    ss_gram022:
+      <<: *SS
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    ss_gram023:
+      <<: *SS
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    ss_gram024:
+      <<: *SS
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    ss_gram025:
+      <<: *SS
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    ss_gram026:
+      <<: *SS
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    ss_gram027:
+      <<: *SS
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    ss_gram028:
+      <<: *SS
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    ss_gram029:
+      <<: *SS
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    ss_gram030:
+      <<: *SS
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    ss_gram031:
+      <<: *SS
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    ss_gram032:
+      <<: *SS
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    ss_gram033:
+      <<: *SS
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    ss_gram034:
+      <<: *SS
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    ss_gram035:
+      <<: *SS
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    ss_gram036:
+      <<: *SS
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    ss_gram037:
+      <<: *SS
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    ss_gram038:
+      <<: *SS
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    ss_gram039:
+      <<: *SS
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    ss_gram040:
+      <<: *SS
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    ss_gram041:
+      <<: *SS
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    ss_gram042:
+      <<: *SS
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    ss_gram043:
+      <<: *SS
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    ss_gram044:
+      <<: *SS
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+
+    su_gram000: &SU
+      long_name: 'su'
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      xlabel: ''
+      levels: [0]
+      layers: [su]
+      title: 'sulphate aerosol'
+      parea:  1 10 1 7.5
+      lev:  1000 500
+      lat:  13.75
+      lon:  100.52
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    su_gram001:
+      <<: *SU
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    su_gram002:
+      <<: *SU
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    su_gram003:
+      <<: *SU
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    su_gram004:
+      <<: *SU
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    su_gram005:
+      <<: *SU
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    su_gram006:
+      <<: *SU
+      header: Aeronet-USM (100.30E,5.36N)
+      tag: Aeronet-USM
+      lat:  5.36
+      lon:  100.3
+
+    su_gram007:
+      <<: *SU
+      header: AERONET-Anmyon (126.33E,36.54N)
+      tag: AERONET-Anmyon
+      lat:  36.54
+      lon:  126.33
+
+    su_gram008:
+      <<: *SU
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    su_gram009:
+      <<: *SU
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    su_gram010:
+      <<: *SU
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    su_gram011:
+      <<: *SU
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    su_gram012:
+      <<: *SU
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    su_gram013:
+      <<: *SU
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    su_gram014:
+      <<: *SU
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    su_gram015:
+      <<: *SU
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    su_gram016:
+      <<: *SU
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    su_gram017:
+      <<: *SU
+      header: Balanga City Hall (120.54E,14.68N)
+      tag: Balanga City Hall
+      lat:  14.68
+      lon:  120.54
+
+    su_gram018:
+      <<: *SU
+      header: Clark (120.56E,15.18N)
+      tag: Clark
+      lat:  15.18
+      lon:  120.56
+
+    su_gram019:
+      <<: *SU
+      header: Lingayen (120.24E,16.03N)
+      tag: Lingayen
+      lat:  16.03
+      lon:  120.24
+
+    su_gram020:
+      <<: *SU
+      header: Manila Observatory (121.06E,14.62N)
+      tag: Manila Observatory
+      lat:  14.62
+      lon:  121.06
+
+    su_gram021:
+      <<: *SU
+      header: Ninoy Aquino (121.02E,14.51N)
+      tag: Ninoy Aquino
+      lat:  14.51
+      lon:  121.02
+
+    su_gram022:
+      <<: *SU
+      header: Sangley Point (120.90E,14.49N)
+      tag: Sangley Point
+      lat:  14.49
+      lon:  120.9
+
+    su_gram023:
+      <<: *SU
+      header: Subic Bay Metropolitain Authority Bldg (120.28E,14.82N)
+      tag: Subic Bay Metropolitain Authority Bldg
+      lat:  14.82
+      lon:  120.28
+
+    su_gram024:
+      <<: *SU
+      header: CA0019 (101.61E,3.13N)
+      tag: CA0019
+      lat:  3.13
+      lon:  101.61
+
+    su_gram025:
+      <<: *SU
+      header: CA0033 (103.74E,1.49N)
+      tag: CA0033
+      lat:  1.49
+      lon:  103.74
+
+    su_gram026:
+      <<: *SU
+      header: CA0039 (102.37E,3.95N)
+      tag: CA0039
+      lat:  3.95
+      lon:  102.37
+
+    su_gram027:
+      <<: *SU
+      header: CA0040 (103.30E,3.82N)
+      tag: CA0040
+      lat:  3.82
+      lon:  103.3
+
+    su_gram028:
+      <<: *SU
+      header: CA0044 (103.12E,5.31N)
+      tag: CA0044
+      lat:  5.31
+      lon:  103.12
+
+    su_gram029:
+      <<: *SU
+      header: CA0047 (102.25E,6.15N)
+      tag: CA0047
+      lat:  6.15
+      lon:  102.25
+
+    su_gram030:
+      <<: *SU
+      header: Kuala Lampur (101.55E,3.13N)
+      tag: Kuala Lampur
+      lat:  3.13
+      lon:  101.55
+
+    su_gram031:
+      <<: *SU
+      header: Pandora-Banting (101.62E,2.82N)
+      tag: Pandora-Banting
+      lat:  2.82
+      lon:  101.62
+
+    su_gram032:
+      <<: *SU
+      header: Penang (100.27E,5.29N)
+      tag: Penang
+      lat:  5.29
+      lon:  100.27
+
+    su_gram033:
+      <<: *SU
+      header: Chungbuk University (127.46E,36.63N)
+      tag: Chungbuk University
+      lat:  36.63
+      lon:  127.46
+
+    su_gram034:
+      <<: *SU
+      header: Gimpo Intl Airport (126.79E,37.56N)
+      tag: Gimpo Intl Airport
+      lat:  37.56
+      lon:  126.79
+
+    su_gram035:
+      <<: *SU
+      header: Incheon (126.64E,37.57N)
+      tag: Incheon
+      lat:  37.57
+      lon:  126.64
+
+    su_gram036:
+      <<: *SU
+      header: Incheon Intl Airport (126.44E,37.46N)
+      tag: Incheon Intl Airport
+      lat:  37.46
+      lon:  126.44
+
+    su_gram037:
+      <<: *SU
+      header: Jincheon (127.44E,36.85N)
+      tag: Jincheon
+      lat:  36.85
+      lon:  127.44
+
+    su_gram038:
+      <<: *SU
+      header: Korea Univ (127.03E,37.59N)
+      tag: Korea Univ
+      lat:  37.59
+      lon:  127.03
+
+    su_gram039:
+      <<: *SU
+      header: Olympic Park (127.12E,37.52N)
+      tag: Olympic Park
+      lat:  37.52
+      lon:  127.12
+
+    su_gram040:
+      <<: *SU
+      header: Osan Air Base (127.03E,37.09N)
+      tag: Osan Air Base
+      lat:  37.09
+      lon:  127.03
+
+    su_gram041:
+      <<: *SU
+      header: Seoul Air Base (127.11E,37.45N)
+      tag: Seoul Air Base
+      lat:  37.45
+      lon:  127.11
+
+    su_gram042:
+      <<: *SU
+      header: Seoul Supersite (126.93E,37.61N)
+      tag: Seoul Supersite
+      lat:  37.61
+      lon:  126.93
+
+    su_gram043:
+      <<: *SU
+      header: Suwon Air Base (127.01E,37.24N)
+      tag: Suwon Air Base
+      lat:  37.24
+      lon:  127.01
+
+    su_gram044:
+      <<: *SU
+      header: Suwon Station (126.99E,37.26N)
+      tag: Suwon Station
+      lat:  37.26
+      lon:  126.99
+

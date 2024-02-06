@@ -1,0 +1,1692 @@
+wxmapscustom:
+
+  plot:
+
+    co_gram000: &CO
+      long_name: 'co'
+      header: AgiaMarina_Xyliatou_AERO (33.06E,35.04N)
+      tag: AgiaMarina_Xyliatou_AERO
+      xlabel: ''
+      levels: [0]
+      layers: [co]
+      title: 'CO'
+      parea:  1 10 1 7.5
+      lev:  1000 100
+      lat:  35.0379981995
+      lon:  33.0577011108
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    co_gram001:
+      <<: *CO
+      header: Amity_Univ_Gurgaon_AERO (76.92E,28.32N)
+      tag: Amity_Univ_Gurgaon_AERO
+      lat:  28.3173294067
+      lon:  76.9160308838
+
+    co_gram002:
+      <<: *CO
+      header: Bac_Lieu_AERO (105.73E,9.28N)
+      tag: Bac_Lieu_AERO
+      lat:  9.27999973297
+      lon:  105.730003357
+
+    co_gram003:
+      <<: *CO
+      header: Beijing_PKU_AERO (116.31E,39.99N)
+      tag: Beijing_PKU_AERO
+      lat:  39.9920005798
+      lon:  116.310203552
+
+    co_gram004:
+      <<: *CO
+      header: Beijing_RADI_AERO (116.38E,40.00N)
+      tag: Beijing_RADI_AERO
+      lat:  40.0047988892
+      lon:  116.378601074
+
+    co_gram005:
+      <<: *CO
+      header: Cape_Fuguei_Station_AERO (121.54E,25.30N)
+      tag: Cape_Fuguei_Station_AERO
+      lat:  25.2974529266
+      lon:  121.537857056
+
+    co_gram006:
+      <<: *CO
+      header: Chen-Kung_Univ_AERO (120.20E,22.99N)
+      tag: Chen-Kung_Univ_AERO
+      lat:  22.9934196472
+      lon:  120.204666138
+
+    co_gram007:
+      <<: *CO
+      header: Chiang_Mai_Met_Sta_AERO (98.97E,18.77N)
+      tag: Chiang_Mai_Met_Sta_AERO
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    co_gram008:
+      <<: *CO
+      header: Chiayi_AERO (120.50E,23.50N)
+      tag: Chiayi_AERO
+      lat:  23.4959754944
+      lon:  120.49597168
+
+    co_gram009:
+      <<: *CO
+      header: Chiba_University_AERO (140.10E,35.62N)
+      tag: Chiba_University_AERO
+      lat:  35.6246986389
+      lon:  140.103805542
+
+    co_gram010:
+      <<: *CO
+      header: CUT-TEPAK_AERO (33.04E,34.67N)
+      tag: CUT-TEPAK_AERO
+      lat:  34.6748046875
+      lon:  33.0427513123
+
+    co_gram011:
+      <<: *CO
+      header: Dalanzadgad_AERO (104.42E,43.58N)
+      tag: Dalanzadgad_AERO
+      lat:  43.5772209167
+      lon:  104.419166565
+
+    co_gram012:
+      <<: *CO
+      header: Douliu_AERO (120.54E,23.71N)
+      tag: Douliu_AERO
+      lat:  23.7117004395
+      lon:  120.544799805
+
+    co_gram013:
+      <<: *CO
+      header: Dushanbe_AERO (68.86E,38.55N)
+      tag: Dushanbe_AERO
+      lat:  38.5532646179
+      lon:  68.8579101562
+
+    co_gram014:
+      <<: *CO
+      header: Gangneung_WNU_AERO (128.87E,37.77N)
+      tag: Gangneung_WNU_AERO
+      lat:  37.7709999084
+      lon:  128.867004395
+
+    co_gram015:
+      <<: *CO
+      header: Gwangju_GIST_AERO (126.84E,35.23N)
+      tag: Gwangju_GIST_AERO
+      lat:  35.2282791138
+      lon:  126.843139648
+
+    co_gram016:
+      <<: *CO
+      header: Hankuk_UFS_AERO (127.27E,37.34N)
+      tag: Hankuk_UFS_AERO
+      lat:  37.3388290405
+      lon:  127.265823364
+
+    co_gram017:
+      <<: *CO
+      header: Hokkaido_University_AERO (141.34E,43.08N)
+      tag: Hokkaido_University_AERO
+      lat:  43.0755004883
+      lon:  141.340698242
+
+    co_gram018:
+      <<: *CO
+      header: Ilorin_AERO (4.67E,8.48N)
+      tag: Ilorin_AERO
+      lat:  8.4841003418
+      lon:  4.67449998856
+
+    co_gram019:
+      <<: *CO
+      header: Kanpur_AERO (80.30E,26.50N)
+      tag: Kanpur_AERO
+      lat:  26.5
+      lon:  80.3
+
+    co_gram020:
+      <<: *CO
+      header: Karachi_AERO (67.00E,24.90N)
+      tag: Karachi_AERO
+      lat:  24.9
+      lon:  67.0
+
+    co_gram021:
+      <<: *CO
+      header: Kuwait_University_AERO (47.97E,29.33N)
+      tag: Kuwait_University_AERO
+      lat:  29.3250007629
+      lon:  47.9710006714
+
+    co_gram022:
+      <<: *CO
+      header: Lulin_AERO (120.87E,23.47N)
+      tag: Lulin_AERO
+      lat:  23.4686107635
+      lon:  120.87361145
+
+    co_gram023:
+      <<: *CO
+      header: Manila_Observatory_AERO (121.08E,14.64N)
+      tag: Manila_Observatory_AERO
+      lat:  14.6352500916
+      lon:  121.077842712
+
+    co_gram024:
+      <<: *CO
+      header: Masdar_Institute_AERO (54.62E,24.44N)
+      tag: Masdar_Institute_AERO
+      lat:  24.4416007996
+      lon:  54.6166000366
+
+    co_gram025:
+      <<: *CO
+      header: MCO-Hanimaadhoo_AERO (73.18E,6.78N)
+      tag: MCO-Hanimaadhoo_AERO
+      lat:  6.77635002136
+      lon:  73.1831817627
+
+    co_gram026:
+      <<: *CO
+      header: NhaTrang_AERO (109.21E,12.20N)
+      tag: NhaTrang_AERO
+      lat:  12.2047224045
+      lon:  109.205558777
+
+    co_gram027:
+      <<: *CO
+      header: Niigata_AERO (138.94E,37.85N)
+      tag: Niigata_AERO
+      lat:  37.8460006714
+      lon:  138.942001343
+
+    co_gram028:
+      <<: *CO
+      header: Osaka_AERO (135.50E,34.70N)
+      tag: Osaka_AERO
+      lat:  34.7
+      lon:  135.5
+
+    co_gram029:
+      <<: *CO
+      header: Pioneer_JC_AERO (103.75E,1.38N)
+      tag: Pioneer_JC_AERO
+      lat:  1.38433301449
+      lon:  103.754524231
+
+    co_gram030:
+      <<: *CO
+      header: Pokhara_AERO (83.98E,28.19N)
+      tag: Pokhara_AERO
+      lat:  28.1866436005
+      lon:  83.9751815796
+
+    co_gram031:
+      <<: *CO
+      header: SEDE_BOKER_AERO (34.78E,30.85N)
+      tag: SEDE_BOKER_AERO
+      lat:  30.8549995422
+      lon:  34.7822227478
+
+    co_gram032:
+      <<: *CO
+      header: Seoul_SNU_AERO (126.95E,37.46N)
+      tag: Seoul_SNU_AERO
+      lat:  37.4580574036
+      lon:  126.95111084
+
+    co_gram033:
+      <<: *CO
+      header: Shagaya_Park_AERO (47.06E,29.21N)
+      tag: Shagaya_Park_AERO
+      lat:  29.209072113
+      lon:  47.0605278015
+
+    co_gram034:
+      <<: *CO
+      header: Singapore_AERO (103.78E,1.30N)
+      tag: Singapore_AERO
+      lat:  1.29766702652
+      lon:  103.780380249
+
+    co_gram035:
+      <<: *CO
+      header: Songkhla_Met_Sta_AERO (100.60E,7.18N)
+      tag: Songkhla_Met_Sta_AERO
+      lat:  7.18438720703
+      lon:  100.60458374
+
+    co_gram036:
+      <<: *CO
+      header: Taihu_AERO (120.22E,31.42N)
+      tag: Taihu_AERO
+      lat:  31.420999527
+      lon:  120.215332031
+
+    co_gram037:
+      <<: *CO
+      header: Technion_Haifa_IL_AERO (35.02E,32.78N)
+      tag: Technion_Haifa_IL_AERO
+      lat:  32.7758712769
+      lon:  35.0248985291
+
+    co_gram038:
+      <<: *CO
+      header: Timisoara_AERO (21.23E,45.75N)
+      tag: Timisoara_AERO
+      lat:  45.7462615967
+      lon:  21.2273597717
+
+    co_gram039:
+      <<: *CO
+      header: Ubon_Ratchathani_AERO (104.87E,15.25N)
+      tag: Ubon_Ratchathani_AERO
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    co_gram040:
+      <<: *CO
+      header: Weizmann_Institute_AERO (34.81E,31.91N)
+      tag: Weizmann_Institute_AERO
+      lat:  31.9072341919
+      lon:  34.8105316162
+
+    co_gram041:
+      <<: *CO
+      header: XiangHe_AERO (116.96E,39.75N)
+      tag: XiangHe_AERO
+      lat:  39.7536010742
+      lon:  116.961502075
+
+    co_gram042:
+      <<: *CO
+      header: XuZhou-CUMT_AERO (117.14E,34.22N)
+      tag: XuZhou-CUMT_AERO
+      lat:  34.21667099
+      lon:  117.141670227
+
+    co_gram043:
+      <<: *CO
+      header: Yonsei_University_AERO (126.93E,37.56N)
+      tag: Yonsei_University_AERO
+      lat:  37.5644302368
+      lon:  126.934791565
+
+    co_gram044:
+      <<: *CO
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      lat:  13.75
+      lon:  100.52
+
+    co_gram045:
+      <<: *CO
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    co_gram046:
+      <<: *CO
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    co_gram047:
+      <<: *CO
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    co_gram048:
+      <<: *CO
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    co_gram049:
+      <<: *CO
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    co_gram050:
+      <<: *CO
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    co_gram051:
+      <<: *CO
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    co_gram052:
+      <<: *CO
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    co_gram053:
+      <<: *CO
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    co_gram054:
+      <<: *CO
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    co_gram055:
+      <<: *CO
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    co_gram056:
+      <<: *CO
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    co_gram057:
+      <<: *CO
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    co_gram058:
+      <<: *CO
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    no2_gram000: &NO2
+      long_name: 'no2'
+      header: AgiaMarina_Xyliatou_AERO (33.06E,35.04N)
+      tag: AgiaMarina_Xyliatou_AERO
+      xlabel: ''
+      levels: [0]
+      layers: [no2]
+      title: 'NO2'
+      parea:  1 10 1 7.5
+      lev:  1000 100
+      lat:  35.0379981995
+      lon:  33.0577011108
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    no2_gram001:
+      <<: *NO2
+      header: Amity_Univ_Gurgaon_AERO (76.92E,28.32N)
+      tag: Amity_Univ_Gurgaon_AERO
+      lat:  28.3173294067
+      lon:  76.9160308838
+
+    no2_gram002:
+      <<: *NO2
+      header: Bac_Lieu_AERO (105.73E,9.28N)
+      tag: Bac_Lieu_AERO
+      lat:  9.27999973297
+      lon:  105.730003357
+
+    no2_gram003:
+      <<: *NO2
+      header: Beijing_PKU_AERO (116.31E,39.99N)
+      tag: Beijing_PKU_AERO
+      lat:  39.9920005798
+      lon:  116.310203552
+
+    no2_gram004:
+      <<: *NO2
+      header: Beijing_RADI_AERO (116.38E,40.00N)
+      tag: Beijing_RADI_AERO
+      lat:  40.0047988892
+      lon:  116.378601074
+
+    no2_gram005:
+      <<: *NO2
+      header: Cape_Fuguei_Station_AERO (121.54E,25.30N)
+      tag: Cape_Fuguei_Station_AERO
+      lat:  25.2974529266
+      lon:  121.537857056
+
+    no2_gram006:
+      <<: *NO2
+      header: Chen-Kung_Univ_AERO (120.20E,22.99N)
+      tag: Chen-Kung_Univ_AERO
+      lat:  22.9934196472
+      lon:  120.204666138
+
+    no2_gram007:
+      <<: *NO2
+      header: Chiang_Mai_Met_Sta_AERO (98.97E,18.77N)
+      tag: Chiang_Mai_Met_Sta_AERO
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    no2_gram008:
+      <<: *NO2
+      header: Chiayi_AERO (120.50E,23.50N)
+      tag: Chiayi_AERO
+      lat:  23.4959754944
+      lon:  120.49597168
+
+    no2_gram009:
+      <<: *NO2
+      header: Chiba_University_AERO (140.10E,35.62N)
+      tag: Chiba_University_AERO
+      lat:  35.6246986389
+      lon:  140.103805542
+
+    no2_gram010:
+      <<: *NO2
+      header: CUT-TEPAK_AERO (33.04E,34.67N)
+      tag: CUT-TEPAK_AERO
+      lat:  34.6748046875
+      lon:  33.0427513123
+
+    no2_gram011:
+      <<: *NO2
+      header: Dalanzadgad_AERO (104.42E,43.58N)
+      tag: Dalanzadgad_AERO
+      lat:  43.5772209167
+      lon:  104.419166565
+
+    no2_gram012:
+      <<: *NO2
+      header: Douliu_AERO (120.54E,23.71N)
+      tag: Douliu_AERO
+      lat:  23.7117004395
+      lon:  120.544799805
+
+    no2_gram013:
+      <<: *NO2
+      header: Dushanbe_AERO (68.86E,38.55N)
+      tag: Dushanbe_AERO
+      lat:  38.5532646179
+      lon:  68.8579101562
+
+    no2_gram014:
+      <<: *NO2
+      header: Gangneung_WNU_AERO (128.87E,37.77N)
+      tag: Gangneung_WNU_AERO
+      lat:  37.7709999084
+      lon:  128.867004395
+
+    no2_gram015:
+      <<: *NO2
+      header: Gwangju_GIST_AERO (126.84E,35.23N)
+      tag: Gwangju_GIST_AERO
+      lat:  35.2282791138
+      lon:  126.843139648
+
+    no2_gram016:
+      <<: *NO2
+      header: Hankuk_UFS_AERO (127.27E,37.34N)
+      tag: Hankuk_UFS_AERO
+      lat:  37.3388290405
+      lon:  127.265823364
+
+    no2_gram017:
+      <<: *NO2
+      header: Hokkaido_University_AERO (141.34E,43.08N)
+      tag: Hokkaido_University_AERO
+      lat:  43.0755004883
+      lon:  141.340698242
+
+    no2_gram018:
+      <<: *NO2
+      header: Ilorin_AERO (4.67E,8.48N)
+      tag: Ilorin_AERO
+      lat:  8.4841003418
+      lon:  4.67449998856
+
+    no2_gram019:
+      <<: *NO2
+      header: Kanpur_AERO (80.30E,26.50N)
+      tag: Kanpur_AERO
+      lat:  26.5
+      lon:  80.3
+
+    no2_gram020:
+      <<: *NO2
+      header: Karachi_AERO (67.00E,24.90N)
+      tag: Karachi_AERO
+      lat:  24.9
+      lon:  67.0
+
+    no2_gram021:
+      <<: *NO2
+      header: Kuwait_University_AERO (47.97E,29.33N)
+      tag: Kuwait_University_AERO
+      lat:  29.3250007629
+      lon:  47.9710006714
+
+    no2_gram022:
+      <<: *NO2
+      header: Lulin_AERO (120.87E,23.47N)
+      tag: Lulin_AERO
+      lat:  23.4686107635
+      lon:  120.87361145
+
+    no2_gram023:
+      <<: *NO2
+      header: Manila_Observatory_AERO (121.08E,14.64N)
+      tag: Manila_Observatory_AERO
+      lat:  14.6352500916
+      lon:  121.077842712
+
+    no2_gram024:
+      <<: *NO2
+      header: Masdar_Institute_AERO (54.62E,24.44N)
+      tag: Masdar_Institute_AERO
+      lat:  24.4416007996
+      lon:  54.6166000366
+
+    no2_gram025:
+      <<: *NO2
+      header: MCO-Hanimaadhoo_AERO (73.18E,6.78N)
+      tag: MCO-Hanimaadhoo_AERO
+      lat:  6.77635002136
+      lon:  73.1831817627
+
+    no2_gram026:
+      <<: *NO2
+      header: NhaTrang_AERO (109.21E,12.20N)
+      tag: NhaTrang_AERO
+      lat:  12.2047224045
+      lon:  109.205558777
+
+    no2_gram027:
+      <<: *NO2
+      header: Niigata_AERO (138.94E,37.85N)
+      tag: Niigata_AERO
+      lat:  37.8460006714
+      lon:  138.942001343
+
+    no2_gram028:
+      <<: *NO2
+      header: Osaka_AERO (135.50E,34.70N)
+      tag: Osaka_AERO
+      lat:  34.7
+      lon:  135.5
+
+    no2_gram029:
+      <<: *NO2
+      header: Pioneer_JC_AERO (103.75E,1.38N)
+      tag: Pioneer_JC_AERO
+      lat:  1.38433301449
+      lon:  103.754524231
+
+    no2_gram030:
+      <<: *NO2
+      header: Pokhara_AERO (83.98E,28.19N)
+      tag: Pokhara_AERO
+      lat:  28.1866436005
+      lon:  83.9751815796
+
+    no2_gram031:
+      <<: *NO2
+      header: SEDE_BOKER_AERO (34.78E,30.85N)
+      tag: SEDE_BOKER_AERO
+      lat:  30.8549995422
+      lon:  34.7822227478
+
+    no2_gram032:
+      <<: *NO2
+      header: Seoul_SNU_AERO (126.95E,37.46N)
+      tag: Seoul_SNU_AERO
+      lat:  37.4580574036
+      lon:  126.95111084
+
+    no2_gram033:
+      <<: *NO2
+      header: Shagaya_Park_AERO (47.06E,29.21N)
+      tag: Shagaya_Park_AERO
+      lat:  29.209072113
+      lon:  47.0605278015
+
+    no2_gram034:
+      <<: *NO2
+      header: Singapore_AERO (103.78E,1.30N)
+      tag: Singapore_AERO
+      lat:  1.29766702652
+      lon:  103.780380249
+
+    no2_gram035:
+      <<: *NO2
+      header: Songkhla_Met_Sta_AERO (100.60E,7.18N)
+      tag: Songkhla_Met_Sta_AERO
+      lat:  7.18438720703
+      lon:  100.60458374
+
+    no2_gram036:
+      <<: *NO2
+      header: Taihu_AERO (120.22E,31.42N)
+      tag: Taihu_AERO
+      lat:  31.420999527
+      lon:  120.215332031
+
+    no2_gram037:
+      <<: *NO2
+      header: Technion_Haifa_IL_AERO (35.02E,32.78N)
+      tag: Technion_Haifa_IL_AERO
+      lat:  32.7758712769
+      lon:  35.0248985291
+
+    no2_gram038:
+      <<: *NO2
+      header: Timisoara_AERO (21.23E,45.75N)
+      tag: Timisoara_AERO
+      lat:  45.7462615967
+      lon:  21.2273597717
+
+    no2_gram039:
+      <<: *NO2
+      header: Ubon_Ratchathani_AERO (104.87E,15.25N)
+      tag: Ubon_Ratchathani_AERO
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    no2_gram040:
+      <<: *NO2
+      header: Weizmann_Institute_AERO (34.81E,31.91N)
+      tag: Weizmann_Institute_AERO
+      lat:  31.9072341919
+      lon:  34.8105316162
+
+    no2_gram041:
+      <<: *NO2
+      header: XiangHe_AERO (116.96E,39.75N)
+      tag: XiangHe_AERO
+      lat:  39.7536010742
+      lon:  116.961502075
+
+    no2_gram042:
+      <<: *NO2
+      header: XuZhou-CUMT_AERO (117.14E,34.22N)
+      tag: XuZhou-CUMT_AERO
+      lat:  34.21667099
+      lon:  117.141670227
+
+    no2_gram043:
+      <<: *NO2
+      header: Yonsei_University_AERO (126.93E,37.56N)
+      tag: Yonsei_University_AERO
+      lat:  37.5644302368
+      lon:  126.934791565
+
+    no2_gram044:
+      <<: *NO2
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      lat:  13.75
+      lon:  100.52
+
+    no2_gram045:
+      <<: *NO2
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    no2_gram046:
+      <<: *NO2
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    no2_gram047:
+      <<: *NO2
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    no2_gram048:
+      <<: *NO2
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    no2_gram049:
+      <<: *NO2
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    no2_gram050:
+      <<: *NO2
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    no2_gram051:
+      <<: *NO2
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    no2_gram052:
+      <<: *NO2
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    no2_gram053:
+      <<: *NO2
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    no2_gram054:
+      <<: *NO2
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    no2_gram055:
+      <<: *NO2
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    no2_gram056:
+      <<: *NO2
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    no2_gram057:
+      <<: *NO2
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    no2_gram058:
+      <<: *NO2
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    o3_gram000: &O3
+      long_name: 'o3'
+      header: AgiaMarina_Xyliatou_AERO (33.06E,35.04N)
+      tag: AgiaMarina_Xyliatou_AERO
+      xlabel: ''
+      levels: [0]
+      layers: [o3]
+      title: 'O3'
+      parea:  1 10 1 7.5
+      lev:  1000 100
+      lat:  35.0379981995
+      lon:  33.0577011108
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    o3_gram001:
+      <<: *O3
+      header: Amity_Univ_Gurgaon_AERO (76.92E,28.32N)
+      tag: Amity_Univ_Gurgaon_AERO
+      lat:  28.3173294067
+      lon:  76.9160308838
+
+    o3_gram002:
+      <<: *O3
+      header: Bac_Lieu_AERO (105.73E,9.28N)
+      tag: Bac_Lieu_AERO
+      lat:  9.27999973297
+      lon:  105.730003357
+
+    o3_gram003:
+      <<: *O3
+      header: Beijing_PKU_AERO (116.31E,39.99N)
+      tag: Beijing_PKU_AERO
+      lat:  39.9920005798
+      lon:  116.310203552
+
+    o3_gram004:
+      <<: *O3
+      header: Beijing_RADI_AERO (116.38E,40.00N)
+      tag: Beijing_RADI_AERO
+      lat:  40.0047988892
+      lon:  116.378601074
+
+    o3_gram005:
+      <<: *O3
+      header: Cape_Fuguei_Station_AERO (121.54E,25.30N)
+      tag: Cape_Fuguei_Station_AERO
+      lat:  25.2974529266
+      lon:  121.537857056
+
+    o3_gram006:
+      <<: *O3
+      header: Chen-Kung_Univ_AERO (120.20E,22.99N)
+      tag: Chen-Kung_Univ_AERO
+      lat:  22.9934196472
+      lon:  120.204666138
+
+    o3_gram007:
+      <<: *O3
+      header: Chiang_Mai_Met_Sta_AERO (98.97E,18.77N)
+      tag: Chiang_Mai_Met_Sta_AERO
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    o3_gram008:
+      <<: *O3
+      header: Chiayi_AERO (120.50E,23.50N)
+      tag: Chiayi_AERO
+      lat:  23.4959754944
+      lon:  120.49597168
+
+    o3_gram009:
+      <<: *O3
+      header: Chiba_University_AERO (140.10E,35.62N)
+      tag: Chiba_University_AERO
+      lat:  35.6246986389
+      lon:  140.103805542
+
+    o3_gram010:
+      <<: *O3
+      header: CUT-TEPAK_AERO (33.04E,34.67N)
+      tag: CUT-TEPAK_AERO
+      lat:  34.6748046875
+      lon:  33.0427513123
+
+    o3_gram011:
+      <<: *O3
+      header: Dalanzadgad_AERO (104.42E,43.58N)
+      tag: Dalanzadgad_AERO
+      lat:  43.5772209167
+      lon:  104.419166565
+
+    o3_gram012:
+      <<: *O3
+      header: Douliu_AERO (120.54E,23.71N)
+      tag: Douliu_AERO
+      lat:  23.7117004395
+      lon:  120.544799805
+
+    o3_gram013:
+      <<: *O3
+      header: Dushanbe_AERO (68.86E,38.55N)
+      tag: Dushanbe_AERO
+      lat:  38.5532646179
+      lon:  68.8579101562
+
+    o3_gram014:
+      <<: *O3
+      header: Gangneung_WNU_AERO (128.87E,37.77N)
+      tag: Gangneung_WNU_AERO
+      lat:  37.7709999084
+      lon:  128.867004395
+
+    o3_gram015:
+      <<: *O3
+      header: Gwangju_GIST_AERO (126.84E,35.23N)
+      tag: Gwangju_GIST_AERO
+      lat:  35.2282791138
+      lon:  126.843139648
+
+    o3_gram016:
+      <<: *O3
+      header: Hankuk_UFS_AERO (127.27E,37.34N)
+      tag: Hankuk_UFS_AERO
+      lat:  37.3388290405
+      lon:  127.265823364
+
+    o3_gram017:
+      <<: *O3
+      header: Hokkaido_University_AERO (141.34E,43.08N)
+      tag: Hokkaido_University_AERO
+      lat:  43.0755004883
+      lon:  141.340698242
+
+    o3_gram018:
+      <<: *O3
+      header: Ilorin_AERO (4.67E,8.48N)
+      tag: Ilorin_AERO
+      lat:  8.4841003418
+      lon:  4.67449998856
+
+    o3_gram019:
+      <<: *O3
+      header: Kanpur_AERO (80.30E,26.50N)
+      tag: Kanpur_AERO
+      lat:  26.5
+      lon:  80.3
+
+    o3_gram020:
+      <<: *O3
+      header: Karachi_AERO (67.00E,24.90N)
+      tag: Karachi_AERO
+      lat:  24.9
+      lon:  67.0
+
+    o3_gram021:
+      <<: *O3
+      header: Kuwait_University_AERO (47.97E,29.33N)
+      tag: Kuwait_University_AERO
+      lat:  29.3250007629
+      lon:  47.9710006714
+
+    o3_gram022:
+      <<: *O3
+      header: Lulin_AERO (120.87E,23.47N)
+      tag: Lulin_AERO
+      lat:  23.4686107635
+      lon:  120.87361145
+
+    o3_gram023:
+      <<: *O3
+      header: Manila_Observatory_AERO (121.08E,14.64N)
+      tag: Manila_Observatory_AERO
+      lat:  14.6352500916
+      lon:  121.077842712
+
+    o3_gram024:
+      <<: *O3
+      header: Masdar_Institute_AERO (54.62E,24.44N)
+      tag: Masdar_Institute_AERO
+      lat:  24.4416007996
+      lon:  54.6166000366
+
+    o3_gram025:
+      <<: *O3
+      header: MCO-Hanimaadhoo_AERO (73.18E,6.78N)
+      tag: MCO-Hanimaadhoo_AERO
+      lat:  6.77635002136
+      lon:  73.1831817627
+
+    o3_gram026:
+      <<: *O3
+      header: NhaTrang_AERO (109.21E,12.20N)
+      tag: NhaTrang_AERO
+      lat:  12.2047224045
+      lon:  109.205558777
+
+    o3_gram027:
+      <<: *O3
+      header: Niigata_AERO (138.94E,37.85N)
+      tag: Niigata_AERO
+      lat:  37.8460006714
+      lon:  138.942001343
+
+    o3_gram028:
+      <<: *O3
+      header: Osaka_AERO (135.50E,34.70N)
+      tag: Osaka_AERO
+      lat:  34.7
+      lon:  135.5
+
+    o3_gram029:
+      <<: *O3
+      header: Pioneer_JC_AERO (103.75E,1.38N)
+      tag: Pioneer_JC_AERO
+      lat:  1.38433301449
+      lon:  103.754524231
+
+    o3_gram030:
+      <<: *O3
+      header: Pokhara_AERO (83.98E,28.19N)
+      tag: Pokhara_AERO
+      lat:  28.1866436005
+      lon:  83.9751815796
+
+    o3_gram031:
+      <<: *O3
+      header: SEDE_BOKER_AERO (34.78E,30.85N)
+      tag: SEDE_BOKER_AERO
+      lat:  30.8549995422
+      lon:  34.7822227478
+
+    o3_gram032:
+      <<: *O3
+      header: Seoul_SNU_AERO (126.95E,37.46N)
+      tag: Seoul_SNU_AERO
+      lat:  37.4580574036
+      lon:  126.95111084
+
+    o3_gram033:
+      <<: *O3
+      header: Shagaya_Park_AERO (47.06E,29.21N)
+      tag: Shagaya_Park_AERO
+      lat:  29.209072113
+      lon:  47.0605278015
+
+    o3_gram034:
+      <<: *O3
+      header: Singapore_AERO (103.78E,1.30N)
+      tag: Singapore_AERO
+      lat:  1.29766702652
+      lon:  103.780380249
+
+    o3_gram035:
+      <<: *O3
+      header: Songkhla_Met_Sta_AERO (100.60E,7.18N)
+      tag: Songkhla_Met_Sta_AERO
+      lat:  7.18438720703
+      lon:  100.60458374
+
+    o3_gram036:
+      <<: *O3
+      header: Taihu_AERO (120.22E,31.42N)
+      tag: Taihu_AERO
+      lat:  31.420999527
+      lon:  120.215332031
+
+    o3_gram037:
+      <<: *O3
+      header: Technion_Haifa_IL_AERO (35.02E,32.78N)
+      tag: Technion_Haifa_IL_AERO
+      lat:  32.7758712769
+      lon:  35.0248985291
+
+    o3_gram038:
+      <<: *O3
+      header: Timisoara_AERO (21.23E,45.75N)
+      tag: Timisoara_AERO
+      lat:  45.7462615967
+      lon:  21.2273597717
+
+    o3_gram039:
+      <<: *O3
+      header: Ubon_Ratchathani_AERO (104.87E,15.25N)
+      tag: Ubon_Ratchathani_AERO
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    o3_gram040:
+      <<: *O3
+      header: Weizmann_Institute_AERO (34.81E,31.91N)
+      tag: Weizmann_Institute_AERO
+      lat:  31.9072341919
+      lon:  34.8105316162
+
+    o3_gram041:
+      <<: *O3
+      header: XiangHe_AERO (116.96E,39.75N)
+      tag: XiangHe_AERO
+      lat:  39.7536010742
+      lon:  116.961502075
+
+    o3_gram042:
+      <<: *O3
+      header: XuZhou-CUMT_AERO (117.14E,34.22N)
+      tag: XuZhou-CUMT_AERO
+      lat:  34.21667099
+      lon:  117.141670227
+
+    o3_gram043:
+      <<: *O3
+      header: Yonsei_University_AERO (126.93E,37.56N)
+      tag: Yonsei_University_AERO
+      lat:  37.5644302368
+      lon:  126.934791565
+
+    o3_gram044:
+      <<: *O3
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      lat:  13.75
+      lon:  100.52
+
+    o3_gram045:
+      <<: *O3
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    o3_gram046:
+      <<: *O3
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    o3_gram047:
+      <<: *O3
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    o3_gram048:
+      <<: *O3
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    o3_gram049:
+      <<: *O3
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    o3_gram050:
+      <<: *O3
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    o3_gram051:
+      <<: *O3
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    o3_gram052:
+      <<: *O3
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    o3_gram053:
+      <<: *O3
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    o3_gram054:
+      <<: *O3
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    o3_gram055:
+      <<: *O3
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    o3_gram056:
+      <<: *O3
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    o3_gram057:
+      <<: *O3
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    o3_gram058:
+      <<: *O3
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+
+    so2_gram000: &SO2
+      long_name: 'so2'
+      header: AgiaMarina_Xyliatou_AERO (33.06E,35.04N)
+      tag: AgiaMarina_Xyliatou_AERO
+      xlabel: ''
+      levels: [0]
+      layers: [so2]
+      title: 'SO2'
+      parea:  1 10 1 7.5
+      lev:  1000 100
+      lat:  35.0379981995
+      lon:  33.0577011108
+      time: '$tbeg $t5day'
+      ylab: 'Pressure (mb)'
+      shape: 'off'
+
+    so2_gram001:
+      <<: *SO2
+      header: Amity_Univ_Gurgaon_AERO (76.92E,28.32N)
+      tag: Amity_Univ_Gurgaon_AERO
+      lat:  28.3173294067
+      lon:  76.9160308838
+
+    so2_gram002:
+      <<: *SO2
+      header: Bac_Lieu_AERO (105.73E,9.28N)
+      tag: Bac_Lieu_AERO
+      lat:  9.27999973297
+      lon:  105.730003357
+
+    so2_gram003:
+      <<: *SO2
+      header: Beijing_PKU_AERO (116.31E,39.99N)
+      tag: Beijing_PKU_AERO
+      lat:  39.9920005798
+      lon:  116.310203552
+
+    so2_gram004:
+      <<: *SO2
+      header: Beijing_RADI_AERO (116.38E,40.00N)
+      tag: Beijing_RADI_AERO
+      lat:  40.0047988892
+      lon:  116.378601074
+
+    so2_gram005:
+      <<: *SO2
+      header: Cape_Fuguei_Station_AERO (121.54E,25.30N)
+      tag: Cape_Fuguei_Station_AERO
+      lat:  25.2974529266
+      lon:  121.537857056
+
+    so2_gram006:
+      <<: *SO2
+      header: Chen-Kung_Univ_AERO (120.20E,22.99N)
+      tag: Chen-Kung_Univ_AERO
+      lat:  22.9934196472
+      lon:  120.204666138
+
+    so2_gram007:
+      <<: *SO2
+      header: Chiang_Mai_Met_Sta_AERO (98.97E,18.77N)
+      tag: Chiang_Mai_Met_Sta_AERO
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    so2_gram008:
+      <<: *SO2
+      header: Chiayi_AERO (120.50E,23.50N)
+      tag: Chiayi_AERO
+      lat:  23.4959754944
+      lon:  120.49597168
+
+    so2_gram009:
+      <<: *SO2
+      header: Chiba_University_AERO (140.10E,35.62N)
+      tag: Chiba_University_AERO
+      lat:  35.6246986389
+      lon:  140.103805542
+
+    so2_gram010:
+      <<: *SO2
+      header: CUT-TEPAK_AERO (33.04E,34.67N)
+      tag: CUT-TEPAK_AERO
+      lat:  34.6748046875
+      lon:  33.0427513123
+
+    so2_gram011:
+      <<: *SO2
+      header: Dalanzadgad_AERO (104.42E,43.58N)
+      tag: Dalanzadgad_AERO
+      lat:  43.5772209167
+      lon:  104.419166565
+
+    so2_gram012:
+      <<: *SO2
+      header: Douliu_AERO (120.54E,23.71N)
+      tag: Douliu_AERO
+      lat:  23.7117004395
+      lon:  120.544799805
+
+    so2_gram013:
+      <<: *SO2
+      header: Dushanbe_AERO (68.86E,38.55N)
+      tag: Dushanbe_AERO
+      lat:  38.5532646179
+      lon:  68.8579101562
+
+    so2_gram014:
+      <<: *SO2
+      header: Gangneung_WNU_AERO (128.87E,37.77N)
+      tag: Gangneung_WNU_AERO
+      lat:  37.7709999084
+      lon:  128.867004395
+
+    so2_gram015:
+      <<: *SO2
+      header: Gwangju_GIST_AERO (126.84E,35.23N)
+      tag: Gwangju_GIST_AERO
+      lat:  35.2282791138
+      lon:  126.843139648
+
+    so2_gram016:
+      <<: *SO2
+      header: Hankuk_UFS_AERO (127.27E,37.34N)
+      tag: Hankuk_UFS_AERO
+      lat:  37.3388290405
+      lon:  127.265823364
+
+    so2_gram017:
+      <<: *SO2
+      header: Hokkaido_University_AERO (141.34E,43.08N)
+      tag: Hokkaido_University_AERO
+      lat:  43.0755004883
+      lon:  141.340698242
+
+    so2_gram018:
+      <<: *SO2
+      header: Ilorin_AERO (4.67E,8.48N)
+      tag: Ilorin_AERO
+      lat:  8.4841003418
+      lon:  4.67449998856
+
+    so2_gram019:
+      <<: *SO2
+      header: Kanpur_AERO (80.30E,26.50N)
+      tag: Kanpur_AERO
+      lat:  26.5
+      lon:  80.3
+
+    so2_gram020:
+      <<: *SO2
+      header: Karachi_AERO (67.00E,24.90N)
+      tag: Karachi_AERO
+      lat:  24.9
+      lon:  67.0
+
+    so2_gram021:
+      <<: *SO2
+      header: Kuwait_University_AERO (47.97E,29.33N)
+      tag: Kuwait_University_AERO
+      lat:  29.3250007629
+      lon:  47.9710006714
+
+    so2_gram022:
+      <<: *SO2
+      header: Lulin_AERO (120.87E,23.47N)
+      tag: Lulin_AERO
+      lat:  23.4686107635
+      lon:  120.87361145
+
+    so2_gram023:
+      <<: *SO2
+      header: Manila_Observatory_AERO (121.08E,14.64N)
+      tag: Manila_Observatory_AERO
+      lat:  14.6352500916
+      lon:  121.077842712
+
+    so2_gram024:
+      <<: *SO2
+      header: Masdar_Institute_AERO (54.62E,24.44N)
+      tag: Masdar_Institute_AERO
+      lat:  24.4416007996
+      lon:  54.6166000366
+
+    so2_gram025:
+      <<: *SO2
+      header: MCO-Hanimaadhoo_AERO (73.18E,6.78N)
+      tag: MCO-Hanimaadhoo_AERO
+      lat:  6.77635002136
+      lon:  73.1831817627
+
+    so2_gram026:
+      <<: *SO2
+      header: NhaTrang_AERO (109.21E,12.20N)
+      tag: NhaTrang_AERO
+      lat:  12.2047224045
+      lon:  109.205558777
+
+    so2_gram027:
+      <<: *SO2
+      header: Niigata_AERO (138.94E,37.85N)
+      tag: Niigata_AERO
+      lat:  37.8460006714
+      lon:  138.942001343
+
+    so2_gram028:
+      <<: *SO2
+      header: Osaka_AERO (135.50E,34.70N)
+      tag: Osaka_AERO
+      lat:  34.7
+      lon:  135.5
+
+    so2_gram029:
+      <<: *SO2
+      header: Pioneer_JC_AERO (103.75E,1.38N)
+      tag: Pioneer_JC_AERO
+      lat:  1.38433301449
+      lon:  103.754524231
+
+    so2_gram030:
+      <<: *SO2
+      header: Pokhara_AERO (83.98E,28.19N)
+      tag: Pokhara_AERO
+      lat:  28.1866436005
+      lon:  83.9751815796
+
+    so2_gram031:
+      <<: *SO2
+      header: SEDE_BOKER_AERO (34.78E,30.85N)
+      tag: SEDE_BOKER_AERO
+      lat:  30.8549995422
+      lon:  34.7822227478
+
+    so2_gram032:
+      <<: *SO2
+      header: Seoul_SNU_AERO (126.95E,37.46N)
+      tag: Seoul_SNU_AERO
+      lat:  37.4580574036
+      lon:  126.95111084
+
+    so2_gram033:
+      <<: *SO2
+      header: Shagaya_Park_AERO (47.06E,29.21N)
+      tag: Shagaya_Park_AERO
+      lat:  29.209072113
+      lon:  47.0605278015
+
+    so2_gram034:
+      <<: *SO2
+      header: Singapore_AERO (103.78E,1.30N)
+      tag: Singapore_AERO
+      lat:  1.29766702652
+      lon:  103.780380249
+
+    so2_gram035:
+      <<: *SO2
+      header: Songkhla_Met_Sta_AERO (100.60E,7.18N)
+      tag: Songkhla_Met_Sta_AERO
+      lat:  7.18438720703
+      lon:  100.60458374
+
+    so2_gram036:
+      <<: *SO2
+      header: Taihu_AERO (120.22E,31.42N)
+      tag: Taihu_AERO
+      lat:  31.420999527
+      lon:  120.215332031
+
+    so2_gram037:
+      <<: *SO2
+      header: Technion_Haifa_IL_AERO (35.02E,32.78N)
+      tag: Technion_Haifa_IL_AERO
+      lat:  32.7758712769
+      lon:  35.0248985291
+
+    so2_gram038:
+      <<: *SO2
+      header: Timisoara_AERO (21.23E,45.75N)
+      tag: Timisoara_AERO
+      lat:  45.7462615967
+      lon:  21.2273597717
+
+    so2_gram039:
+      <<: *SO2
+      header: Ubon_Ratchathani_AERO (104.87E,15.25N)
+      tag: Ubon_Ratchathani_AERO
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    so2_gram040:
+      <<: *SO2
+      header: Weizmann_Institute_AERO (34.81E,31.91N)
+      tag: Weizmann_Institute_AERO
+      lat:  31.9072341919
+      lon:  34.8105316162
+
+    so2_gram041:
+      <<: *SO2
+      header: XiangHe_AERO (116.96E,39.75N)
+      tag: XiangHe_AERO
+      lat:  39.7536010742
+      lon:  116.961502075
+
+    so2_gram042:
+      <<: *SO2
+      header: XuZhou-CUMT_AERO (117.14E,34.22N)
+      tag: XuZhou-CUMT_AERO
+      lat:  34.21667099
+      lon:  117.141670227
+
+    so2_gram043:
+      <<: *SO2
+      header: Yonsei_University_AERO (126.93E,37.56N)
+      tag: Yonsei_University_AERO
+      lat:  37.5644302368
+      lon:  126.934791565
+
+    so2_gram044:
+      <<: *SO2
+      header: AERONET Bangkok (100.52E,13.75N)
+      tag: AERONET Bangkok
+      lat:  13.75
+      lon:  100.52
+
+    so2_gram045:
+      <<: *SO2
+      header: AERONET Chachoengsao (101.45E,13.50N)
+      tag: AERONET Chachoengsao
+      lat:  13.5
+      lon:  101.45
+
+    so2_gram046:
+      <<: *SO2
+      header: AERONET Chiang Mai Met Station (98.97E,18.77N)
+      tag: AERONET Chiang Mai Met Station
+      lat:  18.7711257935
+      lon:  98.9724655151
+
+    so2_gram047:
+      <<: *SO2
+      header: AERONET Nong Khai (102.72E,17.88N)
+      tag: AERONET Nong Khai
+      lat:  17.88
+      lon:  102.72
+
+    so2_gram048:
+      <<: *SO2
+      header: AERONET Silpakorn Univ (100.04E,13.82N)
+      tag: AERONET Silpakorn Univ
+      lat:  13.82
+      lon:  100.04
+
+    so2_gram049:
+      <<: *SO2
+      header: AERONET Ubon Ratchathani (104.87E,15.25N)
+      tag: AERONET Ubon Ratchathani
+      lat:  15.2455177307
+      lon:  104.871009827
+
+    so2_gram050:
+      <<: *SO2
+      header: Chiang Mai (98.96E,18.77N)
+      tag: Chiang Mai
+      lat:  18.77
+      lon:  98.96
+
+    so2_gram051:
+      <<: *SO2
+      header: Don Mueang (100.61E,13.91N)
+      tag: Don Mueang
+      lat:  13.91
+      lon:  100.61
+
+    so2_gram052:
+      <<: *SO2
+      header: MPL Net (101.04E,13.82N)
+      tag: MPL Net
+      lat:  13.82
+      lon:  101.04
+
+    so2_gram053:
+      <<: *SO2
+      header: PCD Pandora (100.54E,13.78N)
+      tag: PCD Pandora
+      lat:  13.78
+      lon:  100.54
+
+    so2_gram054:
+      <<: *SO2
+      header: Phitsanulok (100.28E,16.78N)
+      tag: Phitsanulok
+      lat:  16.78
+      lon:  100.28
+
+    so2_gram055:
+      <<: *SO2
+      header: Phrae (100.16E,18.13N)
+      tag: Phrae
+      lat:  18.13
+      lon:  100.16
+
+    so2_gram056:
+      <<: *SO2
+      header: Sukhothai (99.82E,17.24N)
+      tag: Sukhothai
+      lat:  17.24
+      lon:  99.82
+
+    so2_gram057:
+      <<: *SO2
+      header: U-Tapao (101.01E,12.68N)
+      tag: U-Tapao
+      lat:  12.68
+      lon:  101.01
+
+    so2_gram058:
+      <<: *SO2
+      header: Wing Division 4 (100.30E,15.27N)
+      tag: Wing Division 4
+      lat:  15.27
+      lon:  100.3
+

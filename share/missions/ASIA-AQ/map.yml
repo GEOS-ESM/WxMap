@@ -1,0 +1,94 @@
+map:
+
+  default:
+    ocean_color:
+    lake_color:
+    land_color: 255 227 171
+    water_color: 255 255 255
+  # line_color: 139 69 19
+    line_color: 0 0 0
+    line_width: 1
+    line_style: 1
+    layers: [standard]
+
+  water: &WATER
+    expr: maskout(_lwmask, _lwmask-1)
+    cmin: 1
+    cmax: 1
+    cint: 1
+    cbar: water_color
+
+  land: &LAND
+    expr: maskout(_lwmask, -_lwmask)
+    cmin: 0
+    cmax: 0
+    cint: 1
+    cbar: land_color
+
+  water_mask:
+    <<: *WATER
+    zorder: -1
+
+  land_mask:
+    <<: *LAND
+    zorder: -1
+
+  quickmap:
+    layers: [water, land]
+
+  clearmap:
+    land_color: 0 0 0 0
+    water_color: 0 0 0 0
+    layers: [water, land]
+
+  g_coastlines:
+    zorder: 0
+    mtype: 0
+
+  g_political:
+    zorder: 0
+    mtype: 1
+
+  g_states:
+    zorder: 0
+    mtype: 2
+
+  standard:
+    layers: [coastlines, political, quickmap]
+
+  political:
+    layers: [ne_10m_admin_0_countries]
+
+  states:
+    layers: [ne_10m_admin_1_states_provinces]
+    
+  coastlines:
+    layers: [ne_10m_coastline, ne_10m_lakes]
+  
+  ne_10m_admin_0_countries:
+    shape_file: Natural_Earth/ne_10m_admin_0_countries
+    zorder: -1
+
+  ne_10m_admin_1_states_provinces:
+    shape_file: Natural_Earth/ne_10m_admin_1_states_provinces
+    zorder: -1
+    
+  ne_10m_coastline:
+    shape_file: Natural_Earth/ne_10m_coastline
+    zorder: -1
+    
+  ne_10m_lakes:
+    shape_file: Natural_Earth/ne_10m_lakes
+    zorder: -1
+    
+  us_states:
+    shape_file: US_States/US_State_Boundaries
+    zorder: -1
+
+  thailand_roads:
+    shape_file: Thailand/gis_osm_roads_free_1
+    zorder: -1
+
+  roads:
+    shape_file: Roads/ne_10m_roads
+    zorder: -1

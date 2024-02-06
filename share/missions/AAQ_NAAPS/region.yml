@@ -1,0 +1,85 @@
+cities: &CITIES
+  - 98.96 18.77 Chiang Mai https://fluid.nccs.nasa.gov/gram/total/18.77x98.96/
+  - 100.61 13.91 Don Mueang https://fluid.nccs.nasa.gov/gram/total/13.91x100.61/
+  - 101.04 13.82 MPL Net https://fluid.nccs.nasa.gov/gram/total/13.82x101.04/
+  - 100.54 13.78 PCD Pandora https://fluid.nccs.nasa.gov/gram/total/13.78x100.54/
+  - 100.28 16.78 Phitsanulok https://fluid.nccs.nasa.gov/gram/total/16.78x100.28/
+  - 100.16 18.13 Phrae https://fluid.nccs.nasa.gov/gram/total/18.13x100.16/
+  - 99.82 17.24 Sukhothai https://fluid.nccs.nasa.gov/gram/total/17.24x99.82/
+  - 101.01 12.68 U-Tapao https://fluid.nccs.nasa.gov/gram/total/12.68x101.01/
+  - 100.3 15.27 Wing Division 4 https://fluid.nccs.nasa.gov/gram/total/15.27x100.3/
+  - 120.54 14.68 Balanga City Hall https://fluid.nccs.nasa.gov/gram/total/14.68x120.54/
+  - 120.56 15.18 Clark https://fluid.nccs.nasa.gov/gram/total/15.18x120.56/
+  - 120.24 16.03 Lingayen https://fluid.nccs.nasa.gov/gram/total/16.03x120.24/
+  - 121.06 14.62 Manila Observatory https://fluid.nccs.nasa.gov/gram/total/14.62x121.06/
+  - 121.02 14.51 Ninoy Aquino https://fluid.nccs.nasa.gov/gram/total/14.51x121.02/
+  - 120.90 14.49 Sangley Point https://fluid.nccs.nasa.gov/gram/total/14.49x120.90/
+  - 120.28 14.82 Subic Bay Metropolitain Authority Bldg https://fluid.nccs.nasa.gov/gram/total/14.82x120.28/
+  - 101.61 3.13 CA0019 https://fluid.nccs.nasa.gov/gram/total/3.13x101.61/
+  - 103.74 1.49 CA0033 https://fluid.nccs.nasa.gov/gram/total/1.49x103.74/
+  - 102.37 3.95 CA0039 https://fluid.nccs.nasa.gov/gram/total/3.95x102.37/
+  - 103.3 3.82 CA0040 https://fluid.nccs.nasa.gov/gram/total/3.82x103.3/
+  - 103.12 5.31 CA0044 https://fluid.nccs.nasa.gov/gram/total/5.31x103.12/
+  - 102.25 6.15 CA0047 https://fluid.nccs.nasa.gov/gram/total/6.15x102.25/
+  - 101.55 3.13 Kuala Lampur https://fluid.nccs.nasa.gov/gram/total/3.13x101.55/
+  - 101.62 2.82 Pandora-Banting https://fluid.nccs.nasa.gov/gram/total/2.82x101.62/
+  - 100.27 5.29 Penang https://fluid.nccs.nasa.gov/gram/total/5.29x100.27/
+  - 127.46 36.63 Chungbuk University https://fluid.nccs.nasa.gov/gram/total/36.63x127.46/
+  - 126.79 37.56 Gimpo Intl Airport https://fluid.nccs.nasa.gov/gram/total/37.56x126.79/
+  - 126.64 37.57 Incheon https://fluid.nccs.nasa.gov/gram/total/37.57x126.64/
+  - 126.44 37.46 Incheon Intl Airport https://fluid.nccs.nasa.gov/gram/total/37.46x126.44/
+  - 127.44 36.85 Jincheon https://fluid.nccs.nasa.gov/gram/total/36.85x127.44/
+  - 127.03 37.59 Korea Univ https://fluid.nccs.nasa.gov/gram/total/37.59x127.03/
+  - 127.12 37.52 Olympic Park https://fluid.nccs.nasa.gov/gram/total/37.52x127.12/
+  - 127.03 37.09 Osan Air Base https://fluid.nccs.nasa.gov/gram/total/37.09x127.03/
+  - 127.11 37.45 Seoul Air Base https://fluid.nccs.nasa.gov/gram/total/37.45x127.11/
+  - 126.93 37.61 Seoul Supersite https://fluid.nccs.nasa.gov/gram/total/37.61x126.93/
+  - 127.01 37.24 Suwon Air Base https://fluid.nccs.nasa.gov/gram/total/37.24x127.01/
+  - 126.99 37.26 Suwon Station https://fluid.nccs.nasa.gov/gram/total/37.26x126.99/
+
+aeronet: &AERONET
+  - 100.52 13.75 AERONET Bangkok https://fluid.nccs.nasa.gov/gram/total/13.75x100.52/
+  - 101.45 13.5 AERONET Chachoengsao https://fluid.nccs.nasa.gov/gram/total/13.5x101.45/
+  - 98.9724655151 18.7711257935 AERONET Chiang Mai Met Station https://fluid.nccs.nasa.gov/gram/total/18.7711257935x98.9724655151/
+  - 102.72 17.88 AERONET Nong Khai https://fluid.nccs.nasa.gov/gram/total/17.88x102.72/
+  - 100.04 13.82 AERONET Silpakorn Univ https://fluid.nccs.nasa.gov/gram/total/13.82x100.04/
+  - 104.871009827 15.2455177307 AERONET Ubon Ratchathani https://fluid.nccs.nasa.gov/gram/total/15.2455177307x104.871009827/
+  - 100.3 5.36 Aeronet-USM https://fluid.nccs.nasa.gov/gram/total/5.36x100.3/
+  - 126.33 36.54 AERONET-Anmyon https://fluid.nccs.nasa.gov/gram/total/36.54x126.33/
+
+region:
+
+  asia-aq:
+
+    aeronet: *AERONET
+    cities: *CITIES
+
+  east-asia:
+
+    aeronet: *AERONET
+    cities: *CITIES
+
+  southeast-asia:
+
+    aeronet: *AERONET
+    cities: *CITIES
+
+  korea:
+
+    aeronet: *AERONET
+    cities: *CITIES
+
+  asia-mal:
+
+    aeronet: *AERONET
+    cities: *CITIES
+
+  asia-th:
+
+    aeronet: *AERONET
+    cities: *CITIES
+
+  asia-ppn:
+
+    aeronet: *AERONET
+    cities: *CITIES

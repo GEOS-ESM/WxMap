@@ -1,0 +1,6 @@
+reset: [region, playlist]
+
+config: [ASIA-AQ_met]
+
+default:
+  region: asia-aq
