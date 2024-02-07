@@ -197,272 +197,6 @@ field:
       units: ppbv
       expression: o3.chm_inst_1hr_g1440x721_p23*1e+9 
 
-    _emis_no:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) total emissions
-      units: kg m-2 s-1
-      expression: emis_no.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_bb:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) biomass emissions
-      units: kg m-2 s-1
-      expression: emis_no_bb.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_chn:
-      long_name: nitric oxide china anthropogenic emission mass flux
-      units: kg m-2 s-1
-      expression: emis_no_chn.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_ind:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) industry emissions
-      units: kg m-2 s-1
-      expression: emis_no_ind.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_kor:
-      long_name: nitric oxide south korea anthropogenic emission mass flux
-      units: kg m-2 s-1
-      expression: emis_no_kor.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_lght:
-      long_name: Nitrogen oxide (NO) MW = 30.0 gmol-1 lightning emissions
-      units: kg m-2 s-1
-      expression: emis_no_lght.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_mys:
-      long_name: nitric oxide malaysia anthropogenic emission mass flux
-      units: kg m-2 s-1
-      expression: emis_no_mys.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_phl:
-      long_name: nitric oxide philippines anthropogenic emission mass flux
-      units: kg m-2 s-1
-      expression: emis_no_phl.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_pow:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) power emissions
-      units: kg m-2 s-1
-      expression: emis_no_pow.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_res:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) residential emissions
-      units: kg m-2 s-1
-      expression: emis_no_res.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_ship:
-      long_name: nitric oxide ship emission mass flux
-      units: kg m-2 s-1
-      expression: emis_no_ship.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_soil:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) soil emissions
-      units: kg m-2 s-1
-      expression: emis_no_soil.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_tha:
-      long_name: nitric oxide thailand anthropogenic emission mass flux
-      units: kg m-2 s-1
-      expression: emis_no_tha.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_tra:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) transportation emissions
-      units: kg m-2 s-1
-      expression: emis_no_tra.aaq_inst_1hr_r461x361_x1
-
-    _emis_no_trash:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) trash emissions
-      units: kg m-2 s-1
-      expression: emis_no_trash.aaq_inst_1hr_r461x361_x1
-
-    _gccto3:
-      long_name: Ozone_(O3,_MW_=_48.00_g_mol-1)_total_column_density
-      units: dobsons
-      expression: gccto3.aaq_inst_1hr_r461x361_x1
-
-    _gcctropp:
-      long_name: tropopause_pressure_used_in_GEOS-Chem
-      units: Pa
-      expression: gcctropp.aaq_inst_1hr_r461x361_x1
-
-    _gcctto3:
-      long_name: Ozone_(O3,_MW_=_48.00_g_mol-1)_tropospheric_column_density
-      units: dobsons
-      expression: gcctto3.aaq_inst_1hr_r461x361_x1
-
-    _no2_bb:
-      long_name: Nitrogen dioxide tagged tracer 7 (NO2, MW = 46.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no2_bb.aaq_inst_1hr_r461x361_x1
-
-    _no2_chn:
-      long_name: Nitrogen dioxide tagged tracer 1 (NO2, MW = 46.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no2_chn.aaq_inst_1hr_r461x361_x1
-
-    _no2_kor:
-      long_name: Nitrogen dioxide tagged tracer 3 (NO2, MW = 46.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no2_kor.aaq_inst_1hr_r461x361_x1
-
-    _no2_mys:
-      long_name: Nitrogen dioxide tagged tracer 5 (NO2, MW = 46.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no2_mys.aaq_inst_1hr_r461x361_x1
-
-    _no2_phl:
-      long_name: Nitrogen dioxide tagged tracer 4 (NO2, MW = 46.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no2_phl.aaq_inst_1hr_r461x361_x1
-
-    _no2_ship:
-      long_name: Nitrogen dioxide tagged tracer 2 (NO2, MW = 46.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no2_ship.aaq_inst_1hr_r461x361_x1
-
-    _no2_tha:
-      long_name: Nitrogen dioxide tagged tracer 6 (NO2, MW = 46.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no2_tha.aaq_inst_1hr_r461x361_x1
-
-    _no2dry:
-      long_name: Nitrogen dioxide (NO2, MW = 46.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no2dry.aaq_inst_1hr_r461x361_x1
-
-    _no_bb:
-      long_name: Nitrogen oxide tagged tracer 7 (NO, MW = 30.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no_bb.aaq_inst_1hr_r461x361_x1
-
-    _no_chn:
-      long_name: Nitrogen oxide tagged tracer 1 (NO, MW = 30.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no_chn.aaq_inst_1hr_r461x361_x1
-
-    _no_kor:
-      long_name: Nitrogen oxide tagged tracer 3 (NO, MW = 30.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no_kor.aaq_inst_1hr_r461x361_x1
-
-    _no_mys:
-      long_name: Nitrogen oxide tagged tracer 5 (NO, MW = 30.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no_mys.aaq_inst_1hr_r461x361_x1
-
-    _no_phl:
-      long_name: Nitrogen oxide tagged tracer 4 (NO, MW = 30.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no_phl.aaq_inst_1hr_r461x361_x1
-
-    _no_ship:
-      long_name: Nitrogen oxide tagged tracer 2 (NO, MW = 30.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no_ship.aaq_inst_1hr_r461x361_x1
-
-    _no_tha:
-      long_name: Nitrogen oxide tagged tracer 6 (NO, MW = 30.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: no_tha.aaq_inst_1hr_r461x361_x1
-
-    _nodry:
-      long_name: Nitrogen oxide (NO, MW = 30.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: nodry.aaq_inst_1hr_r461x361_x1
-
-    _o3dry:
-      long_name: Ozone (O3, MW = 48.00 g mol-1) volume mixing ratio dry air
-      units: mol mol-1
-      expression: o3dry.aaq_inst_1hr_r461x361_x1
-
-    _pm25_rh35_gcc:
-      long_name: Particulate_matter_with_diameter_below_2.5_um_RH_35
-      units: ug m-3
-      expression: pm25_rh35_gcc.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_co:
-      long_name: Carbon_monoxide_(CO,_MW_=_28.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_co.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no:
-      long_name: Nitrogen_oxide_(NO,_MW_=_30.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no2:
-      long_name: Nitrogen_dioxide_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no2.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no2_bb:
-      long_name: Nitrogen_dioxide_tagged_tracer_7_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no2_bb.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no2_chn:
-      long_name: Nitrogen_dioxide_tagged_tracer_1_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no2_chn.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no2_kor:
-      long_name: Nitrogen_dioxide_tagged_tracer_3_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no2_kor.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no2_mys:
-      long_name: Nitrogen_dioxide_tagged_tracer_5_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no2_mys.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no2_phl:
-      long_name: Nitrogen_dioxide_tagged_tracer_4_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no2_phl.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no2_ship:
-      long_name: Nitrogen_dioxide_tagged_tracer_2_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no2_ship.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no2_tha:
-      long_name: Nitrogen_dioxide_tagged_tracer_6_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no2_tha.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no_bb:
-      long_name: Nitrogen_oxide_tagged_tracer_7_(NO,_MW_=_30.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no_bb.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no_chn:
-      long_name: Nitrogen_oxide_tagged_tracer_1_(NO,_MW_=_30.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no_chn.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no_kor:
-      long_name: Nitrogen_oxide_tagged_tracer_3_(NO,_MW_=_30.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no_kor.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no_mys:
-      long_name: Nitrogen_oxide_tagged_tracer_5_(NO,_MW_=_30.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no_mys.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no_phl:
-      long_name: Nitrogen_oxide_tagged_tracer_4_(NO,_MW_=_30.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no_phl.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no_ship:
-      long_name: Nitrogen_oxide_tagged_tracer_2_(NO,_MW_=_30.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no_ship.aaq_inst_1hr_r461x361_x1
-
-    _tropcol_no_tha:
-      long_name: Nitrogen_oxide_tagged_tracer_6_(NO,_MW_=_30.00_g_mol-1)_tropospheric_column_density
-      units: 1.0e15 molec cm-2
-      expression: tropcol_no_tha.aaq_inst_1hr_r461x361_x1
-
-
   WRFchem:
 
     _aod:
@@ -525,7 +259,7 @@ field:
       units: 'kgm-2'
       expression: tcoc(z=1)
     _tcpm25: 
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
     _su:
@@ -632,7 +366,7 @@ field:
       units: 'ug m-3'
       expression: MASSDENprs(z=1)
     _tcpm25:
-      long_name: total column PM2.5 smoke
+      long_name: Total column PM2.5 smoke
       units: 'kg m-2'
       expression: COLMDl200(z=1)
 
@@ -651,15 +385,15 @@ field:
       units: ' '
       expression: aod(z=1)
     _tcoc:
-       long_name: total column OC
+       long_name: Total column OC
        units: 'kg m-2'
        expression: tcoc(z=1)
     _tcco:
-       long_name: total column CO
+       long_name: Total column CO
        units: 'kg m-2'
        expression: tcco(z=1)
     _tcpm25:
-       long_name: total column PM2.5
+       long_name: Total column PM2.5
        units: 'kg m-2'
        expression: tcpm25(z=1)
 
@@ -1020,15 +754,15 @@ field:
        units: 'ppbv'
        expression: O3_lml(z=1)
     _tcpm25: 
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
     _tcoc: 
-      long_name: total column OC
+      long_name: Total column OC
       units: 'kg m-2'
       expression: tcoc(z=1)
     _tcco: 
-      long_name: total column CO
+      long_name: Total column CO
       units: 'kg m-2'
       expression: tcco(z=1)
 
@@ -1044,7 +778,7 @@ field:
       units: 'ug m-3'
       expression: PM25(z=3)*1e+9 
     _tcpm25: 
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
     _aod: 
@@ -1076,7 +810,7 @@ field:
        units: 'ugm-3'
        expression:  (ncl_a1+ncl_a2+ncl_a3)*1e+9*rho
     _tcoc:
-       long_name: total column OC
+       long_name: Total column OC
        units: 'kg m-2'
        expression: tcoc(z=1)
     _co:
@@ -1084,7 +818,7 @@ field:
        units: 'ppbv'
        expression: CO*1e+9
     _tcco:
-       long_name: total column Carbon monixide
+       long_name: Total column Carbon monixide
        units: 'kg m-2'
        expression: tcco(z=1)
     _no2:
@@ -1202,7 +936,7 @@ field:
       units: 'kgm-2'
       expression: tcoc(z=1)
     _tcpm25: 
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
     _du:
@@ -1411,7 +1145,7 @@ field:
       units: 'kgm-2'
       expression: tcoc(z=1)
     _tcpm25: 
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
 
@@ -1422,7 +1156,7 @@ field:
       units: 'kgm-2'
       expression: tcco(z=1)
     _tcpm25:
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
     _tcno2:
@@ -1468,7 +1202,7 @@ field:
     _no:
       long_name: NO
       units: 'ppbv'
-      expression: no
+      expression: 'no'
     _no2:
       long_name: NO2
       units: 'ppbv'
@@ -1497,6 +1231,18 @@ field:
       long_name: HCHO
       units: 'ppbv'
       expression: hcho
+    _no2_lml:
+      long_name: NO2 mixing ratio
+      units: 'ppbv'
+      expression: no2_lml*1e+3
+    _so2_lml:
+      long_name: SO2 mixing ratio
+      units: 'ppbv'
+      expression: so2_lml*1e+3
+    _o3_lml:
+      long_name: O3 mixing ratio
+      units: 'ppbv'
+      expression: o3_lml*1e+3
     _pm25sfc:
       long_name: PM2.5 at lowest model level
       units: 'ugm-3'
@@ -1504,7 +1250,7 @@ field:
     _co_lml:
       long_name: CO at lowest model level
       units: 'ppbv'
-      expression: co_lml(z=1) * 1000
+      expression: co_lml(z=1)
 
   UCLAWRFchem_d2: *UCLAWRF
 
@@ -1582,14 +1328,27 @@ field:
       long_name: HCHO
       units: 'ppbv'
       expression: hcho
+    _no2_lml:
+      long_name: NO2 mixing ratio
+      units: 'ppbv'
+      expression: no2_lml*1e+3
+    _so2_lml:
+      long_name: SO2 mixing ratio
+      units: 'ppbv'
+      expression: so2_lml*1e+3
+    _o3_lml:
+      long_name: O3 mixing ratio
+      units: 'ppbv'
+      expression: o3_lml*1e+3 
     _pm25sfc:
       long_name: PM2.5 at lowest model level
       units: 'ugm-3'
       expression: PM2_5_DRY_lml(z=1)
-    _co_lml:
+    _co_lml: 
       long_name: CO at lowest model level
       units: 'ppbv'
-      expression: co_lml(z=1)
+      expression: co_lml(z=1) 
+
 
   ARUNWRFchem:
 
@@ -1598,7 +1357,7 @@ field:
       units: 'kgm-2'
       expression: tcco(z=1)
     _tcpm25:
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
     _tcno2:
@@ -1673,6 +1432,18 @@ field:
       long_name: Sea Salt
       units: 'ugm-3'
       expression: seas
+    _no2_lml:
+      long_name: NO2 mixing ratio
+      units: 'ppbv'
+      expression: no2_lml*1e+3
+    _so2_lml:
+      long_name: SO2 mixing ratio
+      units: 'ppbv'
+      expression: so2_lml*1e+3
+    _o3_lml:
+      long_name: O3 mixing ratio
+      units: 'ppbv'
+      expression: o3_lml*1e+3
     _pm25sfc:
       long_name: PM2.5 at lowest model level
       units: 'ugm-3'
@@ -1681,6 +1452,7 @@ field:
       long_name: CO at lowest model level
       units: 'ppbv'
       expression: co_lml(z=1)
+
   
   UIOWAWRFchem:
 
@@ -1689,11 +1461,11 @@ field:
       units: 'kgm-2'
       expression: tcco(z=1)
     _tcpm25: 
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
     _tcoc: 
-      long_name: total column OC
+      long_name: Total column OC
       units: 'kg m-2'
       expression: tcoc(z=1)
     _pm25: 
@@ -1895,7 +1667,7 @@ field:
       units: 'kgm-2'
       expression: tcoc(z=1)
     _tcpm25: 
-      long_name: total column PM2.5
+      long_name: Total column PM2.5
       units: 'kg m-2'
       expression: tcpm25(z=1)
     _du:
