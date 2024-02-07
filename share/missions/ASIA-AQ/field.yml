@@ -1250,7 +1250,7 @@ field:
     _co_lml:
       long_name: CO at lowest model level
       units: 'ppbv'
-      expression: co_lml(z=1)
+      expression: co_lml(z=1) * 1000
 
   UCLAWRFchem_d2: *UCLAWRF
 
