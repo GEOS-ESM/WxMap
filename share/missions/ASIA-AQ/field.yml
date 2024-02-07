@@ -1392,6 +1392,11 @@ field:
       units: 'm'
       expression: PBLH(z=1)
 
+    _aod:
+      long_name: Aerosol Optical Depth
+      units: '1'
+      expression: aod(z=1)
+
     _co:
       long_name: CO
       units: 'ppbv'
