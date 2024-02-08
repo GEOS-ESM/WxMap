@@ -38,7 +38,7 @@ region:
     mpdset: hires
     mproj: latlon
     addlayers: []
-    layers: [bluemarble01]
+    layers: [shaderelief-gray] 
 
   asia-mal:
 
@@ -48,7 +48,7 @@ region:
     mpdset: hires
     mproj: latlon
     addlayers: []
-    layers: [bluemarble01]
+    layers: [shaderelief-gray] 
 
   asia-th:
 
@@ -58,7 +58,7 @@ region:
     mpdset: hires
     mproj: latlon
     addlayers: []
-    layers: [bluemarble01]
+    layers: [shaderelief-gray] 
 
   asia-ppn:
 
@@ -68,4 +68,4 @@ region:
     mpdset: hires
     mproj: latlon
     addlayers: []
-    layers: [bluemarble01]
+    layers: [shaderelief-gray] 

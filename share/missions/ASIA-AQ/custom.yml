@@ -8,8 +8,7 @@ wxmapscustom:
       navigate: 'off'
       layers: [aod]
       title: 'Aerosol Optical Thickness'
-      map:
-        layers: [bluemarble01]
+
 
     aod_smoke:
       long_name: AOD Smoke
@@ -20,8 +19,6 @@ wxmapscustom:
       aod:
         expr: _aod_smoke
         clevs: 0 0.005 0.01 0.02 0.04 0.07 0.1 0.15 0.2 0.3 0.5
-      map:
-        layers: [bluemarble01]
 
     pm25sfc:
       long_name: PM2.5
@@ -31,8 +28,6 @@ wxmapscustom:
       title:     'Surface PM2.5'
       pm25:
         expr: _pm25sfc
-      map:
-        layers:  [bluemarble01]
 
     pm25_smoke:
       long_name: PM2.5
@@ -41,8 +36,6 @@ wxmapscustom:
       title:     '$level hPa Smoke PM2.5'
       pm25: 
         expr: _pm25_smoke
-      map:
-        layers:  [bluemarble01]
 
     pm25_smoke_lml:
       long_name: PM2.5
@@ -52,17 +45,12 @@ wxmapscustom:
       title:     'Surface Smoke PM2.5'
       pm25: 
         expr: _pm25_smoke_lml(z=1)
-      map:
-        layers:  [bluemarble01]
-
 
     pm25:
       long_name: PM2.5
       levels: [925,850,700,600]
       layers: [pm25]
       title: '$level hPa PM2.5'
-      map:
-        layers: [bluemarble01]
 
     tcco:    
       long_name: Total column CO
@@ -70,8 +58,6 @@ wxmapscustom:
       navigate: 'off'
       layers:  [tcco]  
       title: 'Total column CO'
-      map:
-        layers:   [bluemarble01]
 
     tcno:    
       long_name: Total column NO
@@ -79,8 +65,6 @@ wxmapscustom:
       navigate: 'off'
       layers:  [tcno]  
       title: 'Total column NO'
-      map:
-        layers:   [bluemarble01]
 
     tcoc:    
       long_name: Total column OC
@@ -88,8 +72,7 @@ wxmapscustom:
       navigate: 'off'
       layers:  [tcoc]  
       title: 'Total column OC'
-      map:
-        layers:   [bluemarble01]
+
 
     tcpm25:    
       long_name: Total column PM2.5
@@ -105,8 +88,6 @@ wxmapscustom:
         cint: 
         nsub: 20
         skip: 20
-      map:
-        layers:   [bluemarble01]
 
     tcpm25_smoke:    
       long_name: Total Column PM2.5 Smoke
@@ -119,15 +100,13 @@ wxmapscustom:
         expr: _tcpm25*1e+3
         nsub: 20
         skip: 20
-      map:
-        layers:   [bluemarble01]
+
     su:
       long_name: Sulphate
       levels: [925,850,700,600]
       layers: [su]
       title: '$level hPa sulphate aerosol'
-      map:
-        layers: [bluemarble01]
+
     am:
       long_name: Ammonium
       levels: [925,850,700,600]
@@ -135,8 +114,6 @@ wxmapscustom:
       title: '$level hPa ammonium aerosol'
       su: 
         expr: _am
-      map:
-        layers: [bluemarble01]
 
     ni:
       long_name: Nitrate
@@ -145,8 +122,6 @@ wxmapscustom:
       title: '$level hPa ammonium aerosol'
       su: 
         expr: _ni
-      map:
-        layers: [bluemarble01]
 
 
     du:
@@ -154,39 +129,30 @@ wxmapscustom:
       levels: [925,850,700,600]
       layers: [du]
       title: '$level hPa dust aerosol'
-      map:
-        layers: [bluemarble01]
 
     ss:
       long_name: Sea salt
       levels: [925,850,700,600]
       layers: [ss]
       title: '$level hPa sea salt aerosol'
-      map:
-        layers: [bluemarble01]
 
     oc:
       long_name: OC
       levels: [925,850,700,600]
       layers: [oc]
       title: '$level hPa Organic Carbon'
-      map:
-        layers: [bluemarble01]
 
     bc:
       long_name: BC
       levels: [925,850,700,600]
       layers: [bc]
       title: '$level hPa Black Carbon'
-      map:
-        layers: [bluemarble01]
+
     co:
       long_name: CO
       levels: [925,850,700,600]
       layers: [co]
       title: '$level hPa CO'
-      map:
-        layers: [bluemarble01]
 
     co_smoke:
       long_name: CO Smoke
@@ -196,44 +162,36 @@ wxmapscustom:
       co: 
         expr: _co_smoke
         clevs: 0 0.5 1.0 2.0 5.0 10.0 15.0 20.0 50.0 100.00 150.0
-      map:
-        layers: [bluemarble01]
 
     smoke:
       long_name: Smoke
       levels: [925,850,700,600]
       layers: [smoke]
       title: '$level hPa smoke tracer'
-      map:
-        layers: [bluemarble01]
+
     no1:
       long_name: 'NO'
       levels: [925,850,700,600]
       layers: [no1]
       title: '$level hPa NO'
-      map:
-        layers: [bluemarble01]
+
     no2:
       long_name: NO2
       levels: [925,850,700,600]
       layers: [no2]
       title: '$level hPa NO2'
-      map:
-        layers: [bluemarble01]
+
     so2:
       long_name: SO2
       levels: [925,850,700,600]
       layers: [so2]
       title: '$level hPa SO2'
-      map:
-        layers: [bluemarble01]
+
     o3:
       long_name: O3
       levels: [925,850,700,600]
       layers: [o3]
       title: '$level hPa O3'
-      map:
-        layers: [bluemarble01]
 
     am_lml:
       long_name: Ammonium 
@@ -243,8 +201,7 @@ wxmapscustom:
       title: 'Surface ammonium aerosol'
       su: 
         expr: _am_lml
-      map:
-        layers: [bluemarble01]
+
     ni_lml:
       long_name: Nitrate
       levels: [0]
@@ -253,9 +210,6 @@ wxmapscustom:
       title: 'Surface ammonium aerosol'
       su: 
         expr: _ni_lml
-    # map:
-    #   layers: [bluemarble01]
-    #   layers: [shaderelief-gray]
 
     su_lml:
       long_name: Sulphate
@@ -265,8 +219,6 @@ wxmapscustom:
       title: 'Surface sulphate aerosol'
       su: 
         expr: _su_lml
-      map:
-        layers: [bluemarble01]
 
     du_lml:
       long_name: Dust
@@ -276,8 +228,6 @@ wxmapscustom:
       title: 'Surface dust aerosol'
       du: 
         expr: _du_lml
-      map:
-        layers: [bluemarble01]
 
     ss_lml:
       long_name: Sea salt
@@ -287,8 +237,6 @@ wxmapscustom:
       title: 'Surface sea salt aerosol'
       ss: 
         expr: _ss_lml
-      map:
-        layers: [bluemarble01]
 
     oc_lml:
       long_name: OC
@@ -298,8 +246,6 @@ wxmapscustom:
       title: 'Surface Organic Carbon'
       oc: 
         expr: _oc_lml
-      map:
-        layers: [bluemarble01]
 
     bc_lml:
       long_name: BC
@@ -309,8 +255,6 @@ wxmapscustom:
       title: 'Surface Black Carbon'
       bc: 
         expr: _bc_lml
-      map:
-        layers: [bluemarble01]
 
     co_lml:
       long_name: CO
@@ -320,8 +264,7 @@ wxmapscustom:
       title: 'Surface CO'
       co: 
         expr: _co_lml
-      map:
-        layers: [bluemarble01]
+
     co_smoke_lml:
       long_name: CO
       levels: [0]
@@ -331,8 +274,7 @@ wxmapscustom:
       co: 
         expr: _co_smoke_lml
         clevs: 0 0.5 1.0 2.0 5.0 10.0 15.0 20.0 50.0 100.00 150.0
-      map:
-        layers: [bluemarble01]
+
     smoke_lml:
       long_name: Smoke
       levels: [0]
@@ -341,8 +283,7 @@ wxmapscustom:
       title: 'Surface Smoke Tracer'
       smoke: 
         expr: _smoke_lml
-      map:
-        layers: [bluemarble01]
+
     no1_lml:
       long_name: 'NO'
       levels: [0]
@@ -351,8 +292,7 @@ wxmapscustom:
       title: 'Surface NO'
       no1: 
         expr: _no1_lml
-      map:
-        layers: [bluemarble01]
+
     no2_lml:
       long_name: NO2
       levels: [0]
@@ -361,8 +301,7 @@ wxmapscustom:
       title: 'Surface NO2'
       no2: 
         expr: _no2_lml
-      map:
-        layers: [bluemarble01]
+
     so2_lml:
       long_name: SO2
       levels: [0]
@@ -371,8 +310,7 @@ wxmapscustom:
       title: 'Surface SO2'
       so2: 
         expr: _so2_lml
-      map:
-        layers: [bluemarble01]
+
     o3_lml:
       long_name: O3
       levels: [0]
@@ -381,8 +319,6 @@ wxmapscustom:
       title: 'Surface O3'
       o3: 
         expr: _o3_lml
-      map:
-        layers: [bluemarble01]
 
 
   layer:
@@ -390,79 +326,93 @@ wxmapscustom:
     aod:
       gxout: shaded
       expr: _aod
-      cbar: Warm01_cmap
-      clevs: 0 0.04 0.07 0.1 0.15 0.2 0.3 0.4 0.6 0.8 1 1.2 1.5 1.8 
-      cmin: 
-      cmax:
-      cint: 
-      nsub: 5
-      skip: 5
-      scale: 
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.103 0.000 0.000
-        - 0.170 1.000 1.000
-        - 1.000 1.000 1.000
-
-    pm25:
-      gxout: shaded
-      expr: _pm25
-      cbar: Warm01_cmap
-      cbunits: 'ugm`a-3`' 
-      clevs: 0 0.1 0.2 0.5 10 20 40 60 100 150 200 
+      cbar: SeaSaltAOT
+      cdict: aodDict
       cmin: 
       cmax:
       cint: 
       nsub: 10
       skip: 10
-      scale: 
       alpha:
         - 0.000 0.000 0.000
-        - 0.103 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
+        - 1.000 1.000 1.000
+
+
+    pm25:
+      gxout: shaded
+      expr: _pm25
+      cbar: SeaSaltAOT
+      cdict: pm25Dict
+      cbunits: 'ugm`a-3`' 
+      cmin: 
+      cmax:
+      cint: 
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     tcco:
       gxout: shaded
       expr: _tcco*1e+3
-      cbar: Warm01_cmap
+      cbar: SeaSaltAOT
+      cdict: tccoDict
       cbunits: 'gm`a-2' 
-      cmin: 0.5
-      cmax: 2.5
-      cint: 0.25
+      cmin: 
+      cmax: 
+      cint: 
       nsub: 10
-      skip: 5
-      scale: exp_scale 
+      skip: 10
       alpha:
         - 0.000 0.000 0.000
-        - 0.143 0.000 0.000
-        - 0.190 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     tcno:
       gxout: shaded
       expr: _tcno*1e+9
-      cbar: Warm01_cmap
+      cbar: SeaSaltAOT
+      cdict: tcnoDict
       cbunits: 'ugm`a-2' 
-      clevs: 2 5 10 20 50 100 200 500 1000 
       cmin: 
       cmax: 
       cint: 
       nsub: 10
       skip: 10
-      scale: exp_scale
       alpha:
         - 0.000 0.000 0.000
-        - 0.143 0.000 0.000
-        - 0.190 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     tcoc:
       gxout: shaded
       expr: _tcoc*1e+3
-      cbar: Warm01_cmap
+      cbar: SeaSaltAOT
+      cdict: tcocDict
       cbunits: 'gm`a-2' 
-      clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5
       cmin: 
       cmax: 
       cint: 
@@ -470,202 +420,306 @@ wxmapscustom:
       skip: 10
       alpha:
         - 0.000 0.000 0.000
-        - 0.103 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     smoke:
       gxout: shaded
       expr: _smoke
-      cbar: Warm01_cmap
-      cmin: 0
-      cmax: 5.0
-      cint: 0.05
+      cbar: SeaSaltAOT
+      cdict: smokeDict
+      cmin: 
+      cmax: 
+      cint: 
       cbunits: ' ' 
-      nsub: 2
+      nsub: 10
       skip: 10
       scale: exp_scale
       alpha:
         - 0.000 0.000 0.000
-        - 0.143 0.000 0.000
-        - 0.190 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     su:
       gxout: shaded
       expr: _su
-      cbar: Warm01_cmap
-      clevs:  0.1 0.2 0.5 1 2 5 10 20 50 80 
+      cbar: SeaSaltAOT
+      cdict: suDict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ug m`a-3' 
       nsub: 10
       skip: 10
-      scale:
       alpha:
         - 0.000 0.000 0.000
-        - 0.103 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     du:
       gxout: shaded
       expr: _du
-      cbar: Warm01_cmap
-      clevs: 0 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100 200 
+      cbar: SeaSaltAOT
+      cdict: duDict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ug m`a-3' 
       nsub: 10
       skip: 10
-      scale:
       alpha:
         - 0.000 0.000 0.000
-        - 0.113 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     ss:
       gxout: shaded
       expr: _ss
-      cbar: Warm01_cmap
-      clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100 200 300   
+      cbar: SeaSaltAOT
+      cdict: ssDict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ug m`a-3' 
       nsub: 10
       skip: 10
-      scale:
       alpha:
         - 0.000 0.000 0.000
-        - 0.113 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     oc:
       gxout: shaded
       expr: _oc
-      cbar: Warm01_cmap
-      clevs: 0 0.1 0.2 0.5 1 2 5 10 20 50 100
+      cbar: SeaSaltAOT
+      cdict: ocDict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ug m`a-3' 
       nsub: 10
       skip: 10
-      scale:
       alpha:
         - 0.000 0.000 0.000
-        - 0.113 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
+
 
     bc:
       gxout: shaded
       expr: _bc
-      cbar: Warm01_cmap
-      clevs: 0 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100
+      cbar: SeaSaltAOT
+      cdict: bcDict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ug m`a-3' 
       nsub: 10
       skip: 10
-      scale:
       alpha:
         - 0.000 0.000 0.000
-        - 0.113 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     co:
       gxout: shaded
       expr: _co
-      cbar: Warm01_cmap
-      clevs: 0 60 80 100 120 140 150 200 250 300 400 500 700 
+      cbar: SeaSaltAOT
+      cdict: coDict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ppbv' 
       nsub: 10
       skip: 10
-      scale: 
       alpha:
         - 0.000 0.000 0.000
-        - 0.113 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     no1:
       gxout: shaded
       expr: _no1
-      cbar: Warm01_cmap
-      clevs: 0 0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50 
+      cbar: SeaSaltAOT
+      cdict: no1Dict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ppbv' 
       nsub: 10
       skip: 10
-      scale:
       alpha:
         - 0.000 0.000 0.000
-        - 0.113 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     no2:
       gxout: shaded
       expr: _no2
-      cbar: Warm01_cmap
-      clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50 
+      cbar: SeaSaltAOT
+      cdict: no2Dict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ppbv' 
       nsub: 10
       skip: 10
-      scale:
       alpha:
         - 0.000 0.000 0.000
-        - 0.113 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     so2:
       gxout: shaded
       expr: _so2
-      cbar: Warm01_cmap
-      clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50 
+      cbar: SeaSaltAOT
+      cdict: so2Dict
       cmin: 
       cmax: 
       cint: 
       cbunits: 'ppbv' 
       nsub: 10
       skip: 10
-      scale:
       alpha:
         - 0.000 0.000 0.000
-        - 0.113 0.000 0.000
-        - 0.170 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
 
     o3:
       gxout: shaded
       expr: _o3
-      cbar: Warm01_cmap
-      cmin: 50.0
-      cmax: 200.0
-      cint: 2.5
+      cbar: SeaSaltAOT
+      cdict: o3Dict
       cbunits: 'ppbv' 
-      nsub: 2
+      nsub: 10
       skip: 10
-      scale: exp_scale
       alpha:
         - 0.000 0.000 0.000
-        - 0.143 0.000 0.000
-        - 0.190 1.000 1.000
+        - 0.111 0.500 0.500
+        - 0.222 0.800 0.800
+        - 0.333 1.000 1.000
+        - 0.444 1.000 1.000
+        - 0.555 1.000 1.000
+        - 0.667 1.000 1.000
         - 1.000 1.000 1.000
+
+
+  attribute:
+    aodDict:
+        - {$region: "asia-aq", clevs: 0 0.04 0.07 0.1 0.15 0.2 0.3 0.4 0.6 0.8 1 1.2 1.5 1.8, scale: log_scale }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.04 0.07 0.1 0.15 0.25, scale: log_scale}
+
+    pm25Dict:
+        - {$region: "asia-aq", clevs: 0 0.1 0.2 0.5 10 20 40 60 100 150 200 }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 1 5 10 20 40, scale: log_scale}
+
+    tccoDict:
+        - {$region: "asia-aq", clevs: 0.5 0.75 1.0 1.25 1.5 1.75 2.0, scale: exp_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0.55 0.65 0.75 0.85 0.95, scale: log_scale}
+
+    tcnoDict:
+        - {$region: "asia-aq", clevs: 2 5 10 20 50 100 200 500 1000, scale: exp_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  2 5 10 20 50 100, scale: log_scale}
+
+    tcocDict:
+        - {$region: "asia-aq", clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.002 0.005 0.01 0.02, scale: log_scale}
+
+    smokeDict:
+        - {$region: "asia-aq", clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.002 0.005 0.01 0.02, scale: log_scale}
+
+    suDict:
+        - {$region: "asia-aq", clevs:  0.1 0.2 0.5 1 2 5 10 20 50 80, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0.1 0.2 0.5 1 2 5 10, scale: log_scale}
+
+    duDict:
+        - {$region: "asia-aq", clevs:  0 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100 200, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 0.05 0.1 0.2 0.5 1 2 5 10, scale: log_scale}
+
+    ssDict:
+        - {$region: "asia-aq", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100 200 300, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale}
+
+    ocDict:
+        - {$region: "asia-aq,asia-th,asia-mal,korea", clevs: 0 0.1 0.2 0.5 1 2 5 10 20 50 100, scale: log_scale  }
+        - {$region: "asia-ppn", clevs:  0 0.1 0.2 0.5 1 2 5 10, scale: log_scale}
+
+    bcDict:
+        - {$region: "asia-aq", clevs: 0 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale}
+
+    coDict:
+        - {$region: "asia-aq", clevs: 0 60 80 100 120 140 150 200 250 300 400 500 700, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 60 80 100 120 140 150 200, scale: log_scale}
+
+    no1Dict:
+        - {$region: "asia-aq", clevs: 0 0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1, scale: log_scale}
+
+    no2Dict:
+        - {$region: "asia-aq", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2, scale: log_scale}
+
+    so2Dict:
+        - {$region: "asia-aq", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2, scale: log_scale}
+
+    o3Dict:
+        - {$region: "asia-aq", cmin: 25.0, cmax: 100.0, cint: 12.5, scale: exp_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", cmin: 25.0, cmax: 100, cint: 12.5 , scale: exp_scale}
