@@ -925,6 +925,10 @@ field:
       long_name: Black Carbon
       units: 'ugm-3'
       expression: eci+ecj
+    _bc_lml:
+      long_name: Black Carbon
+      units: 'ugm-3'
+      expression: eci_lml+ecj_lml      
     _dust:
       long_name: Dust
       units: 'ugm-3'
@@ -1143,6 +1147,10 @@ field:
       long_name: Black Carbon
       units: 'ugm-3'
       expression: bc1+bc2
+    _bc_lml:
+      long_name: Black Carbon
+      units: 'ugm-3'
+      expression: bc1_lml+bc2_lml      
     _dust:
       long_name: Dust
       units: 'ugm-3'
