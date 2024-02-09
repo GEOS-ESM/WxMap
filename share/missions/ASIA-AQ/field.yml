@@ -28,6 +28,11 @@ field:
       long_name: Total column PM2.5
       units: kg m-2
       expression: ducmass25.tavg3_2d_aer_Nx + occmass.tavg3_2d_aer_Nx + bccmass.tavg3_2d_aer_Nx + sscmass25.tavg3_2d_aer_Nx + so4cmass.tavg3_2d_aer_Nx * (132.14/96.06) + (80.043/62.0)*nicmass25.tavg3_2d_aer_Nx
+
+    _pm25:
+      long_name: PM2.5
+      units: 'ug m-3'
+      expression: (pm25.GEOSPRS.inst3_3d_aer_Np)*1.0e+9
       
     _aod:
       long_name: Total Aerosol Extinction AOT [550 nm]
