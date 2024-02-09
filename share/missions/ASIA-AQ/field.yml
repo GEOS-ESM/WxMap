@@ -358,33 +358,6 @@ field:
        units: 'ppbv'
        expression: o3vmr_lml(z=1)*1e+9
 
-
-  HRRR_keep:
-
-    _aod:
-      long_name: Aerosol Optical Depth
-      units: '1'
-      expression: aotkl200(z=1)
-
-  HRRR:
-
-    _aod_smoke:
-      long_name: Aerosol Optical Depth
-      units: '1'
-      expression: AOTKl200(z=1)
-    _pm25_smoke:
-      long_name: PM2.5 smoke
-      units: 'ug m-3'
-      expression: MASSDENprs
-    _pm25_smoke_lml:
-      long_name: PM2.5 smoke
-      units: 'ug m-3'
-      expression: MASSDENprs(z=1)
-    _tcpm25:
-      long_name: Total column PM2.5 smoke
-      units: 'kg m-2'
-      expression: COLMDl200(z=1)
-
   RAPchem:
 
     _pm25:
