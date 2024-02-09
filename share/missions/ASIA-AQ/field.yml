@@ -903,7 +903,7 @@ field:
     _seas:
       long_name: Sea salt aerosol mixing ratio
       units: 'ug m-3'
-      expression: conc_kgm3(e=1)*1.e+9
+      expression: conc_kgm3(e=5)*1.e+9
     _aod:
       long_name: Aerosol optical depth
       expression: aot_tot
@@ -1199,10 +1199,10 @@ field:
       long_name: Ozone
       units: 'ppbv'
       expression: o3*1000
-    _no:
+    _no1:
       long_name: NO
       units: 'ppbv'
-      expression: 'no'
+      expression: 'no*1000'
     _no2:
       long_name: NO2
       units: 'ppbv'
@@ -1210,7 +1210,7 @@ field:
     _no3:
       long_name: NO3
       units: 'ppbv'
-      expression: no3
+      expression: no3*1000
     _oc:
       long_name: Organic Carbon
       units: 'ugm-3'
@@ -1230,7 +1230,7 @@ field:
     _hcho:
       long_name: HCHO
       units: 'ppbv'
-      expression: hcho
+      expression: hcho*1000
     _no2_lml:
       long_name: NO2 mixing ratio
       units: 'ppbv'
