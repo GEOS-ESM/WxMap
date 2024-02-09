@@ -1183,10 +1183,10 @@ field:
       long_name: CO at lowest model level
       units: 'ppbv'
       expression: co_lml(z=1)
-    _ss_lml:
-      long_name: Sea Salt at lowest model level
-      units: 'ugm-3'
-      expression: seas_lml(z=1)
+#    _ss_lml:
+#      long_name: Sea Salt at lowest model level
+#      units: 'ugm-3'
+#      expression: seas_lml(z=1)
   
   UIOWAWRFchem:
 
