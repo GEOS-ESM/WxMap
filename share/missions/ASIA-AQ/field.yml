@@ -49,7 +49,7 @@ field:
       units: ug m-3
       expression: ss.inst3_3d_aer_Np*airdens.inst3_3d_tag_Np*1e+9
   
-    _so4:
+    _su:
       long_name: Sulphate Mixing Ratio
       units: ug m-3
       expression: so4.inst3_3d_aer_Np*airdens.inst3_3d_tag_Np*1e+9
