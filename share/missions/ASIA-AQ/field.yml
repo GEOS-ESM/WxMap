@@ -84,6 +84,11 @@ field:
       units: ug m-3
       expression: susmass.inst1_2d_hwl_Nx*1e+9
 
+    _ss_lml:
+      long_name: Sea Salt Surface Mass Concentration
+      units: ug m-3
+      expression: sssmass.inst1_2d_hwl_Nx*1e+9
+
     _ocembb:
       long_name: OC BB Emissions
       units: unknown
