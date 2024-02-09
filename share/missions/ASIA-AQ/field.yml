@@ -27,7 +27,7 @@ field:
     _tcpm25:
       long_name: Total column PM2.5
       units: kg m-2
-      expression: (ducmass25.inst1_2d_hwl_Nx + occmass.inst1_2d_hwl_Nx+ bccmass.inst1_2d_hwl_Nx + sscmass25.inst1_2d_hwl_Nx + so4cmass.inst1_2d_hwl_Nx * (132.14/96.06) + (80.043/62.0)*nicmass25.inst1_2d_hwl_Nx)
+      expression: ducmass25.tavg3_2d_aer_Nx + occmass.tavg3_2d_aer_Nx + bccmass.tavg3_2d_aer_Nx + sscmass25.tavg3_2d_aer_Nx + so4cmass.tavg3_2d_aer_Nx * (132.14/96.06) + (80.043/62.0)*nicmass25.tavg3_2d_aer_Nx
       
     _aod:
       long_name: Total Aerosol Extinction AOT [550 nm]
