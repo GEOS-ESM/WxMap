@@ -929,7 +929,7 @@ field:
       long_name: Black Carbon
       units: 'ugm-3'
       expression: eci_lml+ecj_lml      
-    _dust:
+    _du:
       long_name: Dust
       units: 'ugm-3'
       expression: soila
@@ -1034,10 +1034,10 @@ field:
       long_name: Black Carbon
       units: 'ugm-3'
       expression: bc
-    _dust:
+    _du:
       long_name: Dust
       units: 'ugm-3'
-      expression: soila
+      expression: dust
     _ss:
       long_name: Sea Salt
       units: 'ugm-3'
@@ -1151,10 +1151,10 @@ field:
       long_name: Black Carbon
       units: 'ugm-3'
       expression: bc1_lml+bc2_lml      
-    _dust:
+    _du:
       long_name: Dust
       units: 'ugm-3'
-      expression: soila
+      expression: TOT_DUST
     _ss:
       long_name: Sea Salt
       units: 'ugm-3'
