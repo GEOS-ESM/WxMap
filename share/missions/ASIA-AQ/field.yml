@@ -24,6 +24,11 @@ field:
       expression: (dusmass25.inst1_2d_hwl_Nx + ocsmass.inst1_2d_hwl_Nx+ bcsmass.inst1_2d_hwl_Nx + sssmass25.inst1_2d_hwl_Nx + so4smass.inst1_2d_hwl_Nx * (132.14/96.06) + (80.043/62.0)*nismass25.inst1_2d_hwl_Nx) * 1.0e+9
     # expression: (dusmass25.tavg3_2d_aer_Nx(td=-1) + ocsmass.tavg3_2d_aer_Nx(td=-1)+ bcsmass.tavg3_2d_aer_Nx(td=-1) + sssmass25.tavg3_2d_aer_Nx(td=-1) + so4smass.tavg3_2d_aer_Nx(td=-1) + nh4smass.tavg3_2d_aer_Nx(td=-1) + nismass25.tavg3_2d_aer_Nx(td=-1)) * 1.0e+9
 
+    _tcpm25:
+      long_name: Total column PM2.5
+      units: kg m-2
+      expression: (ducmass25.inst1_2d_hwl_Nx + occmass.inst1_2d_hwl_Nx+ bccmass.inst1_2d_hwl_Nx + sscmass25.inst1_2d_hwl_Nx + so4cmass.inst1_2d_hwl_Nx * (132.14/96.06) + (80.043/62.0)*nicmass25.inst1_2d_hwl_Nx)
+      
     _aod:
       long_name: Total Aerosol Extinction AOT [550 nm]
       units: '1'
