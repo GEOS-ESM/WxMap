@@ -79,6 +79,11 @@ field:
       units: ug m-3
       expression: bcsmass.inst1_2d_hwl_Nx*1e+9
 
+    _su_lml:
+      long_name: Sulfate Surface Mass Concentration
+      units: ug m-3
+      expression: susmass.inst1_2d_hwl_Nx*1e+9
+
     _ocembb:
       long_name: OC BB Emissions
       units: unknown
