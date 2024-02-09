@@ -212,45 +212,7 @@ field:
       units: ppbv
       expression: o3.chm_inst_1hr_g1440x721_p23*1e+9 
 
-  WRFchem:
-
-    _aod:
-      long_name: Aerosol Optical Depth
-      units: '1'
-      expression: aod(z=1)
-    _pm25:
-      long_name: PM2.5 at pressure levels
-      units: 'ugm-3'
-      expression: pm25
-    _oc:
-       long_name: OC mixing ratio
-       units: 'ug m-3'
-       expression:  oc
-    _bc:
-       long_name: BC mixing ratio
-       units: 'ug m-3'
-       expression:  bc
-    _pm25sfc:
-      long_name: PM2.5 at pressure levels
-      units: 'ugm-3'
-      expression: pm25_lml(z=1)
-    _oc_lml:
-       long_name: OC mixing ratio
-       units: 'ug m-3'
-       expression:  oc_lml(z=1)
-    _bc_lml:
-       long_name: BC mixing ratio
-       units: 'ug m-3'
-       expression:  bc_lml(z=1)
-    _tcoc:
-      long_name: Total column Organic Carbon
-      units: 'kgm-2'
-      expression: tcoc(z=1)
-    _tcpm25:
-      long_name: Total column PM2.5
-      units: 'kgm-2'
-      expression: tcpm25(z=1)
-
+  
   CAMS:
 
     _aod:
