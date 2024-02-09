@@ -1131,7 +1131,7 @@ field:
     _o3:
       long_name: Ozone
       units: 'ppbv'
-      expression: o3
+      expression: o3*1e3
     _no1:
       long_name: NO
       units: 'ppbv'
