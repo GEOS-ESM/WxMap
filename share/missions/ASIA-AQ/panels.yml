@@ -61,7 +61,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'bc_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'bc_lml', 'cbar_only': 1}
 
     co_all:
       long_name: 'CO'
@@ -81,7 +81,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=co&$region&$fcst&$tau', 'field': 'co', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=co&$region&$fcst&$tau', 'field': 'co', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=co&$region&$fcst&$tau', 'field': 'co', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'co', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'co', 'cbar_only': 1}
 
     o3_lml_all:
       long_name: 'O3'
@@ -99,7 +99,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=o3_lml&$region&$fcst&$tau', 'field': 'o3_lml', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=o3_lml&$region&$fcst&$tau', 'field': 'o3_lml', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=o3_lml&$region&$fcst&$tau', 'field': 'o3_lml', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'o3_lml', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'o3_lml', 'cbar_only': 1}
 
     so2_lml_all:
       long_name: 'SO2'
@@ -120,7 +120,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=so2_lml&$region&$fcst&$tau', 'field': 'so2_lml', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=so2_lml&$region&$fcst&$tau', 'field': 'so2_lml', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=so2_lml&$region&$fcst&$tau', 'field': 'so2_lml', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'so2_lml', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'so2_lml', 'cbar_only': 1}
 
     am_all:
       long_name: 'Ammonium'
@@ -133,7 +133,7 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=am&$region&$fcst&$tau', 'field': 'am', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'am', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'am', 'cbar_only': 1}
 
     co_lml_all:
       long_name: 'CO'
@@ -152,7 +152,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=co_lml&$region&$fcst&$tau', 'field': 'co_lml', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=co_lml&$region&$fcst&$tau', 'field': 'co_lml', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=co_lml&$region&$fcst&$tau', 'field': 'co_lml', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'co_lml', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'co_lml', 'cbar_only': 1}
 
     co_smoke_all:
       long_name: 'CO Smoke'
@@ -165,7 +165,7 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=co_smoke&$region&$fcst&$tau', 'field': 'co_smoke', 'pos': 11, 'stream': 'GEOS'}
-        - {'no_cbar': 0, 'stream': 'GEOS', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'co_smoke', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'GEOS', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'co_smoke', 'cbar_only': 1}
 
     tcno_all:
       long_name: 'Total column NO'
@@ -178,7 +178,7 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=tcno&$region&$fcst&$tau', 'field': 'tcno', 'pos': 31, 'stream': 'CAMS'}
-        - {'no_cbar': 0, 'stream': 'CAMS', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'tcno', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMS', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'tcno', 'cbar_only': 1}
 
     no1_all:
       long_name: 'NO'
@@ -193,7 +193,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_ARUNWRFchem/?one_click=1&stream=ARUNWRFchem&$level&field=no1&$region&$fcst&$tau', 'field': 'no1', 'pos': 22, 'stream': 'ARUNWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=no1&$region&$fcst&$tau', 'field': 'no1', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=no1&$region&$fcst&$tau', 'field': 'no1', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'no1', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'no1', 'cbar_only': 1}
 
     no2_all:
       long_name: 'NO2'
@@ -212,7 +212,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=no2&$region&$fcst&$tau', 'field': 'no2', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=no2&$region&$fcst&$tau', 'field': 'no2', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=no2&$region&$fcst&$tau', 'field': 'no2', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'no2', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'no2', 'cbar_only': 1}
 
     ni_all:
       long_name: 'Nitrate'
@@ -225,7 +225,7 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=ni&$region&$fcst&$tau', 'field': 'ni', 'pos': 11, 'stream': 'GEOS'}
-        - {'no_cbar': 0, 'stream': 'GEOS', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'ni', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'GEOS', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'ni', 'cbar_only': 1}
 
     no1_lml_all:
       long_name: 'NO'
@@ -239,7 +239,7 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=no1_lml&$region&$fcst&$tau', 'field': 'no1_lml', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=no1_lml&$region&$fcst&$tau', 'field': 'no1_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'no1_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'no1_lml', 'cbar_only': 1}
 
     tcco_all:
       long_name: 'Total column CO'
@@ -259,7 +259,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=tcco&$region&$fcst&$tau', 'field': 'tcco', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=tcco&$region&$fcst&$tau', 'field': 'tcco', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=tcco&$region&$fcst&$tau', 'field': 'tcco', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'tcco', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'tcco', 'cbar_only': 1}
 
     tcpm25_all:
       long_name: 'Total column PM2.5'
@@ -277,7 +277,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'tcpm25', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'tcpm25', 'cbar_only': 1}
 
     o3_all:
       long_name: 'O3'
@@ -295,7 +295,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=o3&$region&$fcst&$tau', 'field': 'o3', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=o3&$region&$fcst&$tau', 'field': 'o3', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=o3&$region&$fcst&$tau', 'field': 'o3', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'o3', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'o3', 'cbar_only': 1}
 
     pm25_all:
       long_name: 'PM2.5'
@@ -314,7 +314,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'pm25', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'pm25', 'cbar_only': 1}
 
     aod_all:
       long_name: 'AOD'
@@ -334,7 +334,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=aod&$region&$fcst&$tau', 'field': 'aod', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=aod&$region&$fcst&$tau', 'field': 'aod', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=aod&$region&$fcst&$tau', 'field': 'aod', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'aod', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'aod', 'cbar_only': 1}
 
     am_lml_all:
       long_name: 'Ammonium'
@@ -347,7 +347,7 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=am_lml&$region&$fcst&$tau', 'field': 'am_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'am_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'am_lml', 'cbar_only': 1}
 
     bc_all:
       long_name: 'BC'
@@ -366,7 +366,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=bc&$region&$fcst&$tau', 'field': 'bc', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=bc&$region&$fcst&$tau', 'field': 'bc', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=bc&$region&$fcst&$tau', 'field': 'bc', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'bc', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'bc', 'cbar_only': 1}
 
     pm25sfc_all:
       long_name: 'PM2.5'
@@ -385,7 +385,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=pm25sfc&$region&$fcst&$tau', 'field': 'pm25sfc', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=pm25sfc&$region&$fcst&$tau', 'field': 'pm25sfc', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=pm25sfc&$region&$fcst&$tau', 'field': 'pm25sfc', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'pm25sfc', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'pm25sfc', 'cbar_only': 1}
 
     tcoc_all:
       long_name: 'Total column OC'
@@ -404,7 +404,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=tcoc&$region&$fcst&$tau', 'field': 'tcoc', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=tcoc&$region&$fcst&$tau', 'field': 'tcoc', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=tcoc&$region&$fcst&$tau', 'field': 'tcoc', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'tcoc', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'tcoc', 'cbar_only': 1}
 
     so2_all:
       long_name: 'SO2'
@@ -420,7 +420,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
-        - {'shift_dt': -12, 'no_cbar': 0, 'stream': 'GEOSCF', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'so2', 'cbar_only': 1}
+        - {'shift_dt': -12, 'no_cbar': 0, 'stream': 'GEOSCF', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'so2', 'cbar_only': 1}
 
     oc_lml_all:
       long_name: 'OC'
@@ -435,7 +435,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=oc_lml&$region&$fcst&$tau', 'field': 'oc_lml', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=oc_lml&$region&$fcst&$tau', 'field': 'oc_lml', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=oc_lml&$region&$fcst&$tau', 'field': 'oc_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'oc_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'oc_lml', 'cbar_only': 1}
 
     du_all:
       long_name: 'Dust'
@@ -450,7 +450,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'du', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'du', 'cbar_only': 1}
 
     su_lml_all:
       long_name: 'Sulphate'
@@ -464,7 +464,7 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=su_lml&$region&$fcst&$tau', 'field': 'su_lml', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=su_lml&$region&$fcst&$tau', 'field': 'su_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'su_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'su_lml', 'cbar_only': 1}
 
     ss_all:
       long_name: 'Sea salt'
@@ -479,7 +479,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'ss', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'ss', 'cbar_only': 1}
 
     ss_lml_all:
       long_name: 'Sea salt'
@@ -493,7 +493,7 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=ss_lml&$region&$fcst&$tau', 'field': 'ss_lml', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=ss_lml&$region&$fcst&$tau', 'field': 'ss_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'ss_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'ss_lml', 'cbar_only': 1}
 
     oc_all:
       long_name: 'OC'
@@ -512,7 +512,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=oc&$region&$fcst&$tau', 'field': 'oc', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=oc&$region&$fcst&$tau', 'field': 'oc', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=oc&$region&$fcst&$tau', 'field': 'oc', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'oc', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'oc', 'cbar_only': 1}
 
     su_all:
       long_name: 'Sulphate'
@@ -526,7 +526,7 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=su&$region&$fcst&$tau', 'field': 'su', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=su&$region&$fcst&$tau', 'field': 'su', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'su', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'su', 'cbar_only': 1}
 
     no2_lml_all:
       long_name: 'NO2'
@@ -545,7 +545,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=no2_lml&$region&$fcst&$tau', 'field': 'no2_lml', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=no2_lml&$region&$fcst&$tau', 'field': 'no2_lml', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=no2_lml&$region&$fcst&$tau', 'field': 'no2_lml', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'no2_lml', 'cbar_only': 1}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'no2_lml', 'cbar_only': 1}
 
     du_lml_all:
       long_name: 'Dust'
@@ -560,7 +560,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_NAAPS/?one_click=1&stream=NAAPS&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 12, 'stream': 'NAAPS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'du_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'du_lml', 'cbar_only': 1}
 
     ni_lml_all:
       long_name: 'Nitrate'
@@ -573,4 +573,4 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=ni_lml&$region&$fcst&$tau', 'field': 'ni_lml', 'pos': 11, 'stream': 'GEOS'}
-        - {'no_cbar': 0, 'stream': 'GEOS', 'geometry': '1024x768', 'region': 'asia-aq', 'pos': 'cbar', 'field': 'ni_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'GEOS', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'ni_lml', 'cbar_only': 1}
