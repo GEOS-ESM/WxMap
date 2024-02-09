@@ -551,10 +551,6 @@ field:
        long_name: SO2 mixing ratio
        units: 'ppbv'
        expression: SO2*1e+9
-#   _co_smoke:
-#      long_name: Carbon monixide smoke tracer
-#      units: 'ppbv'
-#      expression: CO01*1e+9
     _am_lml:
       long_name: Ammonium aerosol mixing ratio
       units: 'ugm-3'
@@ -599,10 +595,6 @@ field:
        long_name: so2 mixing ratio
        units: 'ppbv'
        expression: SO2_lml(z=1)*1e+9
-#   _co_smoke_lml:
-#      long_name: Carbon monixide smoke tracer
-#      units: 'ppbv'
-#      expression: CO01_lml(z=1)*1e+9
 
   NAAPS:
     
@@ -614,7 +606,7 @@ field:
       long_name: Sulfur dioxide aerosol mixing ratio
       units: 'ug m-3'
       expression: conc_kgm3(e=1)*1.e+9
-    _seas:
+    _ss:
       long_name: Sea salt aerosol mixing ratio
       units: 'ug m-3'
       expression: conc_kgm3(e=1)*1.e+9
@@ -937,7 +929,7 @@ field:
       long_name: Dust
       units: 'ugm-3'
       expression: soila
-    _seas:
+    _ss:
       long_name: Sea Salt
       units: 'ugm-3'
       expression: seas
@@ -965,6 +957,10 @@ field:
       long_name: CO at lowest model level
       units: 'ppbv'
       expression: co_lml(z=1) * 1000
+    _ss_lml:
+      long_name: Ses Salt at lowest model level
+      units: 'ugm-3'
+      expression: seas_lml(z=1)
 
   UCLAWRFchem_d2: *UCLAWRF
 
@@ -1034,7 +1030,7 @@ field:
       long_name: Dust
       units: 'ugm-3'
       expression: soila
-    _seas:
+    _ss:
       long_name: Sea Salt
       units: 'ugm-3'
       expression: seas
@@ -1147,7 +1143,7 @@ field:
       long_name: Dust
       units: 'ugm-3'
       expression: soila
-    _seas:
+    _ss:
       long_name: Sea Salt
       units: 'ugm-3'
       expression: seas
@@ -1171,7 +1167,10 @@ field:
       long_name: CO at lowest model level
       units: 'ppbv'
       expression: co_lml(z=1)
-
+    _ss_lml:
+      long_name: Sea Salt at lowest model level
+      units: 'ugm-3'
+      expression: seas_lml(z=1)
   
   UIOWAWRFchem:
 
