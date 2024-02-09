@@ -82,7 +82,7 @@ wxmapscustom:
       title: 'Total column PM2.5'
       tcoc: 
         clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5
-        expr: _tcpm25*1e+3
+        expr: (_tcpm25)*1e+3
         cmin: 
         cmax: 
         cint: 
@@ -97,7 +97,7 @@ wxmapscustom:
       title: 'Total column PM2.5'
       tcoc: 
         clevs: 0 0.0001 0.002 0.005 0.01 0.02 0.05 0.1
-        expr: _tcpm25*1e+3
+        expr: (_tcpm25)*1e+3
         nsub: 20
         skip: 20
 
