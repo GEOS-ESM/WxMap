@@ -1139,7 +1139,7 @@ field:
     _no2:
       long_name: NO2
       units: 'ppbv'
-      expression: no2
+      expression: no2*1e3
     _no3:
       long_name: NO3
       units: 'ppbv'
