@@ -945,6 +945,10 @@ field:
       long_name: SO2 mixing ratio
       units: 'ppbv'
       expression: so2_lml*1e+3
+    _so2:
+      long_name: SO2 mixing ratio
+      units: 'ppbv'
+      expression: so2*1e+3      
     _o3_lml:
       long_name: O3 mixing ratio
       units: 'ppbv'
@@ -1155,6 +1159,10 @@ field:
       long_name: SO2 mixing ratio
       units: 'ppbv'
       expression: so2_lml*1e+3
+    _so2:
+      long_name: SO2 mixing ratio
+      units: 'ppbv'
+      expression: so2*1e+3        
     _o3_lml:
       long_name: O3 mixing ratio
       units: 'ppbv'
