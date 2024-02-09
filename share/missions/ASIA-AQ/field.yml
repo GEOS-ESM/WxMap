@@ -87,7 +87,7 @@ field:
     _su_lml:
       long_name: Sulfate Surface Mass Concentration
       units: ug m-3
-      expression: susmass.inst1_2d_hwl_Nx*1e+9
+      expression: so4smass.inst1_2d_hwl_Nx*1e+9
 
     _ss_lml:
       long_name: Sea Salt Surface Mass Concentration
