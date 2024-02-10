@@ -421,7 +421,6 @@ wxmapscustom:
       nsub: 10
       skip: 10
       scale:
-      type:
       alpha: *ALPHA_DEFAULT
 
   attribute:
