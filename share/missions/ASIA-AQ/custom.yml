@@ -1,4 +1,4 @@
-alpha1: &ALPHA1
+alpha_default: &ALPHA_DEFAULT
   - 0.000 0.000 0.000
   - 0.111 0.500 0.500
   - 0.222 0.800 0.800
@@ -117,17 +117,17 @@ wxmapscustom:
         nsub: 20
         skip: 20
 
-    tcpm25_smoke:    
-      long_name: Total Column PM2.5 Smoke
-      levels:  [0]
-      layers:  [shaded]
-      title: 'Total column PM2.5'
-      shaded:
-        clevs: 0 0.0001 0.002 0.005 0.01 0.02 0.05 0.1
-        expr: (_tcpm25)*1e+3
-        cbunits: 'gm`a-2'
-        nsub: 20
-        skip: 20
+ #  tcpm25_smoke:    
+ #    long_name: Total Column PM2.5 Smoke
+ #    levels:  [0]
+ #    layers:  [shaded]
+ #    title: 'Total column PM2.5'
+ #    shaded:
+ #      clevs: 0 0.0001 0.002 0.005 0.01 0.02 0.05 0.1
+ #      expr: (_tcpm25_smoke)*1e+3
+ #      cbunits: 'gm`a-2'
+ #      nsub: 20
+ #      skip: 20
 
     su:
       long_name: Sulphate
@@ -356,8 +356,8 @@ wxmapscustom:
       title: 'Surface CO tracer for biomass burning'
       shaded:
         expr: _co_smoke_lml
-     #  clevs: 0 0.5 1.0 2.0 5.0 10.0 15.0 20.0 50.0 100.00 150.0
-        cdict: coDict
+        clevs: 0 0.5 1.0 2.0 5.0 10.0 15.0 20.0 50.0 100.00 150.0
+     #  cdict: coDict
         cbunits: 'ppbv'
 
     smoke_lml:
@@ -413,7 +413,7 @@ wxmapscustom:
 
     shaded:
       gxout: shaded
-      cbar: ASIA-AQ-default
+      cbar: AAQ-default
       cdict:
       cmin: 
       cmax:
@@ -422,7 +422,7 @@ wxmapscustom:
       skip: 10
       scale:
       type:
-      alpha: *ALPHA1
+      alpha: *ALPHA_DEFAULT
 
   attribute:
     aodDict:

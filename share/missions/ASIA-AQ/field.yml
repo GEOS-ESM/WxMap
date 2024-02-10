@@ -974,6 +974,10 @@ field:
       long_name: Ses Salt at lowest model level
       units: 'ugm-3'
       expression: seas_lml(z=1)
+    _du_lml:
+      long_name: Dust aerosol mixing ratio
+      units: 'ugm-3'
+      expression: du_lml(z=1)
 
   UCLAWRFchem_d2: *UCLAWRF
 
@@ -1131,7 +1135,7 @@ field:
     _o3:
       long_name: Ozone
       units: 'ppbv'
-      expression: o3*1e3
+      expression: o3*1e2
     _no1:
       long_name: NO
       units: 'ppbv'

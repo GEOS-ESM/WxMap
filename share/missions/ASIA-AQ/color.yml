@@ -2,7 +2,7 @@ attribute:
 
   colorbar:
 
-    ASIA-AQ-default:
+    AAQ-default:
       - 253.95 252.559 254.727
       - 226.313 208.754 253.393
       - 192.24 175.288 254.617
