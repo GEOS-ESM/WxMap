@@ -51,22 +51,25 @@ wxmapscustom:
     bc_lml_all:
       long_name: 'BC'
       title: 'Surface Black Carbon'
-      layers: ['bc']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
       map:
         layers: [bluemarble01]
       panels:
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_ARUNWRFchem/?one_click=1&stream=ARUNWRFchem&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'pos': 22, 'stream': 'ARUNWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'pos': 11, 'stream': 'GEOS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'bc_lml', 'cbar_only': 1}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=bc_lml&$region&$fcst&$tau', 'field': 'bc_lml', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'bc_lml', 'cbar_only': 1}
 
     co_all:
       long_name: 'CO'
       title: '$level hPa CO'
-      layers: ['co']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -86,7 +89,7 @@ wxmapscustom:
     o3_lml_all:
       long_name: 'O3'
       title: 'Surface O3'
-      layers: ['o3']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -104,7 +107,7 @@ wxmapscustom:
     so2_lml_all:
       long_name: 'SO2'
       title: 'Surface SO2'
-      layers: ['so2']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -125,7 +128,7 @@ wxmapscustom:
     am_all:
       long_name: 'Ammonium'
       title: '$level hPa ammonium aerosol'
-      layers: ['su']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -138,7 +141,7 @@ wxmapscustom:
     co_lml_all:
       long_name: 'CO'
       title: 'Surface CO'
-      layers: ['co']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -157,7 +160,7 @@ wxmapscustom:
     co_smoke_all:
       long_name: 'CO Smoke'
       title: '$level hPa CO tracer of biomass burning'
-      layers: ['co']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -170,7 +173,7 @@ wxmapscustom:
     tcno_all:
       long_name: 'Total column NO'
       title: 'Total column NO'
-      layers: ['tcno']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -183,7 +186,7 @@ wxmapscustom:
     no1_all:
       long_name: 'NO'
       title: '$level hPa NO'
-      layers: ['no1']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -192,13 +195,15 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_ARUNWRFchem/?one_click=1&stream=ARUNWRFchem&$level&field=no1&$region&$fcst&$tau', 'field': 'no1', 'pos': 22, 'stream': 'ARUNWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=no1&$region&$fcst&$tau', 'field': 'no1', 'pos': 31, 'stream': 'CAMS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=no1&$region&$fcst&$tau', 'field': 'no1', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=no1&$region&$fcst&$tau', 'field': 'no1', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'no1', 'cbar_only': 1}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=no1&$region&$fcst&$tau', 'field': 'no1', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'no1', 'cbar_only': 1}
 
     no2_all:
       long_name: 'NO2'
       title: '$level hPa NO2'
-      layers: ['no2']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -217,7 +222,7 @@ wxmapscustom:
     ni_all:
       long_name: 'Nitrate'
       title: '$level hPa ammonium aerosol'
-      layers: ['su']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -230,7 +235,7 @@ wxmapscustom:
     no1_lml_all:
       long_name: 'NO'
       title: 'Surface NO'
-      layers: ['no1']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -244,7 +249,7 @@ wxmapscustom:
     tcco_all:
       long_name: 'Total column CO'
       title: 'Total column CO'
-      layers: ['tcco']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -264,7 +269,7 @@ wxmapscustom:
     tcpm25_all:
       long_name: 'Total column PM2.5'
       title: 'Total column PM2.5'
-      layers: ['tcoc']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -273,6 +278,7 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_ARUNWRFchem/?one_click=1&stream=ARUNWRFchem&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'pos': 22, 'stream': 'ARUNWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'pos': 31, 'stream': 'CAMS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_YSUNCARWRFchem/?one_click=1&stream=YSUNCARWRFchem&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'pos': 13, 'stream': 'YSUNCARWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=tcpm25&$region&$fcst&$tau', 'field': 'tcpm25', 'pos': 41, 'stream': 'CAMchem'}
@@ -282,7 +288,7 @@ wxmapscustom:
     o3_all:
       long_name: 'O3'
       title: '$level hPa O3'
-      layers: ['o3']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -300,7 +306,7 @@ wxmapscustom:
     pm25_all:
       long_name: 'PM2.5'
       title: '$level hPa PM2.5'
-      layers: ['pm25']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -310,6 +316,7 @@ wxmapscustom:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_NAAPS/?one_click=1&stream=NAAPS&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'pos': 12, 'stream': 'NAAPS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_ARUNWRFchem/?one_click=1&stream=ARUNWRFchem&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'pos': 22, 'stream': 'ARUNWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'pos': 31, 'stream': 'CAMS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_YSUNCARWRFchem/?one_click=1&stream=YSUNCARWRFchem&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'pos': 13, 'stream': 'YSUNCARWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=pm25&$region&$fcst&$tau', 'field': 'pm25', 'pos': 41, 'stream': 'CAMchem'}
@@ -319,7 +326,7 @@ wxmapscustom:
     aod_all:
       long_name: 'AOD'
       title: 'Aerosol Optical Thickness'
-      layers: ['aod']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -339,7 +346,7 @@ wxmapscustom:
     am_lml_all:
       long_name: 'Ammonium'
       title: 'Surface ammonium aerosol'
-      layers: ['su']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -352,7 +359,7 @@ wxmapscustom:
     bc_all:
       long_name: 'BC'
       title: '$level hPa Black Carbon'
-      layers: ['bc']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -371,7 +378,7 @@ wxmapscustom:
     pm25sfc_all:
       long_name: 'PM2.5'
       title: 'Surface PM2.5'
-      layers: ['pm25']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -390,7 +397,7 @@ wxmapscustom:
     tcoc_all:
       long_name: 'Total column OC'
       title: 'Total column OC'
-      layers: ['tcoc']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -409,23 +416,26 @@ wxmapscustom:
     so2_all:
       long_name: 'SO2'
       title: '$level hPa SO2'
-      layers: ['so2']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
       map:
         layers: [bluemarble01]
       panels:
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_ARUNWRFchem/?one_click=1&stream=ARUNWRFchem&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'pos': 22, 'stream': 'ARUNWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'pos': 11, 'stream': 'GEOS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'pos': 41, 'stream': 'CAMchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOSCF/?one_click=1&stream=GEOSCF&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'shift_dt': -12, 'pos': 21, 'stream': 'GEOSCF'}
-        - {'shift_dt': -12, 'no_cbar': 0, 'stream': 'GEOSCF', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'so2', 'cbar_only': 1}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=so2&$region&$fcst&$tau', 'field': 'so2', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'so2', 'cbar_only': 1}
 
     oc_lml_all:
       long_name: 'OC'
       title: 'Surface Organic Carbon'
-      layers: ['oc']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -440,22 +450,26 @@ wxmapscustom:
     du_all:
       long_name: 'Dust'
       title: '$level hPa dust aerosol'
-      layers: ['du']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
       map:
         layers: [bluemarble01]
       panels:
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_ARUNWRFchem/?one_click=1&stream=ARUNWRFchem&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'pos': 22, 'stream': 'ARUNWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'pos': 11, 'stream': 'GEOS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_YSUNCARWRFchem/?one_click=1&stream=YSUNCARWRFchem&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'pos': 13, 'stream': 'YSUNCARWRFchem'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'du', 'cbar_only': 1}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=du&$region&$fcst&$tau', 'field': 'du', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'du', 'cbar_only': 1}
 
     su_lml_all:
       long_name: 'Sulphate'
       title: 'Surface sulphate aerosol'
-      layers: ['su']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -463,28 +477,34 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=su_lml&$region&$fcst&$tau', 'field': 'su_lml', 'pos': 31, 'stream': 'CAMS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=su_lml&$region&$fcst&$tau', 'field': 'su_lml', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=su_lml&$region&$fcst&$tau', 'field': 'su_lml', 'pos': 41, 'stream': 'CAMchem'}
         - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'su_lml', 'cbar_only': 1}
 
     ss_all:
       long_name: 'Sea salt'
       title: '$level hPa sea salt aerosol'
-      layers: ['ss']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
       map:
         layers: [bluemarble01]
       panels:
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_NAAPS/?one_click=1&stream=NAAPS&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 12, 'stream': 'NAAPS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_ARUNWRFchem/?one_click=1&stream=ARUNWRFchem&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 22, 'stream': 'ARUNWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 11, 'stream': 'GEOS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_YSUNCARWRFchem/?one_click=1&stream=YSUNCARWRFchem&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 13, 'stream': 'YSUNCARWRFchem'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'ss', 'cbar_only': 1}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=ss&$region&$fcst&$tau', 'field': 'ss', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'ss', 'cbar_only': 1}
 
     ss_lml_all:
       long_name: 'Sea salt'
       title: 'Surface sea salt aerosol'
-      layers: ['ss']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -492,13 +512,16 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=ss_lml&$region&$fcst&$tau', 'field': 'ss_lml', 'pos': 31, 'stream': 'CAMS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=ss_lml&$region&$fcst&$tau', 'field': 'ss_lml', 'pos': 11, 'stream': 'GEOS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=ss_lml&$region&$fcst&$tau', 'field': 'ss_lml', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=ss_lml&$region&$fcst&$tau', 'field': 'ss_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'ss_lml', 'cbar_only': 1}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=ss_lml&$region&$fcst&$tau', 'field': 'ss_lml', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'ss_lml', 'cbar_only': 1}
 
     oc_all:
       long_name: 'OC'
       title: '$level hPa Organic Carbon'
-      layers: ['oc']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -517,7 +540,7 @@ wxmapscustom:
     su_all:
       long_name: 'Sulphate'
       title: '$level hPa sulphate aerosol'
-      layers: ['su']
+      layers: ['shaded']
       levels: [925, 850, 700, 600]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -525,13 +548,14 @@ wxmapscustom:
         layers: [bluemarble01]
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=su&$region&$fcst&$tau', 'field': 'su', 'pos': 31, 'stream': 'CAMS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=su&$region&$fcst&$tau', 'field': 'su', 'pos': 11, 'stream': 'GEOS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=su&$region&$fcst&$tau', 'field': 'su', 'pos': 41, 'stream': 'CAMchem'}
         - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'su', 'cbar_only': 1}
 
     no2_lml_all:
       long_name: 'NO2'
       title: 'Surface NO2'
-      layers: ['no2']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -550,7 +574,7 @@ wxmapscustom:
     du_lml_all:
       long_name: 'Dust'
       title: 'Surface dust aerosol'
-      layers: ['du']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
@@ -559,13 +583,15 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_NAAPS/?one_click=1&stream=NAAPS&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 12, 'stream': 'NAAPS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 31, 'stream': 'CAMS'}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'du_lml', 'cbar_only': 1}
+        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
+        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'du_lml', 'cbar_only': 1}
 
     ni_lml_all:
       long_name: 'Nitrate'
       title: 'Surface ammonium aerosol'
-      layers: ['su']
+      layers: ['shaded']
       levels: [0]
       header: Forecast Initialized on $tm_start
       layout: *LAYOUT12
