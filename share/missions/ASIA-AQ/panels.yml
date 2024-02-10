@@ -444,8 +444,7 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=oc_lml&$region&$fcst&$tau', 'field': 'oc_lml', 'pos': 31, 'stream': 'CAMS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_GEOS/?one_click=1&stream=GEOS&$level&field=oc_lml&$region&$fcst&$tau', 'field': 'oc_lml', 'pos': 11, 'stream': 'GEOS'}
-        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=oc_lml&$region&$fcst&$tau', 'field': 'oc_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'oc_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'GEOS', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'oc_lml', 'cbar_only': 1}
 
     du_all:
       long_name: 'Dust'
@@ -583,10 +582,8 @@ wxmapscustom:
       panels:
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_NAAPS/?one_click=1&stream=NAAPS&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 12, 'stream': 'NAAPS'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMS/?one_click=1&stream=CAMS&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 31, 'stream': 'CAMS'}
-        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem/?one_click=1&stream=UCLAWRFchem&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'shift_dt': 6, 'pos': 32, 'stream': 'UCLAWRFchem'}
         - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_CAMchem/?one_click=1&stream=CAMchem&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'pos': 41, 'stream': 'CAMchem'}
-        - {'url': 'https://fluid.nccs.nasa.gov/missions/custom_mission%2BAAQ_UCLAWRFchem_d2/?one_click=1&stream=UCLAWRFchem_d2&$level&field=du_lml&$region&$fcst&$tau', 'field': 'du_lml', 'shift_dt': 6, 'pos': 42, 'stream': 'UCLAWRFchem_d2'}
-        - {'shift_dt': 6, 'no_cbar': 0, 'stream': 'UCLAWRFchem_d2', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'du_lml', 'cbar_only': 1}
+        - {'no_cbar': 0, 'stream': 'CAMchem', 'geometry': '1024x768', 'pos': 'cbar', 'field': 'du_lml', 'cbar_only': 1}
 
     ni_lml_all:
       long_name: 'Nitrate'
