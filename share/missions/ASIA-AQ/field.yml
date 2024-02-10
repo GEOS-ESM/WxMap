@@ -1167,7 +1167,7 @@ field:
     _ss:
       long_name: Sea Salt
       units: 'ugm-3'
-      expression: seas
+      expression: (seas_1+seas_2+seas_3+seas_4)*rho
     _no2_lml:
       long_name: NO2 mixing ratio
       units: 'ppbv'
