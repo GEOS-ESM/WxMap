@@ -564,10 +564,10 @@ field:
       long_name: Sulphate aerosol mixing ratio
       units: 'ugm-3'
       expression: (so4_a1_lml(z=1)+so4_a2_lml(z=1)+so4_a3_lml(z=1))*1e+9*rho_lml(z=1)
-    _oc_lml:
-      long_name: OC mixing ratio
-      units: 'ugm-3'
-      expression: (pom_a1_lml(z=1)+pom_a4_lml(z=1)+soa_a1_lml(z=1)+soa_a2_lml(z=1))/1.4*1e+9*rho_lml(z=1)
+#   _oc_lml:
+#     long_name: OC mixing ratio
+#     units: 'ugm-3'
+#     expression: (pom_a1_lml(z=1)+pom_a4_lml(z=1)+soa_a1_lml(z=1)+soa_a2_lml(z=1))/1.4*1e+9*rho_lml(z=1)
     _bc_lml:
       long_name: BC mixing ratio
       units: 'ugm-3'
@@ -974,6 +974,10 @@ field:
       long_name: Ses Salt at lowest model level
       units: 'ugm-3'
       expression: seas_lml(z=1)
+ #  _du_lml:
+ #    long_name: Dust aerosol mixing ratio
+ #    units: 'ugm-3'
+ #    expression: du_lml(z=1)
 
   UCLAWRFchem_d2: *UCLAWRF
 
@@ -1131,11 +1135,11 @@ field:
     _o3:
       long_name: Ozone
       units: 'ppbv'
-      expression: o3*1e3
+      expression: o3*1e2
     _no1:
       long_name: NO
       units: 'ppbv'
-      expression: no
+      expression: 'no'
     _no2:
       long_name: NO2
       units: 'ppbv'
@@ -1163,7 +1167,7 @@ field:
     _ss:
       long_name: Sea Salt
       units: 'ugm-3'
-      expression: seas
+      expression: (seas_1+seas_2+seas_3+seas_4)*rho
     _no2_lml:
       long_name: NO2 mixing ratio
       units: 'ppbv'

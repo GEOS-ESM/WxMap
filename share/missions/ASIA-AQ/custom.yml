@@ -1,3 +1,17 @@
+alpha_default: &ALPHA_DEFAULT
+  - 0.000 0.000 0.000
+  - 0.111 0.500 0.500
+  - 0.222 0.800 0.800
+  - 0.333 1.000 1.000
+  - 0.444 1.000 1.000
+  - 0.555 1.000 1.000
+  - 0.667 1.000 1.000
+  - 1.000 1.000 1.000
+
+alpha_none: &ALPHA_NONE
+  - 0.000 1.000 1.000
+  - 1.000 1.000 1.000
+
 wxmapscustom:
 
   plot:
@@ -5,659 +19,409 @@ wxmapscustom:
     aod:
       long_name: AOD
       levels: [0]
-      navigate: 'off'
-      layers: [aod]
+      layers: [shaded]
       title: 'Aerosol Optical Thickness'
-
+      shaded:
+        expr: _aod
+        cdict: aodDict
 
     aod_smoke:
       long_name: AOD Smoke
       levels: [0]
-      navigate: 'off'
-      layers: [aod]
+      layers: [shaded]
       title: 'Aerosol Optical Thickness (Smoke)'
-      aod:
+      shaded:
         expr: _aod_smoke
         clevs: 0 0.005 0.01 0.02 0.04 0.07 0.1 0.15 0.2 0.3 0.5
+     #  cdict: aodDict
 
     pm25sfc:
       long_name: PM2.5
       levels:    [0]
-      navigate: 'off'
-      layers:    [pm25]
+      layers:    [shaded]
       title:     'Surface PM2.5'
-      pm25:
+      shaded:
         expr: _pm25sfc
+        cdict: pm25Dict
+        cbunits: 'ugm`a-3`'
 
     pm25_smoke:
       long_name: PM2.5
       levels: [925,850,700,600]
-      layers:    [pm25]
+      layers:    [shaded]
       title:     '$level hPa Smoke PM2.5'
-      pm25: 
+      shaded:
         expr: _pm25_smoke
+        cdict: pm25Dict
+        cbunits: 'ugm`a-3`'
 
     pm25_smoke_lml:
       long_name: PM2.5
       levels: [0]
-      navigate: 'off'
-      layers: [pm25]
+      layers: [shaded]
       title:     'Surface Smoke PM2.5'
-      pm25: 
+      shaded:
         expr: _pm25_smoke_lml(z=1)
+        cdict: pm25Dict
+        cbunits: 'ugm`a-3`'
 
     pm25:
       long_name: PM2.5
       levels: [925,850,700,600]
-      layers: [pm25]
+      layers: [shaded]
       title: '$level hPa PM2.5'
+      shaded:
+        expr: _pm25
+        cdict: pm25Dict
+        cbunits: 'ugm`a-3`'
 
     tcco:    
       long_name: Total column CO
       levels:  [0]
-      navigate: 'off'
-      layers:  [tcco]  
+      layers:  [shaded]
       title: 'Total column CO'
+      shaded:
+        expr: _tcco*1e+3
+        cdict: tccoDict
+        cbunits: 'gm`a-2'
 
     tcno:    
       long_name: Total column NO
       levels:  [0]
-      navigate: 'off'
-      layers:  [tcno]  
+      layers:  [shaded]
       title: 'Total column NO'
+      shaded:
+        expr: _tcno*1e+9
+        cdict: tcnoDict
+        cbunits: 'ugm`a-2'
 
     tcoc:    
       long_name: Total column OC
       levels:  [0]
-      navigate: 'off'
-      layers:  [tcoc]  
+      layers:  [shaded]
       title: 'Total column OC'
-
+      shaded:
+        expr: _tcoc*1e+3
+        cdict: tcocDict
+        cbunits: 'gm`a-2'
 
     tcpm25:    
       long_name: Total column PM2.5
       levels:  [0]
-      navigate: 'off'
-      layers:  [tcoc]  
+      layers:  [shaded]
       title: 'Total column PM2.5'
-      tcoc: 
+      shaded:
         clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5
         expr: (_tcpm25)*1e+3
-        cmin: 
-        cmax: 
-        cint: 
+        cbunits: 'gm`a-2'
         nsub: 20
         skip: 20
 
-    tcpm25_smoke:    
-      long_name: Total Column PM2.5 Smoke
-      levels:  [0]
-      navigate: 'off'
-      layers:  [tcoc]  
-      title: 'Total column PM2.5'
-      tcoc: 
-        clevs: 0 0.0001 0.002 0.005 0.01 0.02 0.05 0.1
-        expr: (_tcpm25)*1e+3
-        nsub: 20
-        skip: 20
+ #  tcpm25_smoke:    
+ #    long_name: Total Column PM2.5 Smoke
+ #    levels:  [0]
+ #    layers:  [shaded]
+ #    title: 'Total column PM2.5'
+ #    shaded:
+ #      clevs: 0 0.0001 0.002 0.005 0.01 0.02 0.05 0.1
+ #      expr: (_tcpm25_smoke)*1e+3
+ #      cbunits: 'gm`a-2'
+ #      nsub: 20
+ #      skip: 20
 
     su:
       long_name: Sulphate
       levels: [925,850,700,600]
-      layers: [su]
+      layers: [shaded]
       title: '$level hPa sulphate aerosol'
+      shaded:
+        expr: _su
+        cbunits: 'ug m`a-3'
+        cdict: suDict
 
     am:
       long_name: Ammonium
       levels: [925,850,700,600]
-      layers: [su]
+      layers: [shaded]
       title: '$level hPa ammonium aerosol'
-      su: 
+      shaded:
         expr: _am
+        cbunits: 'ug m`a-3'
+        cdict: suDict
 
     ni:
       long_name: Nitrate
       levels: [925,850,700,600]
-      layers: [su]
+      layers: [shaded]
       title: '$level hPa ammonium aerosol'
-      su: 
+      shaded:
         expr: _ni
-
+        cbunits: 'ug m`a-3'
+        cdict: suDict
 
     du:
       long_name: Dust
       levels: [925,850,700,600]
-      layers: [du]
+      layers: [shaded]
       title: '$level hPa dust aerosol'
+      shaded:
+        expr: _du
+        cbunits: 'ug m`a-3'
+        cdict: duDict
 
     ss:
       long_name: Sea salt
       levels: [925,850,700,600]
-      layers: [ss]
+      layers: [shaded]
       title: '$level hPa sea salt aerosol'
+      shaded:
+        expr: _ss
+        cdict: ssDict
+        cbunits: 'ug m`a-3'
 
     oc:
       long_name: OC
       levels: [925,850,700,600]
-      layers: [oc]
+      layers: [shaded]
       title: '$level hPa Organic Carbon'
+      shaded:
+        expr: _oc
+        cdict: ocDict
+        cbunits: 'ug m`a-3'
 
     bc:
       long_name: BC
       levels: [925,850,700,600]
-      layers: [bc]
+      layers: [shaded]
       title: '$level hPa Black Carbon'
+      shaded:
+        expr: _bc
+        cdict: bcDict
+        cbunits: 'ug m`a-3'
 
     co:
       long_name: CO
       levels: [925,850,700,600]
-      layers: [co]
+      layers: [shaded]
       title: '$level hPa CO'
+      shaded:
+        expr: _co
+        cdict: coDict
+        cbunits: 'ppbv'
 
     co_smoke:
       long_name: CO Smoke
       levels: [925,850,700,600]
-      layers: [co]
+      layers: [shaded]
       title: '$level hPa CO tracer of biomass burning'
-      co: 
+      shaded:
         expr: _co_smoke
         clevs: 0 0.5 1.0 2.0 5.0 10.0 15.0 20.0 50.0 100.00 150.0
+      # cdict: coDict
+        cbunits: 'ppbv'
 
     smoke:
       long_name: Smoke
       levels: [925,850,700,600]
-      layers: [smoke]
+      layers: [shaded]
       title: '$level hPa smoke tracer'
+      shaded:
+        expr: _smoke
+        cdict: smokeDict
 
     no1:
       long_name: 'NO'
       levels: [925,850,700,600]
-      layers: [no1]
+      layers: [shaded]
       title: '$level hPa NO'
+      shaded:
+        expr: _no1
+        cdict: no1Dict
+        cbunits: 'ppbv'
 
     no2:
       long_name: NO2
       levels: [925,850,700,600]
-      layers: [no2]
+      layers: [shaded]
       title: '$level hPa NO2'
+      shaded:
+        expr: _no2
+        cdict: no2Dict
+        cbunits: 'ppbv'
 
     so2:
       long_name: SO2
       levels: [925,850,700,600]
-      layers: [so2]
+      layers: [shaded]
       title: '$level hPa SO2'
+      shaded:
+        expr: _so2
+        cdict: so2Dict
+        cbunits: 'ppbv'
 
     o3:
       long_name: O3
       levels: [925,850,700,600]
-      layers: [o3]
+      layers: [shaded]
       title: '$level hPa O3'
+      shaded:
+        expr: _o3
+        cdict: o3Dict
+        cbunits: 'ppbv'
 
     am_lml:
       long_name: Ammonium 
       levels: [0]
-      navigate: 'off'
-      layers: [su]
+      layers: [shaded]
       title: 'Surface ammonium aerosol'
-      su: 
+      shaded:
         expr: _am_lml
+        cdict: suDict
+        cbunits: 'ug m`a-3'
 
     ni_lml:
       long_name: Nitrate
       levels: [0]
-      navigate: 'off'
-      layers: [su]
+      layers: [shaded]
       title: 'Surface ammonium aerosol'
-      su: 
+      shaded:
         expr: _ni_lml
+        cdict: suDict
+        cbunits: 'ug m`a-3'
 
     su_lml:
       long_name: Sulphate
       levels: [0]
-      navigate: 'off'
-      layers: [su]
+      layers: [shaded]
       title: 'Surface sulphate aerosol'
-      su: 
+      shaded:
         expr: _su_lml
+        cdict: suDict
+        cbunits: 'ug m`a-3'
 
     du_lml:
       long_name: Dust
       levels: [0]
-      navigate: 'off'
-      layers: [du]
+      layers: [shaded]
       title: 'Surface dust aerosol'
-      du: 
+      shaded:
         expr: _du_lml
+        cdict: duDict
+        cbunits: 'ug m`a-3'
 
     ss_lml:
       long_name: Sea salt
       levels: [0]
-      navigate: 'off'
-      layers: [ss]
+      layers: [shaded]
       title: 'Surface sea salt aerosol'
-      ss: 
+      shaded:
         expr: _ss_lml
+        cdict: ssDict
+        cbunits: 'ug m`a-3'
 
     oc_lml:
       long_name: OC
       levels: [0]
-      navigate: 'off'
-      layers: [oc]
+      layers: [shaded]
       title: 'Surface Organic Carbon'
-      oc: 
+      shaded:
         expr: _oc_lml
+        cdict: ocDict
+        cbunits: 'ug m`a-3'
 
     bc_lml:
       long_name: BC
       levels: [0]
-      navigate: 'off'
-      layers: [bc]
+      layers: [shaded]
       title: 'Surface Black Carbon'
-      bc: 
+      shaded:
         expr: _bc_lml
+        cdict: bcDict
+        cbunits: 'ug m`a-3'
 
     co_lml:
       long_name: CO
       levels: [0]
-      navigate: 'off'
-      layers: [co]
+      layers: [shaded]
       title: 'Surface CO'
-      co: 
+      shaded:
         expr: _co_lml
+        cdict: coDict
+        cbunits: 'ppbv'
 
     co_smoke_lml:
       long_name: CO
       levels: [0]
-      navigate: 'off'
-      layers: [co]
+      layers: [shaded]
       title: 'Surface CO tracer for biomass burning'
-      co: 
+      shaded:
         expr: _co_smoke_lml
         clevs: 0 0.5 1.0 2.0 5.0 10.0 15.0 20.0 50.0 100.00 150.0
+     #  cdict: coDict
+        cbunits: 'ppbv'
 
     smoke_lml:
       long_name: Smoke
       levels: [0]
-      navigate: 'off'
-      layers: [smoke]
+      layers: [shaded]
       title: 'Surface Smoke Tracer'
-      smoke: 
+      shaded:
         expr: _smoke_lml
+        cdict: smokeDict
 
     no1_lml:
       long_name: 'NO'
       levels: [0]
-      navigate: 'off'
-      layers: [no1]
+      layers: [shaded]
       title: 'Surface NO'
-      no1: 
+      shaded:
         expr: _no1_lml
+        cdict: no1Dict
+        cbunits: 'ppbv'
 
     no2_lml:
       long_name: NO2
       levels: [0]
-      navigate: 'off'
-      layers: [no2]
+      layers: [shaded]
       title: 'Surface NO2'
-      no2: 
+      shaded:
         expr: _no2_lml
+        cdict: no2Dict
+        cbunits: 'ppbv'
 
     so2_lml:
       long_name: SO2
       levels: [0]
-      navigate: 'off'
-      layers: [so2]
+      layers: [shaded]
       title: 'Surface SO2'
-      so2: 
+      shaded:
         expr: _so2_lml
+        cdict: so2Dict
+        cbunits: 'ppbv'
 
     o3_lml:
       long_name: O3
       levels: [0]
-      navigate: 'off'
-      layers: [o3]
+      layers: [shaded]
       title: 'Surface O3'
-      o3: 
+      shaded:
         expr: _o3_lml
-
+        cdict: o3Dict
+        cbunits: 'ppbv'
 
   layer:
 
-    aod:
+    shaded:
       gxout: shaded
-      expr: _aod
-      cbar: SeaSaltAOT
-      cdict: aodDict
+      cbar: AAQ-default
+      cdict:
       cmin: 
       cmax:
-      cint: 
+      cint:      
       nsub: 10
       skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-
-    pm25:
-      gxout: shaded
-      expr: _pm25
-      cbar: SeaSaltAOT
-      cdict: pm25Dict
-      cbunits: 'ugm`a-3`' 
-      cmin: 
-      cmax:
-      cint: 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    tcco:
-      gxout: shaded
-      expr: _tcco*1e+3
-      cbar: SeaSaltAOT
-      cdict: tccoDict
-      cbunits: 'gm`a-2' 
-      cmin: 
-      cmax: 
-      cint: 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    tcno:
-      gxout: shaded
-      expr: _tcno*1e+9
-      cbar: SeaSaltAOT
-      cdict: tcnoDict
-      cbunits: 'ugm`a-2' 
-      cmin: 
-      cmax: 
-      cint: 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    tcoc:
-      gxout: shaded
-      expr: _tcoc*1e+3
-      cbar: SeaSaltAOT
-      cdict: tcocDict
-      cbunits: 'gm`a-2' 
-      cmin: 
-      cmax: 
-      cint: 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    smoke:
-      gxout: shaded
-      expr: _smoke
-      cbar: SeaSaltAOT
-      cdict: smokeDict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: ' ' 
-      nsub: 10
-      skip: 10
-      scale: exp_scale
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    su:
-      gxout: shaded
-      expr: _su
-      cbar: SeaSaltAOT
-      cdict: suDict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ug m`a-3' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    du:
-      gxout: shaded
-      expr: _du
-      cbar: SeaSaltAOT
-      cdict: duDict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ug m`a-3' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    ss:
-      gxout: shaded
-      expr: _ss
-      cbar: SeaSaltAOT
-      cdict: ssDict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ug m`a-3' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    oc:
-      gxout: shaded
-      expr: _oc
-      cbar: SeaSaltAOT
-      cdict: ocDict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ug m`a-3' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-
-    bc:
-      gxout: shaded
-      expr: _bc
-      cbar: SeaSaltAOT
-      cdict: bcDict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ug m`a-3' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    co:
-      gxout: shaded
-      expr: _co
-      cbar: SeaSaltAOT
-      cdict: coDict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ppbv' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    no1:
-      gxout: shaded
-      expr: _no1
-      cbar: SeaSaltAOT
-      cdict: no1Dict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ppbv' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    no2:
-      gxout: shaded
-      expr: _no2
-      cbar: SeaSaltAOT
-      cdict: no2Dict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ppbv' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    so2:
-      gxout: shaded
-      expr: _so2
-      cbar: SeaSaltAOT
-      cdict: so2Dict
-      cmin: 
-      cmax: 
-      cint: 
-      cbunits: 'ppbv' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
-    o3:
-      gxout: shaded
-      expr: _o3
-      cbar: SeaSaltAOT
-      cdict: o3Dict
-      cbunits: 'ppbv' 
-      nsub: 10
-      skip: 10
-      alpha:
-        - 0.000 0.000 0.000
-        - 0.111 0.500 0.500
-        - 0.222 0.800 0.800
-        - 0.333 1.000 1.000
-        - 0.444 1.000 1.000
-        - 0.555 1.000 1.000
-        - 0.667 1.000 1.000
-        - 1.000 1.000 1.000
-
+      scale:
+      alpha: *ALPHA_DEFAULT
 
   attribute:
     aodDict:
