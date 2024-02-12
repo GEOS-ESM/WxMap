@@ -1,0 +1,7 @@
+reset: [region, playlist]
+config: [ASIA-AQ, AAQ_NAAPS]
+
+default:
+  field: aod
+  region: asia-aq
+  level: '0'

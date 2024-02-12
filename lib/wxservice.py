@@ -354,6 +354,8 @@ class WXService(object):
 
                     if isinstance(item, dict):
                         od_item.update(item)
+                    elif item in ['defaults','default']:
+                        od_item=default
                     else:
                         od_item[item] = default.get(item, 'Unknown')
 

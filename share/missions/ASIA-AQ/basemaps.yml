@@ -1,0 +1,34 @@
+map:
+
+  bluemarble:
+    service: bluemarble
+
+  etopo:
+    service: etopo
+
+  shaderelief:
+    service: shaderelief
+
+  lsmask:
+    service: drawlsmask
+
+  bluemarble:
+    service: bluemarble
+
+  world_topo:
+    service: World_Topo_Map
+
+  world_street:
+    service: World_Street_Map
+
+  world_shaded_relief:
+    service: World_Shaded_Relief
+
+  world_imagery:
+    service: World_Imagery
+
+  esri_world_imagery:
+    service: ESRI_Imagery_World_2D
+
+  natgeo_world_map:
+    service: NatGeo_World_Map

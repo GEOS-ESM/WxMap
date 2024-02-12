@@ -1,0 +1,113 @@
+manila_trajectories: &MANILA_TRAJ
+  history-bkw:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Manila_100_history_b.fluid]
+    line_color: 255 0 0 150
+    line_width: 10
+    str_color: 0 0 0 0
+
+  current-bkw:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Manila_100_b.fluid]
+    line_color: 255 0 0
+    line_width: 10
+
+  history-fwd:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Manila_100_history_f.fluid]
+    line_color: 255 255 0 150
+    line_width: 10
+    str_color: 0 0 0 0
+
+  current-fwd:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Manila_100_f.fluid]
+    line_color: 255 255 0
+    line_width: 10
+
+seoul_trajectories: &SEOUL_TRAJ
+  history-bkw:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Seoul_100_history_b.fluid]
+    line_color: 255 0 0 150
+    line_width: 10
+    str_color: 0 0 0 0
+
+  current-bkw:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Seoul_100_b.fluid]
+    line_color: 255 0 0
+    line_width: 10
+
+  history-fwd:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Seoul_100_history_f.fluid]
+    line_color: 255 255 0 150
+    line_width: 10
+    str_color: 0 0 0 0
+
+  current-fwd:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Seoul_100_f.fluid]
+    line_color: 255 255 0
+    line_width: 10
+
+bangkok_trajectories: &BANGKOK_TRAJ
+  history-bkw:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Bangkok_100_history_b.fluid]
+    line_color: 255 0 0 150
+    line_width: 10
+    str_color: 0 0 0 0
+
+  current-bkw:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Bangkok_100_b.fluid]
+    line_color: 255 0 0
+    line_width: 10
+
+  history-fwd:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Bangkok_100_history_f.fluid]
+    line_color: 255 255 0 150
+    line_width: 10
+    str_color: 0 0 0 0
+
+  current-fwd:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Bangkok_100_f.fluid]
+    line_color: 255 255 0
+    line_width: 10
+
+kuala_lampur_trajectories: &KUALA_LAMPUR_TRAJ
+  history-bkw:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Kuala_Lampur_100_history_b.fluid]
+    line_color: 255 0 0 150
+    line_width: 10
+    str_color: 0 0 0 0
+
+  current-bkw:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Kuala_Lampur_100_b.fluid]
+    line_color: 255 0 0
+    line_width: 10
+
+  history-fwd:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Kuala_Lampur_100_history_f.fluid]
+    line_color: 255 255 0 150
+    line_width: 10
+    str_color: 0 0 0 0
+
+  current-fwd:
+    data: [/discover/nobackup/projects/gmao/asia_aq/pub/trajectories/GEOS-FP/Y%%Y/M%%m/D%%d/H%%H/Kuala_Lampur_100_f.fluid]
+    line_color: 255 255 0
+    line_width: 10
+
+region:
+
+  asia-aq:
+
+    track: *MANILA_TRAJ
+
+  korea:
+
+    track: *SEOUL_TRAJ
+
+  asia-ppn:
+
+    track: *MANILA_TRAJ
+
+  asia-th:
+
+    track: *BANGKOK_TRAJ
+
+  asia-mal:
+
+    track: *KUALA_LAMPUR_TRAJ

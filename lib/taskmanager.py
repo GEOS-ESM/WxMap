@@ -24,7 +24,6 @@ class TaskManager(object):
 
     def __init__(self): # bad default
         self.max_task = multiprocessing.cpu_count()
-        self.max_task = 8
         print('Using ' + str(self.max_task) + ' processors.')
         self.task = {}
         self.command = {}

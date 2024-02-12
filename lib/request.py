@@ -15,6 +15,16 @@ class Request(dict):
         self.hotkeys  = ['fcst_dt', 'time_dt', 'field', 'level', 'region',
                          'geometry', 'stream', 'collection', 'basemap']
 
+        # Convert all datetime objects to mydatetime objects
+
+        if not encoder:
+            for k,v in self.iteritems():
+                try:
+                    self[k] = dt.datetime(v.year, v.month, v.day,
+                                          v.hour, v.minute)
+                except:
+                    continue
+
     def get_name(self, request=None, hotkeys=None, encoder=novalue):
 
         if request is None:

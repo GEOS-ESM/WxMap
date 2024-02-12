@@ -1,0 +1,7 @@
+reset: [map, region, annotate, playlist]
+config: [ASIA-AQ]
+
+default:
+  field: aod_all
+  region: asia-aq 
+  level: '0'

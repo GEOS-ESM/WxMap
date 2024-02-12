@@ -1,0 +1,71 @@
+region:
+
+  asia-aq:
+
+    long_name: Asia
+    lon: 65 145
+    lat: 0 60
+    mpdset: hires
+    mproj: latlon
+    addlayers: []
+    layers: [bluemarble01]
+
+  east-asia:
+
+    long_name: East Asia
+    lon: 110 145
+    lat: 22 50
+    mpdset: hires
+    mproj: latlon
+    addlayers: []
+    layers: [bluemarble01]
+
+  southeast-asia:
+
+    long_name: Southeast Asia
+    lon: 90 128
+    lat: -5 26
+    mpdset: hires
+    mproj: latlon
+    addlayers: []
+    layers: [bluemarble01]
+
+  korea:
+
+    long_name: South Korea
+    lon: 125 130
+    lat: 34 39
+    mpdset: hires
+    mproj: latlon
+    addlayers: []
+    layers: [shaderelief-gray] 
+
+  asia-mal:
+
+    long_name: Malaysia
+    lon: 93 111
+    lat: 0 9
+    mpdset: hires
+    mproj: latlon
+    addlayers: []
+    layers: [shaderelief-gray] 
+
+  asia-th:
+
+    long_name: Thailand
+    lon: 93 111
+    lat: 11 20
+    mpdset: hires
+    mproj: latlon
+    addlayers: []
+    layers: [shaderelief-gray] 
+
+  asia-ppn:
+
+    long_name: Philippines
+    lon: 118 124
+    lat: 13 17
+    mpdset: hires
+    mproj: latlon
+    addlayers: []
+    layers: [shaderelief-gray] 

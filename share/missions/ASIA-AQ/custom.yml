@@ -1,0 +1,505 @@
+alpha_default: &ALPHA_DEFAULT
+  - 0.000 0.000 0.000
+  - 0.111 0.500 0.500
+  - 0.222 0.800 0.800
+  - 0.333 1.000 1.000
+  - 0.444 1.000 1.000
+  - 0.555 1.000 1.000
+  - 0.667 1.000 1.000
+  - 1.000 1.000 1.000
+
+alpha_none: &ALPHA_NONE
+  - 0.000 1.000 1.000
+  - 1.000 1.000 1.000
+
+wxmapscustom:
+
+  plot:
+
+    aod:
+      long_name: AOD
+      levels: [0]
+      layers: [shaded]
+      title: 'Aerosol Optical Thickness'
+      shaded:
+        expr: _aod
+        cdict: aodDict
+
+    aod_smoke:
+      long_name: AOD Smoke
+      levels: [0]
+      layers: [shaded]
+      title: 'Aerosol Optical Thickness (Smoke)'
+      shaded:
+        expr: _aod_smoke
+        clevs: 0 0.005 0.01 0.02 0.04 0.07 0.1 0.15 0.2 0.3 0.5
+     #  cdict: aodDict
+
+    pm25sfc:
+      long_name: PM2.5
+      levels:    [0]
+      layers:    [shaded]
+      title:     'Surface PM2.5'
+      shaded:
+        expr: _pm25sfc
+        cdict: pm25Dict
+        cbunits: 'ugm`a-3`'
+
+    pm25_smoke:
+      long_name: PM2.5
+      levels: [925,850,700,600]
+      layers:    [shaded]
+      title:     '$level hPa Smoke PM2.5'
+      shaded:
+        expr: _pm25_smoke
+        cdict: pm25Dict
+        cbunits: 'ugm`a-3`'
+
+    pm25_smoke_lml:
+      long_name: PM2.5
+      levels: [0]
+      layers: [shaded]
+      title:     'Surface Smoke PM2.5'
+      shaded:
+        expr: _pm25_smoke_lml(z=1)
+        cdict: pm25Dict
+        cbunits: 'ugm`a-3`'
+
+    pm25:
+      long_name: PM2.5
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa PM2.5'
+      shaded:
+        expr: _pm25
+        cdict: pm25Dict
+        cbunits: 'ugm`a-3`'
+
+    tcco:    
+      long_name: Total column CO
+      levels:  [0]
+      layers:  [shaded]
+      title: 'Total column CO'
+      shaded:
+        expr: _tcco*1e+3
+        cdict: tccoDict
+        cbunits: 'gm`a-2'
+
+    tcno:    
+      long_name: Total column NO
+      levels:  [0]
+      layers:  [shaded]
+      title: 'Total column NO'
+      shaded:
+        expr: _tcno*1e+9
+        cdict: tcnoDict
+        cbunits: 'ugm`a-2'
+
+    tcoc:    
+      long_name: Total column OC
+      levels:  [0]
+      layers:  [shaded]
+      title: 'Total column OC'
+      shaded:
+        expr: _tcoc*1e+3
+        cdict: tcocDict
+        cbunits: 'gm`a-2'
+
+    tcpm25:    
+      long_name: Total column PM2.5
+      levels:  [0]
+      layers:  [shaded]
+      title: 'Total column PM2.5'
+      shaded:
+        clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5
+        expr: (_tcpm25)*1e+3
+        cbunits: 'gm`a-2'
+        nsub: 20
+        skip: 20
+
+ #  tcpm25_smoke:    
+ #    long_name: Total Column PM2.5 Smoke
+ #    levels:  [0]
+ #    layers:  [shaded]
+ #    title: 'Total column PM2.5'
+ #    shaded:
+ #      clevs: 0 0.0001 0.002 0.005 0.01 0.02 0.05 0.1
+ #      expr: (_tcpm25_smoke)*1e+3
+ #      cbunits: 'gm`a-2'
+ #      nsub: 20
+ #      skip: 20
+
+    su:
+      long_name: Sulphate
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa sulphate aerosol'
+      shaded:
+        expr: _su
+        cbunits: 'ug m`a-3'
+        cdict: suDict
+
+    am:
+      long_name: Ammonium
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa ammonium aerosol'
+      shaded:
+        expr: _am
+        cbunits: 'ug m`a-3'
+        cdict: suDict
+
+    ni:
+      long_name: Nitrate
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa ammonium aerosol'
+      shaded:
+        expr: _ni
+        cbunits: 'ug m`a-3'
+        cdict: suDict
+
+    du:
+      long_name: Dust
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa dust aerosol'
+      shaded:
+        expr: _du
+        cbunits: 'ug m`a-3'
+        cdict: duDict
+
+    ss:
+      long_name: Sea salt
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa sea salt aerosol'
+      shaded:
+        expr: _ss
+        cdict: ssDict
+        cbunits: 'ug m`a-3'
+
+    oc:
+      long_name: OC
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa Organic Carbon'
+      shaded:
+        expr: _oc
+        cdict: ocDict
+        cbunits: 'ug m`a-3'
+
+    bc:
+      long_name: BC
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa Black Carbon'
+      shaded:
+        expr: _bc
+        cdict: bcDict
+        cbunits: 'ug m`a-3'
+
+    co:
+      long_name: CO
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa CO'
+      shaded:
+        expr: _co
+        cdict: coDict
+        cbunits: 'ppbv'
+
+    co_smoke:
+      long_name: CO Smoke
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa CO tracer of biomass burning'
+      shaded:
+        expr: _co_smoke
+        clevs: 0 0.5 1.0 2.0 5.0 10.0 15.0 20.0 50.0 100.00 150.0
+      # cdict: coDict
+        cbunits: 'ppbv'
+
+    smoke:
+      long_name: Smoke
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa smoke tracer'
+      shaded:
+        expr: _smoke
+        cdict: smokeDict
+
+    no1:
+      long_name: 'NO'
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa NO'
+      shaded:
+        expr: _no1
+        cdict: no1Dict
+        cbunits: 'ppbv'
+
+    no2:
+      long_name: NO2
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa NO2'
+      shaded:
+        expr: _no2
+        cdict: no2Dict
+        cbunits: 'ppbv'
+
+    so2:
+      long_name: SO2
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa SO2'
+      shaded:
+        expr: _so2
+        cdict: so2Dict
+        cbunits: 'ppbv'
+
+    o3:
+      long_name: O3
+      levels: [925,850,700,600]
+      layers: [shaded]
+      title: '$level hPa O3'
+      shaded:
+        expr: _o3
+        cdict: o3Dict
+        cbunits: 'ppbv'
+
+    am_lml:
+      long_name: Ammonium 
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface ammonium aerosol'
+      shaded:
+        expr: _am_lml
+        cdict: suDict
+        cbunits: 'ug m`a-3'
+
+    ni_lml:
+      long_name: Nitrate
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface ammonium aerosol'
+      shaded:
+        expr: _ni_lml
+        cdict: suDict
+        cbunits: 'ug m`a-3'
+
+    su_lml:
+      long_name: Sulphate
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface sulphate aerosol'
+      shaded:
+        expr: _su_lml
+        cdict: suDict
+        cbunits: 'ug m`a-3'
+
+    du_lml:
+      long_name: Dust
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface dust aerosol'
+      shaded:
+        expr: _du_lml
+        cdict: duDict
+        cbunits: 'ug m`a-3'
+
+    ss_lml:
+      long_name: Sea salt
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface sea salt aerosol'
+      shaded:
+        expr: _ss_lml
+        cdict: ssDict
+        cbunits: 'ug m`a-3'
+
+    oc_lml:
+      long_name: OC
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Organic Carbon'
+      shaded:
+        expr: _oc_lml
+        cdict: ocDict
+        cbunits: 'ug m`a-3'
+
+    bc_lml:
+      long_name: BC
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Black Carbon'
+      shaded:
+        expr: _bc_lml
+        cdict: bcDict
+        cbunits: 'ug m`a-3'
+
+    co_lml:
+      long_name: CO
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface CO'
+      shaded:
+        expr: _co_lml
+        cdict: coDict
+        cbunits: 'ppbv'
+
+    co_smoke_lml:
+      long_name: CO
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface CO tracer for biomass burning'
+      shaded:
+        expr: _co_smoke_lml
+        clevs: 0 0.5 1.0 2.0 5.0 10.0 15.0 20.0 50.0 100.00 150.0
+     #  cdict: coDict
+        cbunits: 'ppbv'
+
+    smoke_lml:
+      long_name: Smoke
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface Smoke Tracer'
+      shaded:
+        expr: _smoke_lml
+        cdict: smokeDict
+
+    no1_lml:
+      long_name: 'NO'
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface NO'
+      shaded:
+        expr: _no1_lml
+        cdict: no1Dict
+        cbunits: 'ppbv'
+
+    no2_lml:
+      long_name: NO2
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface NO2'
+      shaded:
+        expr: _no2_lml
+        cdict: no2Dict
+        cbunits: 'ppbv'
+
+    so2_lml:
+      long_name: SO2
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface SO2'
+      shaded:
+        expr: _so2_lml
+        cdict: so2Dict
+        cbunits: 'ppbv'
+
+    o3_lml:
+      long_name: O3
+      levels: [0]
+      layers: [shaded]
+      title: 'Surface O3'
+      shaded:
+        expr: _o3_lml
+        cdict: o3Dict
+        cbunits: 'ppbv'
+
+  layer:
+
+    shaded:
+      gxout: shaded
+      cbar: AAQ-default
+      cdict:
+      cmin: 
+      cmax:
+      cint:      
+      nsub: 10
+      skip: 10
+      scale:
+      alpha: *ALPHA_DEFAULT
+
+  attribute:
+    aodDict:
+        - {clevs: 0 0.04 0.07 0.1 0.15 0.2 0.3 0.4 0.6 0.8 1 1.2 1.5 1.8, scale: log_scale }
+        - {$region: "asia-aq", clevs: 0 0.04 0.07 0.1 0.15 0.2 0.3 0.4 0.6 0.8 1 1.2 1.5 1.8, scale: log_scale }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.04 0.07 0.1 0.15 0.25, scale: log_scale}
+
+    pm25Dict:
+        - {clevs: 0 0.1 0.2 0.5 10 20 40 60 100 150 200 }
+        - {$region: "asia-aq", clevs: 0 0.1 0.2 0.5 10 20 40 60 100 150 200 }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 1 5 10 20 40, scale: log_scale}
+
+    tccoDict:
+        - {clevs: 0.5 0.75 1.0 1.25 1.5 1.75 2.0, scale: exp_scale  }
+        - {$region: "asia-aq", clevs: 0.5 0.75 1.0 1.25 1.5 1.75 2.0, scale: exp_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0.55 0.65 0.75 0.85 0.95, scale: log_scale}
+
+    tcnoDict:
+        - {clevs: 2 5 10 20 50 100 200 500 1000, scale: exp_scale  }
+        - {$region: "asia-aq", clevs: 2 5 10 20 50 100 200 500 1000, scale: exp_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  2 5 10 20 50 100, scale: log_scale}
+
+    tcocDict:
+        - {clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
+        - {$region: "asia-aq", clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.002 0.005 0.01 0.02, scale: log_scale}
+
+    smokeDict:
+        - {clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
+        - {$region: "asia-aq", clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.002 0.005 0.01 0.02, scale: log_scale}
+
+    suDict:
+        - {clevs:  0.1 0.2 0.5 1 2 5 10 20 50 80, scale: log_scale  }
+        - {$region: "asia-aq", clevs:  0.1 0.2 0.5 1 2 5 10 20 50 80, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0.1 0.2 0.5 1 2 5 10, scale: log_scale}
+
+    duDict:
+        - {clevs:  0 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100 200, scale: log_scale  }
+        - {$region: "asia-aq", clevs:  0 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100 200, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 0.05 0.1 0.2 0.5 1 2 5 10, scale: log_scale}
+
+    ssDict:
+        - {clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100 200 300, scale: log_scale  }
+        - {$region: "asia-aq", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100 200 300, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale}
+
+    ocDict:
+        - {clevs: 0 0.1 0.2 0.5 1 2 5 10 20 50 100, scale: log_scale  }
+        - {$region: "asia-aq,asia-th,asia-mal,korea", clevs: 0 0.1 0.2 0.5 1 2 5 10 20 50 100, scale: log_scale  }
+        - {$region: "asia-ppn", clevs:  0 0.1 0.2 0.5 1 2 5 10, scale: log_scale}
+
+    bcDict:
+        - {clevs: 0 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100, scale: log_scale  }
+        - {$region: "asia-aq", clevs: 0 0.05 0.1 0.2 0.5 1 2 5 10 20 50 100, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale}
+
+    coDict:
+        - {clevs: 0 60 80 100 120 140 150 200 250 300 400 500 700, scale: log_scale  }
+        - {$region: "asia-aq", clevs: 0 60 80 100 120 140 150 200 250 300 400 500 700, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 60 80 100 120 140 150 200, scale: log_scale}
+
+    no1Dict:
+        - {clevs: 0 0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-aq", clevs: 0 0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1, scale: log_scale}
+
+    no2Dict:
+        - {clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-aq", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2, scale: log_scale}
+
+    so2Dict:
+        - {clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-aq", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2, scale: log_scale}
+
+    o3Dict:
+        - {cmin: 25.0, cmax: 100.0, cint: 12.5, scale: exp_scale  }
+        - {$region: "asia-aq", cmin: 25.0, cmax: 100.0, cint: 12.5, scale: exp_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", cmin: 25.0, cmax: 100, cint: 12.5 , scale: exp_scale}

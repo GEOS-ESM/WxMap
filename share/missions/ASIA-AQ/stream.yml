@@ -1,0 +1,131 @@
+stream:
+
+  GEOS:
+
+    long_name: GEOS
+    description: GEOS
+    type: forecast
+    access: data/public
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/GEOS-FP/$collection.%%Y%%m%%d_%%H
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: NASA Global Modeling and Assimilation Office
+    reference: http://gmao.gsfc.nasa.gov/GEOS/geos5/index_data/pubs.php
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  GEOSCF:
+
+    long_name: GEOS CF
+    description: GEOS CF
+    type: forecast
+    access: data/public
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/GEOS-CF/$collection.%%Y%%m%%d_%%Hz
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: NASA Global Modeling and Assimilation Office
+    reference: http://gmao.gsfc.nasa.gov/GEOS/geos5/index_data/pubs.php
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+  GEOSPRS:
+
+    long_name: GEOS FP
+    description: GEOS $cycle
+    type: forecast
+    downloading: enabled
+    access: public
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/fp_Np/opendap/fcast/$collection/$collection.%%Y%%m%%d_%%H
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    animation: enabled
+    max_frames: 20
+    institution: NASA - Global Modeling and Assimilation Office (GMAO)
+    reference: http://gmao.gsfc.nasa.gov/GEOS/geos5/index_pubs.php
+    link: http://gmao.gsfc.nasa.gov/GEOS
+    logos: [nasa-logo-ul, gmao-logo-ur]
+
+
+  CAMS:
+
+    long_name: CAMS AOD forecasts
+    description: Copernicus Atmosphere Monitoring Service (CAMS)
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/CAMS/CAMS.%%Y%%m%%d_%%H.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: ECMWF
+    reference: https://www.ecmwf.int/en/about/what-we-do/environmental-services/copernicus-atmosphere-monitoring-service
+    logos: [ecmwf-logo-ul]
+
+  CAMchem:
+
+    long_name: WACCM 
+    description: WACCM
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/CAM-Chem/CAM-Chem.%%Y%%m%%d_%%H.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: NCAR
+    reference:
+    logos: [ncar-logo-ul]
+
+  NAAPS:
+
+    long_name: NAAPS forecasts
+    description: Navy Aerosol Analysis and Prediction System
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/NAAPS/NAAPS.%%Y%%m%%d_00.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: NRL
+    reference:
+    logos: [nrl-logo-ul]
+
+  ARUNWRFchem:
+    long_name: ARUNWRF forecasts
+    description: Thailand WRF Model
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/ARUNWRFchem/ARUNWRFchem.%%Y%%m%%d_00.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: Thailand
+    reference:
+    logos: [thailand-logo-ul]
+
+  UCLAWRFchem:
+    long_name: UCLAWRFchem forecasts
+    description: UCLAWRFchem Model
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/UCLAWRFchem/UCLAWRFchem.%%Y%%m%%d_%%H.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: UCLA
+    reference:
+    logos: [ucla-logo-ul]
+    grid: -1
+
+  UCLAWRFchem_d2:
+    long_name: UCLAWRFchem_d2 forecasts
+    description: UCLAWRFchem_D2 Model
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/UCLAWRFchem_d2/UCLAWRFchem_d2.%%Y%%m%%d_%%H.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: UCLA
+    reference:
+    logos: [ucla-logo-ul]
+    grid: -1
+
+  YSUNCARWRFchem:
+    long_name: YSUNCARWRFchem forecasts
+    description: Yonsei University-National Centre for Atmospheric Research
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/YSUNCARWRFchem/YSUNCARWRFchem.%%Y%%m%%d_%%H.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: UCLA
+    reference:
+    logos: [yonsei-logo-ul]
+    grid: -1
+
+  QFED:
+
+    long_name: QFED
+    description: QFED
+    type: analysis
+#   uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/qfed2.emis_ch4.006.%%Y%%m%%d.nc
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/qfed/qfed2.emis_co.061.%Y%m%d.nc4
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: Global Modeling and Assimilation Office (GMAO)
+    reference:
+    logos: []
+    grid: -1

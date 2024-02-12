@@ -11,7 +11,7 @@ from string import *
 import numpy as np
 
 import matplotlib
-#matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mc
 
@@ -63,6 +63,7 @@ class Plot(object):
 
         defs = dict(self.request)
         defs.update(self.defs)
+        if self.config: defs.update(self.config.get('defs', {}))
         defs.update(kwargs)
         defs = { k:str(v) for k,v in defs.iteritems() }
 
@@ -153,6 +154,7 @@ class Plot(object):
                 expression = ''.join(cmd.split(' ')[1:])
 
                 for fld in expression.split(';'):
+                    
                     try:
                         self.fields.append(self.ds.exp(fld))
                     except:
@@ -161,11 +163,32 @@ class Plot(object):
             elif self.lang.is_define(cmd):
 
                 self.ds.pad_region(pad=8)
+                self.define_random(cmd)
                 self.ds(cmd)
 
             elif self.lang.is_data_service(cmd):
 
                 self.ds(cmd)
+
+    def define_random(self, cmd):
+
+        if 'RANDOM' not in cmd:
+            return
+
+        var = cmd.split('=')[0].split()[1]
+        expr = cmd.replace('RANDOM', '1')
+        self.ds(expr)
+        print 'var = ', var
+        f = self.ds.exp(var)
+
+        ydim, xdim = f.shape
+        r = np.random.rand(ydim, xdim)
+
+        for j in range(0,ydim):
+            for i in range(0,xdim):
+                f[j,i] = r[j,i]
+
+        self.ds.imp("RANDOM", f)
 
     def get_layer_stack(self, name, layer=None):
 
@@ -554,10 +577,13 @@ class Plot(object):
             if draw is not None:
                 attr = dict(map)
                 attr['time_dt'] = self.request['time_dt']
+                attr['fcst_dt'] = self.request.get('fcst_dt', None)
                 attr.update(self.config(['shape',shape],{}))
                 draw(self,map[shape],**attr)
 
       # Draw tracks specified on command-line
+
+        year = self.request['time_dt'].year
 
         rpath = ['region',self.request['region'],'track']
         track = self.config(rpath, {})
@@ -568,6 +594,12 @@ class Plot(object):
 
         track_path   = self.config.get('track_path', None)
         track_files  = self.get_files(track_name, track_path)
+
+        track_files_for_year = []
+        for file in track_files:
+            bname = os.path.basename(file)
+            if str(year) in bname or str(year-1) in bname:
+                track_files_for_year.append(file)
 
         attr = dict(map)
         attr['time_dt'] = self.request['time_dt']
@@ -660,6 +692,8 @@ class Plot(object):
             d = annotate.get(ltype, None)
             if not isinstance(d, dict): continue
 
+            d = dict(d)
+
             d_alt = self.config(path+[ltype], {})
             if isinstance(d_alt, dict):
                 d.update(d_alt)
@@ -716,6 +750,7 @@ class Plot(object):
         self.set_map_types(maps)
         self.plot_map_data(maps)
         self.plot_map_shapes(maps)
+        self.plot_map_lines(maps)
         self.plot_map_data(masks)
         self.plot_map_base(maps)
 
@@ -767,6 +802,7 @@ class Plot(object):
         if map is None:
 
             addlayers = []
+            fullframe = request.get('fullframe', False)
             field     = request['field']
             region    = request['region']
             map       = copy.deepcopy(self.config(['map','default'],{}))
@@ -779,6 +815,11 @@ class Plot(object):
             map.update(copy.deepcopy(self.config(path)))
             addlayers += self.config(path+['addlayers'],[])
 
+            mproj = map.get('mproj', 'latlon')
+            if fullframe and mproj == 'latlon':
+                mproj = 'scaled'
+
+            map['mproj'] = mproj
             map['mpvals'] = map.get('mpvals',None)
             map['frame']  = map.get('frame', 'on')
             map['grid']   = map.get('grid', '--auto')
@@ -838,12 +879,15 @@ class Plot(object):
             return
 
         shape_path = self.config(['shape_path'],os.getcwd())
+        time_dt = self.request['time_dt']
 
         for map in maps:
             if 'shape_file' in map:
                 shape_file = map['shape_file']
                 if not os.path.isabs(shape_file):
                     map['shape_file'] = os.path.join(shape_path, shape_file)
+
+                map['shape_file'] = time_dt.strftime(map['shape_file'])
 
                 if map.get('fill_color',None):
 
@@ -862,6 +906,23 @@ class Plot(object):
                       set shpopts -1
                       draw shp $shape_file
                       """, layer=1, **map)
+
+    def plot_map_lines(self, maps):
+
+        if not maps:
+            return
+
+        for map in maps:
+
+            cls = map.get('class', None)
+            if cls != 'gridlines': continue
+
+            # Pack up options and invoke handler. The ">"
+            # symbol makes this command insensitive to
+            # on/off labeling options.
+
+            args = json.dumps(map)
+            self.cmd('>draw gridlines ' + args, **map)
 
     def plot_map_data(self, maps, zorder=None):
 
@@ -1104,7 +1165,6 @@ class Plot(object):
             for pathname in filelist:
 
                 if os.path.isfile(pathname):
-
                     files.append(pathname)
 
                 elif os.path.isdir(pathname):
