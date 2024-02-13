@@ -5,7 +5,7 @@ wxmapscustom:
     field:
 
       long_name: VARIABLES
-      groups: ['surface', 'upper']
+      groups: ['surface', 'upper', 'nox']
 
       surface:
         long_name: Surface
@@ -26,3 +26,15 @@ wxmapscustom:
           - no2
           - o3
           - so2
+
+      nox:
+        long_name: NOx
+        type: button
+        items:
+          - nox_bb: NOx BB 
+          - nox_chn: NOx China 
+          - nox_tha: NOx Thailand 
+          - nox_mys: NOx Malaysia 
+          - nox_kor: NOx Korea 
+          - nox_phl: NOx Phillipines 
+          - nox_ship: NOx Shipping 
