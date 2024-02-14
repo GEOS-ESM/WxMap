@@ -5,7 +5,7 @@ wxmapscustom:
     field:
 
       long_name: VARIABLES
-      groups: ['surface', 'upper', 'nox']
+      groups: ['surface', 'upper', 'nox', 'tropcol_no2']
 
       surface:
         long_name: Surface
@@ -38,3 +38,16 @@ wxmapscustom:
           - nox_kor: NOx Korea 
           - nox_phl: NOx Phillipines 
           - nox_ship: NOx Shipping 
+
+      tropcol_no2:
+        long_name: TROPCOL NO2
+        type: button
+        items:
+          - tropcol_no2
+          - tropcol_no2_bb
+          - tropcol_no2_chn
+          - tropcol_no2_kor
+          - tropcol_no2_mys
+          - tropcol_no2_phl
+          - tropcol_no2_ship
+          - tropcol_no2_tha
