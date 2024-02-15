@@ -1,0 +1,473 @@
+alpha_5: &ALPHA_5
+  - 0.000 0.000 0.000
+  - 0.050 1.000 1.000
+  - 1.000 1.000 1.000
+
+alpha_10: &ALPHA_10
+  - 0.000 0.000 0.000
+  - 0.100 1.000 1.000
+  - 1.000 1.000 1.000
+
+alpha_off: &ALPHA_OFF
+  - 0.000 1.000 1.000
+  - 1.000 1.000 1.000
+
+wxmapscustom:
+
+  plot:
+
+    emis_no_bb:
+      long_name: EMIS NO BB
+      title: 'Nitrogen Oxide Biomass Emissions'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_bb*1.0e+9
+        clevs: 0 .001 .002 .003 .004 .005 .010 .015 .020
+    emis_no_chn:
+      long_name: EMIS NO CHN
+      title: 'Nitric Oxide China Anthropogenic Emission Mass Flux'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_chn*1.0e+9
+        clevs: 0 0.005 0.01 0.015 0.02 0.04 0.06 0.08 0.1 0.12
+    emis_no_ind:
+      long_name: EMIS NO IND
+      title: 'Nitrogen Oxide Industry Emissions'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_ind*1.0e+9
+    emis_no_kor:
+      long_name: EMIS NO KOR
+      title: 'Nitric Oxide South Korea Anthropogenic Emission Mass Flux'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_kor*1.0e+9
+    emis_no_lght:
+      long_name: EMIS NO LGHT
+      title: 'Nitrogen Oxide Lightning Emissions'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_lght*1.0e+9
+    emis_no_mys:
+      long_name: EMIS NO MYS
+      title: 'Nitric Oxide Malaysia Anthropogenic Emission Mass Flux'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_mys*1.0e+9
+    emis_no_phl:
+      long_name: EMIS NO PHL
+      title: 'Nitric Oxide Philippines Anthropogenic Emission Mass Flux'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_phl*1.0e+9
+    emis_no_pow:
+      long_name: EMIS NO POW
+      title: 'Nitrogen Oxide Power Emissions'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_pow*1.0e+9
+    emis_no_res:
+      long_name: EMIS NO RES
+      title: 'Nitrogen Oxide Residential Emissions'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_res*1.0e+9
+    emis_no_ship:
+      long_name: EMIS NO SHIP
+      title: 'Nitric Oxide Ship Emission Mass Flux'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_ship*1.0e+9
+    emis_no_soil:
+      long_name: EMIS NO SOIL
+      title: 'Nitrogen Oxide Soil Emissions'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_soil*1.0e+9
+    emis_no_tha:
+      long_name: EMIS NO THA
+      title: 'Nitric Oxide Thailand Anthropogenic Emission Mass Flux'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_tha*1.0e+9
+    emis_no_tra:
+      long_name: EMIS NO TRA
+      title: 'Nitrogen Oxide Transportation Emissions'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_tra*1.0e+9
+    emis_no_trash:
+      long_name: EMIS NO TRASH
+      title: 'Nitrogen Oxide Trash Emissions'
+      levels: [0]
+      layers: [emis_no]
+      emis_no:
+        expr: _emis_no_trash*1.0e+9
+    tropcol_no:
+      long_name: TROPCOL NO
+      title: 'Nitrogen Oxide Tropospheric Column Density'
+      levels: [0]
+      layers: [shaded]
+      shaded:
+        expr: _tropcol_no
+    tropcol_no_bb:
+      long_name: TROPCOL NO BB
+      title: 'Nitrogen Oxide Biomass Burning Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no]
+      tropcol_no:
+        expr: _tropcol_no_bb
+        clevs: 0.1 0.2 0.3 0.4 0.5 1 2 4 6 8 10
+        scale: exp_scale
+        alpha: *ALPHA_5
+    tropcol_no_chn:
+      long_name: TROPCOL NO CHN
+      title: 'Nitrogen Oxide China Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no]
+      tropcol_no:
+        expr: _tropcol_no_chn
+    tropcol_no_kor:
+      long_name: TROPCOL NO KOR
+      title: 'Nitrogen Oxide Korea Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no]
+      tropcol_no:
+        expr: _tropcol_no_kor
+    tropcol_no_mys:
+      long_name: TROPCOL NO MYS
+      title: 'Nitrogen Oxide Malaysia Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no]
+      tropcol_no:
+        expr: _tropcol_no_mys
+    tropcol_no_phl:
+      long_name: TROPCOL NO PHL
+      title: 'Nitrogen Oxide Philippines Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no]
+      tropcol_no:
+        expr: _tropcol_no_phl
+    tropcol_no_ship:
+      long_name: TROPCOL NO SHIP
+      title: 'Nitrogen Oxide Ship Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no]
+      tropcol_no:
+        expr: _tropcol_no_ship
+        clevs: 0.1 0.2 0.3 0.4 0.5 1 2 4 6 8 10
+        scale: exp_scale
+        alpha: *ALPHA_5
+    tropcol_no_tha:
+      long_name: TROPCOL NO THA
+      title: 'Nitrogen Oxide Thailand Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no]
+      tropcol_no:
+        expr: _tropcol_no_tha
+    tropcol_no2:
+      long_name: TROPCOL NO2
+      title: 'Nitrogen Dioxide Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no2]
+      tropcol_no2:
+        expr: _tropcol_no2
+    tropcol_no2_bb:
+      long_name: TROPCOL NO2 BB
+      title: 'Nitrogen Dioxide Biomass Burning Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no2]
+      tropcol_no2:
+        expr: _tropcol_no2_bb
+    tropcol_no2_chn:
+      long_name: TROPCOL NO2 CHN
+      title: 'Nitrogen Dioxide China Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no2]
+      tropcol_no2:
+        expr: _tropcol_no2_chn
+    tropcol_no2_kor:
+      long_name: TROPCOL NO2 KOR
+      title: 'Nitrogen Dioxide Korea Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no2]
+      tropcol_no2:
+        expr: _tropcol_no2_kor
+    tropcol_no2_mys:
+      long_name: TROPCOL NO2 MYS
+      title: 'Nitrogen Dioxide Malaysia Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no2]
+      tropcol_no2:
+        expr: _tropcol_no2_mys
+    tropcol_no2_phl:
+      long_name: TROPCOL NO2 PHL
+      title: 'Nitrogen Dioxide Philippines Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no2]
+      tropcol_no2:
+        expr: _tropcol_no2_phl
+    tropcol_no2_ship:
+      long_name: TROPCOL NO2 SHIP
+      title: 'Nitrogen Dioxide Ship Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no2]
+      tropcol_no2:
+        expr: _tropcol_no2_ship
+        clevs: 0.1 0.2 0.3 0.4 0.5 1 2 4 6 8 10
+        scale: exp_scale 
+        alpha: *ALPHA_5
+    tropcol_no2_tha:
+      long_name: TROPCOL NO2 THA
+      title: 'Nitrogen Dioxide Thailand Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_no2]
+      tropcol_no2:
+        expr: _tropcol_no2_tha
+    tropcol_co:
+      long_name: TROPCOL CO
+      title: 'Carbon Monoxide Tropospheric Column Density'
+      levels: [0]
+      layers: [tropcol_co]
+      tropcol_co:
+        expr: _tropcol_co
+    no_bb:
+      long_name: NO BB
+      title: 'Nitrogen Oxide Biomass Burning Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no_bb
+    no_chn:
+      long_name: NO CHN
+      title: 'Nitrogen Oxide China Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no_chn
+    no_kor:
+      long_name: NO KOR
+      title: 'Nitrogen Oxide Korea Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no_kor
+    no_mys:
+      long_name: NO MYS
+      title: 'Nitrogen Oxide Malaysia Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no_mys
+    no_phl:
+      long_name: NO PHL
+      title: 'Nitrogen Oxide Philippines Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no_phl
+    no_ship:
+      long_name: NO SHIP
+      title: 'Nitrogen Oxide Ship Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no_ship
+    no_tha:
+      long_name: NO THA
+      title: 'Nitrogen Oxide Thailand Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no_tha
+    nodry:
+      long_name: NODRY
+      title: 'Nitrogen Oxide Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _nodry
+    no2_bb:
+      long_name: NO BB
+      title: 'Nitrogen Dioxide Biomass Burning Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no2_bb
+    no2_chn:
+      long_name: NO CHN
+      title: 'Nitrogen Dioxide China Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no2_chn
+    no2_kor:
+      long_name: NO KOR
+      title: 'Nitrogen Dioxide Korea Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no2_kor
+    no2_mys:
+      long_name: NO MYS
+      title: 'Nitrogen Dioxide Malaysia Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no2_mys
+    no2_phl:
+      long_name: NO PHL
+      title: 'Nitrogen Dioxide Philippines Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no2_phl
+    no2_ship:
+      long_name: NO SHIP
+      title: 'Nitrogen Dioxide Ship Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no2_ship
+    no2_tha:
+      long_name: NO THA
+      title: 'Nitrogen Dioxide Thailand Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no2_tha
+    no2dry:
+      long_name: NODRY
+      title: 'Nitrogen Dioxide Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [no]
+      no:
+        expr: _no2dry
+    nox_bb:
+      long_name: NO BB
+      title: 'NOx Biomass Burning Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [nox]
+      nox:
+        expr: (_no_bb+_no2_bb)*1.0e+9
+    nox_chn:
+      long_name: NO CHN
+      title: 'NOx China Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [nox]
+      nox:
+        expr: (_no_chn+_no2_chn)*1.0e+9
+    nox_kor:
+      long_name: NO KOR
+      title: 'NOx Korea Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [nox]
+      nox:
+        expr: (_no_kor+_no2_kor)*1.0e+9
+    nox_mys:
+      long_name: NO MYS
+      title: 'NOx Malaysia Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [nox]
+      nox:
+        expr: (_no_mys+_no2_mys)*1.0e+9
+    nox_phl:
+      long_name: NO PHL
+      title: 'NOx Philippines Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [nox]
+      nox:
+        expr: (_no_phl+_no2_phl)*1.0e+9
+    nox_ship:
+      long_name: NO SHIP
+      title: 'NOx Ship Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [nox]
+      nox:
+        expr: (_no_ship+_no2_ship)*1.0e+9
+    nox_tha:
+      long_name: NO THA
+      title: 'NOx Thailand Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [nox]
+      nox:
+        expr: (_no_tha+_no2_tha)*1.0e+9
+    noxdry:
+      long_name: NODRY
+      title: 'NOx Volume Mixing Ratio Dry Air'
+      levels: [0]
+      layers: [nox]
+      nox:
+        expr: (_nodry+_no2dry)*1.0e+9
+
+  layer:
+
+    emis_no:
+      gxout: shaded
+      cbar: AAQ-default
+      cbunits:
+      cdict:
+      clevs:
+      cmin:
+      cmax:
+      cint:
+      nsub: 10
+      skip: 10
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 1.000 1.000
+        - 1.000 1.000 1.000
+
+    tropcol_no:
+      gxout: shaded
+      cbar: AAQ-default
+      cbunits: '[10`a15`n molec cm`a-2`n]'
+      cdict:
+      clevs: 0.5 1 1.5 2 5 10 15 20 25 30 35 40
+      cmin:
+      cmax:
+      cint:
+      scale: exp_scale
+      nsub: 10
+      skip: 10
+      alpha: *ALPHA_5
+
+    tropcol_no2:
+      gxout: shaded
+      cbar: AAQ-default
+      cbunits: '[10`a15`n molec cm`a-2`n]'
+      cdict:
+      clevs: 0.5 1 1.5 2 5 10 15 20 25 30 35 40
+      cmin:
+      cmax:
+      cint:
+      scale: exp_scale
+      nsub: 10
+      skip: 10
+      alpha: *ALPHA_5
+
+    nox:
+      gxout: shaded
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+      cmin:
+      cmax:
+      cint:
+      clevs: 0.001 0.002 0.004 0.006 0.01 0.02 0.03 0.05 0.1 0.2 0.5 1 2 5 10 15
+      nsub: 10
+      skip: 10
+      alpha: *ALPHA_5
