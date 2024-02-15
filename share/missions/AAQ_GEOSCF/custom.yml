@@ -227,6 +227,9 @@ wxmapscustom:
       layers: [tropcol_no2]
       tropcol_no2:
         expr: _tropcol_no2_ship
+        clevs: 0.1 0.2 0.3 0.4 0.5 1 2 4 6 8 10
+        scale: exp_scale 
+        alpha: *ALPHA_5
     tropcol_no2_tha:
       long_name: TROPCOL NO2 THA
       title: 'Nitrogen Dioxide Thailand Tropospheric Column Density'
