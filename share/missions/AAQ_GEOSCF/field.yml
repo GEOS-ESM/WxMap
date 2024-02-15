@@ -225,7 +225,7 @@ field:
     _tropcol_no2_ship:
       long_name: Nitrogen_dioxide_tagged_tracer_2_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
       units: 1.0e15 molec cm-2
-      expression: tropcol_no2_shi.aaq_inst_1hr_r461x361_x1
+      expression: tropcol_no2_shp.aaq_inst_1hr_r461x361_x1
 
     _tropcol_no2_tha:
       long_name: Nitrogen_dioxide_tagged_tracer_6_(NO2,_MW_=_46.00_g_mol-1)_tropospheric_column_density
