@@ -74,6 +74,26 @@ stream:
     reference:
     logos: [nrl-logo-ul]
 
+  MUSICA:
+    long_name: MUSICA forecasts
+    description: NCAR MUSICAv0 model
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/MUSICA/MUSICA.%%Y%%m%%d_00.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: NCAR
+    reference:
+    logos: [ncar-logo-ul]
+
+  MUSICAv0:
+   long_name: MUSICA forecasts
+   description: NCAR MUSICAv0 model
+   type: forecast
+   uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/MUSICA/MUSICA2d.%%Y%%m%%d_00.ddf
+   service: !!python/object/apply:dataservice.GEOSDDF []
+   institution: NCAR
+   reference:
+   logos: [ncar-logo-ul]
+
   ARUNWRFchem:
     long_name: ARUNWRF forecasts
     description: Thailand WRF Model
@@ -93,6 +113,17 @@ stream:
     institution: UCLA
     reference:
     logos: [ucla-logo-ul]
+    grid: -1
+
+  UIOWACMAQ:
+    long_name: UIOWA CMAQ forecasts
+    description: UIOWA CMAQ Model
+    type: forecast
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/UIOWACMAQ/UIOWACMAQ.%%Y%%m%%d_00.ddf
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: UIOWA
+    reference:
+    logos: [uiowa-logo-ul]
     grid: -1
 
   UCLAWRFchem_d2:
