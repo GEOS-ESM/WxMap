@@ -78,21 +78,11 @@ stream:
     long_name: MUSICA forecasts
     description: NCAR MUSICAv0 model
     type: forecast
-    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/MUSICA/MUSICA.%%Y%%m%%d_00.ddf
+    uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/MUSICA/$collection.%%Y%%m%%d_00.ddf
     service: !!python/object/apply:dataservice.GEOSDDF []
     institution: NCAR
     reference:
     logos: [ncar-logo-ul]
-
-  MUSICAv0:
-   long_name: MUSICA forecasts
-   description: NCAR MUSICAv0 model
-   type: forecast
-   uri: /discover/nobackup/projects/gmao/asia_aq/pub/opendap/MUSICA/MUSICA2d.%%Y%%m%%d_00.ddf
-   service: !!python/object/apply:dataservice.GEOSDDF []
-   institution: NCAR
-   reference:
-   logos: [ncar-logo-ul]
 
   ARUNWRFchem:
     long_name: ARUNWRF forecasts
