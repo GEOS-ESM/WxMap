@@ -274,8 +274,8 @@ field:
       expression: tcco(z=1)
     _tcno2:
       long_name: Total column Nitrogen dioxide
-      units:  'molecules cm-2'
-      expression: tcno2*1.652*1e22(z=1)
+      units:  'kg m-2'
+      expression: tcno2(z=1)
     _tcpm25:
       long_name: Total column PM2.5
       units:     'kgm-2'
@@ -308,6 +308,10 @@ field:
       long_name: Carbon monixide
       units: 'ppbv'
       expression: co(lev=1000)*1e+9*28.97/28.0
+    _o3_lml:
+      long_name: Ozone
+      units: 'ppbv'
+      expression: go3(lev=1000)*1e+9*28.97/48.0
     _no1_lml:
       long_name: Nitric oxide
       units: 'ppbv'
@@ -344,6 +348,10 @@ field:
       long_name: Carbon monixide
       units: 'ppbv'
       expression: co*1e+9*28.97/28.0
+    _o3:
+      long_name: Ozone
+      units: 'ppbv'
+      expression: go3*1e+9*28.97/48.0
     _no1:
       long_name: Nitric oxide
       units: 'ppbv'
@@ -495,7 +503,7 @@ field:
     _pm25sfc: 
       long_name: PM2.5
       units: 'ug m-3'
-      expression: PM25(z=3)*1e+9 
+      expression: pm25_srf*1e+9 
     _tcpm25: 
       long_name: Total column PM2.5
       units: 'kg m-2'
@@ -607,23 +615,79 @@ field:
       long_name: Dust aerosol mixing ratio
       units: 'ug m-3'
       expression: conc_kgm3(e=3)*1.e+9
-    _so2_lml:
-      long_name: Sulfur dioxide aerosol mixing ratio
+    _su_lml:
+      long_name: Sulfate aerosol mixing ratio
       units: 'ug m-3'
       expression: conc_kgm3(e=1)*1.e+9
-    _ss:
+    _ss_lml:
       long_name: Sea salt aerosol mixing ratio
       units: 'ug m-3'
       expression: conc_kgm3(e=5)*1.e+9
     _aod:
       long_name: Aerosol optical depth
       expression: aot_tot
-    _pm25:
+    _pm25sfc:
       long_name: PM 2.5
-      expression: pm25_kgm3
+      expression: pm25_kgm3*1.e+9
     _pm:
       long_name: Total PM
       expression: pm_kgm3
+  
+  MUSICA:
+
+    _aod:
+      long_name: Aerosol Optical Depth
+      units: ''
+      expression: aodvisdn.MUSICA2d
+    _du_lml:
+      long_name: Dust aerosol mixing ratio
+      units: 'ug m-3'
+      expression: dst_tot.MUSICA(z=1)*1.e+9
+    _su_lml:
+      long_name: Sulfate aerosol mixing ratio
+      units: 'ug m-3'
+      expression: so4_tot.MUSICA(z=1)*1.e+9
+    _bc_lml:
+      long_name: Black Carbon at surface
+      units: 'ug m-3'
+      expression: bc_tot.MUSICA(z=1)*1.e+9
+    _oc_lml:
+      long_name: organic Carbon at surface
+      units: 'ug m-3'
+      expression: pom_tot.MUSICA(z=1)*1.e+9
+    _co_lml:
+      long_name: CO at surface
+      units: 'ppbv'
+      expression: (co_cch.MUSICA(z=1)+co_ind.MUSICA(z=1)+co_jpn.MUSICA(z=1)+co_kor.MUSICA(z=1)+co_mal.MUSICA(z=1)+co_nec.MUSICA(z=1)+co_nkr.MUSICA(z=1)+co_phl.MUSICA(z=1)+co_sea.MUSICA(z=1)+co_sec.MUSICA(z=1)+cobb.MUSICA(z=1))*1.e+9
+    _co:
+      long_name: CO
+      units: 'ppbv'  
+      expression: (co_cch.MUSICA+co_ind.MUSICA+co_jpn.MUSICA+co_kor.MUSICA+co_mal.MUSICA+co_nec.MUSICA+co_nkr.MUSICA+co_phl.MUSICA+co_sea.MUSICA+co_sec.MUSICA+cobb.MUSICA)*1.e+9
+    _pm25sfc:
+      long_name: Surface PM 2.5
+      units: 'ug m-3'
+      expression: pm25.MUSICA(z=1)*1.e+9
+    _du:
+      long_name: Dust aerosol mixing ratio
+      units: 'ug m-3'
+      expression: dst_tot.MUSICA*1.e+9
+    _su:
+      long_name: Sulfate aerosol mixing ratio
+      units: 'ug m-3'
+      expression: so4_tot.MUSICA*1.e+9
+    _bc:
+      long_name: Black Carbon 
+      units: 'ug m-3'
+      expression: bc_tot.MUSICA*1.e+9
+    _oc:
+      long_name: organic Carbon
+      units: 'ug m-3'
+      expression: pom_tot.MUSICA*1.e+9
+    _pm25:
+      long_name: PM 2.5
+      units: 'ug m-3'
+      expression: pm25.MUSICA*1.e+9
+
   NCARWRFchem:
     
     _aod:
@@ -872,8 +936,12 @@ field:
       expression: tcpm25(z=1)
     _tcno2:
       long name: Total column Nitrogen dioxide
-      units: 'molecules cm-2'
+      units: 'kg m-2'
       expression: tcno2(z=1)
+    _tchcho:
+      long_name: Total column HCHO
+      units: 'kg m-2'
+      expression: tchcho(z=1)
     _tcbc:
       long_name: Total column black carbon
       units: 'kgm-2'
@@ -925,23 +993,31 @@ field:
     _oc:
       long_name: Organic Carbon
       units: 'ugm-3'
-      expression: orgpai+orgpaj
+      expression: (orgpai+orgpaj)*rho
+    _su:
+      long_name: Sulfate aerosol mixing ratio
+      units: 'ugm-3'
+      expression: (so4ai+so4aj)*rho
     _bc:
       long_name: Black Carbon
       units: 'ugm-3'
-      expression: eci+ecj
+      expression: (eci+ecj)*rho_lml
     _bc_lml:
       long_name: Black Carbon
       units: 'ugm-3'
-      expression: eci_lml+ecj_lml      
+      expression: (eci_lml+ecj_lml)*rho_lml      
+    _oc_lml:
+      long_name: Organic Carbon
+      units: 'ugm-3'
+      expression: (orgpai_lml+orgpaj_lml)*rho_lml
     _du:
       long_name: Dust
       units: 'ugm-3'
-      expression: soila
+      expression: soila*rho
     _ss:
       long_name: Sea Salt
       units: 'ugm-3'
-      expression: seas
+      expression: seas*rho
     _hcho:
       long_name: HCHO
       units: 'ppbv'
@@ -962,6 +1038,10 @@ field:
       long_name: O3 mixing ratio
       units: 'ppbv'
       expression: o3_lml*1e+3
+    _su_lml:
+      long_name: Sulfate at lowest model level
+      units: 'ugm-3'
+      expression: (so4ai_lml+so4aj_lml)*rho_lml
     _pm25sfc:
       long_name: PM2.5 at lowest model level
       units: 'ugm-3'
@@ -973,13 +1053,124 @@ field:
     _ss_lml:
       long_name: Ses Salt at lowest model level
       units: 'ugm-3'
-      expression: seas_lml(z=1)
- #  _du_lml:
- #    long_name: Dust aerosol mixing ratio
- #    units: 'ugm-3'
- #    expression: du_lml(z=1)
+      expression: seas_lml*rho_lml
+    _du_lml:
+      long_name: Dust aerosol mixing ratio
+      units: 'ugm-3'
+      expression: soila_lml*rho_lml
 
   UCLAWRFchem_d2: *UCLAWRF
+
+  UIOWACMAQ: 
+
+    _tcco:
+      long_name: Total column Carbon monoxide
+      units: 'kgm-2'
+      expression: col_co*1.e+4
+    _tcpm25:
+      long_name: Total column PM2.5
+      units: 'kg m-2'
+      expression: col_pm25*10
+    _tcbc:
+      long_name: Total column black carbon
+      units: 'kgm-2'
+      expression: col_ec*10 
+    _tcoc:
+      long_name: Total column organic carbon
+      units: 'kgm-2'
+      expression: col_oc*10
+    _pm25:
+      long_name: PM2.5
+      units: 'ug m-3'
+      expression: pm25
+    _uwnd:
+      long_name: East-West Wind
+      units: m s-1
+      expression: u
+    _vwnd:
+      long_name: North-South Wind
+      units: m s-1
+      expression: v
+    _pblh:
+      long_name: Planetary Boundary Layer Height
+      units: 'm'
+      expression: pblh(z=1)
+    _aod:
+      long_name: Aerosol Optical Depth
+      units: ''
+      expression: aod550(z=1)
+    _co:
+      long_name: CO
+      units: 'ppbv'
+      expression: co*1000
+    _o3:
+      long_name: Ozone
+      units: 'ppbv'
+      expression: o3*1000
+    _no1:
+      long_name: 'NO'
+      units: 'ppbv'
+      expression: 'no*1000'
+    _no2:
+      long_name: NO2
+      units: 'ppbv'
+      expression: no2*1000
+    _no3:
+      long_name: Nitrate
+      units: 'ug m-3'
+      expression: no3
+    _oc:
+      long_name: Organic Carbon
+      units: 'ugm-3'
+      expression: oc
+    _su:
+      long_name: Sulfate aerosol mixing ratio
+      units: 'ugm-3'
+      expression: so4
+    _bc:
+      long_name: Black Carbon
+      units: 'ugm-3'
+      expression: ec
+    _bc_lml:
+      long_name: Black Carbon
+      units: 'ugm-3'
+      expression: ec(z=1)
+    _hcho:
+      long_name: HCHO  
+      units: 'ppbv'
+      expression: ch2o
+    _no2_lml:
+      long_name: NO2 mixing ratio
+      units: 'ppbv'
+      expression: no2(z=1)*1000
+    _so2_lml:
+      long_name: SO2 mixing ratio
+      units: 'ppbv'
+      expression: so2(z=1)*1000
+    _so2:
+      long_name: SO2 mixing ratio
+      units: 'ppbv'
+      expression: so2*1000
+    _o3_lml:
+      long_name: O3 mixing ratio
+      units: 'ppbv'
+      expression: o3(z=1)*1000
+    _su_lml:
+      long_name: Sulfate at lowest model level
+      units: 'ugm-3'
+      expression: so4(z=1)
+    _pm25sfc:
+      long_name: PM2.5 at lowest model level
+      units: 'ugm-3'
+      expression: pm25(z=1)
+    _co_lml:
+      long_name: CO at lowest model level
+      units: 'ppbv'
+      expression: co(z=1)*1000
+    _oc_lml:
+      long_name: Organic Carbon
+      units: 'ugm-3'
+      expression: oc(z=1)
 
   YSUNCARWRFchem:
       
@@ -1026,11 +1217,11 @@ field:
     _co:
       long_name: CO
       units: 'ppbv'
-      expression: co
+      expression: co*1000
     _o3:
       long_name: Ozone
       units: 'ppbv'
-      expression: o3
+      expression: o3*1000
     _no2:
       long_name: NO2
       units: 'ppbv'
@@ -1039,6 +1230,10 @@ field:
       long_name: Organic Carbon
       units: 'ugm-3'
       expression: oc
+    _su:
+      long_name: Sulfate aerosol
+      units: 'ugm-3'
+      expression: so4a
     _bc:
       long_name: Black Carbon
       units: 'ugm-3'
@@ -1070,12 +1265,31 @@ field:
     _pm25sfc:
       long_name: PM2.5 at lowest model level
       units: 'ugm-3'
-      expression: PM2_5_DRY_lml(z=1)
+      expression: PM2_5_DRY_lml
     _co_lml: 
       long_name: CO at lowest model level
       units: 'ppbv'
-      expression: co_lml(z=1) 
-
+      expression: co_lml(z=1)*1e+3 
+    _oc_lml:
+      long_name: Organic Carbon
+      units: 'ugm-3'
+      expression: oc(z=1)
+    _bc_lml:
+      long_name: Black Carbon
+      units: 'ugm-3'
+      expression: bc(z=1)
+    _du_lml:
+      long_name: Dust
+      units: 'ugm-3'
+      expression: dust(z=1)
+    _su_lml:
+      long_name: Sulfate
+      units: 'ugm-3'
+      expression: so4a(z=1)
+    _ss_lml:
+      long_name: Sea Salt
+      units: 'ugm-3'
+      expression: seas(z=1)
 
   ARUNWRFchem:
 
@@ -1197,129 +1411,3 @@ field:
 #      units: 'ugm-3'
 #      expression: seas_lml(z=1)
   
-  UIOWAWRFchem:
-
-    _tcco:
-      long_name: Total column Carbon monoxide
-      units: 'kgm-2'
-      expression: tcco(z=1)
-    _tcpm25: 
-      long_name: Total column PM2.5
-      units: 'kg m-2'
-      expression: tcpm25(z=1)
-    _tcoc: 
-      long_name: Total column OC
-      units: 'kg m-2'
-      expression: tcoc(z=1)
-    _pm25: 
-      long_name: PM2.5 
-      units: 'ug m-3'
-      expression: pm25
-    _uwnd:
-      long_name: East-West Wind
-      units: m s-1
-      expression: U
-    _vwnd:
-      long_name: North-South Wind
-      units: m s-1
-      expression: V
-    _pblh:
-      long_name: Planetary Boundary Layer Height
-      units: 'm'
-      expression: PBLH(z=1)
-    _aod:
-      long_name: Aerosol Optical Depth
-      units: '1'
-      expression: AOD550(z=1)
-    _co:
-       long_name: Carbon monixide
-       units: 'ppbv'
-       expression: CO*1e+3
-    _no1:
-       long_name: Nitric Oxide
-       units: 'ppbv'
-       expression: NO*1e+3
-    _no2:
-       long_name: Nitrogen dioxide
-       units: 'ppbv'
-       expression: NO2*1e+3
-    _so2:
-       long_name: Sulfur dioxide
-       units: 'ppbv'
-       expression: SO2*1e+3
-    _o3:
-       long_name: O3 mixing ratio
-       units: 'ppbv'
-       expression: O3*1e+3
-    _am:
-      long_name: Ammonium aerosol mixing ratio
-      units: 'ugm-3'
-      expression: AMMONIUM*RHO/(1+QVAPOR)
-    _su:
-      long_name: Sulphate aerosol mixing ratio
-      units: 'ugm-3'
-      expression: SULF*RHO/(1+QVAPOR)
-    _ni: 
-      long_name: Nitrate aerosol
-      units: 'ug m-3'
-      expression: NITRATE*RHO/(1+QVAPOR) 
-    _oc:
-       long_name: OC mixing ratio
-       units: 'ug m-3'
-       expression:  OC*RHO/(1+QVAPOR)
-    _bc:
-       long_name: BC mixing ratio
-       units: 'ug m-3'
-       expression:  BC*RHO/(1+QVAPOR)
-    _ss:
-       long_name: Sea salt aerosol mixing ratio
-       units: 'ug m-3'
-       expression: OIN*RHO/(1+QVAPOR) 
-    _co_lml:
-       long_name: Carbon monixide
-       units: 'ppbv'
-       expression: CO_lml(z=1)*1e+3
-    _no1_lml:
-       long_name: Nitric Oxide
-       units: 'ppbv'
-       expression: NO_lml(z=1)*1e+3
-    _no2_lml:
-       long_name: Nitrogen dioxide
-       units: 'ppbv'
-       expression: NO2_lml(z=1)*1e+3
-    _so2_lml:
-       long_name: Sulfur dioxide
-       units: 'ppbv'
-       expression: SO2_lml(z=1)*1e+3
-    _o3_lml:
-       long_name: O3 mixing ratio
-       units: 'ppbv'
-       expression: O3_lml(z=1)*1e+3
-    _am_lml:
-      long_name: Ammonium aerosol mixing ratio
-      units: 'ugm-3'
-      expression: AMMONIUM_lml(z=1)*RHO_lml(z=1)/(1+QVAPOR_lml(z=1))
-    _su_lml:
-      long_name: Sulphate aerosol mixing ratio
-      units: 'ugm-3'
-      expression: SULF_lml(z=1)*RHO_lml(z=1)/(1+QVAPOR_lml(z=1))
-    _ni_lml: 
-      long_name: Nitrate aerosol
-      units: 'ug m-3'
-      expression: NITRATE_lml(z=1)*RHO_lml(z=1)/(1+QVAPOR_lml(z=1)) 
-    _oc_lml:
-       long_name: OC mixing ratio
-       units: 'ug m-3'
-       expression:  OC_lml(z=1)*RHO_lml(z=1)/(1+QVAPOR_lml(z=1))
-    _bc_lml:
-       long_name: BC mixing ratio
-       units: 'ug m-3'
-       expression:  BC_lml(z=1)*RHO_lml(z=1)/(1+QVAPOR_lml(z=1))
-    _ss_lml:
-       long_name: Sea salt aerosol mixing ratio
-       units: 'ug m-3'
-       expression: OIN_lml(z=1)*RHO_lml(z=1)/(1+QVAPOR_lml(z=1)) 
-    _pm25sfc:
-      long_name: PM2.5 at lowest model level 
-      units: 'ugm-3'
-      expression: PM25_lml(z=1)

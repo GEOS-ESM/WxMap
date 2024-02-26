@@ -85,14 +85,14 @@ wxmapscustom:
         cdict: tccoDict
         cbunits: 'gm`a-2'
 
-    tcno:    
-      long_name: Total column NO
+    tcno2:    
+      long_name: Total column NO2
       levels:  [0]
       layers:  [shaded]
-      title: 'Total column NO'
+      title: 'Total column NO2'
       shaded:
-        expr: _tcno*1e+9
-        cdict: tcnoDict
+        expr: _tcno2
+        cdict: tcno2Dict
         cbunits: 'ugm`a-2'
 
     tcoc:    
@@ -111,7 +111,7 @@ wxmapscustom:
       layers:  [shaded]
       title: 'Total column PM2.5'
       shaded:
-        clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5
+        clevs: 0 0.02 0.03 0.05 0.08 0.1 0.15 0.2 0.25 0.3
         expr: (_tcpm25)*1e+3
         cbunits: 'gm`a-2'
         nsub: 20
@@ -427,19 +427,25 @@ wxmapscustom:
     aodDict:
         - {clevs: 0 0.04 0.07 0.1 0.15 0.2 0.3 0.4 0.6 0.8 1 1.2 1.5 1.8, scale: log_scale }
         - {$region: "asia-aq", clevs: 0 0.04 0.07 0.1 0.15 0.2 0.3 0.4 0.6 0.8 1 1.2 1.5 1.8, scale: log_scale }
-        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.04 0.07 0.1 0.15 0.25, scale: log_scale}
+        - {$region: "asia-ppn,asia-th,asia-mal", clevs: 0 0.04 0.07 0.1 0.15 0.25, scale: log_scale}
+        - {$region: "korea", clevs: 0 0.04 0.06 0.08 0.1 0.15 0.20 0.25 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1, scale: log_scale}
 
     pm25Dict:
         - {clevs: 0 0.1 0.2 0.5 10 20 40 60 100 150 200 }
         - {$region: "asia-aq", clevs: 0 0.1 0.2 0.5 10 20 40 60 100 150 200 }
-        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 1 5 10 20 40, scale: log_scale}
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 1 2 4 6 8 10 20 30 50, scale: log_scale}
 
     tccoDict:
         - {clevs: 0.5 0.75 1.0 1.25 1.5 1.75 2.0, scale: exp_scale  }
-        - {$region: "asia-aq", clevs: 0.5 0.75 1.0 1.25 1.5 1.75 2.0, scale: exp_scale  }
-        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0.55 0.65 0.75 0.85 0.95, scale: log_scale}
+        - {$region: "asia-aq,korea", clevs: 1.0 1.20 1.4 1.6 1.8 2.0 2.25 2.5 2.75 3.0 3.5 4.0, scale: exp_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal", clevs:  0.55 0.65 0.75 0.85 0.95, scale: log_scale}
 
     tcnoDict:
+        - {clevs: 2 5 10 20 50 100 200 500 1000, scale: exp_scale  }
+        - {$region: "asia-aq", clevs: 2 5 10 20 50 100 200 500 1000, scale: exp_scale  }
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  2 5 10 20 50 100, scale: log_scale}
+
+    tcno2Dict:
         - {clevs: 2 5 10 20 50 100 200 500 1000, scale: exp_scale  }
         - {$region: "asia-aq", clevs: 2 5 10 20 50 100 200 500 1000, scale: exp_scale  }
         - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  2 5 10 20 50 100, scale: log_scale}
@@ -447,7 +453,7 @@ wxmapscustom:
     tcocDict:
         - {clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
         - {$region: "asia-aq", clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
-        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.002 0.005 0.01 0.02, scale: log_scale}
+        - {$region: "asia-ppn,asia-th,asia-mal,korea,east-asia", clevs: 0 0.002 0.005 0.01 0.02, scale: log_scale}
 
     smokeDict:
         - {clevs: 0 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5, scale: log_scale  }
@@ -471,7 +477,7 @@ wxmapscustom:
 
     ocDict:
         - {clevs: 0 0.1 0.2 0.5 1 2 5 10 20 50 100, scale: log_scale  }
-        - {$region: "asia-aq,asia-th,asia-mal,korea", clevs: 0 0.1 0.2 0.5 1 2 5 10 20 50 100, scale: log_scale  }
+        - {$region: "asia-aq,asia-th,asia-mal,korea", clevs: 0 0.1 0.2 0.5 1 2 5 10 15 20 30 50, scale: log_scale  }
         - {$region: "asia-ppn", clevs:  0 0.1 0.2 0.5 1 2 5 10, scale: log_scale}
 
     bcDict:
@@ -482,7 +488,7 @@ wxmapscustom:
     coDict:
         - {clevs: 0 60 80 100 120 140 150 200 250 300 400 500 700, scale: log_scale  }
         - {$region: "asia-aq", clevs: 0 60 80 100 120 140 150 200 250 300 400 500 700, scale: log_scale  }
-        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 60 80 100 120 140 150 200, scale: log_scale}
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs:  0 60 80 100 120 140 150 200 250 300 350 400 450 500, scale: log_scale}
 
     no1Dict:
         - {clevs: 0 0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
@@ -492,7 +498,7 @@ wxmapscustom:
     no2Dict:
         - {clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
         - {$region: "asia-aq", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }
-        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2, scale: log_scale}
+        - {$region: "asia-ppn,asia-th,asia-mal,korea", clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 3 4 5 10 15 20, scale: log_scale}
 
     so2Dict:
         - {clevs: 0 0.02 0.05 0.1 0.2 0.5 1 2 5 10 20 50, scale: log_scale  }

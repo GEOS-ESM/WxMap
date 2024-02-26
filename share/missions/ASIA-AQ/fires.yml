@@ -1,0 +1,21 @@
+fires01: &FIRES
+  FIRMS:
+    file: '/discover/nobackup/projects/gmao/asia_aq/pub/fire_data/VIIRS_NOAA20_NRT_FIRES.%Y-%m-%dT%H:00.json'
+
+region:
+
+  korea:
+
+    fires: *FIRES
+
+  asia-mal:
+
+    fires: *FIRES
+
+  asia-th:
+
+    fires: *FIRES
+
+  asia-ppn:
+
+    fires: *FIRES
