@@ -423,7 +423,7 @@ class Toolkit(object):
              #  else:
              #      self.string(plot, [loc + ' ' + '--'], **kwargs)
                 if (n+1)%2 == 0:
-                    time = str((n-1)*3)
+                    time = str(n*3)
                     kwargs['position'] = 'l'
                     self.string(plot, [loc + ' ' + '--'+time+'h'], **kwargs)
 
