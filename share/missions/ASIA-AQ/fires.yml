@@ -19,3 +19,7 @@ region:
   asia-ppn:
 
     fires: *FIRES
+
+  taiwan:
+
+    fires: *FIRES
