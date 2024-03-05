@@ -5,7 +5,7 @@ wxmapscustom:
     field:
 
       long_name: VARIABLES
-      groups: ['surface', 'upper', 'nox', 'tropcol_no2']
+      groups: ['surface', 'upper', 'nox', 'tropcol_no2', 'TROPCOL', 'TOTCOL', 'VOC']
 
       surface:
         long_name: Surface
@@ -17,6 +17,7 @@ wxmapscustom:
           - pm25sfc
           - so2_lml
           - tcco
+          - hchosfc
 
       upper:
         long_name: Pressure Level
@@ -51,3 +52,31 @@ wxmapscustom:
           - tropcol_no2_phl
           - tropcol_no2_ship
           - tropcol_no2_tha
+
+      TROPCOL:
+        long_name: TROPCOL OTHER
+        type: button
+        items:
+          - tropcol_so2: SO2
+          - tropcol_co: CO
+          - tropcol_o3: O3
+          - tropcol_hcho: HCHO
+
+      TOTCOL:
+        long_name: TOTCOL
+        type: button
+        items:
+          - totcol_no2: NO2
+          - totcol_so2: SO2
+          - totcol_co: CO
+          - totcol_o3: O3
+          - totcol_hcho: HCHO
+
+      VOC:
+        long_name: VOC/BVOC
+        type: button
+        items:
+          - c2h6: Ethane
+          - c3h8: Propane
+          - alk4: Alkanes
+          - isop: Isoprene
