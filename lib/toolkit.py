@@ -165,6 +165,10 @@ class Toolkit(object):
         handle.size         = kwargs.get('size','.15')
         handle.type         = kwargs.get('mark','3')
         zorder              = kwargs.get('zorder','-1')
+        fname               = kwargs.get('file', None)
+
+        if fname and not isinstance(marks, dict):
+            marks = self.read_from_file(fname, **kwargs)
 
         for mark in marks:
 
@@ -172,7 +176,7 @@ class Toolkit(object):
 
                 collection = dict(kwargs)
                 collection.update(marks[mark])
-                self.mark(plot, collection['data'], **collection)
+                self.mark(plot, collection.get('data',None), **collection)
 
             else:
 
@@ -419,7 +423,7 @@ class Toolkit(object):
              #  else:
              #      self.string(plot, [loc + ' ' + '--'], **kwargs)
                 if (n+1)%2 == 0:
-                    time = str((n-1)*3)
+                    time = str(n*3)
                     kwargs['position'] = 'l'
                     self.string(plot, [loc + ' ' + '--'+time+'h'], **kwargs)
 
@@ -531,6 +535,26 @@ class Toolkit(object):
         time_dt = dt.datetime(year, month, day, hour)
 
         return [time_dt, str(type)] + record[5:]
+
+    def read_from_file(self, fname, **kwargs):
+
+        time_dt = kwargs['time_dt']
+        fcst_dt = kwargs.get('fcst_dt', None)
+
+        file = fname
+
+        if (time_dt):
+            file = time_dt.strftime(file)
+        if (fcst_dt):
+            file = fcst_dt.strftime(file)
+
+        if not os.path.isfile(file):
+            return []
+
+        with open(file, 'r') as f:
+            jdata = json.load(f)
+
+        return jdata
 
     __call__ = draw
 

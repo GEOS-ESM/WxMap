@@ -540,7 +540,10 @@ class Service(MapService):
         y1, y2     = self.dims.y
 
         slice = self.get_state(obj.state,'SLICE').split()
-        if slice: lon1,lat1,lon2,lat2 = tuple([float(v) for v in slice])
+        if slice: lon1,lat1,lon2,lat2 = tuple([float(v) for v in slice[0:4]])
+
+        label_type = 'lon'
+        if len(slice) >= 5: label_type = slice[4]
 
         self.ds('set x %d'%(int(x1),))
         self.ds('set y %d'%(int(y1),))
@@ -560,8 +563,26 @@ class Service(MapService):
         template = 'collect %d gr2stn(%s,%f,%f)'
 
         lon, lat = (lon1, lat1)
+        clons, lons, clats = ([], [], [])
+
         while lon <= lon2:
             lat = lat1 + (lat2-lat1)*(lon-lon1) / (lon2-lon1)
+
+            clat = str(int(round(abs(lat)*10))/10.0)
+            if lat < 0.0:
+                clat += 'S'
+            if lat > 0.0:
+                clat += 'N'
+
+            clon = str(int(round(abs(lon)*10))/10.0)
+            if lon < 0.0:
+                clon += 'W'
+            if lon > 0.0:
+                clon += 'E'
+
+            clats.append(clat)
+            clons.append(clon)
+            lons.append(str(lon))
 
             for index, var in enumerate(vars):
                 match = re.match('skip\(\w+,(\d+),(\d+)\)', var)
@@ -580,7 +601,22 @@ class Service(MapService):
         tmpl    = 'skip(###,%s,%s)'%skip
         vars[0] = tmpl.replace('###',vars[0])
 
-        self.ds('set x %d %d'%(int(x1), int(x2)))
+        lon1, lon2 = (str(lons[0]), str(lons[-1]))
+        skip = int(round(len(lons) / 10.0))
+
+        clats = clats[::skip]
+        clons = clons[::skip]
+        lons = lons[::skip]
+
+        self.ds('set xlevs ' + ' '.join(lons))
+        self.ds('set xaxis ' + lon1 + ' ' + lon2)
+
+        if label_type == 'lon':
+            self.ds('set xlabs ' + '|'.join(clons))
+        elif label_type == 'lat':
+            self.ds('set xlabs ' + '|'.join(clats))
+
+        self.ds('set x %f %f'%(x1, x2))
         self.ds('d ' + ';'.join(vars))
 
         obj.cmds = []
@@ -602,7 +638,7 @@ class Service(MapService):
         z1, z2     = self.dims.z
 
         slice = self.get_state(obj.state,'SLICE').split()
-        if slice: lon1,lat1,lon2,lat2 = tuple([float(v) for v in slice])
+        if slice: lon1,lat1,lon2,lat2 = tuple([float(v) for v in slice[0:4]])
 
         vertices = []
         lon, lat = (lon1, lat1)

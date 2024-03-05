@@ -1,0 +1,39 @@
+wxmapscustom:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: ['surface', 'upper']
+
+      surface:
+        long_name: Surface
+        type: button
+        items:
+          - bc_lml
+          - o3_lml
+          - so2_lml
+          - co_lml
+          - tcco
+          - tcpm25
+          - aod
+          - pm25sfc
+          - tcoc
+          - oc_lml
+          - su_lml
+          - no2_lml
+
+      upper:
+        long_name: Pressure Level
+        type: button
+        items:
+          - co
+          - no1
+          - no2
+          - o3
+          - pm25
+          - bc
+          - so2
+          - oc
+          - su
