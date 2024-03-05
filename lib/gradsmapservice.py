@@ -601,12 +601,15 @@ class Service(MapService):
         tmpl    = 'skip(###,%s,%s)'%skip
         vars[0] = tmpl.replace('###',vars[0])
 
-        clats = clats[::5]
-        clons = clons[::5]
-        lons = lons[::5]
+        lon1, lon2 = (str(lons[0]), str(lons[-1]))
+        skip = int(round(len(lons) / 10.0))
+
+        clats = clats[::skip]
+        clons = clons[::skip]
+        lons = lons[::skip]
 
         self.ds('set xlevs ' + ' '.join(lons))
-        self.ds('set xaxis ' + lons[0] + ' ' + lons[-1])
+        self.ds('set xaxis ' + lon1 + ' ' + lon2)
 
         if label_type == 'lon':
             self.ds('set xlabs ' + '|'.join(clons))
