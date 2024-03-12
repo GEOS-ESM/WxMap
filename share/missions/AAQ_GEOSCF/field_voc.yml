@@ -1,0 +1,113 @@
+field:
+
+  GEOSCF:
+
+    _no2sfc:
+      long_name: NO2_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: no2.chm_tavg_1hr_g1440x721_v1(z=1)
+
+    _so2sfc:
+      long_name: SO2_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: so2.chm_tavg_1hr_g1440x721_v1(z=1)
+
+    _o3sfc:
+      long_name: O3_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: o3.chm_tavg_1hr_g1440x721_v1(z=1)
+
+    _cosfc:
+      long_name: CO_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: co.chm_tavg_1hr_g1440x721_v1(z=1)
+
+    _hchosfc:
+      long_name: HCHO_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: hcho.chm_tavg_1hr_g1440x721_v1(z=1)
+
+    _no2:
+      long_name: NO2_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: no2.chm_inst_1hr_g1440x721_p23
+
+    _so2:
+      long_name: SO2_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: so2.chm_inst_1hr_g1440x721_p23
+
+    _co:
+      long_name: CO_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: co.chm_inst_1hr_g1440x721_p23
+
+    _o3:
+      long_name: O3_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: o3.chm_inst_1hr_g1440x721_p23
+
+    _totcol_no2:
+      long_name: NO2_total_column_density
+      units: 1.0e15 molec cm-2
+      expression: totcol_no2.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _totcol_so2:
+      long_name: SO2_total_column_density
+      units: 1.0e15 molec cm-2
+      expression: totcol_so2.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _totcol_co:
+      long_name: CO_total_column_density
+      units: 1.0e15 molec cm-2
+      expression: totcol_co.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _totcol_o3:
+      long_name: O3_total_column_density
+      units: dobsons
+      expression: totcol_o3.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _totcol_hcho:
+      long_name: CH2O_total_column_density
+      units: 1.0e15 molec cm-2
+      expression: totcol_hcho.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _tropcol_so2:
+      long_name: SO2_tropospheric_column_density
+      units: 1.0e15 molec cm-2
+      expression: tropcol_so2.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _tropcol_co:
+      long_name: CO_tropospheric_column_density
+      units: 1.0e15 molec cm-2
+      expression: tropcol_co.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _tropcol_o3:
+      long_name: O3_tropospheric_column_density
+      units: dobsons
+      expression: tropcol_o3.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _tropcol_hcho:
+      long_name: CH2O_tropospheric_column_density
+      units: 1.0e15 molec cm-2
+      expression: tropcol_hcho.xgc_tavg_1hr_g1440x721_x1(z=1)
+
+    _c2h6:
+      long_name: Ethane_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: c2h6.chm_tavg_1hr_g1440x721_v1(z=1)
+
+    _c3h8:
+      long_name: Propane_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: c3h8.chm_tavg_1hr_g1440x721_v1(z=1)
+
+    _alk4:
+      long_name: Lumped_alkanes_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: alk4.chm_tavg_1hr_g1440x721_v1(z=1)
+
+    _isop:
+      long_name: Isoprene_volume_mixing_ratio_dry_air
+      units: mol mol-1
+      expression: isop.chm_tavg_1hr_g1440x721_v1(z=1)
