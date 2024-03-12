@@ -427,8 +427,9 @@ wxmapscustom:
     aodDict:
         - {clevs: 0 0.04 0.07 0.1 0.15 0.2 0.3 0.4 0.6 0.8 1 1.2 1.5 1.8, scale: log_scale }
         - {$region: "asia-aq", clevs: 0 0.04 0.07 0.1 0.15 0.2 0.3 0.4 0.6 0.8 1 1.2 1.5 1.8, scale: log_scale }
-        - {$region: "asia-ppn,asia-th,asia-mal", clevs: 0 0.04 0.07 0.1 0.15 0.25, scale: log_scale}
+        - {$region: "asia-ppn,asia-mal", clevs: 0 0.04 0.07 0.1 0.15 0.25, scale: log_scale}
         - {$region: "korea,taiwan", clevs: 0 0.04 0.06 0.08 0.1 0.15 0.20 0.25 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1, scale: log_scale}
+        - {$region: "asia-th", clevs:, cmin: 0, cmax: 1, cint: 0.1, scale: exp_scale}
 
     pm25Dict:
         - {clevs: 1 5 10 20 40 60 100 150 200 }
