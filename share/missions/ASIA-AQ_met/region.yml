@@ -55,3 +55,11 @@ region:
     lat: 13 17
     mpdset: hires
     mproj: latlon
+
+  taiwan:
+
+    long_name: Taiwan
+    lon: 117 123
+    lat: 21 27
+    mpdset: hires
+    mproj: latlon

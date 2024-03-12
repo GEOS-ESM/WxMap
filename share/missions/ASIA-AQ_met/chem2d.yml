@@ -48,7 +48,7 @@ wxmapschem2d:
       title: '\\\\ Black Carbon AOT'
       blackorganic_carbon_aot:
         expr: _bcexttau
-        clevs: .001 .003 .005 .007 .01 .03 .05 .07 .1 .3 .5  1
+        clevs: 0 .02 .04 .06 .08 .1 .2 .3 .4 .5 .6 .7 .8 .9 1
         cmin: 0
         cmax: 1
         cint: 0.1

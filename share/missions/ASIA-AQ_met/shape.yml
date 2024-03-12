@@ -18,6 +18,14 @@ shape:
     mark: 3
     zorder: -3
 
+  fires:
+    class: mark
+    line_color: 255 0 0
+    fill_color: 255 0 0
+    size: 0.05
+    mark: 3
+    zorder: -3
+
   station_mark:
     zorder: -3
 
