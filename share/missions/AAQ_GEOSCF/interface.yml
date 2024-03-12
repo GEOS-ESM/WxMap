@@ -16,7 +16,6 @@ wxmapscustom:
           - o3_lml
           - pm25sfc
           - so2_lml
-          - tcco
           - hchosfc
 
       upper:
@@ -68,7 +67,7 @@ wxmapscustom:
         items:
           - totcol_no2: NO2
           - totcol_so2: SO2
-          - totcol_co: CO
+          - tcco: CO
           - totcol_o3: O3
           - totcol_hcho: HCHO
 

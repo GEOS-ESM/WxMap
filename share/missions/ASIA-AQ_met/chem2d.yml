@@ -8,8 +8,8 @@ wxmapschem2d:
       layers: [bcoc_surface_mass, qfed1, qfed2]
       title: '\\\\ BC + OC Surface Mass [`3m`f13g/m`a3`n]'
       map:
-        line_color: 139 69 19
-        line_width: 2
+        line_color: 0 0 0
+        line_width: 8
         land_tint_color: 253 237 227
         layers: [clearmap, shaderelief-tint]
 
@@ -22,8 +22,8 @@ wxmapschem2d:
         uexpr: (_bcfluxu+_ocfluxu)/(_bccmass+_occmass)
         vexpr: (_bcfluxv+_ocfluxv)/(_bccmass+_occmass)
       map:
-        line_color: 139 69 19
-        line_width: 2
+        line_color: 0 0 0
+        line_width: 8
         land_tint_color: 253 237 227
         layers: [clearmap, shaderelief-tint]
 
@@ -36,8 +36,28 @@ wxmapschem2d:
         uexpr: (_bcfluxu+_ocfluxu)/(_bccmass+_occmass)
         vexpr: (_bcfluxv+_ocfluxv)/(_bccmass+_occmass)
       map:
-        line_color: 139 69 19
-        line_width: 2
+        line_color: 0 0 0
+        line_width: 8
+        land_tint_color: 253 237 227
+        layers: [clearmap, shaderelief-tint]
+
+    bcaot:
+      long_name: BC AOT
+      levels: [0]
+      layers: [blackorganic_carbon_aot, streamlines, qfed1, qfed2]
+      title: '\\\\ Black Carbon AOT'
+      blackorganic_carbon_aot:
+        expr: _bcexttau
+        clevs: .001 .003 .005 .007 .01 .03 .05 .07 .1 .3 .5  1
+        cmin: 0
+        cmax: 1
+        cint: 0.1
+      streamlines:
+        uexpr: (_bcfluxu)/(_bccmass)
+        vexpr: (_bcfluxv)/(_bccmass)
+      map:
+        line_color: 0 0 0
+        line_width: 8
         land_tint_color: 253 237 227
         layers: [clearmap, shaderelief-tint]
 
@@ -47,8 +67,8 @@ wxmapschem2d:
       layers: [co_total_column, qfed1, qfed2]
       title: '\\\\ Total CO [10`a18 `n molecules cm`a-2 `n]'
       map:
-        line_color: 139 69 19
-        line_width: 2
+        line_color: 0 0 0
+        line_width: 8
         land_tint_color: 253 237 227
         layers: [clearmap, shaderelief-tint]
 
@@ -58,8 +78,8 @@ wxmapschem2d:
       layers: [coclbbna, qfed1, qfed2]
       title: '\\\\ N. America CO Biomass Burning [10`a18`n molecules cm`a-2`n]'
       map:
-        line_color: 139 69 19
-        line_width: 2
+        line_color: 0 0 0
+        line_width: 8
         land_tint_color: 253 237 227
         layers: [clearmap, shaderelief-tint]
 

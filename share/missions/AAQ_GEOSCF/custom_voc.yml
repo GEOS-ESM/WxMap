@@ -51,7 +51,7 @@ wxmapscustom:
       layers: [o3sfc]
 
     hchosfc:
-      long_name: HCHO Sfc
+      long_name: HCHO
       title: 'Surface HCHO'
       levels: [0]
       layers: [hchosfc]
@@ -285,23 +285,6 @@ wxmapscustom:
       nsub: 4
       skip: 4
 
-    no2:
-      gxout: shaded
-      expr: 1.0e+9 * _no2
-      cbar: AAQ-default
-      cbunits: '[PPBV]'
-      clevs: 0 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 15 20 50
-      cmin:
-      cmax:
-      cint:
-      scale:
-      nsub: 10
-      skip: 10
-#     alpha:
-#       - 0.000 0.000 0.000
-#       - 0.050 1.000 1.000
-#       - 1.000 1.000 1.000
-
     totcol_no2:
       gxout: shaded
       expr: _totcol_no2
@@ -318,24 +301,6 @@ wxmapscustom:
         - 0.050 1.000 1.000
         - 1.000 1.000 1.000
 
-    so2:
-      gxout: shaded
-      expr: 1.0e+9 * _so2
-      cbar: AAQ-default
-      cbunits: '[PPBV]'
-      clevs: 0 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 15 20 50
-      cmin:
-      cmax:
-      cint:
-      scale:
-      nsub: 10
-      skip: 10
-#     alpha:
-#       - 0.000 0.000 0.000
-#       - 0.050 1.000 1.000
-#       - 1.000 1.000 1.000
-
-
     totcol_so2:
       gxout: shaded
       expr: _totcol_so2
@@ -351,19 +316,6 @@ wxmapscustom:
         - 0.000 0.000 0.000
         - 0.050 1.000 1.000
         - 1.000 1.000 1.000
-
-    co:
-      gxout: shaded
-      expr: 1.0e+9 * _co
-      cbar: AAQ-default
-      cbunits: '[PPBV]'
-      clevs:
-      cmin: 40
-      cmax: 300
-      cint: 20
-      scale:
-      nsub: 10
-      skip: 10
 
     totcol_co:
       gxout: shaded
@@ -382,19 +334,6 @@ wxmapscustom:
         - 0.010 0.000 0.000
         - 0.100 1.000 1.000
         - 1.000 1.000 1.000
-
-    o3:
-      gxout: shaded
-      expr: 1.0e+9 * _o3
-      cbar: AAQ-default
-      cbunits: '[PPBV]'
-      clevs:
-      cmin: 0
-      cmax: 300
-      cint: 20
-      scale: exp_scale
-      nsub: 10
-      skip: 10
 
     totcol_o3:
       gxout: shaded

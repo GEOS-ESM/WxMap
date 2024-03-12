@@ -16,3 +16,15 @@ stream:
     reference: http://gmao.gsfc.nasa.gov/GEOS/geos5/index_pubs.php
     link: http://gmao.gsfc.nasa.gov/GEOS
     logos: [nasa-logo-ul, gmao-logo-ur]
+
+  QFED:
+
+    long_name: QFED
+    description: QFED
+    type: analysis
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/qfed/qfed2.emis_co.061.%Y%m%d.nc4
+    service: !!python/object/apply:dataservice.GEOSDDF []
+    institution: Global Modeling and Assimilation Office (GMAO)
+    reference:
+    logos: []
+    grid: -1

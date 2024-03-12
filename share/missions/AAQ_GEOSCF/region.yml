@@ -76,6 +76,8 @@ region:
 
   asia-th:
 
+    layers: [shaderelief-gray-2]
+
     aeronet: *AERONET
     cities: *CITIES
 
