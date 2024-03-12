@@ -7,8 +7,7 @@ stream:
     type: forecast
     downloading: enabled
     access: public
-#    uri: /discover/nobackup/projects/gmao/merra2/pub/supplemental/f517_fp/opendap/fcast/$collection/$collection.%Y%m%d_%H
-    uri: /discover/nobackup/projects/gmao/merra2/pub/supplemental/fp/opendap/fcast/$collection/$collection.%%Y%%m%%d_%%H.portal
+    uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/fp/opendap/fcast/$collection/$collection.%%Y%%m%%d_%%H.portal
     service: !!python/object/apply:dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
