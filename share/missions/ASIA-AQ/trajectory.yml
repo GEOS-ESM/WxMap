@@ -94,7 +94,7 @@ region:
 
   asia-aq:
 
-    track: *MANILA_TRAJ
+    track: *BANGKOK_TRAJ
 
   korea:
 
