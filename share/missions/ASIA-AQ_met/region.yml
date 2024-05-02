@@ -7,6 +7,8 @@ region:
     lat: 0 60
     mpdset: hires
     mproj: latlon
+    qfed1: 'off'
+    qfed2: 'off'
 
   east-asia:
 
@@ -15,6 +17,8 @@ region:
     lat: 22 50
     mpdset: hires
     mproj: latlon
+    qfed1: 'off'
+    qfed2: 'off'
 
   southeast-asia:
 
@@ -23,6 +27,8 @@ region:
     lat: -5 26
     mpdset: hires
     mproj: latlon
+    qfed1: 'off'
+    qfed2: 'off'
 
   korea:
 
@@ -31,6 +37,8 @@ region:
     lat: 34 39
     mpdset: hires
     mproj: latlon
+    qfed1: 'off'
+    qfed2: 'off'
 
   asia-mal:
 
@@ -39,6 +47,8 @@ region:
     lat: 0 9
     mpdset: hires
     mproj: latlon
+    qfed1: 'off'
+    qfed2: 'off'
 
   asia-th:
 
@@ -47,6 +57,8 @@ region:
     lat: 11 20
     mpdset: hires
     mproj: latlon
+    qfed1: 'off'
+    qfed2: 'off'
 
   asia-ppn:
 
@@ -55,3 +67,15 @@ region:
     lat: 13 17
     mpdset: hires
     mproj: latlon
+    qfed1: 'off'
+    qfed2: 'off'
+
+  taiwan:
+
+    long_name: Taiwan
+    lon: 117 123
+    lat: 21 27
+    mpdset: hires
+    mproj: latlon
+    qfed1: 'off'
+    qfed2: 'off'

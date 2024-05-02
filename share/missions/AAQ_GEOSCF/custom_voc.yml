@@ -1,0 +1,370 @@
+wxmapscustom:
+
+  plot:
+
+    c2h6:
+      long_name: Ethane
+      title: 'Surface Ethane (C2H6) Mixing Ratio [PPBV]'
+      levels: [0]
+      layers: [c2h6]
+
+    c3h8:
+      long_name: Propane
+      title: 'Surface Propane (C3H8) Mixing Ratio [PPBV]'
+      levels: [0]
+      layers: [c3h8]
+
+    isop:
+      long_name: Isoprene
+      title: 'Surface Isoprene Mixing Ratio [PPBV]'
+      levels: [0]
+      layers: [isop]
+
+    alk4:
+      long_name: Alkanes
+      title: 'Lumped Alkanes Mixing Ratio [PPBV]'
+      levels: [0]
+      layers: [alk4]
+
+    no2sfc:
+      long_name: NO2 Sfc
+      title: 'Surface NO`b2'
+      levels: [0]
+      layers: [no2sfc]
+
+    so2sfc:
+      long_name: SO2 Sfc
+      title: 'Surface SO`b2'
+      levels: [0]
+      layers: [so2sfc]
+
+    cosfc:
+      long_name: CO Sfc
+      title: 'Surface CO'
+      levels: [0]
+      layers: [cosfc]
+
+    o3sfc:
+      long_name: O3 Sfc
+      title: 'Surface O`b3'
+      levels: [0]
+      layers: [o3sfc]
+
+    hchosfc:
+      long_name: HCHO
+      title: 'Surface HCHO'
+      levels: [0]
+      layers: [hchosfc]
+
+    totcol_no2: &TOTCOL_NO2
+
+      long_name: Total Column NO2
+      levels: [0]
+      layers: [totcol_no2]
+      title: 'Total Column NO`b2`n [10`a15`n molec cm`a-2`n]'
+
+    totcol_co:
+
+      long_name: Total Column CO
+      levels: [0]
+      layers: [totcol_co]
+      title: 'Total Column CO [10`a18`n molec cm`a-2`n]'
+
+    tropcol_co:
+
+      long_name: Tropo Column CO
+      levels: [0]
+      layers: [totcol_co]
+      title: 'Tropospheric Column CO [10`a18`n molec cm`a-2`n]'
+      totcol_co:
+        expr: _tropcol_co/1000
+
+    totcol_o3:
+
+      long_name: Total Column O3
+      levels: [0]
+      layers: [totcol_o3]
+      title: 'Total Column Ozone [dobsons]'
+
+    tropcol_o3:
+
+      long_name: Tropo Column O3
+      levels: [0]
+      layers: [totcol_o3]
+      title: 'Tropospheric Column Ozone [dobsons]'
+      totcol_o3:
+        expr: _tropcol_o3
+        cmin: 5
+        cmax: 55
+        cint: 5
+
+    totcol_so2:
+
+      long_name: Total Column SO2
+      levels: [0]
+      layers: [totcol_so2]
+      title: 'Total Column SO`b2`n [10`a15`n molec cm`a-2`n]'
+
+    tropcol_so2:
+
+      long_name: Tropo Column SO2
+      levels: [0]
+      layers: [totcol_so2]
+      title: 'Tropospheric Column SO`b2`n [10`a15`n molec cm`a-2`n]'
+      totcol_so2:
+        expr: _tropcol_so2
+        cmin: 0
+        cmax: 36
+        cint: 4
+
+    totcol_hcho:
+
+      long_name: Total Column HCHO
+      levels: [0]
+      layers: [totcol_hcho]
+      title: 'Total Column HCHO [10`a15`n molec cm`a-2`n]'
+
+    tropcol_hcho:
+
+      long_name: Trop Column HCHO
+      levels: [0]
+      layers: [totcol_hcho]
+      title: 'Tropospheric Column HCHO [10`a15`n molec cm`a-2`n]'
+      totcol_hcho:
+        expr: _tropcol_hcho
+
+  layer:
+
+    c2h6:
+      gxout: shaded
+      expr: 1.0e+9 * _c2h6
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+      clevs:
+      cmin: 0
+      cmax: 6.0
+      cint: 0.5
+      nsub: 4
+      skip: 4
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.090 0.000 0.000
+        - 0.300 1.000 1.000
+        - 1.000 1.000 1.000
+
+    c3h8:
+      gxout: shaded
+      expr: 1.0e+9 * _c3h8
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+      clevs:
+      cmin: 0
+      cmax: 3.0
+      cint: 0.2
+      nsub: 4
+      skip: 4
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.090 0.000 0.000
+        - 0.300 1.000 1.000
+        - 1.000 1.000 1.000
+
+    isop:
+      gxout: shaded
+      expr: 1.0e+9 * _isop
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+      clevs:
+      cmin: 0
+      cmax: 30
+      cint: 3
+      nsub: 10
+      skip: 10
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.090 0.000 0.000
+        - 0.300 1.000 1.000
+        - 1.000 1.000 1.000
+
+    alk4:
+      gxout: shaded
+      expr: 1.0e+9 * _alk4
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+      clevs:
+      cmin: 0
+      cmax: 50
+      cint: 5
+      nsub: 10
+      skip: 10
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.090 0.000 0.000
+        - 0.300 1.000 1.000
+        - 1.000 1.000 1.000
+
+    no2sfc:
+      gxout: shaded
+      expr: 1.0e+9 * _no2sfc
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+      clevs: 0 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 15 20 50
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 1.000 1.000
+        - 1.000 1.000 1.000
+
+    so2sfc:
+      gxout: shaded
+      expr: 1.0e+9 * _so2sfc
+      cbar: AAQ-default
+      scale:
+      cbunits: '[PPBV]'
+      clevs: 0 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 15 20 50 100
+      cmin:
+      cmax:
+      cint:
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.090 0.000 0.000
+        - 0.300 1.000 1.000
+        - 1.000 1.000 1.000
+
+    cosfc:
+      gxout: shaded
+      expr: 1.0e+9 * _cosfc
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+      cmin: 40
+      cmax: 300
+      cint: 20
+      scale:
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.100 0.000 0.000
+        - 0.300 1.000 1.000
+        - 1.000 1.000 1.000
+
+    o3sfc:
+      gxout: shaded
+      expr: 1.0e+9 * _o3sfc
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+#     clevs: 0 0.01 0.02 0.05 0.1 0.2 0.5 1 2 5 10 15 20 50 100
+      clevs:
+      cmin: 0
+      cmax: 75
+      cint: 5
+      scale: log_scale
+      nsub: 5
+      skip: 5
+
+    hchosfc:
+      gxout: shaded
+      expr: 1.0e+9 * _hchosfc
+      cbar: AAQ-default
+      cbunits: '[PPBV]'
+      clevs:
+      cmin: 0
+      cmax: 3.0
+      cint: 0.2
+#     scale: log_scale
+      nsub: 4
+      skip: 4
+
+    totcol_no2:
+      gxout: shaded
+      expr: _totcol_no2
+      cbar: AAQ-default
+      cbunits: '[10`a15`n molec cm`a-2`n]'
+      cmin: 0
+      cmax: 44
+      cint: 4
+      scale: exp_scale
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 1.000 1.000
+        - 1.000 1.000 1.000
+
+    totcol_so2:
+      gxout: shaded
+      expr: _totcol_so2
+      cbar: AAQ-default
+      cbunits: '[10`a15`n molec cm`a-2`n]'
+      cmin: 0
+      cmax: 36
+      cint: 4
+      scale: exp_scale
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 1.000 1.000
+        - 1.000 1.000 1.000
+
+    totcol_co:
+      gxout: shaded
+      expr: _totcol_co/1000
+      cbar: AAQ-default
+      cbunits: '[10`a18`n molec cm`a-2`n]'
+      clevs:
+      cmin: 0.6
+      cmax: 3.3
+      cint: 0.3
+      nsub: 10
+      skip: 10
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.010 0.000 0.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    totcol_o3:
+      gxout: shaded
+      expr: _totcol_o3
+      cbar: AAQ-default
+      cbunits: '[dobsons]'
+      clevs:
+      cmin: 196
+      cmax: 350
+      cint: 14
+      scale:
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 0.000 0.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    totcol_hcho:
+      gxout: shaded
+      expr: _totcol_hcho
+      cbar: AAQ-default
+      cbunits: '[10`a15`n molec cm`a-2`n]'
+      cmin: 0
+      cmax: 45
+      cint: 5
+      scale: exp_scale
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 1.000 1.000
+        - 1.000 1.000 1.000

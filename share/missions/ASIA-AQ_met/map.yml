@@ -5,8 +5,10 @@ map:
     lake_color:
     land_color: 255 227 171
     water_color: 255 255 255
-    line_color: 139 69 19
-    line_width: 1
+  # line_color: 139 69 19
+  # line_width: 1
+    line_color: 0 0 0
+    line_width: 8 
     line_style: 1
     layers: [quickmap]
     land_mask_color: 0 0 0

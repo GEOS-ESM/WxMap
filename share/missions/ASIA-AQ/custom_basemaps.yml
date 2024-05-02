@@ -5,9 +5,16 @@ map:
     line_width: 2
     water_color: 0 0 0 0
     land_color: 0 0 0 0 
- #  grayscale: 1
     saturation: 0.1
     layers: [standard, shaderelief, lsmask]
+
+  shaderelief-gray-2:
+    line_color: 0 0 0
+    line_width: 2
+    water_color: 0 0 0 0
+    land_color: 0 0 0 0
+    saturation: 0.1
+    layers: [political, land, water, shaderelief, lsmask]
 
   world_topo-01:
     water_color: 0 0 0 0
