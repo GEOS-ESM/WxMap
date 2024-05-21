@@ -1,0 +1,142 @@
+wxmapschem2d:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [Aerosols, CO, Other Gases]
+
+      Aerosols:
+        long_name: Aerosols
+        type: button
+        items:
+          - bcaot: BC AOT
+          - bcsmass: BC Sfc Mass
+          - ocaot: OC AOT
+          - ocembb: OC BB Emiss.
+          - ocsmass: OC Sfc Mass
+          - duaot: Dust AOT
+          - ssaot: Seasalt AOT
+          - suaot: Sulfate AOT
+          - fineaot: Fine AOT
+          - niaot: Nitrate AOT
+          - totaot: Total AOT
+
+      CO:
+        long_name: Carbon Monoxide
+        type: button
+        items:
+          - cobbae: CO BB Eurasia
+          - cobbaf: CO BB Africa
+          - cobbla: CO BB S. Amer.
+          - cobbna: CO BB N. Amer.
+          - cocl: CO Column
+          - conbas: CO FF Asia
+          - conbeu: CO FF Europe
+          - conbna: CO FF N. Amer.
+          - cosc: CO Surface
+
+      Other Gases:
+        long_name: Other Gases
+        type: button
+        items:
+          - nismass: NO3 Sfc Mass
+          - so2cmass: SO2 Col Mass
+          - so2smass: SO2 Sfc Mass
+          - to3: Total Ozone
+
+wxmapscustom:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [CO, BCOC, SO4, DU, SS]
+
+      CO:
+        long_name: CO
+        type: button
+        items:
+          - cocl: CO Column
+          - coclbbae
+          - coclbbna
+
+      BCOC:
+        long_name: BC+OC Carbon
+        type: button
+        items:
+          - bcocaot: BC+OC AOT
+          - bcocsmass: BC+OC Sfc Mass
+          - bcoc_z: BC+OC Mass (z-coord)
+          - bcoc_int
+          - bcoc_coast
+
+      SO4:
+        long_name: SO4
+        type: button
+        items:
+          - suaot
+          - so4smass
+          - so4_z: Sulfate Mass (z-coord)
+          - so4_int
+          - so4_coast
+
+      DU:
+        long_name: Dust
+        type: button
+        items:
+          - duaot
+          - dusmass
+          - du_z: Dust Mass (z-coord)
+          - du_int
+          - du_coast
+
+      SS:
+        long_name: Sea Salt
+        type: button
+        items:
+          - ssaot
+          - sssmass
+          - ss_z: Sea Salt Mass (z-coord)
+          - ss_int
+          - ss_coast
+
+
+wxmapsmission:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [Precip, Other]
+
+      Precip:
+        long_name: Precip/Clouds
+        type: button
+        items:
+          - precip
+          - cldlow
+          - cldmid
+          - cldhgh
+          - cldtot
+          - cldprs
+          - cldwat
+          - taulow
+          - taumid
+          - tauhgh
+
+      Other:
+        long_name: Other
+        type: button
+        items:
+          - rh
+          - tmpu
+          - wspd
+          - vort
+          - omega
+          - epv
+          - pblh
+          - tropp

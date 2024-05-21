@@ -1,0 +1,721 @@
+#interior_shapes: &INTERIOR_SHAPES
+
+#  station_mark:
+#    marks:
+#      inner_size: 0.09
+#      outer_size: 0.09
+#      outer_line: ''
+#      line_width: 4
+#      mark_type:  3 2
+#      data:       [114.17 70]
+#  string:
+#    Hong_Kong:
+#      line_color: 255 255 255
+#      line_width: 7
+#      str_size:   0.1
+#      rotation:   0
+#     position:   'bl'
+#      data:       [114.17 70 Hong Kong]
+
+#coast_shapes: &COAST_SHAPES
+
+#  station_mark:
+#    marks:
+#      inner_size: 0.09
+#      outer_size: 0.09
+#      outer_line: ''
+#      line_width: 4
+#      mark_type:  3 2
+#      data:       [110.2 70]
+#  string:
+#    Haikou:
+#      line_color: 255 255 255
+#      line_width: 7
+#      str_size:   0.1
+#      rotation:   0
+#      position:   'bl'
+#      data:       [110.2 70 Haikou]
+
+wxmapscustom:
+
+  plot:
+
+    cocl:
+      long_name: CO Column
+      levels: [0]
+      layers: [co_total_column]
+      title: '\\\\ Total CO [10`a18 `n molecules cm`a-2 `n]'
+      map:
+        layers: [shader-BrnWht]
+
+    coclbbae:
+      long_name: CO Biomass Burning Eurasia
+      levels: [0]
+      layers: [cobb_eurasia]
+      title: 'Asia/Europe CO Biomass Burning [10`a18`n molecules cm`a-2`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    coclbbna:
+      long_name: CO Biomass Burning North America
+      levels: [0]
+      layers: [cobb_north_america]
+      title: 'N. America CO Biomass Burning [10`a18`n molecules cm`a-2`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    bcocsmass:
+      long_name: BC+OC Sfc Mass
+      levels: [0]
+      layers: [bcoc_surface_mass]
+      title: '\\\\ BC + OC Surface Mass [`3m`f13g/m`a3`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    dusmass:
+      long_name: Dust Surface Mass Concentration
+      levels: [0]
+      layers: [dust_surface_mass]
+      title: '\\\\ Dust Surface Mass Concentration [`3m`f13g/m`a3`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    sssmass:
+      long_name: SeaSalt Surface Mass Concentration
+      levels: [0]
+      layers: [seasalt_surface_mass]
+      title: '\\\\ Sea Salt Surface Mass Concentration [`3m`f13g/m`a3`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    bcoccmass:
+      long_name: BC+OC Col Mass
+      levels: [0]
+      layers: [bcoc_column_mass, streamlines]
+      title: '\\\\ BC + OC Column Mass [mg/m`a2`n]'
+      streamlines:
+        uexpr: (_bcfluxu+_ocfluxu)/(_bccmass+_occmass)
+        vexpr: (_bcfluxv+_ocfluxv)/(_bccmass+_occmass)
+      map:
+        layers: [shader-BrnWht]
+
+    bcocaot:
+      long_name: BC+OC AOT
+      levels: [0]
+      layers: [blackorganic_carbon_aot, streamlines]
+      title: '\\\\ Black + Organic Carbon AOT'
+      streamlines:
+        uexpr: (_bcfluxu+_ocfluxu)/(_bccmass+_occmass)
+        vexpr: (_bcfluxv+_ocfluxv)/(_bccmass+_occmass)
+      map:
+        layers: [shader-BrnWht]
+
+    bcoc_z:
+      long_name: BC+OC
+      title: '\\ $level ft BCOC [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [bcoc_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      bcoc_nz:
+        expr: _bcoc_nh*1.0e+9
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    so4_z:
+      long_name: Sulfate
+      title: '\\ $level ft SO4 [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [so4_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      so4_nz:
+        expr: _so4_nh*1.0e+9
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    du_z:
+      long_name: Sulfate
+      title: '\\ $level ft Dust [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [dust_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      dust_nz:
+        expr: _dust_nh*1.0e+9
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    ss_z:
+      long_name: Sulfate
+      title: '\\ $level ft Sea Salt [`3m`f13g/m`a3`n], Wind Barbs [knots]'
+      levels: [1000,2000,4000,6000]
+      layers: [ss_nz, barbs]
+      map:
+        layers: [shader-BrnWht]
+      ss_nz:
+        expr: _ss_nh*1.0e+9
+      barbs:
+        uexpr: _uwnd_nh*1.94384
+        vexpr: _vwnd_nh*1.94384
+
+    so4smass:
+      long_name: Sulfate Sfc Mass
+      levels: [0]
+      layers: [so4_surface_mass]
+      title: '\\\\ Sulfate Surface Mass [`3m`f13g/m`a3`n]'
+      map:
+        layers: [shader-BrnWht]
+
+    suaot:
+      long_name: SO4 AOT
+      levels: [0]
+      layers: [sulfate_aot, streamlines]
+      title: '\\\\ Sulfate AOT'
+      streamlines:
+        uexpr: (_sufluxu)/(_so4cmass)
+        vexpr: (_sufluxv)/(_so4cmass)
+      map:
+        layers: [shader-BrnWht]
+
+    duaot:
+      long_name: DUST AOT
+      levels: [0]
+      layers: [dust_aot, streamlines]
+      title: '\\\\ Dust AOT'
+      streamlines:
+        uexpr: (_dufluxu)/(_ducmass)
+        vexpr: (_dufluxv)/(_ducmass)
+      map:
+        layers: [shader-BrnWht]
+
+    ssaot:
+      long_name: SEA SALT AOT
+      levels: [0]
+      layers: [ss_aot, streamlines]
+      title: '\\\\ Sea Salt AOT'
+      streamlines:
+        uexpr: (_ssfluxu)/(_sscmass)
+        vexpr: (_ssfluxv)/(_sscmass)
+      map:
+        layers: [shader-BrnWht]
+
+    bcoc_int: &BCOC
+      long_name: 'BCOC (inland CA)'
+      label: inland
+      levels: [0]
+      layers: [ground, bcoc_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b BCOC [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 15000
+      slice: -123 41 -117 33 lat
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    bcoc_coast:
+      <<: *BCOC
+      long_name: 'BCOC (coastal CA)'
+      label: coast
+      lev: 0 15000
+      slice: -127 40 -122 32 lat
+
+    so4_int: &SO4
+      long_name: 'SO4 (inland CA)'
+      label: inland
+      levels: [0]
+      layers: [ground, so4_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b SO4 [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 15000
+      slice: -123 41 -117 33 lat
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    so4_coast:
+      <<: *SO4
+      long_name: 'SO4 (coastal CA)'
+      label: coast
+      lev: 0 15000
+      slice: -127 40 -122 32 lat
+
+    du_int: &DU
+      long_name: 'Dust (inland CA)'
+      label: inland
+      levels: [0]
+      layers: [ground, dust_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b DUST [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 15000      
+      slice: -123 41 -117 33 lat
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    du_coast:
+      <<: *DU
+      long_name: 'Dust (coastal CA)'
+      label: coast
+      lev: 0 15000
+      slice: -127 40 -122 32 lat
+
+    ss_int: &SS
+      long_name: 'Sea salt (inland CA)'
+      label: inland
+      levels: [0]
+      layers: [ground, ss_nz, puffy_cloud, barbs_nz, cloud_water_nz, agl_nz, theta_nz, pblh]
+      title: '[$label] &b&b&b SS [`3m`f13g/m`a3`n], Theta [K], Cloud Water [g/kg], PBLH [m, red]'
+      parea: 1 10 1 7.5
+      lev: 0 15000
+      slice: -123 41 -117 33 lat
+      ylab: 'Altitude (m)'
+      shape: 'off'
+
+    ss_coast:
+      <<: *SS
+      long_name: 'Sea salt (coastal CA)'
+      label: coast
+      lev: 0 15000
+      slice: -127 40 -122 32 lat
+
+    default: *BCOC
+
+  layer:
+
+    ground:
+      expr: const(const(_agl_nz,1.0),0.0,'-u')
+      gxout: grfill
+      cmin: 0
+      cmax: 1
+      cint: 1
+      cbar: BW
+      skip: --auto
+      nsub: 1
+
+    shading: &SHADING
+      gxout: shaded
+      cbar: EPRainbow
+      nsub: 4
+      skip: 4
+      type: linear
+
+    streamlines:
+      gxout: stream
+      uexpr: _uwnd
+      vexpr: _vwnd
+      ccolor: 80 80 80
+      cthick: 2
+      strmden: 1
+
+    barbs:
+      gxout: barb
+      uexpr: _uwnd*1.94384
+      vexpr: _vwnd*1.94384
+      ccolor: 0 0 0
+      cthick: 3
+      size: 0.05
+
+    pblh:
+      gxout: contour
+      expr: (_phis/9.80665+_pblh)
+      cint: 100000
+      ccolor: 215 0 0
+      cstyle: 1
+      cthick: 8
+      cmark: 0
+      clab: 'off'
+      vrange: 0 10000
+      z: 1
+
+    barbs_nz:
+      gxout: barb
+      uexpr: _uwnd_nz*1.94384
+      vexpr: _vwnd_nz*1.94384
+      skip: 4 1
+      size: 0.05
+      ccolor: 130 130 130
+      cthick: 3
+
+    rh_nz:
+      gxout: shaded
+      expr: maskout(_rh_nz*100,_agl_nz)
+      cbar: MRedBlues
+      cbunits: '[%]'
+      clevs: 10 20 30 40 50 60 70 80 90
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+#     alpha:
+#       - 0.000 0.000 0.000
+#       - 0.040 0.000 0.000
+#       - 0.100 1.000 1.000
+#       - 1.000 1.000 1.000
+
+    co_total_column:
+      gxout: shaded
+      expr: _cocl*2150
+      cbar: smoke01
+      clevs:
+      cmin: 1.5
+      cmax: 5
+      cint: 0.05
+      nsub: 1
+      skip: 10
+      scale: exp_scale30
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.010 0.000 0.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    cobb_eurasia:
+      gxout: shaded
+      expr: _coclbbae*2150
+      cbar: smoke01
+      clevs:
+      cmin: 0.0
+      cmax: 1
+      cint: 0.1
+      nsub: 10
+      skip: 10
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.080 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    cobb_north_america:
+      gxout: shaded
+      expr: _coclbbna*2150
+      cbar: smoke01
+      clevs:
+      cmin: 0.0
+      cmax: 1
+      cint: 0.1
+      nsub: 10
+      skip: 10
+      scale: exp_scale
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.080 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    blackorganic_carbon_aot:
+      gxout: shaded
+      expr: _bcexttau+_ocexttau
+      cbar: smoke01
+      clevs:
+      cmin: 0
+      cmax: 2
+      cint: 0.2
+      scale: exp_scale30
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 0.000 0.000
+        - 0.200 1.000 1.000
+        - 1.000 1.000 1.000
+
+    bcoc_surface_mass:
+      gxout: shaded
+      expr: (_bcsmass+_ocsmass)*1.0e+9
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    dust_surface_mass:
+      gxout: shaded
+      expr: _dusmass*1.0e+9
+      cbar: smoke01
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      cmin: 0
+      cmax: 60
+      cint: 5
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    seasalt_surface_mass:
+      gxout: shaded
+      expr: _sssmass*1.0e+9
+      cbar: smoke01
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      cmin: 0
+      cmax: 60
+      cint: 5
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    bcoc_column_mass:
+      gxout: shaded
+      expr: (_bccmass+_occmass)*1.0e+6
+      cbar: smoke01
+      cbunits: '[mg/m`a2`n]'
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    bcoc_nz:
+      gxout: shaded
+      expr: maskout(1.0e+9*(_bcoc_nz),_agl_nz)
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 0.1 0.2 0.4 0.8 1.2 1.6 2.2 3.2 4.5 6.4 9. 12. 
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    so4_nz:
+      gxout: shaded
+      expr: maskout(1.0e+9*(_so4_nz),_agl_nz)
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 0.04 0.08 0.16 0.22 0.32 0.4 0.64 0.9 1.25 1.8 2.5 10.
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    sulfate_aot:
+      gxout: shaded
+      expr: _suexttau
+      cbar: smoke01
+      clevs:
+      cmin: 0
+      cmax: 0.3
+      cint: 0.03
+      scale: exp_scale30
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 0.000 0.000 
+        - 0.200 1.000 1.000
+        - 1.000 1.000 1.000
+
+    so4_surface_mass:
+      gxout: shaded
+      expr: (_so4smass)*1.0e+9
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 2 5 8 11 15 20 25 30 40 50 75 150 250 500
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    dust_nz:
+      gxout: shaded
+      expr: maskout(1.0e+9*(_dust_nz),_agl_nz)
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 0.2 0.4 0.8 1.6 3.2 6.4 12.8 25.6 51.2 102.4 204.8 409.6
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    dust_aot:
+      gxout: shaded
+      expr: _duexttau
+      cbar: smoke01
+      clevs:
+      cmin: 0
+      cmax: 0.55
+      cint: 0.05
+      scale: exp_scale30
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 0.000 0.000
+        - 0.200 1.000 1.000
+        - 1.000 1.000 1.000
+
+    ss_aot:
+      gxout: shaded
+      expr: _ssexttau
+      cbar: smoke01
+      clevs:
+      cmin: 0
+      cmax: 0.3
+      cint: 0.03
+      scale: exp_scale30
+      nsub: 10
+      skip: 10
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.050 0.000 0.000
+        - 0.200 1.000 1.000
+        - 1.000 1.000 1.000
+
+    ss_nz:
+      gxout: shaded
+      expr: maskout(1.0e+9*(_ss_nz),_agl_nz)
+      cbar: smoke01
+      cbunits: '`n[`3m`f13g/m`a3`n]'
+      clevs: 0. 0.0001 0.001 0.01 0.1 0.5 1. 5. 25. 50. 75. 100.
+      scale:
+      cmin:
+      cmax:
+      cint:
+      scale:
+      nsub: 1
+      skip: 1
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.070 0.000 1.000
+        - 0.100 1.000 1.000
+        - 1.000 1.000 1.000
+
+    fine_aot:
+      gxout: shaded
+      cbar: FineAOT
+      clevs: fineaotclevs
+      cmin: 0.01
+      cmax: 2.5
+      cint: 
+      expr: _suexttau + _ocexttau + _bcexttau
+      nsub: 10
+      skip: 10
+      type: exp_scale30
+
+    agl_nz:
+      gxout: contour
+      expr: _agl_nz
+      cmin: 800
+      cmax: 1600
+      cint: 200
+      ccolor: 0 0 0
+      cstyle: 3
+      clab: masked
+
+    theta_nz:
+      gxout: contour
+      expr: maskout(smth9(_theta_nz),_agl_nz)
+      cint: 5
+      ccolor: 0 0 0
+      cstyle: 1
+      clab: masked
+
+    cloud_water_nz:
+      gxout: contour
+      expr: (_qi_nz+_ql_nz) * 1000
+      ccolor: 0 0 255
+      cthick: 8
+      clab: masked
+      clsize: 0.06
+      clevs: 0.01 0.08 0.16 0.24 0.32
+
+    puffy_cloud:
+      gxout: shaded
+      expr: (_qi_nz+_ql_nz) * 1000
+      cbar: allgray
+      cbunits: 'Cloud Water [g/kg]'
+      nsub: 1
+      skip: 1
+      type: linear
+      clevs: 0.01 0.08 0.16 0.24 0.32
+      alpha:
+        - 0.000 0.000 0.000
+        - 0.010 0.000 0.400
+        - 0.333 0.400 0.400
+        - 0.667 0.400 0.400
+        - 1.000 0.400 0.400
+
+    qfed1:
+      gxout: grid
+      cmark: 9
+      digsiz: 0.1
+      ccolor: 255 165 0
+      cthick: 5
+      expr: maskout(_biomass, _biomass-0.0000001)
+
+    qfed2:
+      gxout: grid
+      cmark: 8
+      digsiz: 0.1
+      ccolor: 0 0 0
+      cthick: 5
+      expr: maskout(_biomass, _biomass-0.0000001)
+
+  attribute: 
+
+    fineaotclevs: 0.01 0.05 0.1 0.16 0.23 0.32 0.41 0.52 0.66 0.81 1. 1.21 1.46 1.75 2.1 2.5
+
+    so4aotclevs: &so4levs
+      pacepax: 0.025 0.05 .075 0.1 .25 0.5 0.75 1 1.25 1.5 1.75 2 2.25

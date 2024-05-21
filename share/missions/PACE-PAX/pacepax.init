@@ -1,0 +1,5 @@
+reset: [region, playlist]
+config: [missions, PACE-PAX]
+
+default:
+  region: pacepax
