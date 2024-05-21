@@ -435,6 +435,7 @@ class PlotService(object):
         handle.clcolor  = plot.get_attr(layer,'clcolor',handle.ccolor)
         handle.clthick  = plot.get_attr(layer,'clthick','5')
         handle.clsize   = plot.get_attr(layer,'clsize','0.09')
+        handle.clsize   = self.config.get('clsize', handle.clsize)
         handle.clskip   = plot.get_attr(layer,'clskip','1')
         handle.cmark    = plot.get_attr(layer,'cmark','--auto')
         handle.cmin     = plot.get_attr(layer,'cmin','--auto')

@@ -200,6 +200,10 @@ class Toolkit(object):
         handle.outer_size   = kwargs.get('outer_size','.20')
         handle.outer_line   = kwargs.get('outer_line','.25')
         zorder              = kwargs.get('zorder','-1')
+        fname               = kwargs.get('file', None)
+        
+        if fname and not isinstance(marks, dict):
+            marks = self.read_from_file(fname, **kwargs)
 
         if not handle.outer_line:
             handle.outer_line = '--auto'
@@ -216,7 +220,7 @@ class Toolkit(object):
 
                 collection = dict(kwargs)
                 collection.update(marks[mark])
-                self.station_mark(plot, collection['data'], **collection)
+                self.station_mark(plot, collection.get('data',None), **collection)
 
             else:
 

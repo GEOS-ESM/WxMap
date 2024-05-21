@@ -13,7 +13,7 @@ from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 from PIL import Image, ImageChops, ImageEnhance, ImageDraw, ImageFont
 from PIL.ImageColor import getcolor, getrgb
-from PIL.ImageOps import grayscale
+from PIL.ImageOps import grayscale, expand
 
 from mapservice import *
 
@@ -255,7 +255,8 @@ class Service(MapService):
 
         for obj in plot:
 
-            print obj.cmds
+         #  print obj.cmds
+            #print(obj.macro)
             handler = self.handler.get(obj.macro, self.default)
             handler(obj)
 
@@ -267,6 +268,7 @@ class Service(MapService):
     def imshow(self):
 
         cbar_only = self.request.get('cbar_only', False)
+        region = self.request.get('region')
 
         if cbar_only: self.clear_map()
 
@@ -277,8 +279,10 @@ class Service(MapService):
 
         geometry = self.get_geometry()
         geometry = 'x' + str(geometry[0]) + ' ' + 'y' + str(geometry[1])
+        geom3x = 'x3072 y2304'
 
         img = self.oname
+        img3x = img + '3x.png'
 
         t_color = 1
         if self.request.get('lights_off', False): t_color = 0
@@ -290,25 +294,38 @@ class Service(MapService):
         else: 
             self.ds('gxprint ' + img + ' ' + geometry)
 
-        if not cbar_only:
-            self.draw_logo(img, self.logos)
-            self.draw_symbol(img, self.symbols)
+        if region == 'arcsix': # Special polar plot for ARCSIX mission
+            self.ds('gxprint ' + img3x + ' ' + geom3x)
+            self.draw_symbol(img3x, self.symbols)
+            self.navigate(img3x,x_offset=-1207+177+3,y_offset=-1068+65+3,fname=img)
+            im1 = Image.open(img).convert("RGBA")
+            im2 = Image.open(img3x).convert("RGBA")
+            im2 = im2.crop((1207, 1068, 1875, 1713))
+            im2 = expand(im2, border=3, fill=(0,0,0))
+            im1.paste(im2, (177,65), im2)
+            im1.save(img, format='png')
+            os.remove(img3x)
+        else:
+            if not cbar_only:
+                self.draw_logo(img, self.logos)
+                self.draw_symbol(img, self.symbols)
 
-        self.navigate(img)
+            self.navigate(img)
 
         return img
 
-    def navigate(self, img):
-
+    def navigate(self, img, x_offset=0, y_offset=0, fname=None):
+        
         if not self.imap: return
+        if not fname: fname = img
 
         path  = [self.theme,'plot',self.request['field']]
         if self.config(path+['navigate'], 'on') == 'off': return
 
         data    = []
         ax      = Axes(self.ds)
-        navfile = '.'.join(img.split('.')[0:-1]) + '.nav'
-
+        navfile = '.'.join(fname.split('.')[0:-1]) + '.nav'
+        
       # Get the image size.
 
         im    = Image.open(img)
@@ -320,22 +337,19 @@ class Service(MapService):
       # pixel space.
 
         for imap in self.imap:
-
+       
             xinch  = imap[0]
             yinch  = imap[1]
             radius = imap[2]
             hover  = ' '.join(imap[3:-1])
             url    = imap[-1]
-            xp     = int(xinch / 11.0 * xsize)
-            yp     = ysize - int(yinch /  8.5 * ysize)
+            xp     = int(xinch / 11.0 * xsize) + x_offset
+            yp     = ysize - int(yinch /  8.5 * ysize) + y_offset
             rp     = int(radius / 11.0 * xsize)
 
             data.append({'x':xp, 'y':yp, 'r':rp, 'hover':hover, 'url':url})
-
-      # Write out navigational information.
-
-        if self.request.get('navigate', 'on') != 'off':
-            with open(navfile, 'w') as f: json.dump(data, f)
+        
+        with open(navfile, 'w') as f: json.dump(data, f)
 
     def clear_map(self):
 
@@ -883,7 +897,7 @@ class Service(MapService):
 
     def display(self, obj):
 
-        print obj.cmds
+      # print obj.cmds
         self.display_slice(obj)
         self.default(obj)
     
@@ -908,6 +922,7 @@ class Service(MapService):
         ax = Axes(self.ds)
 
         params = obj.cmds[-1].split()[2:]
+        
         self.symbols.append(params)
 
         cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
@@ -1043,7 +1058,6 @@ class Service(MapService):
             No return value
 
         """
-
         if not symbols: return
 
         ax = Axes(self.ds)
@@ -1055,7 +1069,6 @@ class Service(MapService):
       # Paste symbols onto the background image.
 
         for s in symbols:
-
             name = s[0]
             lon  = float(s[1])
             lat  = float(s[2])
@@ -1201,7 +1214,7 @@ class Service(MapService):
         if y < ax.ylow or y > ax.yhigh: return
 
         self.ds('draw mark %s %f %f %s'%(cmd[2],x,y,cmd[5]))
-
+        
         if len(cmd) > 6:
             self.imap.append((x,y,float(cmd[5])) + tuple(cmd[6:]))
 
@@ -1265,6 +1278,7 @@ class Service(MapService):
 
         black = self.lang.get_color('set rgb $* 0 0 0')
         white = self.lang.get_color('set rgb $* 255 255 255')
+        gray  = self.lang.get_color('set rgb $* 0 0 0')
         self.ds('set rgb %d %s'%(black, '0 0 0'))
         self.ds('set rgb %d %s'%(white, '255 255 255'))
 
@@ -1293,7 +1307,7 @@ class Service(MapService):
         self.ds('set clevs ' + ' '.join(clevs))
         self.ds('set clab off')
         self.ds('set clopts 1 6 0.12')
-        self.ds('set ccolor 15')
+        self.ds('set ccolor '+str(gray))
         self.ds('set cstyle 1')
         self.ds('set cthick 1')
         self.ds('d lon') 
@@ -1323,7 +1337,7 @@ class Service(MapService):
             if ax.is_clipped((x+0.001,y)): continue
 
             self.ds('set font 0')
-            self.ds('set strsiz 0.08')
+            self.ds('set strsiz 0.04')
             self.ds('set string ' + str(black) + ' c 12')
             self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clon)
             self.ds('set string ' + str(white) + ' c 5')
@@ -1335,7 +1349,7 @@ class Service(MapService):
         self.ds('set gxout contour')
         self.ds('set clevs ' + ' '.join(clevs))
         self.ds('set clab off')
-        self.ds('set ccolor 15')
+        self.ds('set ccolor '+str(gray))
         self.ds('set cstyle 1')
         self.ds('set cthick 1')
         self.ds('d lat')
@@ -1343,7 +1357,7 @@ class Service(MapService):
         self.ds('set gxout contour')
         self.ds('set clevs 66.3')
         self.ds('set clab off')
-        self.ds('set ccolor 7')
+        self.ds('set ccolor '+str(black))
         self.ds('set cstyle 1')
         self.ds('set cthick 8')
         self.ds('d lat')
@@ -1370,7 +1384,7 @@ class Service(MapService):
         #   self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clat)
 
             self.ds('set font 0')
-            self.ds('set strsiz 0.08')
+            self.ds('set strsiz 0.04')
             self.ds('set string ' + str(black) + ' c 12')
             self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clat)
             self.ds('set string ' + str(white) + ' c 5')
