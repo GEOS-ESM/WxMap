@@ -1,0 +1,81 @@
+wxmapsmission:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [Precip, Other]
+
+      Precip:
+        long_name: Precip/Clouds
+        type: button
+        items:
+          - precip
+          - cldlow
+          - cldmid
+          - cldhgh
+          - cldtot
+          - taulow
+          - taumid
+          - tauhgh
+
+      Other:
+        long_name: Other
+        type: button
+        items:
+          - rh
+          - tmpu
+          - wspd
+          - vort
+          - omega
+          - epv
+          - pblh
+          - tropp
+
+wxmapschem2d:
+
+  interface:
+
+    field:
+
+      long_name: VARIABLES
+      groups: [Aerosols, CO, Other Gases]
+
+      Aerosols:
+        long_name: Aerosols
+        type: button
+        items:
+          - bcaot: BC AOT
+          - bcsmass: BC Sfc Mass
+          - ocaot: OC AOT
+          - ocsmass: OC Sfc Mass
+          - duaot: Dust AOT
+          - ssaot: Seasalt AOT
+          - suaot: Sulfate AOT
+          - fineaot: Fine AOT
+          - niaot: Nitrate AOT
+          - totaot: Total AOT
+
+      CO:
+        long_name: Carbon Monoxide
+        type: button
+        items:
+          - cobbae: CO BB Eurasia
+          - cobbaf: CO BB Africa
+          - cobbla: CO BB S. Amer.
+          - cobbna: CO BB N. Amer.
+          - cocl: CO Column
+          - conbas: CO FF Asia
+          - conbeu: CO FF Europe
+          - conbna: CO FF N. Amer.
+          - cosc: CO Surface
+
+      Other Gases:
+        long_name: Other Gases
+        type: button
+        items:
+          - nismass: NO3 Sfc Mass
+          - so2cmass: SO2 Col Mass
+          - so2smass: SO2 Sfc Mass
+          - to3: Total Ozone

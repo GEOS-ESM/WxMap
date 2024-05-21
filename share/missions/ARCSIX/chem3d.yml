@@ -1,0 +1,383 @@
+layerdef: &LAYERDEF
+  cbar: EPRainbow
+  clevs:
+  scale:
+  nsub: 8
+  skip: 8
+  type: linear
+
+wxmapschem3d:
+
+  plot:
+
+    bc:
+      title: '\\ $level hPa Black Carbon [`3m`f13g/m`a3`n]'
+      shading:
+        clevs:
+        cdict: bcclevs
+        <<: *LAYERDEF
+
+    oc:
+      title: '\\ $level hPa Organic Carbon [`3m`f13g/m`a3`n]'
+      shading:
+        clevs:
+        cdict: occlevs
+        <<: *LAYERDEF
+
+    du:
+      title: '\\ $level hPa Dust [`3m`f13g/m`a3`n]'
+      shading:
+        clevs:
+        cdict: duclevs
+        <<: *LAYERDEF
+
+    ss:
+      long_name: Sea Salt
+      title: '\\ $level hPa Sea Salt [`3m`f13g/m`a3`n]'
+      shading:
+        clevs:
+        cdict: ssclevs
+        <<: *LAYERDEF
+
+    so4:
+      title: '\\ $level hPa Sulfate [`3m`f13g/m`a3`n]'
+      shading:
+        clevs:
+        cdict: so4clevs
+        <<: *LAYERDEF
+
+    co:
+      shading:
+        clevs:
+        cdict: coclevs
+        <<: *LAYERDEF
+
+    cobbae:
+      shading:
+        clevs:
+        cdict: cobbaeclevs
+        <<: *LAYERDEF
+
+    cobbaf:
+      shading:
+        clevs:
+        cdict: cobbafclevs
+        <<: *LAYERDEF
+
+    cobbla:
+      shading:
+        clevs:
+        cdict: cobblaclevs
+        <<: *LAYERDEF
+
+    cobbna:
+      shading:
+        cdict: cobbnaclevs
+        <<: *LAYERDEF
+
+    cobbot:
+      shading:
+        clevs:
+        cdict: cobbotclevs
+        <<: *LAYERDEF
+
+    cobbot:
+      layers: [shading]
+      shading:
+        clevs:
+        cdict: cobbotclevs
+        <<: *LAYERDEF
+
+    coffas:
+      layers: [shading]
+      shading:
+        clevs:
+        cdict: coffasclevs
+        <<: *LAYERDEF
+
+    coffeu:
+      layers: [shading]
+      shading:
+        clevs:
+        cdict: coffeuclevs
+        <<: *LAYERDEF
+
+    coffna:
+      layers: [shading]
+      shading:
+        clevs:
+        cdict: coffnaclevs
+        <<: *LAYERDEF
+
+    so2:
+      shading:
+        clevs:
+        cdict: so2clevs
+        <<: *LAYERDEF
+
+    cfc12strat:
+      shading:
+        clevs:
+        cdict: cfc12stratclevs
+        <<: *LAYERDEF
+
+    cfc12trop:
+      shading:
+        clevs:
+        cdict: cfc12tropclevs
+        <<: *LAYERDEF
+
+    pm:
+      shading:
+        clevs:
+        cdict: duclevs
+
+    pm10:
+      shading:
+        clevs:
+        cdict: duclevs
+
+    pm25:
+      shading:
+        clevs:
+        cdict: duclevs
+
+  attribute:
+
+    bcclevs:
+      - {'$level':  50, cmin: .000, cmax: .011, cint: .001, clevs:}
+      - {'$level':  70, cmin: .000, cmax: .011, cint: .001, clevs:}
+      - {'$level': 100, cmin: .005, cmax: .016, cint: .001, clevs:}
+      - {'$level': 150, cmin: .015, cmax: .026, cint: .001, clevs:}
+      - {'$level': 200, cmin: .015, cmax: .026, cint: .001, clevs:}
+      - {'$level': 300, cmin: .000, cmax: .050, cint: .005, clevs:}
+      - {'$level': 400, cmin: .000, cmax: .100, cint: .010, clevs:}
+      - {'$level': 500, cmin: .000, cmax: .100, cint: .010, clevs:}
+      - {'$level': 600, cmin: .000, cmax: .100, cint: .010, clevs:}
+      - {'$level': 700, cmin: .000, cmax: .100, cint: .010, clevs:}
+      - {'$level': 850, cmin: .000, cmax: .100, cint: .010, clevs:}
+      - {'$level': 925, cmin: .000, cmax: .100, cint: .010, clevs:}
+
+    occlevs:
+      - {'$level':  50, cmin: .00, cmax:  .011, cint: .001, clevs:}
+      - {'$level':  70, cmin: .00, cmax:  .030, cint: .003, clevs:}
+      - {'$level': 100, cmin: .02, cmax:  .060, cint: .004, clevs:}
+      - {'$level': 150, cmin: .06, cmax:  .082, cint: .002, clevs:}
+      - {'$level': 200, cmin: .06, cmax:  .104, cint: .004, clevs:}
+      - {'$level': 300, cmin: .05, cmax:  .138, cint: .008, clevs:}
+      - {'$level': 400, cmin: .04, cmax:  .300, cint: .026, clevs:}
+      - {'$level': 500, cmin: .05, cmax:  .435, cint: .035, clevs:}
+      - {'$level': 600, cmin: .05, cmax:  .435, cint: .035, clevs:}
+      - {'$level': 700, cmin: .05, cmax:  .435, cint: .035, clevs:}
+      - {'$level': 850, cmin: .00, cmax:  .500, cint: .050, clevs:}
+      - {'$level': 925, cmin: .00, cmax: 1.000, cint: .100, clevs:}
+
+    duclevs:
+      - {'$level':  50, cmin: .05, cmax:   .25, cint:  .02, clevs:}
+      - {'$level':  70, cmin: .20, cmax:   .40, cint:  .02, clevs:}
+      - {'$level': 100, cmin: .30, cmax:   .52, cint:  .02, clevs:}
+      - {'$level': 150, cmin: .40, cmax:   .84, cint:  .04, clevs:}
+      - {'$level': 200, cmin: .60, cmax:  1.15, cint:  .05, clevs:}
+      - {'$level': 300, cmin: .80, cmax:  5.00, cint:  .42, clevs:}
+      - {'$level': 400, cmin: .00, cmax: 15.00, cint: 1.50, clevs:}
+      - {'$level': 500, cmin: .00, cmax: 20.00, cint: 2.00, clevs:}
+      - {'$level': 600, cmin: .00, cmax: 20.00, cint: 2.00, clevs:}
+      - {'$level': 700, cmin: .00, cmax: 20.00, cint: 2.00, clevs:}
+      - {'$level': 850, cmin: .00, cmax: 20.00, cint: 2.00, clevs:}
+      - {'$level': 925, cmin: .00, cmax: 20.00, cint: 2.00, clevs:}
+
+    ssclevs:
+      - {'$level':  50, cmin: 0, cmax:   .0011, cint:  .0001, clevs:}
+      - {'$level':  70, cmin: 0, cmax:   .0011, cint:  .0001, clevs:}
+      - {'$level': 100, cmin: 0, cmax:   .0011, cint:  .0001, clevs:}
+      - {'$level': 150, cmin: 0, cmax:   .0011, cint:  .0001, clevs:}
+      - {'$level': 200, cmin: 0, cmax:   .0022, cint:  .0002, clevs:}
+      - {'$level': 300, cmin: 0, cmax:   .0220, cint:  .0020, clevs:}
+      - {'$level': 400, cmin: 0, cmax:   .0700, cint:  .0070, clevs:}
+      - {'$level': 500, cmin: 0, cmax:   .5000, cint:  .0500, clevs:}
+      - {'$level': 600, cmin: 0, cmax:  1.0000, cint:  .1000, clevs:}
+      - {'$level': 700, cmin: 0, cmax:  2.0000, cint:  .2000, clevs:}
+      - {'$level': 850, cmin: 0, cmax: 10.0000, cint: 1.0000, clevs:}
+      - {'$level': 925, cmin: 0, cmax: 30.0000, cint: 3.0000, clevs:}
+
+    so4clevs:
+      - {'$level':  50, cmin: .00, cmax:  .030, cint: .003, clevs:}
+      - {'$level':  70, cmin: .01, cmax:  .098, cint: .008, clevs:}
+      - {'$level': 100, cmin: .06, cmax:  .160, cint: .010, clevs:}
+      - {'$level': 150, cmin: .15, cmax:  .216, cint: .006, clevs:}
+      - {'$level': 200, cmin: .15, cmax:  .260, cint: .010, clevs:}
+      - {'$level': 300, cmin: .07, cmax:  .345, cint: .025, clevs:}
+      - {'$level': 400, cmin: .10, cmax:  .430, cint: .030, clevs:}
+      - {'$level': 500, cmin: .10, cmax:  .760, cint: .060, clevs:}
+      - {'$level': 600, cmin: .10, cmax: 1.000, cint: .090, clevs:}
+      - {'$level': 700, cmin: .10, cmax: 1.000, cint: .090, clevs:}
+      - {'$level': 850, cmin: .00, cmax: 1.500, cint: .150, clevs:}
+      - {'$level': 925, cmin: .00, cmax: 2.000, cint: .200, clevs:}
+
+    coclevs:
+      - {'$level':  50, cmin:   7, cmax:  12, cint:   .5, clevs:}
+      - {'$level':  70, cmin:   9, cmax:  19, cint:  1.0, clevs:}
+      - {'$level': 100, cmin:  15, cmax:  40, cint:  2.5, clevs:}
+      - {'$level': 150, cmin:  30, cmax:  55, cint:  2.5, clevs:}
+      - {'$level': 200, cmin:  35, cmax:  95, cint:  6.0, clevs:}
+      - {'$level': 300, cmin:  60, cmax: 130, cint:  7.0, clevs:}
+      - {'$level': 400, cmin:  90, cmax: 200, cint: 11.0, clevs:}
+      - {'$level': 500, cmin:  90, cmax: 200, cint: 11.0, clevs:}
+      - {'$level': 600, cmin: 100, cmax: 200, cint: 10.0, clevs:}
+      - {'$level': 700, cmin: 100, cmax: 200, cint: 10.0, clevs:}
+      - {'$level': 850, cmin: 105, cmax: 175, cint:  7.0, clevs:}
+      - {'$level': 925, cmin: 110, cmax: 155, cint:  4.5, clevs:}
+
+    cobbaeclevs:
+      - {'$level':  50, cmin:  .00, cmax:   .03, cint:  .003, clevs:}
+      - {'$level':  70, cmin:  .00, cmax:   .12, cint:  .012, clevs:}
+      - {'$level': 100, cmin:  .03, cmax:   .40, cint:  .037, clevs:}
+      - {'$level': 150, cmin:  .15, cmax:  1.15, cint:  .100, clevs:}
+      - {'$level': 200, cmin:  .30, cmax:  3.30, cint:  .300, clevs:}
+      - {'$level': 300, cmin: 2.00, cmax: 21.80, cint: 1.800, clevs:}
+      - {'$level': 400, cmin: 3.00, cmax: 36.00, cint: 3.300, clevs:}
+      - {'$level': 500, cmin: 3.00, cmax: 27.00, cint: 2.400, clevs:}
+      - {'$level': 600, cmin: 3.00, cmax: 26.10, cint: 2.100, clevs:}
+      - {'$level': 700, cmin: 4.00, cmax: 24.00, cint: 2.000, clevs:}
+      - {'$level': 850, cmin: 5.00, cmax: 30.00, cint: 2.500, clevs:}
+      - {'$level': 925, cmin: 5.00, cmax: 30.00, cint: 2.500, clevs:}
+
+    cobbafclevs:
+      - {'$level':  50, cmin:  .0, cmax:  .40, cint: .04, clevs:}
+      - {'$level':  70, cmin:  .1, cmax:  .76, cint: .06, clevs:}
+      - {'$level': 100, cmin:  .4, cmax: 2.14, cint: .14, clevs:}
+      - {'$level': 150, cmin:  .8, cmax: 2.70, cint: .19, clevs:}
+      - {'$level': 200, cmin: 1.2, cmax: 2.70, cint: .15, clevs:}
+      - {'$level': 300, cmin: 1.7, cmax: 2.58, cint: .08, clevs:}
+      - {'$level': 400, cmin: 1.7, cmax: 2.58, cint: .08, clevs:}
+      - {'$level': 500, cmin: 1.6, cmax: 2.59, cint: .09, clevs:}
+      - {'$level': 600, cmin: 1.6, cmax: 2.59, cint: .09, clevs:}
+      - {'$level': 700, cmin: 1.4, cmax: 2.39, cint: .09, clevs:}
+      - {'$level': 850, cmin: 1.4, cmax: 2.39, cint: .09, clevs:}
+      - {'$level': 925, cmin: 1.4, cmax: 2.28, cint: .08, clevs:}
+
+    cobblaclevs:
+      - {'$level':  50, cmin: .01, cmax:  .200, cint: .020, clevs:}
+      - {'$level':  70, cmin: .05, cmax:  .435, cint: .035, clevs:}
+      - {'$level': 100, cmin: .20, cmax:  .750, cint: .050, clevs:}
+      - {'$level': 150, cmin: .35, cmax: 1.200, cint: .085, clevs:}
+      - {'$level': 200, cmin: .50, cmax: 2.000, cint: .150, clevs:}
+      - {'$level': 300, cmin: .50, cmax: 3.000, cint: .250, clevs:}
+      - {'$level': 400, cmin: .50, cmax: 3.000, cint: .250, clevs:}
+      - {'$level': 500, cmin: .50, cmax: 3.000, cint: .250, clevs:}
+      - {'$level': 600, cmin: .50, cmax: 3.000, cint: .250, clevs:}
+      - {'$level': 700, cmin: .50, cmax: 3.000, cint: .250, clevs:}
+      - {'$level': 850, cmin: .50, cmax: 1.050, cint: .050, clevs:}
+      - {'$level': 925, cmin: .50, cmax:  .830, cint: .030, clevs:}
+
+    cobbnaclevs:
+      - {'$level':  50, cmin:  .001, cmax:  .0310, cint: .0030, clevs:}
+      - {'$level':  70, cmin:  .005, cmax:  .0875, cint: .0075, clevs:}
+      - {'$level': 100, cmin:  .030, cmax:  .2170, cint: .0170, clevs:}
+      - {'$level': 150, cmin:  .100, cmax:  .7600, cint: .0600, clevs:}
+      - {'$level': 200, cmin:  .200, cmax: 2.2000, cint: .2000, clevs:}
+      - {'$level': 300, cmin: 1.000, cmax: 5.0000, cint: .4000, clevs:}
+      - {'$level': 400, cmin: 1.000, cmax: 6.0000, cint: .5000, clevs:}
+      - {'$level': 500, cmin: 1.500, cmax: 7.0000, cint: .5500, clevs:}
+      - {'$level': 600, cmin: 1.500, cmax: 7.0000, cint: .5500, clevs:}
+      - {'$level': 700, cmin: 2.000, cmax: 7.0000, cint: .5000, clevs:}
+      - {'$level': 850, cmin: 2.000, cmax: 7.0000, cint: .5000, clevs:}
+      - {'$level': 925, cmin: 2.000, cmax: 5.5000, cint: .3500, clevs:}
+
+    cobbotclevs:
+      - {'$level':  50, cmin:  .00, cmax:  .011, cint: .001, clevs:}
+      - {'$level':  70, cmin:  .00, cmax:  .165, cint: .015, clevs:}
+      - {'$level': 100, cmin:  .05, cmax:  .700, cint: .065, clevs:}
+      - {'$level': 150, cmin:  .30, cmax: 1.300, cint: .100, clevs:}
+      - {'$level': 200, cmin:  .30, cmax: 2.300, cint: .200, clevs:}
+      - {'$level': 300, cmin: 1.00, cmax: 4.000, cint: .300, clevs:}
+      - {'$level': 400, cmin: 1.50, cmax: 6.450, cint: .450, clevs:}
+      - {'$level': 500, cmin: 1.50, cmax: 6.450, cint: .450, clevs:}
+      - {'$level': 600, cmin: 2.00, cmax: 6.400, cint: .400, clevs:}
+      - {'$level': 700, cmin: 2.00, cmax: 6.400, cint: .400, clevs:}
+      - {'$level': 850, cmin: 2.00, cmax: 6.400, cint: .400, clevs:}
+      - {'$level': 925, cmin: 2.00, cmax: 6.400, cint: .400, clevs:}
+
+    coffasclevs:
+      - {'$level':  50, cmin:  1, cmax:   7.0, cint:  .6, clevs:}
+      - {'$level':  70, cmin:  2, cmax:  11.9, cint:  .9, clevs:}
+      - {'$level': 100, cmin:  4, cmax:  16.0, cint: 1.2, clevs:}
+      - {'$level': 150, cmin: 12, cmax:  24.0, cint: 1.2, clevs:}
+      - {'$level': 200, cmin: 15, cmax:  40.0, cint: 2.5, clevs:}
+      - {'$level': 300, cmin: 20, cmax:  80.0, cint: 6.0, clevs:}
+      - {'$level': 400, cmin: 25, cmax:  80.0, cint: 5.5, clevs:}
+      - {'$level': 500, cmin: 25, cmax:  80.0, cint: 5.5, clevs:}
+      - {'$level': 600, cmin: 25, cmax: 100.0, cint: 7.5, clevs:}
+      - {'$level': 700, cmin: 25, cmax: 100.0, cint: 7.5, clevs:}
+      - {'$level': 850, cmin: 30, cmax:  70.0, cint: 4.0, clevs:}
+      - {'$level': 925, cmin: 30, cmax:  70.0, cint: 4.0, clevs:}
+
+    coffeuclevs:
+      - {'$level':  50, cmin:   .40, cmax:   .95, cint:  .05, clevs:}
+      - {'$level':  70, cmin:   .50, cmax:   .94, cint:  .04, clevs:}
+      - {'$level': 100, cmin:   .75, cmax:  1.25, cint:  .05, clevs:}
+      - {'$level': 150, cmin:  1.00, cmax:  3.00, cint:  .20, clevs:}
+      - {'$level': 200, cmin:  1.00, cmax:  8.00, cint:  .70, clevs:}
+      - {'$level': 300, cmin:  3.00, cmax: 18.00, cint: 1.50, clevs:}
+      - {'$level': 400, cmin:  6.00, cmax: 40.00, cint: 3.40, clevs:}
+      - {'$level': 500, cmin:  6.00, cmax: 60.00, cint: 5.40, clevs:}
+      - {'$level': 600, cmin:  6.00, cmax: 60.00, cint: 5.40, clevs:}
+      - {'$level': 700, cmin: 10.00, cmax: 60.00, cint: 5.00, clevs:}
+      - {'$level': 850, cmin: 15.00, cmax: 60.00, cint: 5.00, clevs:}
+      - {'$level': 925, cmin: 15.00, cmax: 60.00, cint: 4.50, clevs:}
+
+    coffnaclevs:
+      - {'$level':  50, cmin:   .8, cmax:  2.12, cint:  .12, clevs:}
+      - {'$level':  70, cmin:  1.1, cmax:  1.87, cint:  .07, clevs:}
+      - {'$level': 100, cmin:  1.4, cmax:  2.30, cint:  .09, clevs:}
+      - {'$level': 150, cmin:  2.0, cmax:  6.40, cint:  .40, clevs:}
+      - {'$level': 200, cmin:  3.0, cmax: 15.00, cint: 1.20, clevs:}
+      - {'$level': 300, cmin:  8.0, cmax: 40.00, cint: 3.20, clevs:}
+      - {'$level': 400, cmin:  8.0, cmax: 50.20, cint: 4.20, clevs:}
+      - {'$level': 500, cmin: 10.0, cmax: 60.00, cint: 5.00, clevs:}
+      - {'$level': 600, cmin: 15.0, cmax: 50.00, cint: 3.50, clevs:}
+      - {'$level': 700, cmin: 15.0, cmax: 45.00, cint: 3.00, clevs:}
+      - {'$level': 850, cmin: 15.0, cmax: 45.00, cint: 3.00, clevs:}
+      - {'$level': 925, cmin: 18.0, cmax: 38.00, cint: 2.00, clevs:}
+
+    so2clevs:
+      - {'$level':  50, cmin: .0000, cmax:  .0022, cint: .0002, clevs:}
+      - {'$level':  70, cmin: .0005, cmax:  .0065, cint: .0006, clevs:}
+      - {'$level': 100, cmin: .0035, cmax:  .0095, cint: .0006, clevs:}
+      - {'$level': 150, cmin: .0050, cmax:  .0300, cint: .0025, clevs:}
+      - {'$level': 200, cmin: .0100, cmax:  .2100, cint: .0200, clevs:}
+      - {'$level': 300, cmin: .0000, cmax:  .9000, cint: .0900, clevs:}
+      - {'$level': 400, cmin: .0000, cmax: 1.3200, cint: .1200, clevs:}
+      - {'$level': 500, cmin: .0000, cmax: 1.5000, cint: .1500, clevs:}
+      - {'$level': 600, cmin: .0000, cmax: 2.0000, cint: .2000, clevs:}
+      - {'$level': 700, cmin: .0000, cmax: 2.0000, cint: .2000, clevs:}
+      - {'$level': 850, cmin: .0000, cmax: 1.0000, cint: .1000, clevs:}
+      - {'$level': 925, cmin: .0000, cmax: 1.0000, cint: .1000, clevs:}
+
+    cfc12stratclevs:
+      - {'$level':  50, cmin:  80.0, cmax: 430.0, cint: 35.00, clevs:}
+      - {'$level':  70, cmin: 200.0, cmax: 500.0, cint: 30.00, clevs:}
+      - {'$level': 100, cmin: 375.0, cmax: 525.0, cint: 15.00, clevs:}
+      - {'$level': 150, cmin: 470.0, cmax: 530.0, cint:  6.00, clevs:}
+      - {'$level': 200, cmin: 490.0, cmax: 530.0, cint:  4.00, clevs:}
+      - {'$level': 300, cmin: 515.0, cmax: 525.0, cint:  1.00, clevs:}
+      - {'$level': 400, cmin: 520.5, cmax: 524.5, cint:   .40, clevs:}
+      - {'$level': 500, cmin: 521.0, cmax: 524.0, cint:   .30, clevs:}
+      - {'$level': 600, cmin: 521.0, cmax: 524.0, cint:   .30, clevs:}
+      - {'$level': 700, cmin: 520.5, cmax: 523.5, cint:   .30, clevs:}
+      - {'$level': 850, cmin: 520.0, cmax: 522.6, cint:   .25, clevs:}
+      - {'$level': 925, cmin: 520.0, cmax: 522.6, cint:   .25, clevs:}
+
+    cfc12tropclevs:
+      - {'$level':  50, cmin:  .0, cmax:  .0011, cint: .0001, clevs:}
+      - {'$level':  70, cmin:  .0, cmax:  .0011, cint: .0001, clevs:}
+      - {'$level': 100, cmin:  .0, cmax:  .0011, cint: .0001, clevs:}
+      - {'$level': 150, cmin:  .0, cmax:  .0011, cint: .0001, clevs:}
+      - {'$level': 200, cmin:  .0, cmax:  .5000, cint: .0500, clevs:}
+      - {'$level': 300, cmin:  .0, cmax: 2.5000, cint: .2500, clevs:}
+      - {'$level': 400, cmin:  .0, cmax: 4.0000, cint: .4000, clevs:}
+      - {'$level': 500, cmin:  .5, cmax: 4.0000, cint: .3500, clevs:}
+      - {'$level': 600, cmin: 1.0, cmax: 4.5000, cint: .3500, clevs:}
+      - {'$level': 700, cmin: 1.0, cmax: 4.0000, cint: .3000, clevs:}
+      - {'$level': 850, cmin: 1.5, cmax: 5.0000, cint: .3500, clevs:}
+      - {'$level': 925, cmin: 1.5, cmax: 6.1000, cint: .4500, clevs:}

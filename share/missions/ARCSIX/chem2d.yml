@@ -1,0 +1,158 @@
+layerdef: &LAYERDEF
+  cbar: EPRainbow
+  cdict: smassclevs
+  clevs:
+  scale:
+  nsub: 8
+  skip: 8
+  type: linear
+
+wxmapschem2d:
+  
+#  plot:
+
+#    ocsmass:
+#      long_name: OC Sfc Mass
+#      levels: [0]
+#      layers: [oc_surface_mass]
+#      title: '\\\\ OC Surface Mass [`3m`f13g/m`a3`n]'
+
+
+  layer:
+
+    streamlines:
+      gxout: stream
+      uexpr: _uwnd
+      vexpr: _vwnd
+      ccolor: 0 0 0
+      cthick: 1
+      strmden: 1
+
+    bc_surface_mass:
+      gxout: shaded
+      expr: _bcsmass*1.0e+9
+      cbar: BCSMASS
+      <<: *LAYERDEF
+
+    organic_carbon_aot:
+      gxout: shaded
+      expr: _ocexttau
+      cbar: EPRainbow
+      cdict: smassclevs
+      clevs:
+      scale:
+      nsub: 4
+      skip: 4
+      type: linear
+
+    oc_surface_mass:
+      gxout: shaded
+      expr: _ocsmass*1.0e+9
+      <<: *LAYERDEF
+
+    dust_aot:
+      gxout: shaded
+      expr: _duexttau
+      <<: *LAYERDEF
+
+    sea_salt_aot:
+      gxout: shaded
+      expr: _ssexttau
+      <<: *LAYERDEF
+
+    fine_aot:
+      gxout: shaded
+      expr: _suexttau + _ocexttau + _bcexttau
+      <<: *LAYERDEF
+
+    nitrate_aot:
+      gxout: shaded
+      expr: _niexttau
+      cbar: EPRainbow
+      cdict: smassclevs
+      clevs:
+      scale:
+      nsub: 8
+      skip: 8
+      type: linear
+
+    total_aot:
+      gxout: shaded
+      expr: _duexttau + _ssexttau + _suexttau + _ocexttau + _bcexttau
+      <<: *LAYERDEF
+
+    co_total_column:
+      gxout: shaded
+      expr: _cocl*2150
+      <<: *LAYERDEF
+
+    cobb_eurasia:
+      gxout: shaded
+      expr: _coclbbae*2150
+      <<: *LAYERDEF
+
+    cobb_africa:
+      <<: *LAYERDEF
+
+    cobb_south_america:
+      <<: *LAYERDEF
+
+    cobb_north_america:
+      <<: *LAYERDEF
+
+    conb_asia:
+      <<: *LAYERDEF
+
+    conb_europe:
+      <<: *LAYERDEF
+
+    conb_north_america:
+      <<: *LAYERDEF
+
+    co_surface:
+      gxout: shaded
+      expr: _cosc
+      <<: *LAYERDEF
+
+    ni_surface_mass:
+      <<: *LAYERDEF
+
+    so2_column_mass:
+      gxout: shaded
+      expr: _so2cmass*9.409e+4
+      <<: *LAYERDEF
+
+    so2_surface_mass:
+      gxout: shaded
+      expr: _so2smass*9.409e+6
+      <<: *LAYERDEF
+
+    total_ozone:
+      gxout: shaded
+      expr: '_to3'
+      <<: *LAYERDEF
+
+  attribute:
+
+    smassclevs:
+      - {'$field': bcsmass, cmin:   .000, cmax:    .500, cint:   .050}
+      - {'$field': cobbae , cmin:   .020, cmax:    .500, cint:   .048}
+      - {'$field': cobbaf , cmin:   .010, cmax:    .054, cint:   .004}
+      - {'$field': cobbla , cmin:   .002, cmax:    .022, cint:   .002}
+      - {'$field': cobbna , cmin:   .000, cmax:    .300, cint:   .030}
+      - {'$field': conbas , cmin:   .400, cmax:    .950, cint:   .050}
+      - {'$field': conbeu , cmin:   .100, cmax:    .870, cint:   .070}
+      - {'$field': conbna , cmin:   .100, cmax:    .760, cint:   .060}
+      - {'$field': cocl   , cmin:   .500, cmax:   2.500, cint:   .200}
+      - {'$field': cosc   , cmin: 50.000, cmax: 500.000, cint: 50.000}
+      - {'$field': duaot  , cmin:   .000, cmax:    .050, cint:   .005}
+      - {'$field': fineaot, cmin:   .000, cmax:   1.000, cint:   .100}
+      - {'$field': niaot  , cmin:   .000, cmax:    .011, cint:   .001}
+      - {'$field': nismass, cmin:   .000, cmax:    .400, cint:   .040}
+      - {'$field': ocaot  , cmin:   .000, cmax:   1.000, cint:   .100}
+      - {'$field': ocsmass, cmin:   .000, cmax:   5.000, cint:   .500}
+      - {'$field': ssaot  , cmin:   .000, cmax:    .200, cint:   .020}
+      - {'$field': so2cmass, cmin:    .000, cmax:   3.000, cint:   .300}
+      - {'$field': so2smass, cmin:    .000, cmax:    .500, cint:   .050}
+      - {'$field': totaot  , cmin:    .000, cmax:   1.000, cint:   .100}
+      - {'$field': to3     , cmin: 200.0, cmax: 550.000, cint: 35.000}

@@ -1,0 +1,23 @@
+stations: &STATIONS
+  arcsix:
+    file: /discover/nobackup/projects/gmao/merra2/pub/supplemental/ARCSIX/station.json
+
+buoys: &BUOYS
+  arcsix:
+    file: /discover/nobackup/projects/gmao/merra2/pub/supplemental/ARCSIX/buoy.json
+
+region:
+
+  arcsix:
+
+    long_name: ARCSIX
+    lon: -220 140
+    lat: 35 90
+    mpdset: newmap
+    mproj: nps
+    mpvals: -220 140 35 90
+    frame: circle
+    stations: *STATIONS
+    buoys: *BUOYS
+    addlayers: [GridLines]
+

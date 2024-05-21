@@ -1,0 +1,7 @@
+reset: [region, playlist]
+config: [missions, ARCSIX]
+
+default:
+  region: arcsix
+  field: pblh
+  level: '0'
