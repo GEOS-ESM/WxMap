@@ -1,10 +1,10 @@
 stations: &STATIONS
   arcsix:
-    file: /discover/nobackup/projects/gmao/merra2/pub/supplemental/ARCSIX/station.json
+    file: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/ARCSIX/station.json
 
 buoys: &BUOYS
   arcsix:
-    file: /discover/nobackup/projects/gmao/merra2/pub/supplemental/ARCSIX/buoy.json
+    file: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/ARCSIX/buoy.json
 
 region:
 
