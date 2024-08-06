@@ -5,6 +5,7 @@ import math
 import re
 import os
 import io
+import csv
 
 from string import *
 
@@ -58,7 +59,8 @@ class Service(MapService):
                         'DISPLAY_CONTOUR' : self.display,
                         'DISPLAY_GRFILL'  : self.display,
                         'DISPLAY_BARB'    : self.display,
-                        'DISPLAY_STREAM'  : self.display
+                        'DISPLAY_STREAM'  : self.display,
+                        'DISPLAY_STAT'    : self.display_stat
                        }
 
     def get_capabilities(self, request):
@@ -251,6 +253,7 @@ class Service(MapService):
         self.slice   = False
         self.dims    = None
         self.imap    = []
+        self.stats   = []
         self.oname   = kwargs.get('oname', plot.request['oname'])
 
         for obj in plot:
@@ -279,6 +282,10 @@ class Service(MapService):
         geometry = 'x' + str(geometry[0]) + ' ' + 'y' + str(geometry[1])
 
         img = self.oname
+        name, ext = os.path.splitext(img)
+        if ext == ".stat":
+            self.write_stats(img)
+            return img
 
         t_color = 1
         if self.request.get('lights_off', False): t_color = 0
@@ -297,6 +304,15 @@ class Service(MapService):
         self.navigate(img)
 
         return img
+
+    def write_stats(self, file):
+
+        with open(file, 'a') as csvfile:
+            writer = csv.writer(csvfile, delimiter=',',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+            for s in self.stats:
+                writer.writerow(s)
 
     def navigate(self, img):
 
@@ -886,6 +902,26 @@ class Service(MapService):
         print obj.cmds
         self.display_slice(obj)
         self.default(obj)
+
+    def display_stat(self, obj):
+
+        print '=========> In display stat'
+            
+        cmds = [ cmd for cmd in obj.cmds if self.is_valid(cmd) ]
+        cmds = '\n'.join(cmds)
+        
+        self.ds(cmds)
+
+        rmin = float(self.ds.rword(8,4))
+        rmax = float(self.ds.rword(8,5))
+        rmean = float(self.ds.rword(11,2))
+
+        qh = self.ds.query("time")
+        time_dt = qh.tyme1
+        ctime = time_dt.strftime("%Y%m%dT%H%M%S")
+
+        self.stats.append((ctime,rmin,rmax,rmean))
+        print ctime,rmin,rmax,rmean
     
     def default(self, obj):
 

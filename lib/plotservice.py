@@ -95,8 +95,11 @@ class PlotService(object):
 
             kwargs = {}
 
-            name   = 'plot_' + self.config(lpath + [layer,'gxout'],'contour')
+            name   = self.config(lpath + [layer,'gxout'],'contour')
+            name   = self.config(path + [layer,'gxout'],name)
+            name   = 'plot_' + name
             method = self.config(lpath + [layer,'method'], None)
+            print '=====> ', name
 
             if method:
                 f = getattr(self, method)
@@ -681,6 +684,75 @@ class PlotService(object):
           define $name = maskout($name,$name-$mask)
           d $name
           draw cbar $cbar
+        """, **kwargs
+        )
+
+        handle._STACK_ = handle.name
+
+    def plot_stat(self, plot, name, **kwargs):
+
+        handle  = plot.handle
+        request = plot.request
+        time    = request['time_dt']
+        field   = request['field']
+        theme   = self.name
+
+        layer   = plot.get_layer(name)
+        if not layer: return
+
+        kwargs.update(plot.get_vars(layer))
+        kwargs['layer_name'] = name
+
+        zorder = plot.get_attr(layer,'zorder','0')
+        kwargs['zorder'] = zorder
+
+        path = [theme, 'plot', field]
+        handle.lat     = self.config(path+['lat'],'--auto')
+        handle.lon     = self.config(path+['lon'],'--auto')
+        handle.lev     = self.config(path+['lev'],'--auto')
+        handle.time    = self.config(path+['time'],'--auto')
+        handle.x       = self.config(path+['x'],'--auto')
+        handle.y       = self.config(path+['y'],'--auto')
+        handle.z       = self.config(path+['z'],'--auto')
+        handle.t       = self.config(path+['t'],'--auto')
+        handle.xaxis   = self.config(path+['xaxis'],'--auto')
+        handle.slice   = self.config(path+['slice'],'')
+
+        self.set_coords(plot)
+
+        handle.gxout   = 'stat'
+        handle.gtime   = time.strftime("%H:%Mz%d%b%Y")
+        handle.name    = plot.get_name()
+        handle.expr    = plot.get_attr(layer,'expr',handle._STACK_)
+        handle.csmooth = plot.get_attr(layer,'csmooth','off')
+        handle.mask    = plot.get_attr(layer,'mask','--auto')
+        handle.vrange  = plot.get_attr(layer,'vrange','--auto')
+        handle.x       = plot.get_attr(layer,'x',handle.x)
+        handle.y       = plot.get_attr(layer,'y',handle.y)
+        handle.z       = plot.get_attr(layer,'z',handle.z)
+        handle.t       = plot.get_attr(layer,'t',handle.t)
+        handle.xaxis   = plot.get_attr(layer,'xaxis',handle.xaxis)
+
+        plot.cmd("""
+          set dfile $#
+          set time $gtime
+          set time $time
+          set lev $level
+          set lev $lev
+          set lat $lat
+          set lon $lon
+          set x $x
+          set y $y
+          set t $t
+          set xaxis $xaxis
+          set SLICE $slice
+          set z $z
+          set gxout $gxout
+          set vrange $vrange
+          set grads off
+          define $name = $expr
+          define $name = maskout($name,$name-$mask)
+          d $name
         """, **kwargs
         )
 
