@@ -1,6 +1,8 @@
+import six
 import os
 import re
 import copy
+import sys
 
 udft = []
 
@@ -68,8 +70,12 @@ class GDSVML(object):
 
         self.icolor = 31
 
-        self.colors = {re.sub("\s+"," ",v.strip()):int(k)
-                            for k,v in self.default['rgb'].iteritems()}
+        if sys.version_info.major > 2:
+            self.colors = {re.sub("\s+"," ",v.strip()):int(k)
+                            for k,v in self.default['rgb'].items()}
+        else:
+            self.colors = {re.sub("\s+"," ",v.strip()):int(k)
+                            for k,v in six.iteritems(self.default['rgb'])}
 
         self.colors = {}
 
@@ -85,7 +91,8 @@ class GDSVML(object):
                         'string', 'strsiz', 'mpdraw', 'mpdset', 'mproj', 'mpt',
                         'map', 'mpvals', 'poli', 'annot', 'black', 'clab',
                         'clopts', 'csmooth', 'cterp', 'cthick', 'rgb', 'rgba',
-                        'xlopts', 'ylopts', 'zlog'
+                        'xlopts', 'ylopts', 'zlog','top_clip','bottom_clip',
+                        'central_lon','central_lat',
                       ]
 
         self.intrinsic = ['aave','ave','vint','abs','acos','asin','atan2',
@@ -120,7 +127,7 @@ class GDSVML(object):
 
         self.special = ['draw basemap', 'draw line', 'draw polyf',
                         'draw string', 'draw mark', 'draw hilo',
-                        'draw gridlines']
+                         'draw gridlines']
 
         self.addon   = ['set ARRFILL', 'set SLICE', 'set SKIP', 'set CLIP']
 
@@ -153,6 +160,8 @@ class GDSVML(object):
                             + self.header_labels \
                             + self.trailer_labels
 
+#------------------------------------------------------------------------------
+
     def get_state(self, state=None, default=None):
 
         if state is None:
@@ -181,6 +190,8 @@ class GDSVML(object):
             pick  = lambda pair: pair[0] if pair[0] is not None else pair[1]
             return ' '.join(map(pick, zip(list1, list2)))
 
+#------------------------------------------------------------------------------
+
     def get_color(self, cmd):
 
         cmd = re.sub("\s+"," ",cmd.strip()).split()
@@ -199,6 +210,8 @@ class GDSVML(object):
         self.colors[rgb] = index
         return index
 
+#------------------------------------------------------------------------------
+
     def readUDFT(self):
 
         global udft
@@ -214,6 +227,8 @@ class GDSVML(object):
 
         return udft
 
+#------------------------------------------------------------------------------
+
     def is_intrinsic(self, name):
 
         name.lower()
@@ -226,51 +241,75 @@ class GDSVML(object):
 
         return False
 
+#------------------------------------------------------------------------------
+
     def is_auto(self, cmd):
 
         if '--auto' in cmd: return True
         return False
 
+#------------------------------------------------------------------------------
+
     def is_dimension(self, cmd):
 
         return self.search(cmd, self.dimension)
+
+#------------------------------------------------------------------------------
 
     def is_file(self, cmd):
 
         return self.search(cmd, self.file)
 
+#------------------------------------------------------------------------------
+
     def is_latlon(self, cmd):
 
         return self.search(cmd, self.latlon)
 
+#------------------------------------------------------------------------------
+
     def is_display(self, cmd):
 
         return self.search(cmd, self.display)
+
+#------------------------------------------------------------------------------
 
     def is_pendown(self, cmd):
 
         return self.search(cmd, self.display) \
             or self.search(cmd, self.annotate)
 
+#------------------------------------------------------------------------------
+
     def is_annotate(self, cmd):
 
         return self.search(cmd, self.annotate)
+
+#------------------------------------------------------------------------------
 
     def is_special(self, cmd):
 
         return self.search(cmd, self.special)
 
+#------------------------------------------------------------------------------
+
     def is_addon(self, cmd):
 
         return self.search(cmd, self.addon)
+
+#------------------------------------------------------------------------------
 
     def is_run(self, cmd):
 
         return self.search(cmd, self.run)
 
+#------------------------------------------------------------------------------
+
     def is_define(self, cmd):
 
         return self.search(cmd, self.define)
+
+#------------------------------------------------------------------------------
 
     def is_data_service(self, cmd):
 
@@ -279,22 +318,32 @@ class GDSVML(object):
                self.is_display(cmd)   or \
                self.is_define(cmd)
 
+#------------------------------------------------------------------------------
+
     def is_data(self, cmd):
 
         return self.is_display(cmd) or \
                self.is_define(cmd)
 
+#------------------------------------------------------------------------------
+
     def is_reset(self, cmd):
 
         return self.search(cmd, self.reset)
+
+#------------------------------------------------------------------------------
 
     def is_set(self, cmd):
 
         return self.search(cmd, self.set)
 
+#------------------------------------------------------------------------------
+
     def is_rgb(self, cmd):
 
         return self.search(cmd, self.rgb)
+
+#------------------------------------------------------------------------------
 
     def is_open_font(self, cmd):
 
@@ -313,10 +362,14 @@ class GDSVML(object):
             self.fonts[index] = name
 
         return False
+
+#------------------------------------------------------------------------------
             
     def is_action(self, cmd):
 
         return self.macro is not None
+
+#------------------------------------------------------------------------------
 
     def is_macro(self, cmd):
 
@@ -325,6 +378,8 @@ class GDSVML(object):
 
         return False
 
+#------------------------------------------------------------------------------
+
     def is_end(self, cmd):
 
         if cmd == '&END':
@@ -332,12 +387,16 @@ class GDSVML(object):
 
         return False
 
+#------------------------------------------------------------------------------
+
     def is_attribute(self, cmd):
 
         if cmd[0] == '@':
             return True
 
         return False
+
+#------------------------------------------------------------------------------
 
     def is_quoted(self, name):
 
@@ -353,6 +412,8 @@ class GDSVML(object):
 
         return True
 
+#------------------------------------------------------------------------------
+
     def in_macro(self):
 
         if self.macro_name:
@@ -360,9 +421,13 @@ class GDSVML(object):
 
         return False
 
+#------------------------------------------------------------------------------
+
     def register(self, constants):
 
         self.const.update(constants)
+
+#------------------------------------------------------------------------------
 
     def restore(self):
 
@@ -373,6 +438,8 @@ class GDSVML(object):
                 state[key] = self.state[key]
 
         self.state = state
+
+#------------------------------------------------------------------------------
 
     def eval(self, cmd):
 
@@ -428,6 +495,13 @@ class GDSVML(object):
             self.event = { k:0 for k in self.default }
             self.state = copy.deepcopy(self.default)
 
+    def add_state(self,d):
+        for key in d:
+            if key in self.sticky:
+                self.state[key]=d[key]
+
+#------------------------------------------------------------------------------
+
     def search(self, cmd, list):
 
         cmd = re.sub("\s+"," ",cmd.strip())
@@ -436,6 +510,8 @@ class GDSVML(object):
             return True
 
         return False
+
+#------------------------------------------------------------------------------
 
     def __call__(self, key):
 

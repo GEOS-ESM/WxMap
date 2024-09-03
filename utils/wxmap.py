@@ -33,10 +33,10 @@ for play in playlist:
         for r in request:
             opath = os.path.dirname(r['oname'])
             try:
-                os.makedirs(opath, 0755)
+                os.makedirs(opath, 0o755)
             except:
                 pass
 
             ds  = wx.renew(10)
             map = wx.get_map(r)
-            print map
+            print(map)

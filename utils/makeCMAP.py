@@ -25,21 +25,21 @@ def write_cmap(file, cmap):
         else:
             cm_addr[id] = name
 
-    print 'attribute:'
-    print ''
-    print '  colorbar:'
-    print ''
+    print('attribute:')
+    print('')
+    print('  colorbar:')
+    print('')
 
     for name in sorted(cmap):
 
         if name in cm_ref:
-            print '   ',name + ': *ref_' + cm_ref[name]
-            print ''
+            print('   ',name + ': *ref_' + cm_ref[name])
+            print('')
             continue
         elif name in cm_anchor:
-            print '   ',name + ': &ref_' + name
+            print('   ',name + ': &ref_' + name)
         else:
-            print '   ',name + ':'
+            print('   ',name + ':')
 
         cm = cmap[name]
 
@@ -49,14 +49,14 @@ def write_cmap(file, cmap):
             if not map: continue
 
             if isinstance(map, list):
-                print ' '*6 + key + ':'
+                print(' '*6 + key + ':')
 
                 for segment in map:
-                    print ' '*7, '-', segment
+                    print(' '*7, '-', segment)
             else:
-                print ' '*6 + key + ':', map
+                print(' '*6 + key + ':', map)
 
-        print ''
+        print('')
 
 def write_rgba(file, cmap):
 
@@ -75,21 +75,21 @@ def write_rgba(file, cmap):
         else:
             cm_addr[id] = name
 
-    print 'attribute:'
-    print ''
-    print '  colorbar:'
-    print ''
+    print('attribute:')
+    print('')
+    print('  colorbar:')
+    print('')
 
     for name in sorted(cmap):
 
         if name in cm_ref:
-            print '   ',name + ': *ref_' + cm_ref[name]
-            print ''
+            print('   ',name + ': *ref_' + cm_ref[name])
+            print('')
             continue
         elif name in cm_anchor:
-            print '   ',name + ': &ref_' + name
+            print('   ',name + ': &ref_' + name)
         else:
-            print '   ',name + ':'
+            print('   ',name + ':')
 
         cm     = cmap[name]
         red    = cm['red']
@@ -104,9 +104,9 @@ def write_rgba(file, cmap):
             b = [float(c)*255.0 for c in blue[index].split() if c != ' ']
             a = [float(c)*255.0 for c in alpha[index].split() if c != ' ']
 
-            print ' '*7, '-', "%5.3f %5.3f %5.3f %5.3f"%(r[1],g[1],b[1],a[1]) 
+            print(' '*7, '-', "%5.3f %5.3f %5.3f %5.3f"%(r[1],g[1],b[1],a[1]) )
 
-        print ''
+        print('')
 
 ########
 # Main #
@@ -121,7 +121,7 @@ for file in sys.argv[1:]:
 
     colorbar = config['attribute']['colorbar']
 
-    for name, clist in colorbar.iteritems():
+    for name, clist in colorbar.items():
 
         if isinstance(clist, dict):
             CMAP[name] = clist

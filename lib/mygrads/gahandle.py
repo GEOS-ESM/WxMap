@@ -2,7 +2,7 @@
 #    from org.opengrads.interfaces import GaHandleObject
 #except:
 #    GaHandleObject = object
-
+import six
 __version__ = '1.1.0'
 
 class GaHandle(object):
@@ -28,7 +28,7 @@ class GaHandle(object):
         
         longestKeyLen = max( map(len, self.__dict__.keys()) )
         
-        for k, v in self.__dict__.iteritems():
+        for k, v in six.iteritems(self.__dict__):
             repr += '%s = %s' % (k.rjust(longestKeyLen), v)
             repr += '\n'
             

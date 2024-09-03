@@ -27,11 +27,15 @@ Define additional color tables.
 """
 
 __version__ = '1.2.0'
-
+import six
 from numpy import log10, exp, log, arange, ma
 import numpy as npy
 from matplotlib        import rcParams, cbook, cm
-from matplotlib.colors import Colormap, makeMappingArray
+try:
+    from matplotlib.colors import Colormap, makeMappingArray
+except:
+    from matplotlib.colors import Colormap
+    from matplotlib.colors import _create_lookup_table as makeMappingArray 
 from types import *
 
 LUTSIZE = rcParams['image.lut']
@@ -119,8 +123,8 @@ class SegmentedColormap(ColormapAlpha):
 
 #       Inherit segment data from an existing colormap,
 #       possibly redefining alpha channel
-        if self._segmentdata.has_key('cmap'):
-            if self._segmentdata.has_key('alpha'):
+        if 'cmap' in self._segmentdata:
+            if 'alpha' in self._segmentdata:
                 alphad = self._segmentdata['alpha'] # save this
             else:
                 alphad = None
@@ -135,7 +139,7 @@ class SegmentedColormap(ColormapAlpha):
         if self._scale!=None:
             scale = lambda x: min(max(self._scale(x),0.0),1.0)
             data_s = {}
-            for key, val in self._segmentdata.iteritems():
+            for key, val in six.iteritems(self._segmentdata):
                 if not isinstance(val, list): continue 
                 valnew = [ (scale(a), b, c) for a, b, c in val ]
                 data_s[key] = valnew
@@ -145,21 +149,21 @@ class SegmentedColormap(ColormapAlpha):
 #       -------------------------------------
         if self._reverse:
             data_r = {}
-            for key, val in self._segmentdata.iteritems():
+            for key, val in six.iteritems(self._segmentdata):
                 valnew = [(1.0-a, b, c) for a, b, c in list(reversed(val))]
                 data_r[key] = valnew
             self._segmentdata = data_r
 
 #       Go for the LUT
 #       --------------
-        self._lut = npy.ones((self.N + 3, 4), npy.float)
+        self._lut = npy.ones((self.N + 3, 4), npy.float64)
         self._lut[:-3, 0] = makeMappingArray(self.N, self._segmentdata['red'])
         self._lut[:-3, 1] = makeMappingArray(self.N, self._segmentdata['green'])
         self._lut[:-3, 2] = makeMappingArray(self.N, self._segmentdata['blue'])
 
 #       RGB is always there by alpha may not, so we check for it
 #       --------------------------------------------------------
-        if self._segmentdata.has_key('alpha'):
+        if 'alpha' in self._segmentdata:
             self._lut[:-3, 3] = makeMappingArray(self.N, self._segmentdata['alpha'])
 
 #       Save intrinsic alpha
@@ -173,11 +177,11 @@ class SegmentedColormap(ColormapAlpha):
 
 def nlog(x,a):
     if a<=0:
-        raise ValueError, 'Expected a>0 but got a=%f'%a
+        raise ValueError('Expected a>0 but got a=%f'%a)
     return log(a*x+1.0)/log(a+1.0)
 def nexp(x,a):
     if a<=0:
-        raise ValueError, 'Expected a>0 but got a=%f'%a
+        raise ValueError('Expected a>0 but got a=%f'%a)
     return (exp(x * log(a+1.0)) - 1.0) / a
 
 #
@@ -321,7 +325,11 @@ datao['Greys'] = { 'cmap': cm.Greys, }
 datao['Copper'] = { 'cmap': cm.copper, }
 datao['Bone'] = { 'cmap': cm.bone, }
 datao['Purples'] = { 'cmap': cm.Purples, }
-datao['Spectral'] = { 'cmap': cm.Spectral, }
+try:
+    datao['Spectral'] = { 'cmap': cm.spectral, }
+except:
+    datao['Spectral'] = { 'cmap': cm.Spectral, }
+    
 datao['Earth'] = { 'cmap': cm.gist_earth, }
 datao['Stern'] = { 'cmap': cm.gist_stern, }
 datao['Flag'] = { 'cmap': cm.flag, }
@@ -371,7 +379,7 @@ datad['seismic_r'] = { 'cmap': cm.seismic_r, 'alpha': alphad }
 
 # Define direct, reversed and scaled color tables (transparent)
 log_scale = lambda x: nexp(x,10.0) 
-for name, data in datad.iteritems():
+for name, data in six.iteritems(datad):
     locals()[name] = SegmentedColormap(name, data, LUTSIZE)
 #    name_r = name+'_r'
 #    locals()[name_r] = SegmentedColormap(name_r, data, LUTSIZE, reverse=True )
@@ -379,7 +387,7 @@ for name, data in datad.iteritems():
     locals()[name_l] = SegmentedColormap(name_l, data, LUTSIZE, scale=log_scale)
 
 # Define direct, reversed and scaled color tables (opaque)
-for name, data in datao.iteritems():
+for name, data in six.iteritems(datao):
     #locals()[name] = SegmentedColormap(name, data, LUTSIZE)
     name_r = name+'_r'
     locals()[name_r] = SegmentedColormap(name_r, data, LUTSIZE, reverse=True )

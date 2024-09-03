@@ -11,13 +11,16 @@ class Evaluator(object):
         self.config  = config
         self.request = request
         self.lang    = gdsvml.GDSVML()
-        self.defined = ['RANDOM']
+        self.defined = []
 
         self.quote   = False
         self.qchar   = "'"
         self.qstring = None
 
         self.file    = None
+        self.pyFlag  = 0
+
+#------------------------------------------------------------------------------
 
     def evaluate(self, f):
 
@@ -34,6 +37,8 @@ class Evaluator(object):
                 string += obj
 
         return string
+
+#------------------------------------------------------------------------------
 
     def parse(self, expr):
 
@@ -177,6 +182,8 @@ class Evaluator(object):
             else:
                 expr = expr[length:]
 
+#------------------------------------------------------------------------------
+
     def number_match(self, expr):
 
         eRE1   = r'([0-9]+[\.]{1}[0-9]*[Ee]{1}[+-]{1}[0-9]+)'
@@ -208,6 +215,8 @@ class Evaluator(object):
         else:
             return None
 
+#------------------------------------------------------------------------------
+
     def in_quoted_string(self, c):
 
         if not self.quote and (c == "'" or c == '"'):
@@ -222,6 +231,8 @@ class Evaluator(object):
             self.qstring = None
 
         return self.quote
+
+#------------------------------------------------------------------------------
 
     def get_field(self, name, stream=None, collection=None, dexpr=None):
 
@@ -275,13 +286,20 @@ class Evaluator(object):
         native = fh.field.get(lname,None)
 
         if native:
-            fid  = fh.fileinfo.fid
             info = dict(native)
             info['dexpr'] = dexpr
-            info.update(self.file_info(fid))
+            if self.pyFlag:
+                fid  = fh.fid
+                info.update(self.pyfile_info(fid))
+            else:
+                fid  = fh.fileinfo.fid
+                info.update(self.file_info(fid))
+                
             return field.Field(lname, info)
         else:
             return name
+
+#------------------------------------------------------------------------------
 
     def define(self, name):
 
@@ -290,12 +308,16 @@ class Evaluator(object):
 
         self.defined.append(name)
 
+#------------------------------------------------------------------------------
+
     def is_defined(self, name):
 
         if name in self.defined:
             return True
 
         return False
+
+#------------------------------------------------------------------------------
 
     def file_info(self, fid):
 
@@ -319,3 +341,51 @@ class Evaluator(object):
                              [fid, tm_request, tm_file, tm_index]))
 
         return self.file
+
+#------------------------------------------------------------------------------
+
+    def pyfile_info(self, fid):
+
+        fh = self.ds.files[fid]
+        time       = self.request['time_dt']
+        fh.getTimeIndex(time)
+
+        self.file = dict(zip(['fileID','tm_index'],
+                             [fid, fh.tm_index]))
+
+        return self.file
+
+#------------------------------------------------------------------------------
+       
+    def pyeval(self,f):
+        self.pyFlag = 1
+        self.count=0
+        self.fids=[]
+        eval_expr=self.pyevaluate(f)
+        return np.unique(self.fids),eval_expr
+
+#------------------------------------------------------------------------------
+    
+    def pyevaluate(self, f):
+        if f.expression is None:
+            d={'vars':f.name_orig.upper()}
+            fh=self.ds.files[f.fileID]
+            self.fids.append(fh.fid)
+            for dim in f.dexpr[1:-1].split(','):
+                if dim[:2]=='z=': d.update({'z':int(dim[2:])})
+                if dim[:4]=='lev=': d.update({'lev':int(dim[4:])})
+                if dim[:2]=='t=': d.update({'t':int(dim[2:])})
+            fh.registerdim(**d)
+            name=fh.addvar(**d)
+            self.count+=1
+            return name
+
+        string = ''
+        for obj in self.parse(f.expression):
+            if type(obj) is field.Field:
+                string += self.pyevaluate(obj.update(f))
+            else:
+                string += obj
+
+        return string 
+    

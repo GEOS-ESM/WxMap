@@ -8,11 +8,17 @@ class MapService(object):
         self.lang   = gdsvml.GDSVML()
         self.config = config
 
+#------------------------------------------------------------------------------
+
     def get_capabilities(self, request):
         return None
 
+#------------------------------------------------------------------------------
+
     def get_map(self, plot):
         return None
+
+#------------------------------------------------------------------------------
 
     def register(self, config=None, dataservice=None):
 

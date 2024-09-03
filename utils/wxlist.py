@@ -15,21 +15,21 @@ request = Request(interface.parse_args(sys.argv[1:]))
 wx = wxservice.WXService(request)
 #wx = wxservice.WXServiceLite(request)
 
-print "\n", 'default', ":\n"
+print("\n", 'default', ":\n")
 
-for k,v in wx.config('default',{}).iteritems():
-   print k, ":", v
+for k,v in wx.config('default',{}).items():
+   print(k, ":", v)
 
 response = wx.get_capabilities()
 
 for key in response:
 
     result = response[key]
-    print "\n", key, ":\n"
+    print("\n", key, ":\n")
 
     if isinstance(result, list):
-        print result
+        print(result)
     else:
-        for k,v in result.iteritems():
-            print k, ":", v
+        for k,v in result.items():
+            print(k, ":", v)
 

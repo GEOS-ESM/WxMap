@@ -12,7 +12,7 @@ from request import *
 
 def write_cmap(name, cmap):
 
-    print '   ',name + ':'
+    print('   ',name + ':')
 
     for key in ['cmap', 'red', 'green', 'blue', 'alpha', 'reverse', 'scale']:
 
@@ -20,21 +20,21 @@ def write_cmap(name, cmap):
         if not map: continue
 
         if isinstance(map, list):
-            print ' '*6 + key + ':'
+            print(' '*6 + key + ':')
 
             for segment in map:
-                print ' '*7, '-', segment
+                print(' '*7, '-', segment)
         else:
-            print ' '*6 + key + ':', map
+            print(' '*6 + key + ':', map)
 
-    print ''
+    print('')
 
 request = Request(interface.parse_args(sys.argv[1:]))
 wx      = wxservice.WXService(request)
 
 colorbar = wx.config(['attribute', 'colorbar'])
 
-for name, clist in colorbar.iteritems():
+for name, clist in colorbar.items():
 
     if isinstance(clist, dict):
         write_cmap(name, clist)

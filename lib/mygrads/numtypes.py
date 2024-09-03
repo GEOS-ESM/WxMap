@@ -30,9 +30,13 @@ __version__ = '1.1.0'
 
 from copy      import deepcopy
 from numpy     import ma, array
-from gahandle  import GaHandle
+try:
+    from mygrads.gahandle  import GaHandle
+except Exception:
+    from gahandle  import GaHandle
 
 from datetime  import datetime
+import numpy as np 
 
 class GaGrid(object):
     """
@@ -54,6 +58,7 @@ class GaGrid(object):
         if coords==None:
             self.meta = None
             self.denv = None
+            self.qc   = None
             self.dims = None
             self.time = None
             self.tyme = None
@@ -70,7 +75,7 @@ class GaGrid(object):
             self.lat  = array(coords.lat)
             self.lon  = array(coords.lon)
         else:
-            raise TypeError, "coords must be a GaHandle object"
+            raise TypeError( "coords must be a GaHandle object")
 
     def copy(self):
         """
@@ -120,21 +125,28 @@ class GaField (ma.MaskedArray):
 
     def __new__(self, data, name=None, grid=None, **kwargs):
         self.name = name
-        self.grid = GaGrid(name)
-        return ma.MaskedArray.__new__(self,data, **kwargs)
+        if grid==None:
+            self.grid = GaGrid(name)
+        else:
+            self.grid = grid.copy()
+        self = ma.MaskedArray.__new__(self,data, **kwargs)
+        return self
+        #return ma.MaskedArray.__new__(self,data, **kwargs)
 
-    def __init__(self, data, name=None, grid=None, **kwargs):
+    def __init__(self, data, name=None, grid=None, mask=None,**kwargs):
         """
         Creates a GaField object, an extesion of MaskedArray with
         grid information attached.
         """
-        ma.MaskedArray.__init__(self,data, **kwargs)
+        #self=ma.array(data,mask=mask)
+        #ma.MaskedArray.__new__(self,data, **kwargs)
+        self = np.ma.MaskedArray(data,mask)
         self.name = name
         if grid==None:
             self.grid = GaGrid(name)
         else:
-            self.grid = grid
-
+            self.grid = grid.copy()
+        
     def copy ( self ):
         """
         Returns a copy of a GaField.
@@ -156,7 +168,7 @@ class GaField (ma.MaskedArray):
     __ror__ = ga_ops(ma.MaskedArray.__ror__)
 #   __repr__ = ga_ops(ma.MaskedArray.__repr__)
     __rsub__ = ga_ops(ma.MaskedArray.__rsub__)
-    __rdiv__ = ga_ops(ma.MaskedArray.__rdiv__)
+    __rdiv__ = ga_ops(ma.MaskedArray.__rtruediv__)
     __rmul__ = ga_ops(ma.MaskedArray.__rmul__)
     __rmod__ = ga_ops(ma.MaskedArray.__rmod__)
     __rshift__ = ga_ops(ma.MaskedArray.__rshift__)

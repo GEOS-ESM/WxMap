@@ -15,6 +15,8 @@ class Field(object):
             self.__dict__.update(info)
             self.set_dims()
 
+#------------------------------------------------------------------------------
+
     def update(self, field):
 
         self.merge(field)
@@ -30,6 +32,8 @@ class Field(object):
             self.name += self.dexpr
 
         return self
+
+#------------------------------------------------------------------------------
 
     def merge(self, field):
 
@@ -50,6 +54,8 @@ class Field(object):
             self.dexpr = '(' + s_dexpr + ',' + f_dexpr + ')'
         else:
             self.dexpr = field.dexpr
+
+#------------------------------------------------------------------------------
 
     def set_dims(self):
 

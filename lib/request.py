@@ -1,3 +1,4 @@
+import six
 import uuid
 import mydatetime as dt
 
@@ -18,12 +19,14 @@ class Request(dict):
         # Convert all datetime objects to mydatetime objects
 
         if not encoder:
-            for k,v in self.iteritems():
+            for k,v in six.iteritems(self):
                 try:
                     self[k] = dt.datetime(v.year, v.month, v.day,
                                           v.hour, v.minute)
                 except:
                     continue
+
+#------------------------------------------------------------------------------
 
     def get_name(self, request=None, hotkeys=None, encoder=novalue):
 
@@ -48,11 +51,30 @@ class Request(dict):
         keystr = keystr.replace("u'", "'")
         return str(uuid.uuid3(uuid.NAMESPACE_DNS,keystr))
 
+#------------------------------------------------------------------------------
+
+    def get_oname(self,request=None, hotkeys=None, encoder=novalue):
+        if request is None:
+            request = self
+        if 'oname' not in request:
+            oname = self.get_name(request,hotkeys,encoder)
+        else:
+            t = request['fcst_dt']
+            oname = Template(request['oname']).safe_substitute(request)
+            oname = t.strftime(oname)
+        oname.replace('.png','')
+        return oname
+
+
+#------------------------------------------------------------------------------
+
     def get_rname(self, request=None):
 
         hotkeys  = ['lat', 'lon', 'mproj', 'mpvals', 'geometry', 'basemap']
 
         return self.get_name(request, hotkeys)
+
+#------------------------------------------------------------------------------
 
     def get_key(self, request=None):
 
@@ -67,6 +89,8 @@ class Request(dict):
         if not out_key: return 'unknown'
 
         return out_key
+
+#------------------------------------------------------------------------------
 
     def __iter__(self):
 
@@ -98,11 +122,15 @@ class Request(dict):
 
             t += tinc
 
+#------------------------------------------------------------------------------
+
     def __call__(self, key, default=None):
 
         value = self.get(key, default)
 
-        if value and isinstance(value, basestring):
+        if value and isinstance(value, six.string_types):
             return value.split('/')[-1]
 
         return value
+
+#------------------------------------------------------------------------------

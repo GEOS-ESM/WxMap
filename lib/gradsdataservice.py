@@ -1,6 +1,6 @@
+import six
 import gdsvml
 from dataservice import *
-#from grads.ganum import GaNum
 from mygrads.ganum import GaNum
 
 class Service(GaNum,DataService):
@@ -25,9 +25,11 @@ class Service(GaNum,DataService):
             except:
                 GaNum.__init__(self, Bin='grads',Window=window, Echo=True)
 
+#------------------------------------------------------------------------------
+
     def open(self, request, **kwargs):
 
-        if isinstance(request,basestring):
+        if isinstance(request,six.string_types):
             return super(Service,self).open(request)
 
         hash = dict(request)
@@ -43,7 +45,7 @@ class Service(GaNum,DataService):
             self.fileID = fh.fileinfo.fid
             return fh
 
-        print "**OPENING** ",file
+        print("**OPENING** ",file)
         fh   = super(Service,self).open(file)
 
         self.fileID = fh.fid
@@ -72,6 +74,8 @@ class Service(GaNum,DataService):
 
         return fh
 
+#------------------------------------------------------------------------------
+
     def handle(self, id=None):
 
         if id is None:
@@ -82,6 +86,8 @@ class Service(GaNum,DataService):
         if len(self.files) >= index and index >= 0:
             return self.files[index]
 
+#------------------------------------------------------------------------------
+
     def cmd2(self, command, **kwargs):
 
         for cmd in command.split('\n'):
@@ -90,6 +96,8 @@ class Service(GaNum,DataService):
             self.cmd_stack.append(cmd)
 
             super(Service, self).cmd(cmd, **kwargs)
+
+#------------------------------------------------------------------------------
 
     def check_cmd(self, cmd):
 
@@ -136,6 +144,8 @@ class Service(GaNum,DataService):
 
         return cmd
 
+#------------------------------------------------------------------------------
+
     def check_lon(self, lons):
 
         grid = self.grid[self.dfile]
@@ -154,6 +164,8 @@ class Service(GaNum,DataService):
             if len(lons) == 2 and lons[0] == lons[1]: lons = [0, 360]
 
         return lons
+
+#------------------------------------------------------------------------------
         
     def qstack(self):
 

@@ -10,6 +10,8 @@ class Encoder(object):
         keymap = self.service.config.get('keymap',{})
         self.service.config.update(keymap)
 
+#------------------------------------------------------------------------------
+
     def encode(self, request):
 
         plots = self.service.get_plot(request, passive=True)

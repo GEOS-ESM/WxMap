@@ -1,3 +1,4 @@
+import six
 import os
 import sys
 import copy
@@ -5,21 +6,37 @@ import glob
 import collections
 import mydatetime as dt
 
+import logging
+from logging.handlers import RotatingFileHandler
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 import config
 
 from request import *
 from encoder import *
+from wxmapstheme import Service as gplotservice
+
+__all__ = ['WXService','WXServiceLite']
+
+# filesystem
+directory = os.path.dirname(__file__)
+here = os.path.abspath(directory)
 
 class WXService(object):
 
     def __init__(self, request=None,
                        plotservice=None,
+                       gradsplotservice=None,
                        dataservice=None,
                        mapservice=None):
 
         self.ps      = plotservice
+        self.gps     = gradsplotservice 
         self.ds      = dataservice
         self.ms      = mapservice
+        self.encoderservice = None
         self.config  = config.Config()
      
         self.counter = 0
@@ -34,13 +51,14 @@ class WXService(object):
         self.request = copy.deepcopy(request)
 
         install_path = os.path.dirname(sys.argv[0])
+
         if not install_path: install_path = os.getcwd()
         file = request.get('rc', None)
         if not file: file = os.path.join(install_path, 'wxmap.rc')
- 
+        print(install_path)
         install_path = os.path.realpath(os.path.dirname(install_path))
         resource = self.config.read_resolve(file,install_path=install_path)
-        self.config.mount(resource, '/')
+        self.config.mount(resource, '/')        
 
         self.configure()
         self.register(config=self.config)
@@ -51,8 +69,11 @@ class WXService(object):
 
         self.base_config = copy.deepcopy(self.config)
 
+#------------------------------------------------------------------------------
+
     def register(self, config=None,
                        dataservice=None,
+                       gradsplotservice=None,
                        plotservice=None,
                        mapservice=None):
 
@@ -65,6 +86,10 @@ class WXService(object):
 
         if plotservice is not None:
             self.ps = plotservice
+            self.register_encoder()
+            
+        if gradsplotservice is not None:
+            self.gps = gradsplotservice
 
         if mapservice is not None:
             self.ms = mapservice
@@ -74,16 +99,34 @@ class WXService(object):
 
         if self.ps is not None:
             self.ps.register(config=self.config, dataservice=self.ds)
+            
+        if self.gps is not None:
+            self.gps.register(config=self.config, dataservice=self.ds)
 
         if self.ms is not None:
             self.ms.register(config=self.config, dataservice=self.ds)
 
+#------------------------------------------------------------------------------
+
+    def register_encoder(self):
+        
+        if self.ps.platform=='grads':
+            self.encoderservice=self.ps
+        else:
+            gradsplotservice=gplotservice()
+            self.register(gradsplotservice=gradsplotservice)
+            self.encoderservice=self.gps
+
+#------------------------------------------------------------------------------
+            
     def get_plot(self, request):
 
         if self.ps is None:
             return None
 
         return self.ps.get_plot(request)
+
+#------------------------------------------------------------------------------
 
     def get_map(self, request):
 
@@ -93,6 +136,8 @@ class WXService(object):
         plot = self.ps.get_plot(request)
 
         return self.ms.get_maps(plot)
+
+#------------------------------------------------------------------------------
 
     def update_request(self, request, play):
 
@@ -104,7 +149,7 @@ class WXService(object):
             if is_specified: continue
 
             value = play[key]
-            if not isinstance(value, basestring): continue
+            if not isinstance(value, six.string_types): continue
 
             try:
                 request[key] = dt.datetime.strptime(value,'%Y%m%dT%H%M%S')
@@ -114,6 +159,8 @@ class WXService(object):
             if key == 'time_dt':
                 request['start_dt'] = request[key]
                 request['end_dt']   = request[key]
+
+#------------------------------------------------------------------------------
 
     def configure(self, cfg=None, ext='.yml'):
 
@@ -156,6 +203,8 @@ class WXService(object):
 
         self.recursion_depth -= 1
 
+#------------------------------------------------------------------------------
+
     def provenance(self, name, ext, paths):
 
         file = name
@@ -169,6 +218,8 @@ class WXService(object):
         else:
             return (name, paths)
 
+#------------------------------------------------------------------------------
+
     def get_plotservice(self, resource):
 
         for key in resource.keys():
@@ -179,6 +230,8 @@ class WXService(object):
                     return service
 
         return None
+
+#------------------------------------------------------------------------------
 
     def list(self, node, ext='.yml'):
 
@@ -197,10 +250,14 @@ class WXService(object):
 
         return files
 
+#------------------------------------------------------------------------------
+
     def reset(self, reset):
 
         for name in reset:
             self.config[name] = {}
+
+#------------------------------------------------------------------------------
 
     def playlist(self):
 
@@ -222,6 +279,8 @@ class WXService(object):
             self.config['play_']  = play
 
             yield self.play(play)
+
+#------------------------------------------------------------------------------
 
     def play(self, play):
 
@@ -273,8 +332,10 @@ class WXService(object):
                     if r_level and r_level != str(level): continue
                     if level not in lmask: continue
                     response['level']  = str(level)
+                    
+                    yield Request(response, Encoder(self.encoderservice))
 
-                    yield Request(response, Encoder(self.ps))
+#------------------------------------------------------------------------------
 
     def get_capabilities(self):
 
@@ -291,26 +352,26 @@ class WXService(object):
             path    = ['stream']
             result  = self.config.find(path, name='long_name',depth=1)
             result  = self.config.get_items(result)
-            default = result.keys()
+            default = list(result.keys())
             default = self.config('streams', default)
             mask    = play.get('streams', default)
-            streams.update({ k:v for k,v in result.iteritems() if k in mask })
+            streams.update({ k:v for k,v in six.iteritems(result) if k in mask })
 
             path      = root + ['plot']
             result    = self.config.find(path, name='long_name',depth=1)
             result    = self.config.get_items(result)
-            f_default = result.keys()
+            f_default = list(result.keys())
             f_default = self.config('fields', f_default)
             mask      = play.get('fields', f_default)
-            fields.update({ k:v for k,v in result.iteritems() if k in mask })
+            fields.update({ k:v for k,v in six.iteritems(result) if k in mask })
             
             path    = ['region']
             result  = self.config.find(path, name='long_name',depth=1)
             result  = self.config.get_items(result)
-            default = result.keys()
+            default = list(result.keys())
             default = self.config('regions', default)
             mask    = play.get('regions', default)
-            regions.update({ k:v for k,v in result.iteritems() if k in mask })
+            regions.update({ k:v for k,v in six.iteritems(result) if k in mask })
             
 #           default = fields.keys()[0]
             default = f_default[0]
@@ -319,7 +380,7 @@ class WXService(object):
 
             path    = root + ['plot',field]
             result  = self.config.find(path, name='levels',depth=1)
-            result  = self.config.get_values(result)[0]
+            result  = list(self.config.get_values(result))[0]
             default = result
             default = self.config('levels', default)
             mask    = play.get('levels', default)
@@ -327,6 +388,8 @@ class WXService(object):
             
         return dict(zip(['stream', 'field', 'region', 'level'],
                    [streams,  fields,  regions,  levels]))
+
+#------------------------------------------------------------------------------
 
     def get_user_interface(self):
 
@@ -369,6 +432,8 @@ class WXService(object):
 
         return ui
 
+#------------------------------------------------------------------------------
+
     def renew(self, freq=None):
 
         if freq is None or freq <= 0:
@@ -384,6 +449,8 @@ class WXService(object):
             self.counter = 0
 
         return self.ds
+
+#------------------------------------------------------------------------------
 
     def clone(self):
 
@@ -401,39 +468,65 @@ class WXService(object):
 
         return wx
 
+#------------------------------------------------------------------------------
+
+    def close_ds(self):
+        try:
+            self.ds.Reader.close()
+            delattr(self.ds,'Reader')
+            self.ds.Writer.close()
+            delattr(self.ds,'Writer')
+        except Exception:
+            pass
+        try:
+            self.ds.__del__()
+        except Exception: pass
+        self.config.serialize(dict(self.config))
+        try:
+            self.ms.register(dataservice=self.ds,config=self.config)
+            self.ps.register(dataservice=self.ds,config=self.config)
+        except Exception: pass
+
+#------------------------------------------------------------------------------
+
 class WXServiceLite(WXService):
 
     def __init__(self, request=None,
                        plotservice=None,
+                       gradsplotservice=None,
                        dataservice=None,
                        mapservice=None):
 
         self.ps      = plotservice
+        self.gps     = gradsplotservice 
         self.ds      = dataservice
         self.ms      = mapservice
+        self.encoderservice = None
         self.config  = config.Config()
      
         self.counter  = 0
         self.num_play = 0
 
         self.register()
-
+        
         if request is None:
             return
 
         r = copy.deepcopy(request)
         self.request = Request(r)
+        
+        install_path = os.path.dirname(__file__)
+        file = self.request.get('rc', None)
 
-        install_path = os.path.dirname(sys.argv[0])
-        if not install_path: install_path = os.getcwd()
-        file = request.get('rc', None)
         if not file: file = os.path.join(install_path, 'wxmap.rc')
+        resource = self.config.read(file)
 
-        install_path = os.path.realpath(os.path.dirname(install_path))
-        resource = self.config.read_resolve(file,install_path=install_path)
-
-        self.bin_path  = resource.get('bin_path', './')
+        bin_path  = resource.get('bin_path', './')
+        self.bin_path  = request.get('bin_path',bin_path)
+        self.config.read(file,bin_path=self.bin_path) 
         self.bin_path  = os.path.join(self.bin_path, self.request.get_key())
+
+        self.bin_path = self.bin_path.replace('install_path', os.path.join(here, '../..'))
 
         listing = glob.glob(os.path.join(self.bin_path,'*.json'))
         self.num_play = len(listing)
@@ -441,9 +534,13 @@ class WXServiceLite(WXService):
         base_file = os.path.join(self.bin_path, 'wx000.json')
 
         cfg = config.Config(self.config.readJSON(base_file))
-        plotservice = cfg['plotservice_']
+        cfg.mount(resource,'/') # SJR 20240717 added to override base config (from Joe's backend) with frontend wxmap.rc info
+        self.resource=resource 
+        if plotservice is None: plotservice = cfg.pop('plotservice_')
         plotservice.set_name(cfg['theme_'])
         self.register(config=cfg, plotservice=plotservice)
+
+#------------------------------------------------------------------------------
 
     def playlist(self):
 
@@ -452,8 +549,9 @@ class WXServiceLite(WXService):
             file   = 'wx%03d.json'%(i)
             file   = os.path.join(self.bin_path, file)
             cfg    = config.Config(self.config.readJSON(file))
+            cfg.mount(self.resource,'/')
 
-            plotservice = cfg['plotservice_']
+            plotservice = cfg.pop('plotservice_')
             plotservice.set_name(cfg['theme_'])
             play = cfg['play_']
             self.register(config=cfg, plotservice=plotservice)

@@ -1,8 +1,11 @@
+import six
 import os
 import sys
 import fnmatch
 from string import *
 import mydatetime as dt
+
+__all__ = ['DataService','FileHandle','GEOSDDF']
 
 class DataService(object):
 
@@ -11,6 +14,8 @@ class DataService(object):
         self.config  = config
         self.lats    = None
         self.lons    = None
+
+#------------------------------------------------------------------------------
 
     def get_capabilities(self, request):
 
@@ -22,10 +27,14 @@ class DataService(object):
 
         return info
 
+#------------------------------------------------------------------------------
+
     def register(self, config=None):
 
         if config is not None:
             self.config = config
+
+#------------------------------------------------------------------------------
 
     def inquire(self, request, **kwargs):
 
@@ -39,50 +48,48 @@ class DataService(object):
         uri = uri.split('(')[0]
         uri = vtime.strftime(uri)
         uri = ftime.strftime(uri)
-      
         return Template(uri).safe_substitute(request)
 
-    def pad_region(self, pad=0):
+#------------------------------------------------------------------------------
 
+    def pad_region(self, pad=0):
         qf = self.query("file")
         qd = self.query("dims")
 
-#       print 'Dimension Information'
-#       print qd.dfile
-#       print qd.x, qd.nx, qf.nx
-#       print qd.y, qd.ny, qf.ny
-
         if pad > 0:
+            x1 = int(qd.x[0] - pad)
+            x2 = int(qd.x[1] + pad)
+            y1 = int(qd.y[0] - pad)
+            y2 = int(qd.y[1] + pad)
 
-          x1 = int(qd.x[0] - pad)
-          x2 = int(qd.x[1] + pad)
-          y1 = int(qd.y[0] - pad)
-          y2 = int(qd.y[1] + pad)
+            if y1 < 0: y1 = 1
+            if y2 > qf.ny: y2 = qf.ny
 
-          if y1 < 0: y1 = 1
-          if y2 > qf.ny: y2 = qf.ny
+            if (x2-x1+1) <= qf.nx:
+                self.cmd("set x %d %d"%(x1, x2))
+                self.xax=[x1, x2]
 
-          if (x2-x1+1) <= qf.nx:
-              self.cmd("set x %d %d"%(x1, x2))
-#             print "set x %d %d"%(x1, x2)
+            self.cmd("set y %d %d"%(y1, y2))
+            self.yax=[y1, y2]
 
-          self.cmd("set y %d %d"%(y1, y2))
-#         print "set y %d %d"%(y1, y2)
+            self.lats = qd.y
+            self.lons = qd.x
 
-          self.lats = qd.y
-          self.lons = qd.x
+#------------------------------------------------------------------------------
 
     def reset_region(self):
 
         if self.lats:
             self.cmd("set y %d %d"%self.lats)
-#           print "set y %d %d"%self.lats
+            self.yax=[self.lats]
             self.lats = None
 
         if self.lons:
             self.cmd("set x %d %d"%self.lons)
-#           print "set x %d %d"%self.lons
+            self.xax=[self.lons]
             self.lons = None
+
+#------------------------------------------------------------------------------
 
 class FileHandle(object):
 
@@ -115,6 +122,8 @@ class FileHandle(object):
 
             self.field[varname] = var
 
+#------------------------------------------------------------------------------
+
 class GEOSDDF(object):
 
     def __init__(self):
@@ -134,7 +143,6 @@ class GEOSDDF(object):
             for f in files:
 
                 nodes = f.split('.')
-
                 if len(nodes) != 2:
                     continue
 

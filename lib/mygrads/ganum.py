@@ -28,18 +28,34 @@ exchanging n-dimensional NumPy array data between Python and
 GrADS.
 """
 
-__version__ = '1.1.3'
+__version__ = '2.0.1'
+import re
+import io
+import six
+from itertools import product
+from datetime import datetime
+import datetime as dt
+from collections import OrderedDict
+from argparse import Namespace
+try:
+    from mygrads.gacore       import *
+    from mygrads.numtypes     import *
+    from mygrads.simplekml    import SimpleKML
+except Exception:
+    from gacore       import *
+    from numtypes     import *
+    from simplekml    import SimpleKML
 
-
-from gacore       import *
-from numtypes     import *
-from simplekml    import SimpleKML
-
+import numpy as np
 from numpy        import zeros, ones, average, newaxis, sqrt, pi, cos, inner, \
                          arange, fromfile, float32, ma, reshape, ndarray, \
                          abs, size, meshgrid, shape, tile
 
 from numpy.linalg import svd, lstsq
+
+py_version=sys.version_info.major
+if py_version==2: StringTypes=(str,unicode)
+else: StringTypes=(str,bytes)
 
 class GaNum(GaCore):
     """
@@ -56,7 +72,7 @@ class GaNum(GaCore):
 
 #........................................................................
 
-    def exp (self, expr):
+    def exp (self, expr, dx=None, dy=None):
         """
         Exports GrADS expression *expr*, returning a GrADS Field.
 
@@ -83,6 +99,13 @@ class GaNum(GaCore):
 
         """
 
+        missing=-9.99e8
+        if py_version==3:
+            arr,undef,grid=self.py3exp(expr,dx,dy)
+            
+            if missing in arr:
+                undef=missing
+            return GaField(arr,name=expr,grid=grid,mask=(arr==undef))
 #       If IPC extension is not available, then try expr() instead
 #       ----------------------------------------------------------
         if not self.HAS_IPC:
@@ -91,14 +114,14 @@ class GaNum(GaCore):
 #       For convenience, allows calls where expr is not a string, in which
 #        case it returns back the input field or raise an exception
 #       -------------------------------------------------------------------
-        if type(expr) in StringTypes:
+        if isinstance(expr,StringTypes):
             pass # OK, will proceed to export it from GrADS
         elif isinstance(expr,GaField):
             return expr # just return input
         elif isinstance(expr,ndarray):
             return expr # this is handy for 'lsq'
         else:
-            raise GrADSError, "input <expr> has invalid type: %s"%type(expr)
+            raise GrADSError("input <expr> has invalid type: %s"%type(expr))
 
 #       Retrieve dimension environment
 #       ------------------------------
@@ -106,8 +129,7 @@ class GaNum(GaCore):
         t1, t2 = dh.t
         z1, z2 = dh.z 
         nx, ny, nz, nt = (dh.nx, dh.ny, dh.nz, dh.nt)
-   
-
+        
 #       Shortcut for 2D slices (any 2 dimensions)
 #       -----------------------------------------
         if dh.rank ==2:
@@ -118,8 +140,8 @@ class GaNum(GaCore):
 #             special handling the different dimension permutations separately
 #             given the way GrADS invokes functions for XZ, YZ, ZT, etc
 #       ----------------------------------------------------------------------
-        if nx==1: raise GrADSError, 'lon must be varying but got nx=1'
-        if ny==1: raise GrADSError, 'lat must be varying but got ny=1'
+        if nx==1: raise GrADSError('lon must be varying but got nx=1')
+        if ny==1: raise GrADSError('lat must be varying but got ny=1')
 
 #       Loop over time/z, get a GrADS 2D slice at a time/z
 #       --------------------------------------------------
@@ -169,7 +191,7 @@ class GaNum(GaCore):
 
         except:
             self.setdim(dh)
-            raise GrADSError, 'could not export <%s>'%expr
+            raise GrADSError('could not export <%s>'%expr)
 
 
         grid.tyme = array([gat2dt(t) for t in grid.time])
@@ -197,7 +219,7 @@ class GaNum(GaCore):
 #       -----------------
         nx, ny = (dh.nx, dh.ny)
         if dh.rank !=2:
-            raise GrADSError, 'expecting rank=2 but got rank=%d'%dh.rank
+            raise GrADSError('expecting rank=2 but got rank=%d'%dh.rank)
 
 #       Create output handle, fill in some metadata
 #       -------------------------------------------
@@ -206,23 +228,23 @@ class GaNum(GaCore):
 
 #       Issue GrADS command, will check rc later
 #       -----------------------------------------
-        if self.Version[1] is '1':
+        if self.Version[1]=='1':
             cmd = 'ipc_define void = ipc_save('+expr+',-)\n'
         else:
             cmd = 'define void = ipc_save('+expr+',-)\n'
 
-        self.Writer.write(cmd)
+        self.pywriter(cmd)
 
 #       Position stream pointer after <EXP> marker
 #       ------------------------------------------
         got = ''
         while got[:5] != '<EXP>' :
-            got = self.Reader.readline()
+            got = self.pyreader()
 
 #       Read header
 #       -----------
         grid.meta = fromfile(self.Reader,count=20,dtype=float32)
-
+        
         amiss = grid.meta[0]
         id = int(grid.meta[1])
         jd = int(grid.meta[2])
@@ -232,8 +254,8 @@ class GaNum(GaCore):
 #        if id!=0 or jd!=1:
         if id<0 or id>3 or jd<0 or jd>3 or id==jd:
             self.flush()
-            raise GrADSError, \
-                  'invalid exchange metadata (idim,jdim)=(%d,%d) - make sure <%s> is valid and that lon/lat is varying.'%(id,jd,expr)
+            raise GrADSError(
+                  'invalid exchange metadata (idim,jdim)=(%d,%d) - make sure <%s> is valid and that lon/lat is varying.'%(id,jd,expr))
 
 #       Read data and coords
 #       --------------------
@@ -243,7 +265,7 @@ class GaNum(GaCore):
             grid.lat = fromfile(self.Reader,count=ny_,dtype=float32)
         except:
             self.flush()
-            raise GrADSError, 'problems exporting <'+expr+'>, fromfile() failed'
+            raise GrADSError('problems exporting <'+expr+'>, fromfile() failed')
 
 #       Annotate grid - assumes lon, lat
 #       --------------------------------
@@ -254,16 +276,17 @@ class GaNum(GaCore):
 
 #       Check rc from asynchronous ipc_save
 #       -----------------------------------
-        rc = self._parseReader(Quiet=True)
+        rc,_ = self._parseReader(Quiet=True)
         if rc:
             self.flush()
-            raise GrADSError, 'problems exporting <'+expr+'>, ipc_save() failed'
+            raise GrADSError('problems exporting <'+expr+'>, ipc_save() failed')
 
         grid.tyme = array([gat2dt(t) for t in grid.time])
 
 #       Create the GaField object
 #       -------------------------
         data = array_.reshape(ny_,nx_)
+        self.flush()
         return GaField(data, name=expr, grid=grid, mask=(data==amiss) )
     
 #........................................................................
@@ -286,14 +309,14 @@ class GaNum(GaCore):
 #       If IPC extension is not available, barf
 #       ---------------------------------------
         if not self.HAS_IPC:
-            raise GrADSError, "IPC extension not available - cannot import!"
+            raise GrADSError( "IPC extension not available - cannot import!")
 
 #       Resolve Field
 #       -------------
         if isinstance(Field,GaField):
             grid = Field.grid
         else:
-            raise GrADSError, "Field has invalid type"
+            raise GrADSError("Field has invalid type")
                 
 #       Retrieve dimension environment
 #       ------------------------------
@@ -308,19 +331,19 @@ class GaNum(GaCore):
 #             special handling the different dimension permutations separately
 #             given the way GrADS invokes functions for XZ, YZ, ZT, etc
 #       ----------------------------------------------------------------------
-        if nx==1: raise GrADSError, 'lon must be varying but got nx=1'
-        if ny==1: raise GrADSError, 'lat must be varying but got ny=1'
+        if nx==1: raise GrADSError('lon must be varying but got nx=1')
+        if ny==1: raise GrADSError('lat must be varying but got ny=1')
 
 #       Determine actual load command
 #       -----------------------------
         if name == '<display>':
             cmd = 'display ipc_load()\n'
             if nz>1 and nt>1:
-                raise GrADSError, \
+                raise GrADSError(
                       'for <display> only one of z/t can vary'+\
-                      ' but got (nz,nt)=(%d,%d)'%(nz,nt) 
+                      ' but got (nz,nt)=(%d,%d)'%(nz,nt) )
         else:
-            if self.Version[1] is '1':
+            if self.Version[1]=='1':
                 cmd = 'ipc_define %s = ipc_load()\n'%name
             else:
                 cmd = 'define %s = ipc_load()\n'%name
@@ -330,8 +353,8 @@ class GaNum(GaCore):
         try:
             self.cmd("ipc_open - r")
         except GrADSError:
-            raise GrADSError, '<ipc_open - r> failed; is IPC installad?'
-        self.Writer.write(cmd) # asynchronous transfer
+            raise GrADSError('<ipc_open - r> failed; is IPC installad?')
+        self.pywriter(cmd) # asynchronous transfer
 
 #       Reshape and get original t/z offset
 #       -----------------------------------
@@ -354,9 +377,9 @@ class GaNum(GaCore):
                     my = int(meta[l,k,4])
                     if mx!=nx_ or my!=ny_:
                         self.flush()
-                        raise GrADSError, \
+                        raise GrADSError(
                              'nx/ny mismatch; got (%d,%d), expected (%d,%d)'%\
-                             (mx,my,nx_,ny_)
+                             (mx,my,nx_,ny_))
                     meta[l,k,:].tofile(self.Writer)
                     data[l,k,:,:].tofile(self.Writer)
                     grid.lon.tofile(self.Writer)
@@ -365,9 +388,9 @@ class GaNum(GaCore):
         except:
             self.flush()
             self.setdim(dh)
-            raise GrADSError, \
+            raise GrADSError(
                   'could not import <%s>, tofile() may have failed'%name
-
+)
 
 #       Check rc from asynchronous ipc_save
 #       -----------------------------------
@@ -379,7 +402,7 @@ class GaNum(GaCore):
         self.setdim(dh)
         self.cmd("ipc_close")
         if rc:
-            raise GrADSError, 'problems importing <'+name+'>, ipc_load() failed'
+            raise GrADSError('problems importing <'+name+'>, ipc_load() failed')
 
 #........................................................................
 
@@ -394,14 +417,14 @@ class GaNum(GaCore):
 #       For convenience, allows calls where expr is not a string, in which
 #        case it returns back the input field or raise an exception
 #       -------------------------------------------------------------------
-        if type(expr) in StringTypes:
+        if isinstance(expr ,StringTypes):
             pass # OK, will proceed to retrieve it from GrADS
         elif isinstance(expr,GaField):
             return expr # just return input
         elif isinstance(expr,ndarray):
             return expr # this is handy for 'lsq'
         else:
-            raise GrADSError, "input <expr> has invalid type: %s"%type(expr)
+            raise GrADSError("input <expr> has invalid type: %s"%type(expr))
 
         d = self.eval(expr)
         c = self.coords()
@@ -411,6 +434,280 @@ class GaNum(GaCore):
         F = GaField(Data,mask=(Data==c.undef),name=expr,grid=g)
 
         return F
+
+#........................................................................
+    def env(self, query='all'):
+        """
+        Query and return the GrADS dimension and display environment.
+        This function is designed to make a new query every time it is
+        called in order to avoid problems when assuming the last known
+        state has not changed. A snapshot of the environment at a specific
+        time can be saved by assigning a variable to a call of this function.
+        """
+        return GaEnv(self, query)
+
+    def move_pointer(self, marker, encoding='utf-8', verbose=False):
+        """
+        Move the GrADS stream pointer to the given marker.
+        The marker only has to match a portion of a line of output.
+        Additional Args:
+            encoding: Expected character encoding of the GrADS output
+        """
+        out = ''
+        while marker not in out:
+            out=self.filter_output(self.Reader.readline().decode(encoding))
+            if verbose:
+                print(out)
+            if len(out) == 0:
+                raise GrADSError("GrADS terminated.")
+        return
+
+    def py3exp(self,expr,dx=None,dy=None):
+        """
+        Export a GrADS field to a Numpy array. Since only up to 2-dimensional
+        data can be written out by GrADS, requesting arrays of rank > 2 will be
+        less efficient than defining the same array in GrADS.
+        Args:
+            expr: GrADS expression representing the field to be exported.
+        """
+        # Get the current environment
+        qc=self.query('ctlinfo')
+
+        env = self.env()
+        
+        env_orig=env
+        dh = self.query("dims",Quiet=True)
+        grid = GaGrid(expr)        
+        grid.denv = dh
+        grid.qc   = qc
+        grid.meta = zeros((dh.nt,dh.nz,20),dtype=float32)
+        ndims=Namespace(nt=qc.nt,nz=qc.nz,nx=qc.nx,ny=qc.ny)
+        if len(qc.t0)==15:
+            tstr='%H:%MZ%d%b%Y'
+        elif len(qc.t0)==12:
+            tstr='%HZ%d%b%Y'
+        else: tstr=''
+        try:
+            t2=dt.datetime.strptime(qc.t0,tstr)
+            grid.tyme = np.array([t2+dt.timedelta(minutes=qc.dt*i) for i in range(qc.nt)])
+        except:
+            grid.tyme = [] 
+        grid.time = []
+        #grid.lev = zeros(dh.nz,dtype=float32)
+        if hasattr(qc,'x0'):
+            #grid.lon = np.array([qc.x0+qc.dx*i for i in range(qc.nx)]) 
+            if not dx: dx=qc.dx
+            grid.lon=np.arange(qc.x0,qc.x0+qc.dx*qc.nx,dx)
+            if not isinstance(env.lon,(tuple,list)): grid.lon=[env.lon]
+            else: 
+                grid.lon=np.arange(env.lon[0],env.lon[1]+dx,dx)
+                if grid.lon[-1] > env.lon[1]:
+                    grid.lon=grid.lon[:-1]
+            #else: grid.lon=np.arange(env.lon[0],env.lon[1],dx)
+            env.dx=dx; env.nx=len(grid.lon)
+            ndims.nx=len(grid.lon)
+        elif hasattr(qc,'xlevs'):
+            grid.lon = np.array(qc.xlevs)
+        if hasattr(qc,'y0'):
+            #grid.lat = np.array([qc.y0+qc.dy*i for i in range(qc.ny)])
+            if not dy: dy=qc.dy
+            grid.lat=np.arange(qc.y0,qc.y0+qc.dy*qc.ny,dy)
+            if  not isinstance(env.lat,(tuple,list)): grid.lat=[env.lat]
+            else: 
+                grid.lat=np.arange(env.lat[0],env.lat[1]+dy,dy)
+                if grid.lat[-1] > env.lat[1]:
+                    grid.lat=grid.lat[:-1]
+            env.dy=dy; env.ny=len(grid.lat)
+            ndims.ny=len(grid.lat)
+        elif hasattr(qc,'ylevs'):
+            grid.lat = np.array(qc.ylevs)
+        #grid.tyme = np.array([t2+dt.timedelta(minutes=qc.dt*i) for i in range(qc.nt)])
+        if hasattr(qc,'z0'):
+            grid.lev = np.array([qc.z0+qc.dz*i for i in range(qc.nz)])
+        elif hasattr(qc,'zlevs'):
+            grid.lev = np.array(qc.zlevs)
+        else:
+            grid.lev = []
+        dimnames = ('x','y','z','t','e') # ordered by GrADS read efficiency
+        # Detect which dimensions are varying
+        dims = [dim for dim in dimnames if not getattr(env, dim+'fixed')]
+        # We can only display/output data from GrADS up to 2 dimensions at a
+        # time, so for rank > 2, we must fix the extra dimensions. For best
+        # efficiency, always select the two fastest dimensions to vary.
+        varying, fixed = dims[:2], dims[2:]
+        # Varying dimensions must be ordered identically to GrADS fwrite output
+        fwrite_order = ['z','y','x','t','e']
+        varying.sort(key=lambda dim: fwrite_order.index(dim))
+        output_dims = varying + fixed
+        # For common cases, it is desirable to enforce a certain dimension
+        # order in the output array for the first two axes
+        output_orders2D = OrderedDict([
+            ('xy', ['y','x']), ('xz', ['z','x']), ('yz', ['z','y']),
+            ('xt', ['t','x']), ('yt', ['y','t']), ('zt', ['z','t'])
+        ])
+        # Check for 2D base dimensions in order of preference
+        for first2, order in output_orders2D.items():
+            if set(first2).issubset(dims):
+                ordered_dims = order + [d for d in dims if d not in order]
+                break
+        else:
+            ordered_dims = dims
+        # Read data into Numpy array
+        if len(dims) <= 2:
+            dimlengths = [getattr(env, 'n'+dim) for dim in varying]
+            #arr = self._read_array(expr, varying)
+            arr = self._read_array(expr, dimlengths)
+        else:
+            dimvals = {}
+            for dim in dims:
+                mn, mx = getattr(env, dim+'i')
+                dimvals[dim] = range(mn, mx+1)
+            # Sets of fixed coordinates for which to request arrays while the
+            # first two (most efficient) dimensions vary
+            coordinates = product(*[dimvals[dim] for dim in fixed])
+            arr = None # Need to wait to define until we know shape of arr1D
+            for coords in coordinates:
+                # Set fixed dimemsions and get array indices
+                idx = []
+                for dim, c in zip(fixed, coords):
+                    self.cmd('set {dim} {c}'.format(dim=dim, c=c))
+                    idx.append(dimvals[dim].index(c))
+                # Get 2D array
+                dimlengths = [getattr(env, 'n'+dim) for dim in varying]
+                arr2D = self._read_array(expr, dimlengths)
+                # Define full data array
+                if arr is None:
+                    arr = np.zeros(arr2D.shape + tuple(len(dimvals[d]) for d in fixed))
+                # Assign data along first two dimensions
+                arr[(slice(None), slice(None)) + tuple(idx)] = arr2D
+        # Re-order axes if necessary
+        axes = [(i, output_dims.index(d)) for i, d in zip(range(len(dims)), ordered_dims)]
+        swapped = []
+        for a1, a2 in axes:
+            pair = sorted([a1, a2])
+            if a1 != a2 and pair not in swapped:
+                arr = np.swapaxes(arr, a1, a2)
+                swapped.append(pair)
+        # Restore original GrADS dimension environment
+        for dim in dims:
+            mn, mx = getattr(env_orig, dim)
+            self.cmd('set {dim} {mn} {mx}'.format(dim=dim, mn=mn, mx=mx))
+        self.flush()
+        return arr,env.undef,grid
+
+    def _read_array(self, expr, dimlengths):
+        """
+        Read a GrADS field into a Numpy array. The rank of the array must
+        be 2 or less.
+        Args:
+            expr: GrADS expression representing the field to be read.
+            dims: List of GrADS varying dimension names defining the
+                  space occupied by expr.
+        """
+        encoding = 'latin-1'
+        env = self.env()
+        # Enable GrADS binary output to stream
+        self.cmd('set gxout fwrite')
+        self.cmd('set fwrite -st -')
+        # Don't block output here so we can intercept the data stream
+        self.cmd('display '+expr, Block=False)
+        # Move stream pointer to '<FWRITE>'
+        self.move_pointer('<FWRITE>', encoding=encoding, verbose=False)
+        # Read binary data from stream
+        handle = io.BytesIO()
+        chsize = 4096 # Read data in 512 byte chunks
+        rcpattern = re.compile(b'\\n\<RC\>\s?-?\d+\s?\<\/RC\>') # pattern of RC tag
+        fwritepattern=re.compile(b'\<FWRITE\>[\\n]*')
+        chunk = self.p.stdout.read(chsize)
+        fwritematch=fwritepattern.search(chunk)
+        endmatch = rcpattern.search(chunk)
+        
+        flag=True
+        if endmatch:
+            chunk=chunk[:endmatch.span()[0]]
+            flag=False
+        if fwritematch:
+            handle.write(chunk[fwritematch.span()[1]:])
+        else:
+            handle.write(chunk)
+        while flag:
+            chunk = self.p.stdout.read(chsize)
+
+            # We know we're at the end when we encounter a return code wrapped
+            # in RC tags, immediately following a newline. (\n<RC> {number} </RC>)
+            # Must be very precise in detecting this because '<RC>' by itself
+            # can appear in a binary data stream.
+            endmatch = rcpattern.search(chunk)
+            fwritematch=fwritepattern.search(chunk)
+            if endmatch:
+                # Cut out whatever data precedes the <RC> tag
+                handle.write(chunk[:endmatch.span()[0]])
+                # The ending character of the last chunk is arbitrary,
+                # we only know that <RC> is in it.
+                # Thus, need to flush GrADS pipes to avoid hanging
+                # and reset the pointer to the next marker.
+                self.flush(encoding=encoding)
+                break
+            elif fwritematch:
+                print(chunk[:fwritematch.span()[1]])
+                handle.write(chunk[fwritematch.span()[1]:])
+            else:
+                handle.write(chunk)
+        # If GrADS is sane, normal behavior is to return the array of grid points
+        # big enough to completely enclose or overlap the set domain.
+        #dimlengths = [getattr(env, 'n'+dim) for dim in dims]
+        
+        guess_shape = tuple(dimlengths)
+        guess_size = int(np.prod(guess_shape))
+        try:
+            # Convert binary data to 32-bit floats
+            arr = np.fromstring(handle.getvalue(), dtype=np.float32)
+        except:
+            print(handle.getvalue()[:50] )
+            raise GrADSError('Problems occurred while exporting GrADS expression: '+expr
+                               +'\nCommon reasons:'
+                               +'\n\t1) Dimensions which are fixed/varying in the expression '
+                               +'\n\t   must be fixed/varying in the GrADS environment.'
+                               +'\n\t2) One or more of your GrADS dimensions may extend out of bounds.'
+                               )
+        # If all is sane and expected
+        if arr.size == guess_size:
+            shape = guess_shape
+        else:
+            # For whatever reason, GrADS will sometimes return a grid offset
+            # by an index or two from what the dimension environment says it
+            # should be (e.g. nx*ny for an x-y field). To work around this,
+            # test a few perturbations around the expected size of a single
+            # dimension at a time and see if any of them work.
+            possible_shapes = []
+            dim_ranges = []
+            for n in dimlengths:
+                if n > 2:
+                    r = range(n-2, n+3)
+                else:
+                    r = range(1, n+3)
+                dim_ranges.append(r)
+            # Remember, dim order determines how the shape tuples here are ordered
+            possible_shapes = list(product(*dim_ranges))
+            possible_sizes = [np.prod(shape) for shape in possible_shapes]
+            # Actual shape of the grid. This assumes that if multiple possible
+            # shapes have the same size, the first one that works is correct.
+            # This will not always be true...blame GrADS for having unpredictable
+            # grid sizes
+            if arr.size not in possible_sizes:
+                shape=next(((n,int(arr.size/n)) for n in dimlengths if arr.size%n==0),None)
+            else:
+                shape = possible_shapes[possible_sizes.index(arr.size)]
+            
+        arr = arr.reshape(shape)
+        
+        #arr[arr == self.MISSING] = np.nan
+        # Close stream
+        self.cmd('disable fwrite')
+        # Restore gxout settings, assuming typical 2D scalar field plot
+        self.cmd('set gxout '+env.gx2Dscalar)
+        return arr
+
 
 #........................................................................
 
@@ -464,8 +761,8 @@ class GaNum(GaCore):
 #       ---------------------
         dh = self.query("dims",Quiet=True)
         if dh.nt < 2:
-            raise GrADSError, \
-                  'need at least 2 time steps for EOFS but got nt=%d'%dh.nt
+            raise GrADSError(
+                  'need at least 2 time steps for EOFS but got nt=%d'%dh.nt)
         nt, nz, ny, nx = (dh.nt, dh.nz, dh.ny, dh.nx)
 
 #       Export N-dimensional array
@@ -488,7 +785,7 @@ class GaNum(GaCore):
             offset = average(u,axis=0)
             u = u - offset[newaxis,:,:,:]
         else:
-            raise GrADSError, 'Unknown transf <%s>'%transf
+            raise GrADSError('Unknown transf <%s>'%transf)
     
 #       Scale by stdv if z-scores required
 #       ----------------------------------
@@ -603,8 +900,8 @@ class GaNum(GaCore):
 
         N = len(x_exprs)
         if N<1:
-            raise GrADSError, \
-                'expecting at least one predictor but got %d'%N
+            raise GrADSError(
+                'expecting at least one predictor but got %d'%N)
         if Bias: N = N + 1
         
 #       Retrieve target
@@ -661,12 +958,12 @@ class GaNum(GaCore):
         if dh==None:
             dh = self.query("dims", Quiet=True)
         if dh.nx==1 or dh.ny==1:
-            raise GrADSError, \
+            raise GrADSError(
             "expecting varying x/y dimensions but got (nx,ny) = (%d,%d)"\
-            %(dh.nx,dh.ny)
+            %(dh.nx,dh.ny))
         if dh.nt>1:
-            raise GrADSError, \
-            "sorry, cannot interpolate with varying time dimension"
+            raise GrADSError(
+            "sorry, cannot interpolate with varying time dimension")
 
 #       Evaluate GrADS expression
 #       -------------------------
@@ -726,7 +1023,7 @@ class GaNum(GaCore):
         # Inputs must be 1D arrays
         # ------------------------
         if len(lons.shape)!=1 or len(lats.shape)!=1:
-            raise GrADSError, "lons, lats, time must be 1D arrays"
+            raise GrADSError("lons, lats, time must be 1D arrays")
         
         
         # Retrieve dimension environment
@@ -807,7 +1104,7 @@ class GaNum(GaCore):
         # Inputs must be 1D arrays
         # ------------------------
         if len(lons.shape)!=1 or len(lats.shape)!=1 or len(tyme.shape)!=1:
-            raise GrADSError, "lons, lats, tyme must be 1D arrays"
+            raise GrADSError("lons, lats, tyme must be 1D arrays")
         
         # Retrieve dimension environment
         # ------------------------------
@@ -830,7 +1127,7 @@ class GaNum(GaCore):
         # ------------------------------------------------
         fh = self.query("file",Quiet=True)
         if tbeg<1 or tbeg>fh.nt:
-            raise GrADSError, "(tbeg,tend) outside of range (1,%d)"%fh.nt
+            raise GrADSError("(tbeg,tend) outside of range (1,%d)"%fh.nt)
 
         # Find time step
         # --------------
@@ -842,7 +1139,7 @@ class GaNum(GaCore):
         V, I = [], []
         for t in range(tbeg,tend+1):
             now = self._getDatetime(t) # grads time is set to t
-            if Verbose: print " [] XY Interpolating at ", now
+            if Verbose: print(" [] XY Interpolating at ", now)
             i = (tyme>=now-dt) & (tyme<=now+dt)
             if any(i):
                 self._tightDomain(lons[i],lats[i]) # minimize I/O
@@ -1129,3 +1426,185 @@ def interpolate(datain,xin,yin,xout,yout,checkbounds=False,masked=False,order=1)
         dataout = np.where(xymask,masked,dataout)
     return dataout
 
+###############################################
+#           GrADS Environment Handle          #
+###############################################
+class GaEnv:
+    def __init__(self, ga, query='all'):
+        """
+        Container for holding GrADS dimension and display environment data.
+        The information is derived from GrADS query commands ['dims','gxout'].
+        A specific query may be requested if only one is needed. Default
+        is to load all supported queries.
+        """
+        # Query dims
+        if query in ('dims', 'all'):
+            qdims, rc = ga.cmd('query dims',sendOutput=True)
+            if rc > 0:
+                raise GrADSError('Error running "query dims"')
+            qdims=qdims[1:]
+            # Current open file ID
+            self.fid = int(qdims[0].split()[-1])
+            # Which dimensions are varying or fixed?
+            self.xfixed = 'fixed' in qdims[1]
+            self.yfixed = 'fixed' in qdims[2]
+            self.zfixed = 'fixed' in qdims[3]
+            self.tfixed = 'fixed' in qdims[4]
+            self.efixed = 'fixed' in qdims[5]
+
+            # Get the dimension values. These are single numbers if the dimension
+            # is fixed, or a tuple of (dim1, dim2) if the dimension is varying.
+            # Grid coordinates x,y,z,t,e can be non-integers for varying dimensions,
+            # but it is useful to have the "proper" integer grid coordinates xi,yi,zi,ti,ei.
+            # If a dimension is fixed, GrADS automatically rounds non-integer dimensions
+            # to the nearest integer.
+            xinfo = qdims[1].split()
+            if self.xfixed:
+                self.lon = float(xinfo[5])
+                self.x = float(xinfo[8])
+                self.xi = int(np.round(self.x))
+                self.nx = 1
+            else:
+                self.lon = (float(xinfo[5]), float(xinfo[7]))
+                self.x = (float(xinfo[10]), float(xinfo[12]))
+                self.xi = (int(np.floor(self.x[0])), int(np.ceil(self.x[1])))
+                self.nx = self.xi[1] - self.xi[0] + 1
+            
+            yinfo = qdims[2].split()
+            if self.yfixed:
+                self.lat = float(yinfo[5])
+                self.y = float(yinfo[8])
+                self.yi = int(np.round(self.y))
+                self.ny = 1
+            else:
+                self.lat = (float(yinfo[5]), float(yinfo[7]))
+                self.y = (float(yinfo[10]), float(yinfo[12]))
+                self.yi = (int(np.floor(self.y[0])), int(np.ceil(self.y[1])))
+                self.ny = self.yi[1] - self.yi[0] + 1
+            
+            zinfo = qdims[3].split()
+            if self.zfixed:
+                self.lev = float(zinfo[5])
+                self.z = float(zinfo[8])
+                self.p = float(zinfo[5])
+                self.zi = int(np.round(self.z))
+            else:
+                self.lev = (float(zinfo[5]), float(zinfo[7]))
+                self.z = (float(zinfo[10]), float(zinfo[12]))
+                self.p = (float(zinfo[5]), float(zinfo[7]))
+                self.zi = (int(np.floor(self.z[0])), int(np.ceil(self.z[1])))
+            tinfo = qdims[4].split()
+            if len(tinfo[5]) > 12:
+                timefmt = '%H:%MZ%d%b%Y'
+            else:
+                timefmt = '%HZ%d%b%Y'
+            if self.tfixed:
+                self.time = datetime.strptime(tinfo[5], timefmt)
+                self.t = float(tinfo[8])
+                self.ti = int(np.round(self.t))
+            else:
+                self.time = (datetime.strptime(tinfo[5], timefmt),
+                             datetime.strptime(tinfo[7], timefmt))
+                self.t = (float(tinfo[10]), float(tinfo[12]))
+                self.ti = (int(np.floor(self.t[0])), int(np.ceil(self.t[1])))
+            einfo = qdims[5].split()
+            if self.efixed:
+                self.e = float(einfo[8])
+                self.ei = int(np.round(self.e))
+            else:
+                self.e = (float(einfo[10]), float(einfo[12]))
+                self.ei = (int(np.floor(self.e[0])), int(np.ceil(self.e[1])))
+
+            # Dimension lengths in the current environment.
+            # Different from total dimension length in the file (see ctlinfo)
+            if self.xfixed:
+                self.nx = 1
+            else:
+                self.nx = self.xi[1] - self.xi[0] + 1
+            if self.yfixed:
+                self.ny = 1
+            else:
+                self.ny = self.yi[1] - self.yi[0] + 1
+            if self.zfixed:
+                self.nz = 1
+            else:
+                self.nz = self.zi[1] - self.zi[0] + 1
+            if self.tfixed:
+                self.nt = 1
+            else:
+                self.nt = self.ti[1] - self.ti[0] + 1
+            if self.efixed:
+                self.ne = 1
+            else:
+                self.ne = self.ei[1] - self.ei[0] + 1
+
+            # Rank of the environment space (number of dimensions)
+            self.rank = sum([not d for d in
+                             [self.xfixed,self.yfixed,self.zfixed,self.tfixed,self.efixed]])
+
+        # Query ctlinfo
+        if query in ('ctlinfo', 'all'):
+            qctl, rc = ga.cmd('query ctlinfo',sendOutput=True)
+            qctl=qctl[1:]
+            if rc > 0:
+                raise GrADSError('Error running "query ctlinfo"')
+            # Total dimension lengths in the file
+            self.Ne = 1
+            for line in qctl:
+                if 'xdef ' in line or 'XDEF ' in line:
+                    self.Nx = int(line.split()[1])
+                elif 'ydef ' in line or 'YDEF ' in line:
+                    self.Ny = int(line.split()[1])
+                elif 'zdef ' in line or 'ZDEF ' in line:
+                    self.Nz = int(line.split()[1])
+                elif 'tdef ' in line or 'TDEF ' in line:
+                    self.Nt = int(line.split()[1])
+                # EDEF section may or may not be present
+                elif 'edef ' in line or 'EDEF ' in line:
+                    self.Ne = int(line.split()[1])
+                elif 'undef' in line.lower():
+                    self.undef = float(line.split()[1])
+        # Query gxout
+        if query in ('gxout', 'all'):
+            qgxout, rc = ga.cmd('query gxout',sendOutput=True)
+            qgxout=qgxout[1:]
+            if rc > 0:
+                raise GrADSError('Error running "query gxout"')
+            # gxout defines graphics types for 1D scalar plots, 1D vector plots,
+            # 2D scalar plots, and 2D vector plots.
+            # Map GrADS graphic identifiers to gxout commands. Note that "gxout stat"
+            # and "gxout print" do not change the output of "query gxout"
+            graphicTypes = {'Contour': 'contour', 'Line': 'line', 'Barb': 'barb',
+                            '16': 'shaded', '17': 'shade2b', 'Shaded': 'shade1',
+                            'Vector': 'vector', 'Shapefile': 'shp', 'Bar': 'bar',
+                            'Grid': 'grid', 'Grfill': 'grfill', 'Stream': 'stream',
+                            'Errbar': 'errbar', 'GeoTIFF': 'geotiff', 'Fgrid': 'fgrid',
+                            'ImageMap': 'imap', 'KML': 'kml', 'Linefill': 'linefill',
+                             'Scatter': 'scatter', 'Fwrite': 'fwrite', '0': None}
+
+            # Get current graphics settings
+            self.gx1Dscalar = graphicTypes[qgxout[1].split()[-1]]
+            self.gx1Dvector = graphicTypes[qgxout[2].split()[-1]]
+            self.gx2Dscalar = graphicTypes[qgxout[3].split()[-1]]
+            self.gx2Dvector = graphicTypes[qgxout[4].split()[-1]]
+            stationData = qgxout[5].split()[-1]
+            if stationData == '6':
+                self.stationData = None
+            else:
+                self.stationData = stationData
+
+        # Query gxinfo
+        if query in ('gxinfo', 'all'):
+            qgxinfo, rc = ga.cmd('query gxinfo',sendOutput=True)
+            qgxinfo=qgxinfo[1:]
+            if rc > 0:
+                raise GrADSError('Error running "query gxinfo"')
+            # Get page limits and the current plot's limits in page coordinates
+            line1 = qgxinfo[1].split()
+            self.pagewidth, self.pageheight = line1[3], line1[5]
+            line2 = qgxinfo[2].split()
+            self.Xplot = (float(line2[3]), float(line2[5]))
+            line3 = qgxinfo[3].split()
+            self.Yplot = (float(line3[3]), float(line3[5]))
+        
+        

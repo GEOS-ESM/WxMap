@@ -1,3 +1,4 @@
+import six
 import re
 import os
 import copy
@@ -21,10 +22,83 @@ import evaluator
 import toolkit
 
 from mygrads.gacm import *
+__all__ = ['Plot','PlotHandle','PlotObject']
 
 novalue = object()
 
 class Plot(object):
+    """
+    Attributes
+    ----------
+    ds: 
+    config
+    theme
+    service
+    options
+    request
+    fields
+    stack
+    cmds
+    handle
+    defs
+    lang
+    color
+    eval
+    special
+    lats
+    lons
+    passive
+    counter
+    panel
+    
+    Methods
+    ----------
+    cmd(commands,layer,kwargs)
+    execute(commands)
+    define_random(cmd)
+    get_layer_stack(name,layer)
+    georeference
+    rsubstitute(s,defs)
+    substitute(kwargs)
+    filter(commands,request)
+    query(expr)
+    get_name
+    demand(kwargs)
+    reset
+    refine_clevs(clevs,nsub,type)
+    refine_rgb(rgba,nsub)
+    refine_rgb_color(colors,ncols,kwargs)
+    to_cmap(clist)
+    refine_rgb_list(clist,ncols)
+    refine_rgb_dict(cdict,ncols,kwargs)
+    refine_rgb_name(cname,ncols)
+    unpack_cmap(cdict,kwargs)
+    to_rgba(cmap,ncols)
+    set_rgb(rgba,nlevs,zorder)
+    set_clevs(clevs,cmin,cmax,cint)
+    set_shade(clevs,rgba,nsub,type,zorder,kwargs)
+    plot_shapes
+    plot_logos
+    plot_labels
+    plot_map
+    get_map(request,map,layers)
+    set_map(maps)
+    set_map_types(maps)
+    plot_map_shapes(maps)
+    plot_map_lines(maps)
+    plot_map_data(maps,zorder)
+    plot_map_base(maps,zorder)
+    get_layer(name)
+    get_attr(layer,name,default)
+    get_attr_special(attributes,default)
+    get_attr_dict(dlist)
+    get_vars(layer)
+    get_files(listing,paths)
+    get_skip(expr)
+    __iter__
+    
+    
+    """
 
     def __init__(self, request, service=None, passive=False, **kwargs):
 
@@ -45,8 +119,10 @@ class Plot(object):
 
         self.request = dict(request)
         self.fields  = []
+        self.grids   = []
         self.stack   = {}
         self.cmds    = None
+        self.geocmds = []
         self.handle  = PlotHandle(**self.request)
         self.defs    = self.handle.__dict__
         self.lang    = gdsvml.GDSVML()
@@ -55,17 +131,34 @@ class Plot(object):
         self.special = { 'fileID': '$#', 'color': '$*'}
         self.lats    = None
         self.lons    = None
+        self.mproj   = None
         self.passive = passive
         self.counter = 0
         self.panel   = request.get('panel', 0)
+        self.map     = {}
+#------------------------------------------------------------------------------
 
-    def cmd(self, commands, layer=None, **kwargs):
+    def cmd(self, commands, layer=None, **kwargs):        
+        """ filters/updates GrADS commands generated in plot.py
+        to generate current variables (eg rgb number or file number)
+        for final storage of GrADS commands (to be sent to GrADS)
+        
+        Parameters
+        ----------
+        commands : list, required
+        layer :  , default=None
+
+        Returns
+        -------
+        None
+
+        """
 
         defs = dict(self.request)
         defs.update(self.defs)
         if self.config: defs.update(self.config.get('defs', {}))
         defs.update(kwargs)
-        defs = { k:str(v) for k,v in defs.iteritems() }
+        defs = { k:str(v) for k,v in six.iteritems(defs) }
 
         cmds = self.rsubstitute(commands, **defs)
         cmds = cmds.strip().split('\n')
@@ -115,8 +208,10 @@ class Plot(object):
                 self.eval.define(var)
 
                 self.cmds.append('define ' + var + '=' + expr)
-
-                if self.passive: continue
+               
+                if self.passive: continue                
+                #self.set_file_grid(self.ds.fileID)
+                self.cmds.append('set dfile {}'.format(self.ds.fileID))
                 self.substitute(fileID=self.ds.fileID)
 
             elif self.lang.is_rgb(cmd):
@@ -131,7 +226,66 @@ class Plot(object):
 
         self.substitute(color=self.color)
 
+#------------------------------------------------------------------------------
+
+    def set_file_grid(self,fileID):
+        """sets lat/lon to include all available 
+        values for the given fileID
+        """
+        self.ds('set dfile {}'.format(fileID))
+        qc=self.ds.query('ctlinfo')
+        if hasattr(qc,'x0'):
+            lons='set lon {0} {1}'.format(qc.x0,qc.x0+(qc.nx-1)*qc.dx)
+        elif hasattr(qc,'xlevs'):
+            lons='set lon {0} {1}'.format(qc.xlevs[0],qc.xlevs[-1])
+        else:
+            lons='set lon {0} {1}'.format(-180,180)
+        if hasattr(qc,'y0'):
+            lats='set lat {0} {1}'.format(qc.y0,qc.y0+(qc.ny-1)*qc.dy)
+        elif hasattr(qc,'ylevs'):
+            lats='set lat {0} {1}'.format(qc.ylevs[0],qc.ylevs[-1])
+        else:
+            lats='set lat {0} {1}'.format(-90,90)
+        self.ds(lons)
+        self.ds(lats)
+
+#------------------------------------------------------------------------------
+
     def execute(self, commands=None):
+        """ executes GrADS commands to get/store the values of 
+        the fields to be plotted in figure 
+        
+        Notes: SR updates
+        1. 'draw hilo' is now included with is_display- this is so 
+            values from the field can be stored & used for pymapservice
+        2. self.set_file_grid(fileID) is run before the field values are 
+            calculated/exported from GrADS. This is so the entire lat/lon
+            grid of values will be stored. (Without this, only the defined
+            lat/lon grid for region is stored- which does not cover enough
+            data for most projections)
+        3. self.grids was added to write out the grid variables from GrADS
+            output - more investigation is needed, but values are overwritten
+            when the fieldnames are not separated
+        """
+        def check_regrid(cmd):
+            if 're(' not in cmd:
+                return None, None
+            rexp=cmd.split('re(')[1]
+            flag=0
+            recmd=''
+            for l in rexp:
+                if '(' in l: flag+=1;
+                elif ')' in l:
+                    if not flag: break
+                    flag-=1;
+                elif not flag: recmd+=l
+                 
+            regrid=recmd.split(',')[1:]
+            
+            if len(regrid)==1: dx=dy=float(regrid[0])
+            elif len(regrid)>1: dx=float(regrid[0]); dy = float(regrid[1])
+            else: dx=dy=None
+            return dx,dy            
 
         self.is_regional = True
         self.cmds  = self.get_layer_stack('cmds')
@@ -142,33 +296,52 @@ class Plot(object):
             commands = self.cmds
 
         for cmd in commands:
-
             self.ds.reset_region()
-
-            if self.lang.is_display(cmd):
-
+            #print(cmd) 
+            if cmd.startswith('set dfile'):
+                _,fileID = cmd.rsplit(' ',1)
+        
+            if any([cmd.startswith(f'set {c}') for c in ['lat','lon','mpvals']]):
+                self.geocmds.append(cmd)
+            if self.lang.is_display(cmd) or cmd.startswith('draw hilo'):
                 self.georeference()
                 self.ds.pad_region(pad=8)
-
+                
                 expr       = []
-                expression = ''.join(cmd.split(' ')[1:])
-
+                if cmd.startswith('draw hilo'):
+                    args=json.loads(cmd[10:])
+                    expression=args['expr']
+                else:
+                    expression = ''.join(cmd.split(' ')[1:])
+                if self.is_regional and self.mproj in ['nps','sps','orthogr']:
+                    #self.set_file_grid(fileID)
+                    pass
+                
                 for fld in expression.split(';'):
+                    f = self.ds.exp(fld,dx,dy) 
                     
-                    try:
-                        self.fields.append(self.ds.exp(fld))
-                    except:
-                        self.fields.append(fld)
-
+                    self.grids.append({'grid':f.grid,'data':f,'name':f.name})
+                    self.fields.append(f)
+                for gc in self.geocmds:
+                    self.ds(gc)
             elif self.lang.is_define(cmd):
+                dx,dy=check_regrid(cmd)
+                self.georeference()
 
+                if self.is_regional and self.mproj in ['nps','sps','orthogr']:
+                    #self.set_file_grid(fileID)
+                    pass
+                 
                 self.ds.pad_region(pad=8)
                 self.define_random(cmd)
+                
                 self.ds(cmd)
 
             elif self.lang.is_data_service(cmd):
 
                 self.ds(cmd)
+
+#------------------------------------------------------------------------------
 
     def define_random(self, cmd):
 
@@ -178,7 +351,7 @@ class Plot(object):
         var = cmd.split('=')[0].split()[1]
         expr = cmd.replace('RANDOM', '1')
         self.ds(expr)
-        print 'var = ', var
+        print('var = ', var)
         f = self.ds.exp(var)
 
         ydim, xdim = f.shape
@@ -190,8 +363,10 @@ class Plot(object):
 
         self.ds.imp("RANDOM", f)
 
-    def get_layer_stack(self, name, layer=None):
+#------------------------------------------------------------------------------
 
+    def get_layer_stack(self, name, layer=None):
+        """"""
         self.stack[name] = self.stack.get(name, {})
         stack = self.stack[name]
 
@@ -215,9 +390,11 @@ class Plot(object):
             content += stack[layer]
 
         return content
+
+#------------------------------------------------------------------------------
             
     def georeference(self):
-
+        """determines if plot is 2D geographic plot"""
         qh = self.ds.query("dims")
 
         if qh.nt  > 1: self.is_regional = False
@@ -225,21 +402,12 @@ class Plot(object):
         if qh.nx <= 1: self.is_regional = False
         if qh.ny <= 1: self.is_regional = False
 
-#       Check for fixed Lat or Lon dimension
-
-#       cmd = re.sub('`', '', cmd)
-#       if not self.lang.is_latlon(cmd): return
-
-#       values = cmd.split()[2:]
-#       if len(values) <= 1:
-#           self.is_regional = False
-#       elif float(values[0]) == float(values[1]):
-#           self.is_regional = False
-
         return
 
-    def rsubstitute(self, s, **defs):
+#------------------------------------------------------------------------------
 
+    def rsubstitute(self, s, **defs):
+        """substitutes string variables with dictionary values"""
         s_interp = Template(s).safe_substitute(defs)
 
         if s_interp != s:
@@ -247,8 +415,10 @@ class Plot(object):
 
         return s_interp
 
-    def substitute(self, **kwargs):
+#------------------------------------------------------------------------------
 
+    def substitute(self, **kwargs):
+        """replaces special strings in commands"""
         for key in kwargs:
 
             if key in self.special:
@@ -263,8 +433,10 @@ class Plot(object):
                     self.cmds[i] = self.cmds[i].replace(var,val)
                     self.cmds[i] = self.cmds[i].replace('&b',' ')
 
-    def filter(self, commands, request):
+#------------------------------------------------------------------------------
 
+    def filter(self, commands, request):
+        """removes commands of specified plot components"""
         plot_only = request.get('plot_only',False)
 #       no_title  = request.get('no_title',False) or plot_only
         no_label  = request.get('no_label',False) or plot_only
@@ -299,28 +471,38 @@ class Plot(object):
 
         return cmds
 
-    def query(self, expr):
+#------------------------------------------------------------------------------
 
+    def query(self, expr):
+        """"""
         expr = self.eval.evaluate(field.Field(expr))
         return (self.ds.handle(), expr)
 
-    def get_name(self):
+#------------------------------------------------------------------------------
 
+    def get_name(self):
+        """"""
         inum = "%03d" % (self.counter,)
         self.counter += 1
         return chr(ord('a') + self.panel) + inum
 
-    def demand(self, **kwargs):
+#------------------------------------------------------------------------------
 
+    def demand(self, **kwargs):
+        """"""
         self.request.update(kwargs)
 
-    def reset(self):
+#------------------------------------------------------------------------------
 
+    def reset(self):
+        """"""
         self.handle  = PlotHandle(**self.request)
         self.defs    = self.handle.__dict__
 
-    def refine_clevs(self, clevs, nsub, type):
+#------------------------------------------------------------------------------
 
+    def refine_clevs(self, clevs, nsub, type):
+        """"""
         clevs = [ float(clev) for clev in clevs.split() if clev != ' ' ]
 
         clevs_f = []
@@ -354,8 +536,10 @@ class Plot(object):
 
         return ' '.join(clevs_f)
 
-    def refine_rgb(self, rgba, nsub):
+#------------------------------------------------------------------------------
 
+    def refine_rgb(self, rgba, nsub):
+        """"""
         colors = []
         rgba_f = {}
 
@@ -391,8 +575,10 @@ class Plot(object):
 
         return rgba_f[nch]
 
-    def refine_rgb_color(self, colors, ncols, **kwargs):
+#------------------------------------------------------------------------------
 
+    def refine_rgb_color(self, colors, ncols, **kwargs):
+        """"""
         if isinstance(colors, list):
             colors = self.to_cmap(colors)
             return self.refine_rgb_dict(colors, ncols, **kwargs)
@@ -401,8 +587,10 @@ class Plot(object):
         else:
             return self.refine_rgb_name(colors, ncols)
 
-    def to_cmap(self, clist):
+#------------------------------------------------------------------------------
 
+    def to_cmap(self, clist):
+        """"""
         cmap   = {}
         colors = []
 
@@ -427,8 +615,10 @@ class Plot(object):
 
         return cmap
 
-    def refine_rgb_list(self, clist, ncols):
+#------------------------------------------------------------------------------
 
+    def refine_rgb_list(self, clist, ncols):
+        """"""
         colors = []
 
         for color in clist:
@@ -440,8 +630,10 @@ class Plot(object):
 
         return self.to_rgba(cmap, ncols)
 
-    def refine_rgb_dict(self, cdict, ncols, **kwargs):
+#------------------------------------------------------------------------------
 
+    def refine_rgb_dict(self, cdict, ncols, **kwargs):
+        """"""
         reverse = cdict.get('reverse', 0)
         reverse = kwargs.get('reverse', reverse)
         scale   = cdict.get('scale', None)
@@ -452,13 +644,17 @@ class Plot(object):
         cmap = SegmentedColormap('my_map', cmap, scale=scale, reverse=reverse)
         return self.to_rgba(cmap, ncols)
 
-    def refine_rgb_name(self, cname, ncols):
+#------------------------------------------------------------------------------
 
+    def refine_rgb_name(self, cname, ncols):
+        """"""
         cmap = plt.get_cmap(cname)
         return self.to_rgba(cmap, ncols)
 
-    def unpack_cmap(self, cdict, **kwargs):
+#------------------------------------------------------------------------------
 
+    def unpack_cmap(self, cdict, **kwargs):
+        """"""
         cmap = {}
 
         for channel in ['red', 'green', 'blue', 'alpha']:
@@ -476,12 +672,14 @@ class Plot(object):
                 cmap[channel] = out_list
 
         if 'cmap' in cdict:
-          cmap['cmap'] = plt.get_cmap(cdict['cmap'])
+            cmap['cmap'] = plt.get_cmap(cdict['cmap'])
 
         return cmap
 
-    def to_rgba(self, cmap, ncols):
+#------------------------------------------------------------------------------
 
+    def to_rgba(self, cmap, ncols):
+        """"""
         colors = []
         x = np.linspace(0.0, 1.0, ncols)
 
@@ -491,10 +689,12 @@ class Plot(object):
             rgba = ' '.join(rgba)
             colors.append(rgba)
 
-        return colors
+        return colors,cmap
+
+#------------------------------------------------------------------------------
 
     def set_rgb(self, rgba, nlevs, zorder=0):
-
+        """"""
         ccols = []
         for index, color in enumerate(rgba):
 
@@ -508,8 +708,10 @@ class Plot(object):
 
         self.cmd(('set ccols '+' '.join(ccols) + ' ' + cpad).strip(), zorder=zorder)
 
-    def set_clevs(self, clevs, cmin, cmax, cint):
+#------------------------------------------------------------------------------
 
+    def set_clevs(self, clevs, cmin, cmax, cint):
+        """"""
         if clevs: return clevs
         if cmin is None: return 
         if cmax is None: return
@@ -530,8 +732,10 @@ class Plot(object):
 
         return ' '.join(cout)
 
-    def set_shade(self, clevs, rgba, nsub=1, type='linear', zorder=0, **kwargs):
+#------------------------------------------------------------------------------
 
+    def set_shade(self, clevs, rgba, nsub=1, type='linear', zorder=0,return_cmap=False, **kwargs):
+        """"""
         if not clevs: return
 
         if kwargs.get('inverse', None):
@@ -546,13 +750,25 @@ class Plot(object):
 #       rgba_f  = self.refine_rgb(rgba, nsub)
         clevs_f = self.refine_clevs(clevs, nsub, type)
         nlevs   = len(clevs_f.split())
+        #while nlevs >= 100:
+        #    print(f'Number nsub: {nsub} \nNumber of cbar colors: {nlevs}')
+        #    nsub-=1
+        #    clevs_f = self.refine_clevs(clevs, nsub, type)
+        #    nlevs   = len(clevs_f.split())
+
+        #print(f'Number nsub: {nsub} \nNumber of cbar colors: {nlevs}')
         self.cmd('set clevs ' + clevs_f, zorder=zorder)
 
-        rgba_f  = self.refine_rgb_color(rgba, nlevs+1, **kwargs)
+        rgba_f,cmap  = self.refine_rgb_color(rgba, nlevs+1, **kwargs)
         self.set_rgb(rgba_f, nlevs, zorder=zorder)
+        self.cmap=cmap
+        if return_cmap:
+            return cmap
+
+#------------------------------------------------------------------------------
 
     def plot_shapes(self):
-
+        """"""
         tk    = self.config.get('toolkit', toolkit.Toolkit())
         fpath = [self.theme,'plot',self.request['field'],'shape']
         shape =  self.config(fpath, 'on')
@@ -605,10 +821,12 @@ class Plot(object):
         attr['time_dt'] = self.request['time_dt']
         attr.update(self.config(['shape','track'],{}))
         attr.update(self.config(rpath, {}))
-        tk.track(self, track_files, **attr)
+        tk.track(self, track_files_for_year, **attr)
+
+#------------------------------------------------------------------------------
 
     def plot_logos(self):
-
+        """"""
         handle  = self.handle
         request = self.request
         theme   = self.theme
@@ -631,8 +849,8 @@ class Plot(object):
         logos   = self.config(['stream', stream, 'logos'], logos)
         logos   = self.config(path + ['logos'], logos)
         default = self.config(['logo', 'default'], {})
-        default = { k:v for k,v in default.iteritems()
-                           if isinstance(v, basestring) }
+        default = { k:v for k,v in six.iteritems(default)
+                           if isinstance(v, six.string_types) }
 
         for l in logos:
 
@@ -670,8 +888,10 @@ class Plot(object):
               """, **logo
             )
 
-    def plot_labels(self):
+#------------------------------------------------------------------------------
 
+    def plot_labels(self):
+        """"""
         handle   = self.handle
         request  = self.request
         region   = self.request['region']
@@ -736,8 +956,10 @@ class Plot(object):
         handle.ylab = self.config(path+['ylab'],   '--auto')
         self.cmd('draw ylab $ylab', zorder=-1)
 
-    def plot_map(self):
+#------------------------------------------------------------------------------
 
+    def plot_map(self):
+        """"""
         maps     = self.get_map(self.request)
 #       basemaps = self.get_map(self.request, layers=['basemap'])
         masks    = maps[0].get('masks', [])
@@ -766,6 +988,8 @@ class Plot(object):
 #             run polargrid.gs $mpvals
 #             """
 #           )
+
+#------------------------------------------------------------------------------
 
     def get_map(self, request, map=None, layers=None):
 
@@ -814,11 +1038,11 @@ class Plot(object):
             path = ['region',region]
             map.update(copy.deepcopy(self.config(path)))
             addlayers += self.config(path+['addlayers'],[])
-
             mproj = map.get('mproj', 'latlon')
             if fullframe and mproj == 'latlon':
                 mproj = 'scaled'
 
+            self.mproj   = mproj
             map['mproj'] = mproj
             map['mpvals'] = map.get('mpvals',None)
             map['frame']  = map.get('frame', 'on')
@@ -835,11 +1059,13 @@ class Plot(object):
         if layers is None: layers = map.get('layers', [])
 
         for name in layers:
-            layer = { k:v for k,v in map.iteritems() if k != 'layers' }
+            layer = { k:v for k,v in six.iteritems(map) if k != 'layers' }
             layer.update(self.config(['map',name]))
             maps += self.get_map(request, layer)
 
         return maps
+
+#------------------------------------------------------------------------------
 
     def set_map(self, maps):
 
@@ -855,6 +1081,8 @@ class Plot(object):
           set ylint $ylint
           """, **maps[0]
         )
+
+#------------------------------------------------------------------------------
 
     def set_map_types(self, maps):
 
@@ -873,8 +1101,10 @@ class Plot(object):
                 self.cmd('set rgb $* $line_color', **map)
                 self.cmd('set mpt $mtype $* $line_style $line_width',**map)
 
-    def plot_map_shapes(self, maps):
+#------------------------------------------------------------------------------
 
+    def plot_map_shapes(self, maps):
+        """"""
         if not maps:
             return
 
@@ -907,6 +1137,8 @@ class Plot(object):
                       draw shp $shape_file
                       """, layer=1, **map)
 
+#------------------------------------------------------------------------------
+
     def plot_map_lines(self, maps):
 
         if not maps:
@@ -924,8 +1156,10 @@ class Plot(object):
             args = json.dumps(map)
             self.cmd('>draw gridlines ' + args, **map)
 
-    def plot_map_data(self, maps, zorder=None):
+#------------------------------------------------------------------------------
 
+    def plot_map_data(self, maps, zorder=None):
+        """"""
         if not maps: return
 
         handle  = self.handle
@@ -975,19 +1209,23 @@ class Plot(object):
             """, **map
             )
 
+#------------------------------------------------------------------------------
+
     def plot_map_base(self, maps, zorder=None):
-
+        """"""
         if not maps: return
-
+        self.map=maps[0]
+        #self.lang.add_state(maps[0])
         for map in maps:
-
             if 'service' not in map: continue
 
             args = json.dumps(map)
             self.cmd('>draw basemap ' + args)
+
+#------------------------------------------------------------------------------
               
     def get_layer(self, name):
-
+        """"""
         if self.request.get(name, 'on') == 'off': return {}
 
         region  = self.request['region']
@@ -1024,15 +1262,17 @@ class Plot(object):
 
         while 'cdict' in layer:
             value = self.get_attr(layer, 'cdict')
-            layer = {k:v for k,v in layer.iteritems() if k != 'cdict'}
+            layer = {k:v for k,v in six.iteritems(layer) if k != 'cdict'}
             if isinstance(value,dict): layer.update(value)
 
         if layer.get(name, 'on') == 'off': return {}
 
         return layer
 
-    def get_attr(self, layer, name, default=novalue):
+#------------------------------------------------------------------------------
 
+    def get_attr(self, layer, name, default=novalue):
+        """"""
         stream = self.request['stream']
         region = self.request['region']
         level  = self.request['level']
@@ -1081,8 +1321,10 @@ class Plot(object):
 
         return self.config(apath + [value, 'default'])
 
-    def get_attr_special(self, attributes, default=None):
+#------------------------------------------------------------------------------
 
+    def get_attr_special(self, attributes, default=None):
+        """"""
         time_dt = self.request['time_dt']
 
         for key in attributes:
@@ -1100,8 +1342,10 @@ class Plot(object):
 
         return default
 
-    def get_attr_dict(self, dlist):
+#------------------------------------------------------------------------------
 
+    def get_attr_dict(self, dlist):
+        """"""
         time_dt = self.request['time_dt']
 
         attributes = {}
@@ -1110,7 +1354,7 @@ class Plot(object):
 
             match = True
 
-            for key,value in d.iteritems():
+            for key,value in six.iteritems(d):
 
                 if key[0] == '%':
 
@@ -1138,8 +1382,10 @@ class Plot(object):
 
         return attributes
 
-    def get_vars(self, layer):
+#------------------------------------------------------------------------------
 
+    def get_vars(self, layer):
+        """"""
         define    = self.get_attr(layer, 'define', '')
         var_names = [ v for v in define.split() if v != ' ' ]
 
@@ -1149,8 +1395,10 @@ class Plot(object):
 
         return vars
 
-    def get_files(self, listing ,paths=None):
+#------------------------------------------------------------------------------
 
+    def get_files(self, listing ,paths=None):
+        """"""
         files = []
 
         for name in listing:
@@ -1173,8 +1421,10 @@ class Plot(object):
 
         return files
 
-    def get_skip(self, expr):
+#------------------------------------------------------------------------------
 
+    def get_skip(self, expr):
+        """"""
         if self.passive: return (1, 1)
 
         region = self.request['region']
@@ -1215,10 +1465,13 @@ class Plot(object):
 
         return (i_skip, j_skip)
 
-    def __iter__(self):
+#------------------------------------------------------------------------------
 
+    def __iter__(self):
+        """"""
         index   = 0
         data    = []
+        grid    = []
         cmds    = []
         default = copy.deepcopy(self.lang.default)
 
@@ -1230,20 +1483,26 @@ class Plot(object):
             cmds.append(cmd)
             self.lang.eval(cmd)
 
-            if self.lang.is_display(cmd):
+            if self.lang.is_display(cmd) or cmd.startswith('draw hilo'):
                 n    = len(cmd.split(';'))
                 data = self.fields[index:index+n]
+                grid =  self.grids[index:index+n]
                 index += n
 
             if self.lang.is_annotate(cmd):
                 data = self.lang.value
 
             if self.lang.is_action(cmd):
+                self.lang.add_state(self.map)
                 state   = self.lang.state
                 macro   = self.lang.macro
-                yield PlotObject(state, macro, data, cmds, default)
+                if macro=='DRAW_CBAR': cmap = self.cmap
+                else: cmap=None
+                yield PlotObject(state, macro, data, cmds, default, cmap, grid)
 
                 cmds = []
+
+#------------------------------------------------------------------------------
 
 class PlotHandle(object):
 
@@ -1252,12 +1511,18 @@ class PlotHandle(object):
         self.__dict__.update(kwargs)
         self.__dict__['_STACK_'] = ''
 
+#------------------------------------------------------------------------------
+
 class PlotObject(object):
 
-    def __init__(self, state, macro, data=None, cmds=None, default=None):
+    def __init__(self, state, macro, data=None, cmds=None, default=None, cmap=None, grid=None):
 
         self.state   = state
         self.macro   = macro
         self.data    = data
         self.cmds    = cmds
         self.default = default
+        self.cmap    = cmap
+        self.grid    = grid
+
+#------------------------------------------------------------------------------
