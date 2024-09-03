@@ -28,6 +28,8 @@ class TaskManager(object):
         self.task = {}
         self.command = {}
 
+#------------------------------------------------------------------------------
+
     def spawn(self, command):
         """Executes the specified command as a new task.
 
@@ -58,6 +60,8 @@ class TaskManager(object):
         process = str(p.pid)
         self.task[process] = p
         self.command[process] = command
+
+#------------------------------------------------------------------------------
 
     def load(self):
         """Determines the number of tasks (load) currently executing.
@@ -93,6 +97,8 @@ class TaskManager(object):
             ntask -= 1
 
         return ntask
+
+#------------------------------------------------------------------------------
 
     def wait(self):
         """Waits for all tasks to complete.

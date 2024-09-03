@@ -35,6 +35,9 @@ __version__ = '1.2.1'
 
 import sys
 import os
+import subprocess
+import re 
+import io
 
 from time     import sleep
 from datetime import datetime
@@ -44,11 +47,17 @@ from types    import *
 from math     import floor, ceil
 from time     import time
 from array    import array as array
-from gahandle import *
+try:
+    from mygrads.gahandle import *
+except Exception:
+    from gahandle import *
 
+py_version=sys.version_info.major
+if py_version==2: StringTypes=(str,unicode)
+else: StringTypes=(str,bytes)
 # If possible, uses the subprocess module (Python 2.4 & new)
 try:
-    from subprocess import Popen, PIPE
+    from subprocess import Popen, PIPE,STDOUT
     if os.name == 'nt':
         Kwds = dict( shell=True, bufsize=0,
                      stdin=PIPE, stdout=PIPE )
@@ -68,6 +77,10 @@ except:
     else:
         Kwds = dict( bufsize=0 )
 
+if sys.version_info.major==3:
+    #Kwds.update({'encoding':'ISO-8859-1'})
+    Kwds={'bufsize':0,'stdin':PIPE,'stdout':PIPE,
+            'stderr':STDOUT,'universal_newlines':False}
 try:
     import jarray
     from java import util as jutil
@@ -143,27 +156,41 @@ class GaCore(GrADSObject):
 
 #       Build GrADS command line
 #       ------------------------
-        cmdline = Bin + ' -u'
-        if Window != True: cmdline = cmdline + ' -b'
-        if Port   == True: cmdline = cmdline + ' -p'
-        else:              cmdline = cmdline + ' -l'
-        cmdline = cmdline + ' ' + Opts
-
+        cmdline = Bin
+        flags = ' -u'
+        if Window != True: 
+            flags += ' -b'
+        if Port   == True: 
+            flags += ' -p'
+        else:
+            flags += ' -l'
+        
+        cmdline = cmdline +flags+ ' ' + Opts
+        
+        py3cmd = cmdline.encode('utf-8')
+        
 #       Spawn GrADS process with bi-directional pipes
 #       ---------------------------------------------
         try:
             # http://bit.ly/qvkUQK
-            self.p = Popen(cmdline, **Kwds )                  # could be popen2() or Popen)
-
-            if type(self.p) is TupleType:
+            if py_version==2:
+                self.p = Popen(cmdline, **Kwds )                  # could be popen2() or Popen)
+            else:
+                self.p = Popen(py3cmd, shell=True,bufsize=0, stdin=PIPE, 
+                                stdout=PIPE, 
+                                universal_newlines=False)
+            if isinstance(self.p, (tuple, list)):
                 Reader, Writer = self.p                       # older popen2() 
             else:
                 Reader, Writer = self.p.stdout, self.p.stdin  # newer Popen
 
-        except Exception, e:
+        except Exception as e:
             raise e
-            raise GrADSError, "Could not start the GrADS process with <"\
-                           + cmdline + ">"
+            raise GrADSError("Could not start the GrADS process with <"+ cmdline + ">")
+
+#       Define regex matching ANSI formatting
+#       ------------
+        self.ansi = re.compile(r'\x1b[^m]*m')
 
 #       Record state
 #       ------------
@@ -176,7 +203,7 @@ class GaCore(GrADSObject):
 
 #       Parse out inital splash screen
 #       -------------------------------
-        rc = self._parseReader()
+        rc,_ = self._parseReader()
 
 #       Record GrADS version
 #       --------------------
@@ -191,11 +218,11 @@ class GaCore(GrADSObject):
         self.HAS_UDXT = False
         self.HAS_UDCT = False # old v1.9.0-rc1 style (deprecated)
         self.cmd('q udxt',Quiet=True)
-        if self.rword(1,1) is not 'Invalid':
+        if self.rword(1,1)!='Invalid':
             self.HAS_UDXT = True
         else:
             self.cmd('q udct',Quiet=True) # as in v1.9.0-rc1
-            if self.rword(1,1) is not 'Invalid':
+            if self.rword(1,1)!='Invalid':
                 self.HAS_UDXT = True
                 self.HAS_UDCT = True
 
@@ -210,7 +237,7 @@ class GaCore(GrADSObject):
 
 #       OK, ready to go
 #       ---------------
-        if Verb: print "Started <"+cmdline+">, rc = ",rc
+        if Verb: print("Started <"+cmdline+">, rc = ",rc)
 
 
 #........................................................................
@@ -218,18 +245,53 @@ class GaCore(GrADSObject):
     def __del__ ( self ):
         """ Sends GrADS the 'quit' command and close the pipes."""
 
-        if self.Verb > 0: print "Stopping the GrADS process..."
-
+        if self.Verb > 0: print( "Stopping the GrADS process...")
         try:
-#           self.cmd('quit')
+            #print('=======> GrADS deconstructor started')
+            self.p.communicate()
+        except Exception as ec:
+            pass
+            #print('cannot communicate')
+            #print(ec)
+        try:
+            self.flush()
+        except Exception as ef:
+            pass
+            #print('cannot flush')
+            #print(ef)
+        try:
+            self.cmd('quit')
+            self.p.communicate()
+        except Exception as eq:
+            pass
+            #print('cannot cmd quit')
+            #print(eq)
+        try:
             self.Reader.close()
+        except Exception as er: pass
+            #print('cannot close reader')
+            #print(er)
+        try:
             self.Writer.close()
+        except Exception as ew: pass
+            #print('cannot close writer')
+            #print(ew)
+        try:
+            self.p.terminate()
         except:
             pass
+        try:
+            del self.p
+            del self
+        except Exception as es:
+            pass
+            #print('cannot del self')
+            #print(es)
+
 
 #........................................................................
 
-    def cmd ( self, gacmd, Quiet=False, Block=True, **kwopt ):
+    def cmd ( self, gacmd, Quiet=False, Block=True,encoding='utf-8',sendOutput=False, **kwopt ):
         """
         Sends a command to GrADS. When Block=True, the output is captured 
         and can be retrieved by methods rline() and rword(). On input,
@@ -265,24 +327,32 @@ class GaCore(GrADSObject):
             Cmds = gacmd.split('\n')
             
         Verb = self.Verb
+        
         for cmd_ in Cmds:
             cmd = cmd_ + '\n'
-            self.Writer.write(cmd)
+            self.pywriter(cmd)
+            
             self.Writer.flush()
             if Block:
-                rc = self._parseReader(Quiet)
+                rc,Lines = self._parseReader(Quiet=Quiet,cmd=cmd_)
                 if rc != 0: 
-                    if Verb==1:   print "rc = ", rc, ' for ' + cmd_
-                    raise GrADSError, 'GrADS returned rc=%d for <%s>'%(rc,cmd_)
+                    if Verb==1:   print("rc = ", rc, ' for ' + cmd_)
+                    raise GrADSError('GrADS returned rc=%d for <%s>'%(rc,cmd_))
                 else:
-                    if Verb>1:    print "rc = ", rc, ' for ' + cmd_
-        return
+                    if Verb>1:    print("rc = ", rc, ' for ' + cmd_)
+            else:
+                Lines=[]
+                rc = 0
+        if sendOutput:
+            return Lines,rc
+        else:
+            return
         
     __call__ = cmd
 
 #........................................................................
 
-    def flush ( self ):
+    def flush ( self,encoding='utf-8' ):
         """ Flushes the GrADS pipes. This is primarily an internal 
         method that sometimes can be useful to the end-user. If for
         some reason the echo you see on the screen seems out of sync
@@ -294,7 +364,7 @@ class GaCore(GrADSObject):
 #       Issue a unique GrADS command
 #       ----------------------------
         cmd = 'query config <TIME> %s </TIME>'%time()
-        self.Writer.write(cmd+'\n')
+        self.pywriter(cmd+'\n')
         self.Writer.flush()
 
 #       Position stream pointer after <IPC> marker
@@ -303,9 +373,9 @@ class GaCore(GrADSObject):
         n = len(s)
         got = ''
         while got[:n] != s:
-            got = self.Reader.readline()
+            got = self.pyreader(encoding=encoding)
             if got == '':
-                raise GrADSError, "GrADS terminated while waiting for response"
+                raise GrADSError("GrADS terminated while waiting for response")
 
 
 #       OK, just issue another regular command and let the
@@ -330,8 +400,8 @@ class GaCore(GrADSObject):
 
 #       Determine the file opener
 #       -------------------------
-        FNAME = upper(fname) 
-        FTYPE = upper(ftype) 
+        FNAME = fname.upper() 
+        FTYPE = ftype.upper() 
         if FTYPE == 'DEFAULT':
             if    FNAME[:7]  == 'HTTP://' or\
                   FNAME[-4:] == '.HDF'    or\
@@ -350,7 +420,16 @@ class GaCore(GrADSObject):
         try:
             self.cmd ( gacmd, Quiet=Quiet )
         except GrADSError:
-            raise GrADSError, 'GrADS cannot open file <'+fname+'>'
+            print('error with ' + gacmd)
+            self.p.communicate()
+            del self.p
+            if sys.exc_info():
+                if len(sys.exc_info()) > 1:
+                    raise GrADSError('GrADS cannot open file <'+fname+'>', sys.exc_info()[-1])
+                else:
+                    raise GrADSError('GrADS cannot open file <'+fname+'>', sys.exc_info())
+            else:
+                raise GrADSError('GrADS cannot open file <'+fname+'>')
 
 #       Next, fill in the file handle
 #       -----------------------------
@@ -523,14 +602,15 @@ class GaCore(GrADSObject):
 #       Query GrADS
 #       -----------
         try:
+            self.flush()
             self.cmd('query '+what,Quiet)
             qh.rc = self.rc
         except GrADSError: 
-            raise GrADSError, 'Cannot query GrADS about <'+what+'>'
+            raise GrADSError('Cannot query GrADS about <'+what+'>')
 
 #       Parse output
 #       ------------
-        tokens = split(what)
+        tokens = what.split()
         what = tokens[0]
 
 #       query dims
@@ -575,7 +655,7 @@ class GaCore(GrADSObject):
 
 #           Ensemble dimension only supported in GrADS v2.0
 #           -----------------------------------------------
-            if self.Version[1] is '2':
+            if self.Version[1]=='2':
                 qh.e_state = self.rword(6,3)
                 if qh.e_state == 'fixed':
                     qh.ens = (self.rword(6,6), self.rword(6,6))
@@ -616,9 +696,10 @@ class GaCore(GrADSObject):
 #       ----------------
         elif what == 'file':
 
-            tokens = split(self.rline(1))
-            qh.title = join(tokens[3:])
-
+            tokens = self.rline(1).split()
+            qh.title = ''.join(tokens[3:])
+            #print(tokens)
+            
             qh.fid   = int(self.rword(1,2))
             qh.desc  = self.rword(2,2)
             qh.bin   = self.rword(3,2)
@@ -628,7 +709,7 @@ class GaCore(GrADSObject):
             qh.nz    = int(self.rword(5,9))
             qh.nt    = int(self.rword(5,12))
 
-            if self.Version[1] is '2':
+            if self.Version[1]=='2':
                 qh.ne = int(self.rword(5,15))
             else:
                 qh.ne = 1
@@ -663,7 +744,7 @@ class GaCore(GrADSObject):
             qh.var_levs   = list(var_levs)    # deprecated
             qh.var_titles = list(var_titles)  # deprecated
 
-            qh.var_info   = zip(vars, var_levs, var_dims, var_titles)
+            qh.var_info   = list(zip(vars, var_levs, var_dims, var_titles))
 
             qh.Vars = {}
             for v,levs,dims,title in qh.var_info:
@@ -716,7 +797,7 @@ class GaCore(GrADSObject):
                 if self.rword(i,1) == "edef":  i_edef = i
 
             qh.dset = self.rword(i_dset,2)
-            qh.title = join(self.Words[i_title][1:])
+            qh.title = ''.join(self.Words[i_title][1:])
             qh.undef = float(self.rword(i_undef,2))
             try:
                 qh.dtype = self.rword(i_dtype,2)
@@ -785,7 +866,7 @@ class GaCore(GrADSObject):
 #       -------------------
         else:
             qh.rc = -1
-            print "query('%s') method not fully implemented yet"%what
+            print("query('%s') method not fully implemented yet"%what)
 
         return qh
 
@@ -848,12 +929,12 @@ class GaCore(GrADSObject):
         self.cmd("set x 1",Quiet=True)
         self.cmd("set y 1",Quiet=True)
         self.cmd("set z 1",Quiet=True)
-        if self.Version[1] is '2':
+        if self.Version[1]=='2':
             self.cmd("set e 1",Quiet=True)
 
 #       ensemble coordinates
 #       --------------------
-        if self.Version[1] is '2':
+        if self.Version[1]=='2':
             ch.ens = []
             for n in range(dh.ne):
                 e = dh.ei[0] + n
@@ -892,7 +973,7 @@ class GaCore(GrADSObject):
 
 #       Retore dimension environment
 #       ----------------------------
-        if self.Version[1] is '2':
+        if self.Version[1]=='2':
             self.cmd("set e %d %d"%dh.ei,Quiet=True)
         self.cmd("set t %d %d"%dh.ti,Quiet=True)
         self.cmd("set z %d %d"%dh.zi,Quiet=True)
@@ -937,7 +1018,7 @@ class GaCore(GrADSObject):
         try:
             return self.Lines[i]
         except IndexError:
-            if self.Strict: raise IndexError, "Invalid line number%d"%i
+            if self.Strict: raise IndexError( "Invalid line number%d"%i)
             else:           return '' # no fuss, no muss
 
     def rword ( self, i, j ):
@@ -946,13 +1027,13 @@ class GaCore(GrADSObject):
         try:
             return self.Words[i][j-1]
         except IndexError:
-            if self.Strict: raise IndexError, \
-                                  "Invalid word indices (%d,%d)"%(i,j)
+            if self.Strict: raise IndexError(
+                                  "Invalid word indices (%d,%d)"%(i,j))
             else:           return '' # no fuss, no muss
 
 #.....................................................................
 
-    def eval ( self, expr ):
+    def eval ( self, expr,encoding='latin-1' ):
         """
         Exports GrADS expression *expr*, returning a flat Python array.
 
@@ -975,13 +1056,14 @@ class GaCore(GrADSObject):
 #       For convenience, allows calls where expr is not a string, in which
 #        case it returns back the input field or raise an exception
 #       -------------------------------------------------------------------
-        if type(expr) in StringTypes:
+        if isinstance(expr,StringTypes):#type(expr) in StringTypes:
             pass # OK, will proceed to export it from GrADS
         elif isinstance(expr,array):
             return expr # just return input
         else:
-            raise GrADSError, "input <expr> has invalid type"
+            raise GrADSError("input <expr> has invalid type")
 
+        self.flush()
 #       Retrieve dimension environment
 #       ------------------------------
         dh = self.query("dims", Quiet=True) 
@@ -1004,21 +1086,22 @@ class GaCore(GrADSObject):
             elif nz>1: self.cmd('set loopdim z', Quiet=True)
             self.cmd('display %s'%expr, Block=False) # non-blocking
         else:
-            raise GrADSError, 'can only handle 3 varying dimensions'
+            raise GrADSError('can only handle 3 varying dimensions')
 
 #       Position stream pointer after <FWRITE> marker
 #       ---------------------------------------------
         got = ''
         while got[:8] != '<FWRITE>' :
-            got = self.Reader.readline()
+            got = self.pyreader(encoding=encoding)
             if got[:13] == 'Syntax Error:':
                 self.flush()
-                raise GrADSError, "Syntax Error - cannot evaluate <%s>"%expr
+                raise GrADSError("Syntax Error - cannot evaluate <%s>"%expr)
             elif got == '':
-                raise GrADSError, "GrADS terminated while waiting for response"
+                raise GrADSError( "GrADS terminated while waiting for response")
 
 #       Attempt to read from pipe
 #       -------------------------
+        
         a = array('f')
         try:
             n = ne*nt*nz*ny*nx
@@ -1035,11 +1118,12 @@ class GaCore(GrADSObject):
 #       Something went wrong
 #       --------------------
         if rc or len(a) < n:
-            raise GrADSError, 'problems evaluating <'+expr+'>'
+            raise GrADSError('problems evaluating <'+expr+'>')
 
 #       All is well
 #       -----------
         else:
+            self.flush()
             if os.name == 'java':
                 if self.byteorder == 'little-endian':
                     a.byteswap() # JVM is always big-endian
@@ -1064,16 +1148,16 @@ class GaCore(GrADSObject):
             self.cmd("set y %d %d"%dh.y,Quiet=True)
             self.cmd("set z %d %d"%dh.z,Quiet=True)
             self.cmd("set t %d %d"%dh.t,Quiet=True)
-            if self.Version[1] is '2':
+            if self.Version[1]=='2':
                 self.cmd("set e %d %d"%dh.e,Quiet=True)
         except GrADSError:
-            raise GrADSError, 'Cannot restore dimension environment'
+            raise GrADSError('Cannot restore dimension environment')
 
 #........................................................................
 
 #   This should be private
 #   ----------------------
-    def _parseReader ( self, Quiet=False ):
+    def _parseReader ( self, Quiet=False, marker='IPC',encoding='utf-8',cmd=''):
         """
         Internal method to parse the GrADS output. Not user callable.
         """
@@ -1082,15 +1166,22 @@ class GaCore(GrADSObject):
         else:      Echo = self.Echo
         Lines = []
         Words = []
+
+        markstart = '<'+marker+'>'
+        markend = '</'+marker+'>'
+        lines = []
+        got = ''
+        rc = -1
         
 #       Discard debris
 #       --------------
-        got = ''
-        while got[:5] != '<IPC>' :
-            got = self.Reader.readline()
+        
+        while got[:5] != markstart :
+            got = self.pyreader(encoding=encoding)
+            #print(got)   
             if got == '':
-                raise GrADSError, "GrADS terminated while waiting for response"
-            tokens = split(got)
+                raise GrADSError("GrADS terminated while waiting for response")
+            tokens = got.split()
 
 #       Record GrADS command
 #       --------------------
@@ -1101,18 +1192,19 @@ class GaCore(GrADSObject):
 #       Next, record the GrADS output
 #       -----------------------------
         rc = -99
-        got = self.Reader.readline()
-        while got[:6] != '</IPC>':
-            tokens = split(got)
+        got = self.pyreader(encoding=encoding)
+        while got[:6] != markend:
+            tokens = got.split()
             if got[:4] == '<RC>':
                 rc = tokens[1]
             else:
                 Lines.append(got[:-1])
                 Words.append(tokens)
-                if Echo: print got[:-1]
-            got = self.Reader.readline()
+                if Echo: pass
+                #if Echo: print(got[:-1])
+            got = self.pyreader(encoding=encoding)
             if got == '':
-                raise GrADSError, "GrADS terminated while waiting for response"
+                raise GrADSError("GrADS terminated while waiting for response to :"+cmd)
 
 #       Save it for later
 #       -----------------
@@ -1121,7 +1213,40 @@ class GaCore(GrADSObject):
         self.Words = Words
         self.rc    = int(rc)
 
-        return self.rc
+        return self.rc,Lines
+
+    def filter_output(self, output):
+        """ from py3grads
+        Perform filtering on GrADS output, such as removing ANSI formatting.
+        """
+        # Filter out ANSI formatting in OpenGrADS
+        output = self.ansi.sub('', output)
+        return output
+
+    def pyreader(self, encoding='utf-8'):
+        """
+        Reads in the GrADS output, decodes output if using python3 
+        """
+        if py_version==2:
+            got = self.Reader.readline()
+        else: 
+            #got=self.filter_output(self.Reader.readline().decode(encoding))
+            try:
+                got = self.filter_output(self.p.stdout.readline().decode(encoding))
+            except UnicodeDecodeError:
+                got = self.filter_output(self.p.stdout.readline().decode('latin-1'))
+        #print(got)        
+        return got
+
+    def pywriter(self,cmd,encoding='utf-8'):
+        """
+        Writes out GrADS commands, encodes command if using python3
+        """
+        #print(cmd)
+        if py_version==2:
+            self.Writer.write(cmd)
+        else: 
+            self.p.stdin.write(cmd.encode('utf-8'))
 
 #........................................................................
 
@@ -1147,14 +1272,14 @@ def _toHashMap(qh):
     Convert attributes to a Java HashMap.
     """
     if os.name != 'java':
-        raise GrADSError, 'conversion to HashMap requires Java'
+        raise GrADSError('conversion to HashMap requires Java')
     jh = jutil.HashMap();
     for key in qh.__dict__.keys():
         jkey = key
         value = qh.__dict__[key];
         if len(key) == 1:
             jkey = key+key  # Matlab cannot handle single char
-        if ( type(value) == TupleType or type(value) == ListType ):
+        if isinstance(value, (tuple, list)):
             vtype = type(value[0])
             if vtype == FloatType:
                 value = jarray.array(value,'d')

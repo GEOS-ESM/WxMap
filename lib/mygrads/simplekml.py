@@ -30,7 +30,7 @@ from Google Maps with driving directions.
 __version__ = '1.0.0'
 
 import re
-import xml.sax.handler
+#import xml.sax.handler
 
 from numpy    import array, ones, zeros, concatenate, pi, sin, cos, arccos, cumsum
 from datetime import datetime, timedelta
@@ -116,7 +116,7 @@ class SimpleKML(object):
             coords = ones((1,3))
             coords[0,:] = array(self.Document.Placemark[n].Point.coordinates.split(',')).astype('float')
         else:
-            raise ValueError, 'Placemak does not have Point nor LineString'
+            raise ValueError('Placemak does not have Point nor LineString')
         
         return (coords[:,0], coords[:,1])
 
@@ -167,7 +167,7 @@ def _xml2obj(src):
             else:
                 return [self][key]
         def __contains__(self, name):
-            return self._attrs.has_key(name)
+            return name in self._attrs
         def __nonzero__(self):
             return bool(self._attrs or self.data)
         def __getattr__(self, name):
@@ -193,7 +193,7 @@ def _xml2obj(src):
                 items.append(('data', self.data))
             return u'{%s}' % ', '.join([u'%s:%s' % (k,repr(v)) for k,v in items])
 
-    class TreeBuilder(xml.sax.handler.ContentHandler):
+    class TreeBuilder(): #xml.sax.handler.ContentHandler):
         def __init__(self):
             self.stack = []
             self.root = DataNode()
@@ -233,7 +233,7 @@ if __name__ == "__main__":
 
     kml = SimpleKML("Directions_to_Acadia.kml")
 
-    print "KML Document Name: ", kml.Document.name
+    print("KML Document Name: ", kml.Document.name)
     
     lon, lat, dst, time = kml.getCoords()
     

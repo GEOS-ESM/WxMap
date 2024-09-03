@@ -33,7 +33,10 @@ configurability that MayaVi has to offer.
 __version__ = '1.0.0'
 
 from numpy       import mgrid
-from galab       import *
+try:
+    from mygrads.galab       import *
+except Exception:
+    from galab import *
 from mayavi.mlab import *
 
 class GaYa(GaLab):
@@ -96,8 +99,8 @@ class GaYa(GaLab):
         if dh==None:
             dh = self.query("dims", Quiet=True)
  #       if dh.nz>1 or dh.nt>1:
- #           raise GrADSError, 'Not a horizontal slice; ' + \
- #                 'expected (nz,nt)=(1,1) but got (%d,%d)'%(dh.nz,dh.nt)
+ #           raise GrADSError('Not a horizontal slice; ' + \
+ #                 'expected (nz,nt)=(1,1) but got (%d,%d)'%(dh.nz,dh.nt))
 
         # Evaluate GrADS expression
         # -------------------------
@@ -141,8 +144,8 @@ class GaYa(GaLab):
         if dh==None:
             dh = self.query("dims", Quiet=True)
         if dh.nz<2 or dh.nt>1:
-            raise GrADSError, 'Not a (X,Y,Z) field; ' + \
-                  'expected (nz,nt)=(>1,1) but got (%d,%d)'%(dh.nz,dh.nt)
+            raise GrADSError('Not a (X,Y,Z) field; ' + \
+                  'expected (nz,nt)=(>1,1) but got (%d,%d)'%(dh.nz,dh.nt))
 
         # Evaluate GrADS expression
         # -------------------------

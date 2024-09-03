@@ -123,7 +123,10 @@ except:
         HAS_GANUM  = True
         HAS_GACORE = True
     except:
-        import gacore
+        try:
+            from mygrads import gacore
+        except Exception:
+            import gacore
         GrADS  = gacore.GaCore
         GaCore = gacore.GaCore
         HAS_GACORE = True
@@ -133,6 +136,9 @@ try:
 except:
     HAS_GACM = False
 
-from gacore   import GrADSError
+try:
+    from mygrads.gacore   import GrADSError
+except Exception:
+    from gacore   import GrADSError
 if ( HAS_GANUM ) :
     from numtypes import GaGrid, GaField

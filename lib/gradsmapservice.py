@@ -5,17 +5,56 @@ import math
 import re
 import os
 import io
+import six
 
 from string import *
 
+from flask import current_app
+
+import numpy as np
 import numpy.ma as ma
-from mpl_toolkits.basemap import Basemap
+
+if sys.version_info.major==2: from mpl_toolkits.basemap import Basemap
+else: 
+    try:
+        from mpl_toolkits.basemap import Basemap
+        NoBM=0
+    except Exception:
+        NoBM=1
+    #NoBM = 1
+    import cartopy
+    import cartopy.crs as ccrs
+    import cartopy.feature as cfeature
+
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+from matplotlib.colors import LinearSegmentedColormap, ListedColormap
+from matplotlib import cm
+import matplotlib.colors as mc
+from matplotlib import font_manager
+from matplotlib.offsetbox import AnchoredText
+from matplotlib.patches import Rectangle
+
+import PIL
 from PIL import Image, ImageChops, ImageEnhance, ImageDraw, ImageFont
 from PIL.ImageColor import getcolor, getrgb
 from PIL.ImageOps import grayscale
+#from scipy.ndimage import maximum_filter, minimum_filter
 
 from mapservice import *
+
+#os.environ["CARTOPY_USER_BACKGROUNDS"] = '/explore/dataportal/applications/devel/gmao_data_services/config/wxmaps/share/files'
+os.environ["CARTOPY_USER_BACKGROUNDS"] = '/explore/dataportal/applications/GMAO/fluiddev/fluid_dev/data_services/static/img'
+PIL.Image.MAX_IMAGE_PIXELS = 933120000
+os.environ["PYPROJ_GLOBAL_CONTEXT"]='ON'
+novalue = object()
+import pyproj
+pyproj.set_use_global_context(active=True)
+
+__all__=['Service','Axes','Colorbar','HorizontalColorbar','VerticalColorbar',
+        'DictContainer','HersheyDraw']
 
 novalue = object()
 
@@ -50,7 +89,6 @@ class Service(MapService):
                         'DRAW_ARROW'      : self.draw_arrow,
                         'DRAW_GRID'       : self.draw_grid,
                         'DRAW_BASEMAP'    : self.draw_basemap,
-                        'DRAW_GRIDLINES'  : self.draw_gridlines,
                         'BASEMAP'         : self.ignore,
                         'DISPLAY_GRID'    : self.display_grid,
                         'DISPLAY_VECTOR'  : self.display_vector,
@@ -58,23 +96,28 @@ class Service(MapService):
                         'DISPLAY_CONTOUR' : self.display,
                         'DISPLAY_GRFILL'  : self.display,
                         'DISPLAY_BARB'    : self.display,
-                        'DISPLAY_STREAM'  : self.display
+                        'DISPLAY_STREAM'  : self.display,
+                        'DRAW_GRIDLINES'  : self.draw_gridlines,
                        }
+#------------------------------------------------------------------------------
 
     def get_capabilities(self, request):
         return None
 
+#------------------------------------------------------------------------------
     def get_maps(self, plots):
-
+        
         if len(plots) == 1: return self.get_map(plots[0])
 
         for i, plot in enumerate(plots):
             path = os.path.dirname(plot.request['oname'])
             name = str(os.getpid()) + '-%d.png'%(i,)
             pathname = os.path.join(path,name)
+            
             self.get_map(plot, oname=pathname)
 
         return self.aggregate(plots)
+#------------------------------------------------------------------------------
 
     def aggregate(self, plots):
 
@@ -203,6 +246,8 @@ class Service(MapService):
 
         return oname
 
+#------------------------------------------------------------------------------
+
     def get_label(self, type):
 
         request = self.options
@@ -224,6 +269,7 @@ class Service(MapService):
 
         return str
 
+#------------------------------------------------------------------------------
     def image_trim(self, im):
 
         bg = Image.new(im.mode, im.size, im.getpixel((0,0)))
@@ -233,6 +279,8 @@ class Service(MapService):
         if bbox:
             return im.crop(bbox)
         return im
+
+#------------------------------------------------------------------------------
 
     def get_map(self, plot, **kwargs):
 
@@ -254,9 +302,10 @@ class Service(MapService):
         self.oname   = kwargs.get('oname', plot.request['oname'])
 
         for obj in plot:
-
-            print obj.cmds
+            
             handler = self.handler.get(obj.macro, self.default)
+            #current_app.logger.info(f'********** {obj.macro} ***************')
+            #current_app.logger.info(str(obj.cmds))
             handler(obj)
 
             self.ccols = obj.state.get('ccols', self.ccols)
@@ -264,50 +313,102 @@ class Service(MapService):
 
         return self.imshow()
 
+#------------------------------------------------------------------------------
+
+    def convert_transparency(self,fname,t):
+        if t==1: t = 255 #convert grads white to PIL white
+        img = Image.open(fname)
+        img = img.convert("RGBA")
+        datas = img.getdata()
+
+        newData = []
+        for item in datas:
+            if item[0] == t and item[1] == t and item[2] == t:
+                newData.append((t, t, t, 0))
+            else:
+                newData.append(item)
+
+        img.putdata(newData)
+        img.save(fname, "PNG")
+
+    def gxprint(self,img,background,geometry,t_color):
+        self.ds(f'gxprint {img} {geometry}')
+        self.convert_transparency(img,t_color)
+        im2 = Image.open(img).convert("RGBA")
+        im1 = Image.open(background).convert("RGBA")
+        im1.paste(im2,(0,0),im2)
+        im1.save(img, format='png')
+#------------------------------------------------------------------------------
+
     def imshow(self):
-
+        
         cbar_only = self.request.get('cbar_only', False)
-
+        region = self.request.get('region')
+        basemap_off= self.request.get('basemap_off',False)
         if cbar_only: self.clear_map()
 
         if not cbar_only: self.make_labels()
         if self.cbar: self.cbar.draw(**self.request)
 
-        background = self.draw_map(zorder=0)
-
+        if not basemap_off:
+            background = self.draw_map(zorder=0)
+        else: background = None 
+        
         geometry = self.get_geometry()
         geometry = 'x' + str(geometry[0]) + ' ' + 'y' + str(geometry[1])
+        geom3x = 'x3072 y2304'
 
         img = self.oname
+        img3x = img + '3x.png'
+
 
         t_color = 1
         if self.request.get('lights_off', False): t_color = 0
 
         if background:
-#           print '===> ', background
-            self.ds('gxprint ' + img + ' ' + geometry + ' -b ' +
-                        background + ' -t  ' + str(t_color))
+            background_flag=False
+            try: #temporary route around background if it isn't working # SJR 20240617 
+                self.ds(f'gxprint {img} {geometry} -b {background} -t  {str(t_color)}')
+            except Exception as exc:
+                background_flag=True
+                import traceback
+                self.gxprint(img,background,geometry,t_color)
         else: 
             self.ds('gxprint ' + img + ' ' + geometry)
 
-        if not cbar_only:
-            self.draw_logo(img, self.logos)
-            self.draw_symbol(img, self.symbols)
+        if region == 'arcsix': # Special polar plot for ARCSIX mission
+            self.ds('gxprint ' + img3x + ' ' + geom3x)
+            self.draw_symbol(img3x, self.symbols)
+            self.navigate(img3x,x_offset=-1207+177+3,y_offset=-1068+65+3,fname=img)
+            im1 = Image.open(img).convert("RGBA")
+            im2 = Image.open(img3x).convert("RGBA")
+            im2 = im2.crop((1207, 1068, 1875, 1713))
+            im2 = expand(im2, border=3, fill=(0,0,0))
+            im1.paste(im2, (177,65), im2)
+            im1.save(img, format='png')
+            os.remove(img3x)
+        else:
+            if not cbar_only:
+                self.draw_logo(img, self.logos)
+                self.draw_symbol(img, self.symbols)
 
-        self.navigate(img)
-
+            self.navigate(img)
+            
         return img
 
-    def navigate(self, img):
+#------------------------------------------------------------------------------
+
+    def navigate(self, img, x_offset=0, y_offset=0, fname=None):
 
         if not self.imap: return
+        if not fname: fname = img
 
         path  = [self.theme,'plot',self.request['field']]
         if self.config(path+['navigate'], 'on') == 'off': return
 
         data    = []
         ax      = Axes(self.ds)
-        navfile = '.'.join(img.split('.')[0:-1]) + '.nav'
+        navfile = '.'.join(fname.split('.')[0:-1]) + '.nav'
 
       # Get the image size.
 
@@ -326,16 +427,17 @@ class Service(MapService):
             radius = imap[2]
             hover  = ' '.join(imap[3:-1])
             url    = imap[-1]
-            xp     = int(xinch / 11.0 * xsize)
-            yp     = ysize - int(yinch /  8.5 * ysize)
+            xp     = int(xinch / 11.0 * xsize) + x_offset
+            yp     = ysize - int(yinch /  8.5 * ysize) + y_offset
             rp     = int(radius / 11.0 * xsize)
 
             data.append({'x':xp, 'y':yp, 'r':rp, 'hover':hover, 'url':url})
 
       # Write out navigational information.
 
-        if self.request.get('navigate', 'on') != 'off':
-            with open(navfile, 'w') as f: json.dump(data, f)
+        with open(navfile, 'w') as f: json.dump(data, f)
+
+#------------------------------------------------------------------------------
 
     def clear_map(self):
 
@@ -350,6 +452,8 @@ class Service(MapService):
 
         self.ds('set line 30')
         self.ds('draw recf %f %f %f %f'%(ax.LL+ax.UR))
+
+#------------------------------------------------------------------------------
 
     def get_geometry(self):
 
@@ -374,6 +478,8 @@ class Service(MapService):
         if gs[1] != g[1]: ysize = int((float(g[1]) /  768.0) * float(gs[1]))
 
         return (xsize, ysize)
+
+#------------------------------------------------------------------------------
 
     def get_frames(self, plots):
 
@@ -430,6 +536,8 @@ class Service(MapService):
 
         return frames
 
+#------------------------------------------------------------------------------
+
     def draw_grid(self, obj):
 
         return
@@ -449,6 +557,8 @@ class Service(MapService):
         lonstart = float(self.ds.rword(2,6))
         lonend   = float(self.ds.rword(2,8))
         midlon   = (lonstart+lonend)/2.0
+
+#------------------------------------------------------------------------------
 
     def display_grid(self, obj):
 
@@ -490,6 +600,8 @@ class Service(MapService):
                 if not ax.is_clipped((x,y)):
                     self.ds('draw mark %s %f %f %s'%(cmark,x,y,digsiz))
 
+#------------------------------------------------------------------------------
+
     def display_slice(self, obj):
 
         cmd  = obj.cmds[-1].split()[1:]
@@ -511,6 +623,8 @@ class Service(MapService):
         self.dims  = qh
 
         return self.slice_3D(obj)
+
+#------------------------------------------------------------------------------
 
     def slice_3D(self, obj):
 
@@ -564,7 +678,6 @@ class Service(MapService):
 
         lon, lat = (lon1, lat1)
         clons, lons, clats = ([], [], [])
-
         while lon <= lon2:
             lat = lat1 + (lat2-lat1)*(lon-lon1) / (lon2-lon1)
 
@@ -617,9 +730,13 @@ class Service(MapService):
             self.ds('set xlabs ' + '|'.join(clats))
 
         self.ds('set x %f %f'%(x1, x2))
+
+        
         self.ds('d ' + ';'.join(vars))
 
         obj.cmds = []
+
+#------------------------------------------------------------------------------
 
     def slice_2D(self, obj):
 
@@ -639,6 +756,7 @@ class Service(MapService):
 
         slice = self.get_state(obj.state,'SLICE').split()
         if slice: lon1,lat1,lon2,lat2 = tuple([float(v) for v in slice[0:4]])
+        
 
         vertices = []
         lon, lat = (lon1, lat1)
@@ -669,6 +787,8 @@ class Service(MapService):
             p1 = p
 
         obj.cmds = []
+
+#------------------------------------------------------------------------------
 
     def display_vector(self, obj):
 
@@ -768,6 +888,8 @@ class Service(MapService):
                     self.ds('draw line %f %f %f %f'%(xd,yd,xe,ye))
                     self.ds('draw polyf %f %f %f %f %f %f'%(xa,ya,xd,yd,xe,ye))
 
+#------------------------------------------------------------------------------
+
     def draw_hilo(self, obj):
 
         argstr = obj.cmds[-1][10:]
@@ -775,6 +897,8 @@ class Service(MapService):
 
         self.make_hilo('l', **args)
         self.make_hilo('h', **args)
+
+#------------------------------------------------------------------------------
 
     def make_hilo(self, sense, **kwargs):
 
@@ -825,6 +949,8 @@ class Service(MapService):
             self.ds('set string %d c 9'%(index,))
             self.ds('draw string %f %f %s'%(x, y-0.25, int(round(float(val)))))
 
+#------------------------------------------------------------------------------
+
     def draw_cbar(self, obj):
 
         colors = [c for c in self.ccols.split() if c != ' ']
@@ -847,6 +973,8 @@ class Service(MapService):
                 self.cbar = HorizontalColorbar(self.ds)
 
         self.cbar.add(colors, levels, **options)
+
+#------------------------------------------------------------------------------
 
     def draw_arrow(self, obj):
 
@@ -881,20 +1009,26 @@ class Service(MapService):
         self.ds('set strsiz 0.15')
         self.ds('draw string %f %f %s'%(x,ys,scale))
 
+#------------------------------------------------------------------------------
+
     def display(self, obj):
 
-        print obj.cmds
         self.display_slice(obj)
         self.default(obj)
+
+#------------------------------------------------------------------------------
     
     def default(self, obj):
 
         cmds = [ cmd for cmd in obj.cmds if self.is_valid(cmd) ]
         cmds = '\n'.join(cmds)
-
         self.ds(cmds)
 
+#------------------------------------------------------------------------------
+
     def ignore(self, obj): pass
+
+#------------------------------------------------------------------------------
 
     def save_logo(self, obj):
 
@@ -903,26 +1037,33 @@ class Service(MapService):
 
         self.logos.append(params)
 
+#------------------------------------------------------------------------------
+
     def save_symbol(self, obj):
 
         ax = Axes(self.ds)
 
         params = obj.cmds[-1].split()[2:]
+
         self.symbols.append(params)
 
         cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
-                        
+
         x, y = self.w2xy(cmd[3], cmd[4])
-                        
+
         if x < ax.xlow or x > ax.xhigh: return
         if y < ax.ylow or y > ax.yhigh: return
-                        
+
         if len(cmd) > 6: self.imap.append((x,y,float(cmd[5])) + tuple(cmd[6:]))
+
+#------------------------------------------------------------------------------
 
     def save_label(self, obj):
 
         cmds      = [ cmd for cmd in obj.cmds if self.is_valid(cmd) ]
         drawcmds  = [ cmd for cmd in cmds if cmd[0:4] == 'draw' ]
+
+
 
         if not drawcmds: return
 
@@ -931,6 +1072,8 @@ class Service(MapService):
 
         type = attr['TYPE'][0]
         self.labels[type] = obj.cmds
+
+#------------------------------------------------------------------------------
 
     def draw_logo(self, to_img, logos, **kwargs):
 
@@ -1013,7 +1156,6 @@ class Service(MapService):
 
                 xpos = bbox[2] - img.size[0] - xmargin
                 ypos = bbox[3] - img.size[1] - ymargin
-
             bg.paste(img, (xpos, ypos), img)
             img.close()
 
@@ -1021,6 +1163,8 @@ class Service(MapService):
 
         bg.save(to_img, "PNG")
         bg.close()
+
+#------------------------------------------------------------------------------
 
     def draw_symbol(self, to_img, symbols):
         """
@@ -1101,6 +1245,8 @@ class Service(MapService):
         bg.save(to_img, "PNG")
         bg.close()
 
+#------------------------------------------------------------------------------
+
     def draw_line(self, obj):
 
         clip = int(self.get_state(obj.state,'CLIP',1))
@@ -1123,6 +1269,8 @@ class Service(MapService):
 
         self.ds('draw line %s %s %s %s'%(x1,y1,x2,y2))
 
+#------------------------------------------------------------------------------
+
     def draw_string(self, obj):
 
         clip = int(self.get_state(obj.state,'CLIP',1))
@@ -1136,9 +1284,10 @@ class Service(MapService):
 
         x, y = self.w2xy(cmd[2], cmd[3])
         text = ' '.join(cmd[4:])
-
         if not ax.is_clipped((x,y)):
             self.ds('draw string %s %s %s'%(x,y,text))
+
+#------------------------------------------------------------------------------
 
     def draw_rec(self, obj):
 
@@ -1148,10 +1297,17 @@ class Service(MapService):
 
         cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
 
-        x1, y1 = self.w2xy(cmd[2], cmd[3])
-        x2, y2 = self.w2xy(cmd[4], cmd[5])
+        if cmd[-1] != 'xy':
+            x1, y1 = self.w2xy(cmd[2], cmd[3])
+            x2, y2 = self.w2xy(cmd[4], cmd[5])
+        else:
+            x1, y1 = (cmd[2], cmd[3])
+            x2, y2 = (cmd[4], cmd[5])
+
 
         self.ds('draw rec %s %s %s %s'%(x1,y1,x2,y2))
+
+#------------------------------------------------------------------------------
 
     def draw_recf(self, obj):
 
@@ -1170,6 +1326,8 @@ class Service(MapService):
 
         self.ds('draw recf %s %s %s %s'%(x1,y1,x2,y2))
 
+#------------------------------------------------------------------------------
+
     def draw_polyf(self, obj):
 
         cmds = [ cmd for cmd in obj.cmds[0:-1] if self.is_valid(cmd) ]
@@ -1182,8 +1340,9 @@ class Service(MapService):
             cmd[i], cmd[i+1] = self.w2xy(cmd[i], cmd[i+1])
             if i > 0: self.ds('draw line %s %s %s %s'%(cmd[i-2],cmd[i-1],cmd[i],cmd[i+1]))
 
-#       print ' '.join(cmd)
 #       self.ds('draw polyf ' + ' '.join(cmd))
+
+#------------------------------------------------------------------------------
 
     def draw_mark(self, obj):
 
@@ -1202,8 +1361,9 @@ class Service(MapService):
 
         self.ds('draw mark %s %f %f %s'%(cmd[2],x,y,cmd[5]))
 
-        if len(cmd) > 6:
-            self.imap.append((x,y,float(cmd[5])) + tuple(cmd[6:]))
+        if len(cmd) > 6: self.imap.append((x,y,float(cmd[5])) + tuple(cmd[6:]))
+
+#------------------------------------------------------------------------------
 
     def draw_basemap(self, obj):
 
@@ -1257,7 +1417,10 @@ class Service(MapService):
 
         bmap['fullframe'] = self.request.get('fullframe', False)
 
+
         self.maps.append(bmap)
+        m = self.get_map_handle(**bmap)
+#------------------------------------------------------------------------------
 
     def draw_gridlines(self, obj):
 
@@ -1265,16 +1428,17 @@ class Service(MapService):
 
         black = self.lang.get_color('set rgb $* 0 0 0')
         white = self.lang.get_color('set rgb $* 255 255 255')
+        gray  = self.lang.get_color('set rgb $* 0 0 0')
         self.ds('set rgb %d %s'%(black, '0 0 0'))
         self.ds('set rgb %d %s'%(white, '255 255 255'))
 
         argstr = obj.cmds[-1][15:]
         options = json.loads(argstr)
-        options = {k:v for k,v in options.iteritems() if v != '--auto'}
+        options = {k:v for k,v in six.iteritems(options) if v != '--auto'}
 
         mpvals = options['mpvals'].split() + options['lat'].split()
         lon1, lon2, lat1, lat2 = [int(s) for s in mpvals[0:4]]
-        
+
         xlbeg = round(options.get('xlbeg', lon1))
         xlend = int(options.get('xlend', lon2))
         ylbeg = round(options.get('ylbeg', lat1))
@@ -1282,7 +1446,7 @@ class Service(MapService):
         xlint = round(options.get('xlint', (lon2-lon1)/5.0))
         ylint = round(options.get('ylint', (lat2-lat1)/5.0))
 
-        xlevs = range(int(xlbeg), int(xlend+1), int(xlint))
+        xlevs = list(range(int(xlbeg), int(xlend+1), int(xlint)))
         clevs = xlevs
         clevs += [x-360 for x in xlevs if x >= 180]
         clevs += [x+360 for x in xlevs if x < 0]
@@ -1293,10 +1457,10 @@ class Service(MapService):
         self.ds('set clevs ' + ' '.join(clevs))
         self.ds('set clab off')
         self.ds('set clopts 1 6 0.12')
-        self.ds('set ccolor 15')
+        self.ds('set ccolor '+str(gray))
         self.ds('set cstyle 1')
         self.ds('set cthick 1')
-        self.ds('d lon') 
+        self.ds('d lon')
 
 #       self.ds('set gxout contour')
 #       self.ds('set clevs -180 0 180')
@@ -1308,7 +1472,7 @@ class Service(MapService):
 
         lat = (lat1 + lat2) / 2.0
 
-        print 'clevs = ' + str(clevs)
+        #print('clevs = ' + str(clevs))
         for lon in clevs:
 
             ilon = int(lon)
@@ -1317,13 +1481,13 @@ class Service(MapService):
                 clon = str(abs(ilon)) + 'W'
             else:
                 clon = str(ilon) + 'E'
-            
+
             x, y = self.w2xy(lon, lat)
             if ax.is_clipped((x-0.001,y)): continue
             if ax.is_clipped((x+0.001,y)): continue
 
             self.ds('set font 0')
-            self.ds('set strsiz 0.08')
+            self.ds('set strsiz 0.04')
             self.ds('set string ' + str(black) + ' c 12')
             self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clon)
             self.ds('set string ' + str(white) + ' c 5')
@@ -1335,7 +1499,7 @@ class Service(MapService):
         self.ds('set gxout contour')
         self.ds('set clevs ' + ' '.join(clevs))
         self.ds('set clab off')
-        self.ds('set ccolor 15')
+        self.ds('set ccolor '+str(gray))
         self.ds('set cstyle 1')
         self.ds('set cthick 1')
         self.ds('d lat')
@@ -1343,7 +1507,7 @@ class Service(MapService):
         self.ds('set gxout contour')
         self.ds('set clevs 66.3')
         self.ds('set clab off')
-        self.ds('set ccolor 7')
+        self.ds('set ccolor '+str(black))
         self.ds('set cstyle 1')
         self.ds('set cthick 8')
         self.ds('d lat')
@@ -1370,41 +1534,49 @@ class Service(MapService):
         #   self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clat)
 
             self.ds('set font 0')
-            self.ds('set strsiz 0.08')
+            self.ds('set strsiz 0.04')
             self.ds('set string ' + str(black) + ' c 12')
             self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clat)
             self.ds('set string ' + str(white) + ' c 5')
             self.ds('draw string ' + str(x) + ' ' + str(y) + ' `n' + clat)
 
+#------------------------------------------------------------------------------
+
     def draw_map(self, zorder=0):
 
         bmaps = [b for b in self.maps if b.get('zorder',0) == zorder]
-        if not bmaps: return None
+        if not bmaps:
+            return None
 
         name  = self.get_map_key(bmaps) + '.png'
         path  = self.config.get('map_path', os.getcwd())
         path  = Template(path).safe_substitute(os.environ)
         fname = os.path.join(path, name)
+        
         if os.path.isfile(fname): return fname
 
         try:
-            os.makedirs(path, 0755)
-        except:
+            os.makedirs(path, 0o755)
+        except Exception as exc:
             pass
-
+        
         m = self.get_map_handle(**bmaps[0])
 
         self.create_mask(m, **bmaps[0])
 
-        for bmap in bmaps: self.add_map_layer(m, bmap)
-
-        self.save_map(fname, **bmaps[0])
-
+        #for bmap in bmaps: self.add_map_layer(m, bmap)
+        
+        #fname = self.save_map(fname, **bmaps[0])
+        fname = self.save_map(fname,bmaps,**bmaps[0])
         return fname
 
-    def save_map(self, fname, **kwargs):
+#------------------------------------------------------------------------------
+# def draw_gridlines(self, obj): (New function)
+#------------------------------------------------------------------------------
 
-        face_color        = kwargs['face_color']
+    def save_map(self, fname,bmaps, **kwargs):
+        
+        face_color        = kwargs.get('face_color','0 0 0')
         isGrayscale       = kwargs['grayscale']
         brightness        = kwargs['brightness']
         land_brightness   = kwargs['land_brightness']
@@ -1433,10 +1605,13 @@ class Service(MapService):
 
 #       Create the map image
 
+        m = self.get_map_handle(**bmaps[0])
+        for bmap in bmaps: m = self.add_map_layer(m, bmap)
+
         buf = io.BytesIO()
         plt.gca().set_axis_off()
         plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0,
-                        dpi=300, facecolor=face_color)
+                        dpi=300, facecolor=face_color)#,transparent=True)
 
         buf.seek(0)
         fg = Image.open(buf)
@@ -1461,17 +1636,30 @@ class Service(MapService):
 
 #       Re-size and position the map image on a background image
 #       matching the size of the final GrADS image.
-
-        fg = fg.resize((xpixels+3, ypixels+3), Image.ANTIALIAS)
-
-        if isGrayscale: 
+        
+        #fg = fg.resize((xpixels+3, ypixels+3), Image.ANTIALIAS)
+        fg = fg.resize((xpixels+3, ypixels+3), resample=Image.Resampling.LANCZOS)
+        #face_color=(1,1,1,0)
+        if isGrayscale:
             bg = Image.new("RGB", [xsize, ysize], face_color).convert('LA')
         else:
             bg = Image.new("RGB", [xsize, ysize], face_color)
 
         bg.paste(fg, (xpos-2, ypos-1), fg)
-        bg.save(fname, "PNG")
+        bg.convert('RGBA')
+        try:
+            bg.save(fname, "PNG")
+        except Exception as exc:
+            import traceback
+            print(exc)
+            print(traceback.format_exc())
+            print(f'could not save basemap: {fname}')
+            fname = None
         bg.close()
+        plt.close()
+        return fname
+
+#------------------------------------------------------------------------------
 
     def immask(self, src, value):
 
@@ -1492,6 +1680,8 @@ class Service(MapService):
         img.putdata(newData)
 
         return img
+
+#------------------------------------------------------------------------------
 
     def imfill(self, src, value, color):
 
@@ -1516,12 +1706,16 @@ class Service(MapService):
 
         return img
 
+#------------------------------------------------------------------------------
+
     def imtint(self, src, tint_color):
 
         if self.is_clear(tint_color): return src
 
         tint_color  = '#%02x%02x%02x'%tuple(tint_color)
         return self.image_tint(src, tint_color)
+
+#------------------------------------------------------------------------------
 
     def imbright(self, src, brightness):
 
@@ -1530,31 +1724,41 @@ class Service(MapService):
         enhancer = ImageEnhance.Brightness(src)
         return enhancer.enhance(brightness)
 
+#------------------------------------------------------------------------------
+
     def imsat(self, src, saturation):
 
         if saturation == 1.0: return src
-        
+
         enhancer = ImageEnhance.Color(src)
         return enhancer.enhance(saturation)
 
+#------------------------------------------------------------------------------
+
     def imcontrast(self, src, contrast):
-        
+
         if contrast == 1.0: return src
 
         enhancer = ImageEnhance.Contrast(src)
         return enhancer.enhance(contrast)
+
+#------------------------------------------------------------------------------
 
     def is_solid(self, color): 
         if len(color) < 4: return True
         if color[3] > 0.0: return True
         return False
 
+#------------------------------------------------------------------------------
+
     def is_clear(self, color):
         return not self.is_solid(color)
 
+#------------------------------------------------------------------------------
+
     def image_tint(self, src, tint='#ffffff'):
 
-        if Image.isStringType(src):  # file path?
+        if isinstance(src,six.string_types):
             src = Image.open(src)
         if src.mode not in ['RGB', 'RGBA']:
             raise TypeError('Unsupported source image mode: {}'.format(src.mode))
@@ -1572,7 +1776,9 @@ class Service(MapService):
                 tuple(map(lambda lg: int(lg*sg + 0.5), range(256))) +
                 tuple(map(lambda lb: int(lb*sb + 0.5), range(256))))
         l = grayscale(src)  # 8-bit luminosity version of whole image
-        if Image.getmodebands(src.mode) < 4:
+        if sys.version_info.major==2: mode_len=Image.getmodebands(src.mode)
+        else: mode_len=len(src.getbands())
+        if mode_len < 4:
             merge_args = (src.mode, (l, l, l))  # for RGB verion of grayscale
         else:  # include copy of src image's alpha layer
             a = Image.new("L", src.size)
@@ -1582,36 +1788,59 @@ class Service(MapService):
 
         return Image.merge(*merge_args).point(luts)
 
+#------------------------------------------------------------------------------
+
     def add_map_layer(self, map, bmap):
-
+        
         service     = bmap['service']
-
-        if service == 'shaderelief':
-            map.shadedrelief()
-        elif service == 'bluemarble':
-            map.bluemarble()
-        elif service == 'etopo':
-            map.etopo()
-        elif service == 'drawlsmask':
-            print 'Using cached mask'
+        
+        if NoBM:
+            if service == 'shaderelief':
+                map.background_img(name='shadedrelief', resolution='med')
+            elif service == 'bluemarble':
+                map.background_img(name='bluemarble', resolution='med')
+            elif service == 'etopo':
+                map.background_img(name='etopo', resolution='med')
         else:
-            map.arcgisimage(service=service, xpixels = 5000)
+            if service == 'shaderelief':
+                map.shadedrelief()
+            elif service == 'bluemarble':
+                map.bluemarble()
+            elif service == 'etopo':
+                map.etopo()
+            elif service == 'drawlsmask':
+                pass
+                #print('Using cached mask')
+            else:
+                try:
+                    map.arcgisimage(service=service, xpixels = 1000)
+                except Exception:
+                    pass
+        return map    
+#------------------------------------------------------------------------------
 
     def create_mask(self, map, **kwargs):
-
+        
 #       Create the land/sea mask
-
-        map.drawlsmask(land_color='black',ocean_color='white',
-                            resolution='f', grid=1.25, lakes=True)
-
+        if NoBM:
+            map.add_feature(cfeature.LAND,facecolor='black')
+            map.add_feature(cfeature.OCEAN,facecolor='white')
+            map.add_feature(cfeature.LAKES,facecolor='white')
+        
+        else:
+            map.drawlsmask(land_color='black',ocean_color='white',
+                                resolution='f', grid=1.25, lakes=True)
+        
         buf = io.BytesIO()
         plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0,
                         dpi=300, facecolor='red')
 
         buf.seek(0)
         self.mask = Image.open(buf).convert('LA')
-
+        
         plt.clf()
+        #plt.close()
+#------------------------------------------------------------------------------
 
     def get_map_handle(self, **kwargs):
 
@@ -1626,43 +1855,71 @@ class Service(MapService):
         lon_center = lon1 + 180
 
         plt.clf()
-        fig = plt.figure(figsize=(xsize*2/300.0, ysize*2/300.0), dpi=100)
-        plt.gca().set_axis_off()
+        fig = plt.figure(figsize=(xsize*2/300.0, ysize*2/300.0), dpi=100,facecolor=(1,1,1,0))
+        
+        if NoBM:
+            extent=[lon1,lon2,lat1,lat2]
+            if mproj == 'nps':
+                mapProj=ccrs.NorthPolarStereo(central_longitude=np.mean(extent[:2]))
 
-        if mproj == 'nps' and lat2 == 90:
 
-            map = Basemap(resolution=None, projection='npstere',
-                          boundinglat=lat1,lon_0=lon_center, round=True)
+            elif mproj == 'sps':
+                mapProj=ccrs.SouthPolarStereo(central_longitude=np.mean(extent[:2]))
 
-        elif mproj == 'nps':
+            elif mproj == 'orthogr':
+                mapProj=ccrs.Orthographic(central_longitude=np.mean(extent[:2]))
 
-            map = self.polar_stere(lon1, lon2, lat1, lat2)
+            else:
 
-        elif mproj == 'sps' and lat1 == -90:
+                if lon1 > 180.:
+                    lon1 -= 360.
+                    lon2 -= 360.
+                    extent=[lon1,lon2,lat1,lat2]
 
-            map = Basemap(resolution=None, projection='spstere',
-                          boundinglat=lat2,lon_0=180, round=True)
+                mapProj=ccrs.PlateCarree(central_longitude=np.mean(extent[:2]))
 
-        elif mproj == 'sps':
-
-            map = self.polar_stere(lon1, lon2, lat1, lat2)
-
-        elif mproj == 'orthogr':
-
-            map = Basemap(resolution=None, projection='ortho',
-                    lon_0=(lon1+lon2)/2.0, lat_0=0.0, round=True)
+            map=fig.add_subplot(1,1,1,projection=mapProj)    
+            map.set_extent(extent, crs=ccrs.PlateCarree())
+            map.axis('off')
 
         else:
+            plt.gca().set_axis_off()
+            if mproj == 'nps' and lat2 == 90:
 
-            if lon1 > 180.:
-                lon1 -= 360.
-                lon2 -= 360.
+                map = Basemap(resolution=None, projection='npstere',
+                              boundinglat=lat1,lon_0=lon_center, round=True)
 
-            map = Basemap(resolution=None, projection='cyl',
-                          llcrnrlat=lat1,urcrnrlat=lat2,
-                          llcrnrlon=lon1,urcrnrlon=lon2)
+            elif mproj == 'nps':
+
+                map = self.polar_stere(lon1, lon2, lat1, lat2)
+
+            elif mproj == 'sps' and lat1 == -90:
+
+                map = Basemap(resolution=None, projection='spstere',
+                              boundinglat=lat2,lon_0=180, round=True)
+
+            elif mproj == 'sps':
+
+                map = self.polar_stere(lon1, lon2, lat1, lat2)
+
+            elif mproj == 'orthogr':
+
+                map = Basemap(resolution=None, projection='ortho',
+                        lon_0=(lon1+lon2)/2.0, lat_0=0.0, round=True)
+
+            else:
+
+                if lon1 > 180.:
+                    lon1 -= 360.
+                    lon2 -= 360.
+
+                map = Basemap(resolution=None, projection='cyl',
+                              llcrnrlat=lat1,urcrnrlat=lat2,
+                              llcrnrlon=lon1,urcrnrlon=lon2)
 
         return map
+
+#------------------------------------------------------------------------------
 
     def polar_stere(self, lon_w, lon_e, lat_s, lat_n, **kwargs):
         '''Returns a Basemap object (NPS/SPS) focused in a region.
@@ -1693,6 +1950,8 @@ class Service(MapService):
                                llcrnrlon=ll_lon, llcrnrlat=ll_lat,
                                urcrnrlon=ur_lon, urcrnrlat=ur_lat, **kwargs)
 
+#------------------------------------------------------------------------------
+
     def get_map_key(self, bmaps):
 
         keystr = ''
@@ -1715,6 +1974,8 @@ class Service(MapService):
         keystr = keystr.replace("u'", "'")
         return str(uuid.uuid3(uuid.NAMESPACE_DNS,keystr))
 
+#------------------------------------------------------------------------------
+
     def make_labels(self):
 
         self.ds('query gxinfo')
@@ -1729,6 +1990,8 @@ class Service(MapService):
         self.draw_labels(bbox,  1, self.lang.header_labels)
         self.draw_labels(bbox, -1, self.lang.trailer_labels)
         self.draw_labels(bbox,  1, self.lang.special_labels)
+
+#------------------------------------------------------------------------------
 
     def draw_labels(self, bbox, order, labels):
 
@@ -1773,6 +2036,8 @@ class Service(MapService):
 
             ypos = ypos + (0.5 * size) * factor
 
+#------------------------------------------------------------------------------
+
     def draw_subtitle(self, obj):
 
         cmds = [ cmd for cmd in obj.cmds[0:-1] if self.is_valid(cmd) ]
@@ -1800,6 +2065,8 @@ class Service(MapService):
         ymid = ymid - 0.20
         self.ds('draw string ' + str(xmid) + ' ' + str(ymid) + ' ' + title[1])
 
+#------------------------------------------------------------------------------
+
     def draw_tmstring(self, obj):
 
         cmds = [ cmd for cmd in obj.cmds[0:-1] if self.is_valid(cmd) ]
@@ -1821,6 +2088,8 @@ class Service(MapService):
 
         self.ds('draw string ' + str(xmid) + ' ' + str(ymid) + ' ' + title)
 
+#------------------------------------------------------------------------------
+
     def w2xy(self, wx, wy):
 
         self.ds('query w2xy %s %s'%(wx, wy),Quiet=True)
@@ -1828,6 +2097,8 @@ class Service(MapService):
         y = float(self.ds.rword(1,6))
 
         return (x, y)
+
+#------------------------------------------------------------------------------
 
     def is_valid(self, cmd):
 
@@ -1841,6 +2112,8 @@ class Service(MapService):
 
         return True
 
+#------------------------------------------------------------------------------
+
     def get_state(self, state, key, default=novalue):
 
         if key not in state:
@@ -1848,6 +2121,8 @@ class Service(MapService):
             return default
 
         return state[key]
+
+#------------------------------------------------------------------------------
 
 class Axes(object):
 
@@ -1880,9 +2155,14 @@ class Axes(object):
 
         self.clipit  = kwargs.get('clip', True)
 
+#------------------------------------------------------------------------------
+
     def get(self, key, default=None): return self.__dict__.get(key, default)
 
+#------------------------------------------------------------------------------
+
     def clip(self, line, p=None):
+
 
         if not self.clipit: return line
 
@@ -1926,6 +2206,8 @@ class Axes(object):
 
         return []
 
+#------------------------------------------------------------------------------
+
     def is_clipped(self, p):
 
         if not self.clipit: return False
@@ -1936,6 +2218,8 @@ class Axes(object):
         if p[1] > self.yhigh: return True
 
         return False
+
+#------------------------------------------------------------------------------
 
     def is_extrapolated(self, line, p):
 
@@ -1952,6 +2236,8 @@ class Axes(object):
         if p[1] <= p1[1] and p[1] >= p2[1]: return False
 
         return True
+
+#------------------------------------------------------------------------------
 
 class Colorbar(object):
 
@@ -1972,6 +2258,8 @@ class Colorbar(object):
         self.default.bar_offset      = 0.075
         self.default.bar_thick       = 0.15
 
+#------------------------------------------------------------------------------
+
     def add(self, colors, levels, **kwargs):
 
         cbar = DictContainer()
@@ -1982,6 +2270,8 @@ class Colorbar(object):
         cbar.options = dict(kwargs)
 
         self.cbars.append(cbar)
+
+#------------------------------------------------------------------------------
 
 class HorizontalColorbar(Colorbar):
 
@@ -2025,6 +2315,8 @@ class HorizontalColorbar(Colorbar):
                 self.ds('draw string %f %f %s'%(xp,yp,label))
                 self.ds('set string 1 bl 5 0')
 
+#------------------------------------------------------------------------------
+
     def set_bar_dims(self, **kwargs):
 
         tight     = kwargs.get('tight', False)
@@ -2037,7 +2329,7 @@ class HorizontalColorbar(Colorbar):
             ncolors = len(cbar.colors)
 
             length = ax.xhigh - ax.xlow
-      #     if cbar_only: length = 10
+            if cbar_only: length = 10
             offset = (1.0 - 0.9) * (length / nbars) / 2.0
             xbeg   = (length / nbars) * index + ax.xlow + offset
             ybeg   = ax.ylow - 0.9
@@ -2053,10 +2345,12 @@ class HorizontalColorbar(Colorbar):
             cbar.offset = (offset, 0)
             cbar.stride = (stride, 0)
 
+#------------------------------------------------------------------------------
+
     def set_label_sizes(self, **kwargs):
 
         scale         = float(kwargs.get('scale', 1.0))
-        min_char_size = [sz*scale for sz in self.default.tick_label_size]
+        min_char_size = min([sz*scale for sz in self.default.tick_label_size])
 
         for cbar in self.cbars:
 
@@ -2083,6 +2377,8 @@ class HorizontalColorbar(Colorbar):
             cbar.tick_label_size = (char_size, 1.1*char_size)
             cbar.bar_label_size  = [sz*scale for sz in cbar.bar_label_size]
             cbar.bar_label_size  = tuple(cbar.bar_label_size)
+
+#------------------------------------------------------------------------------
 
     def draw_tick_labels(self, cbar):
 
@@ -2126,6 +2422,8 @@ class HorizontalColorbar(Colorbar):
 
             x += xwid
 
+#------------------------------------------------------------------------------
+
 class VerticalColorbar(Colorbar):
 
     def draw(self, **kwargs):
@@ -2168,6 +2466,8 @@ class VerticalColorbar(Colorbar):
                 self.ds('draw string %f %f %s'%(xp,yp,label))
                 self.ds('set string 1 bc 5 0')
 
+#------------------------------------------------------------------------------
+
     def set_bar_dims(self, **kwargs):
 
         for index, cbar in enumerate(self.cbars):
@@ -2194,12 +2494,14 @@ class VerticalColorbar(Colorbar):
             cbar.offset = (0, offset)
             cbar.stride = (0, stride)
 
+#------------------------------------------------------------------------------
+
     def set_label_sizes(self, **kwargs):
 
         ax = self.ax
 
         scale         = float(kwargs.get('scale', 1.0))
-        min_char_size = [sz*scale for sz in self.default.tick_label_size]
+        min_char_size = min([sz*scale for sz in self.default.tick_label_size])
 
         for cbar in self.cbars:
 
@@ -2230,6 +2532,8 @@ class VerticalColorbar(Colorbar):
             cbar.tick_label_size = (char_size, char_size)
             cbar.bar_label_size  = [sz*scale for sz in cbar.bar_label_size]
             cbar.bar_label_size  = tuple(cbar.bar_label_size)
+
+#------------------------------------------------------------------------------
 
     def draw_tick_labels(self, cbar):
 
@@ -2272,11 +2576,15 @@ class VerticalColorbar(Colorbar):
 
             y += stride
 
+#------------------------------------------------------------------------------
+
 class DictContainer(object):
 
     def __init__(self, **kwargs):
 
         self.__dict__.update(kwargs)
+
+#------------------------------------------------------------------------------
 
     def update(self, defs):
 
@@ -2287,6 +2595,8 @@ class DictContainer(object):
         if isinstance(defs, dict):
             self.__dict__.update(defs)
             return
+
+#------------------------------------------------------------------------------
 
 class HersheyDraw(object):
     """
@@ -2327,9 +2637,11 @@ class HersheyDraw(object):
         self.color = color
         self.d     = ImageDraw.Draw(im)
         self.fn    = ImageFont.truetype(font, size)
-        self.fs    = ImageFont.truetype(font, size/2)
+        self.fs    = ImageFont.truetype(font, int(size/2))
         self.hn    = self.d.textsize('1', font=self.fn)[1]
         self.hs    = self.d.textsize('1', font=self.fs)[1]
+
+#------------------------------------------------------------------------------
 
     def text_size(self, text):
         """
@@ -2375,6 +2687,8 @@ class HersheyDraw(object):
         if sText: ws, hs = self.d.textsize(sText, font=self.fs)
 
         return (wn + ws, max(hn,hs))
+
+#------------------------------------------------------------------------------
 
     def draw_text(self, x, y, text):
         """

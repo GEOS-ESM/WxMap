@@ -1,12 +1,13 @@
 import re
 import datetime as dt
+import sys
 
 class datetime(dt.datetime):
-
-    def __init__(self, *args, **kwargs):
-
-        super(datetime,self).__init__(*args, **kwargs)
+    @classmethod
+    def __new__(cls, *args, **kwargs):
+        self= super(datetime, cls).__new__(*args, **kwargs)
         self.m = 'JFMAMJJASOND'
+        return self
 
     def strftime(self, s1):
 
