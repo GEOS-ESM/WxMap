@@ -58,7 +58,7 @@ class WXService(object):
         print(install_path)
         install_path = os.path.realpath(os.path.dirname(install_path))
         resource = self.config.read_resolve(file,install_path=install_path)
-        self.config.mount(resource, '/')        
+        self.config.mount(resource, '/')
 
         self.configure()
         self.register(config=self.config)
