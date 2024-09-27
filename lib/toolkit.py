@@ -55,6 +55,10 @@ class Toolkit(object):
         handle.line_width = kwargs.get('line_width','5')
         handle.line_style = kwargs.get('line_style','1')
         zorder            = kwargs.get('zorder','-1')
+        fname             = kwargs.get('file', None)
+
+        if fname and not isinstance(marks, dict):
+            marks = self.read_from_file(fname, **kwargs)
 
         for poly in polygons:
 
