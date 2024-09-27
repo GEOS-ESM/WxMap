@@ -127,7 +127,7 @@ class GDSVML(object):
 
         self.special = ['draw basemap', 'draw line', 'draw polyf',
                         'draw string', 'draw mark', 'draw hilo',
-                         'draw gridlines']
+                        'draw gridlines']
 
         self.addon   = ['set ARRFILL', 'set SLICE', 'set SKIP', 'set CLIP']
 

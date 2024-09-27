@@ -452,8 +452,12 @@ class PlotService(object):
         handle.z        = plot.get_attr(layer,'z',handle.z)
         handle.t        = plot.get_attr(layer,'t',handle.t)
         handle.xaxis    = plot.get_attr(layer,'xaxis',handle.xaxis)
+        handle.ylpos    = plot.get_attr(layer,'ylpos','--auto')
+        handle.ylint    = plot.get_attr(layer,'ylint','--auto')
+        handle.ylopts   = plot.get_attr(layer,'ylopts','--auto')
         handle.log1d    = plot.get_attr(layer,'log1d','--auto')
         handle.baropts  = plot.get_attr(layer,'baropts','--auto')
+        handle.ytitle   = plot.get_attr(layer,'ylab','--auto')
 
         eloop = plot.get_attr(layer,'eloop', 1)
         e1    = int(str(eloop).split()[0])
@@ -474,6 +478,9 @@ class PlotService(object):
           set z $z
           set t $t
           set xaxis $xaxis
+          set ylpos $ylpos
+          set ylint $ylint
+          set ylopts $ylopts
           set grads off
           set gxout $gxout
         """, **kwargs
@@ -516,6 +523,7 @@ class PlotService(object):
               define $name = $expr
               define $name = maskout($name,$name-$mask)
               display $name
+              draw ylab $ytitle
             """, **kwargs
             )
 
@@ -640,7 +648,7 @@ class PlotService(object):
 
         self.set_coords(plot)
 
-        handle.gxout   = kwargs.get('gxout', 'shade2') # SJR 20240724 updated shaded to shade1
+        handle.gxout   = kwargs.get('gxout', 'shaded') # SJR 20240724 updated shaded to shade1
         handle.gtime   = time.strftime("%H:%Mz%d%b%Y")
         handle.name    = plot.get_name()
         handle.expr    = plot.get_attr(layer,'expr',handle._STACK_)
@@ -1105,6 +1113,43 @@ class PlotService(object):
 
 #------------------------------------------------------------------------------
 
+    def tadv(self, plot, name):
+
+        handle  = plot.handle
+        request = plot.request
+        time    = request['time_dt']
+
+        layer   = plot.get_layer(name)
+        if not layer: return
+
+        expr = plot.get_attr(layer,'expr')
+
+        handle.gtime     = time.strftime("%H:%Mz%d%b%Y")
+        handle.tadv      = plot.get_name()
+        handle.dtx       = plot.get_name()
+        handle.dty       = plot.get_name()
+        handle.dx        = plot.get_name()
+        handle.dy        = plot.get_name()
+        handle.arg_uwnd  = plot.get_attr(layer,'uwnd')
+        handle.arg_vwnd  = plot.get_attr(layer,'vwnd')
+        handle.arg_tmpu  = plot.get_attr(layer,'tmpu')
+
+        plot.cmd("""
+          set dfile $#
+          set time $gtime
+          set lev $level
+          define $dtx   = cdiff($arg_tmpu,x)
+          define $dty   = cdiff($arg_tmpu,y)
+          define $dx    = cdiff(lon,x)*3.1416/180
+          define $dy    = cdiff(lat,y)*3.1416/180
+          define $tadv  = -1*( ($arg_uwnd*$dtx)/(cos(lat*3.1416/180)*$dx) + $arg_vwnd*$dty/$dy )/6.37e+6
+        """
+        )
+
+        return {'expr': expr}
+
+#------------------------------------------------------------------------------
+
     def shtorh(self, plot, name):
 
         handle  = plot.handle
@@ -1167,11 +1212,11 @@ class PlotService(object):
                      'reverse':  plot.get_attr(layer,'reverse',None),
                      'inverse':  plot.get_attr(layer,'inverse',None),
                      'alpha':    plot.get_attr(layer,'alpha',None),
-                     'sf':        plot.get_attr(layer,'sf','1.0'),
-                     'skip':      plot.get_attr(layer,'skip',None),
+                     'sf':       plot.get_attr(layer,'sf','1.0'),
+                     'skip':     plot.get_attr(layer,'skip',None),
                      'cblabel':  plot.get_attr(layer,'cbunits',None),
                      'cbpos':    plot.get_attr(layer,'cbpos',None),
-                     'tklabsiz':  plot.get_attr(layer,'tklabsiz',tklabsiz),
+                     'tklabsiz': plot.get_attr(layer,'tklabsiz',tklabsiz),
                      'tkscale':  plot.get_attr(layer,'tkscale',None)
                    }
 
@@ -1251,6 +1296,9 @@ class PlotService(object):
 
     def log_scale(self, x): return self.nlog(x,10.0)
 
+#------------------------------------------------------------------------------
+
+    def log_scale1(self, x): return self.nlog(x,1.0)
 #------------------------------------------------------------------------------
 
     def exp_scale(self, x): return self.nexp(x,10.0)

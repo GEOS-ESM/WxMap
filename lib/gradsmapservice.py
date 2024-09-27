@@ -6,6 +6,7 @@ import re
 import os
 import io
 import six
+import glob
 
 from string import *
 
@@ -21,10 +22,9 @@ else:
         NoBM=0
     except Exception:
         NoBM=1
-    #NoBM = 1
-    import cartopy
-    import cartopy.crs as ccrs
-    import cartopy.feature as cfeature
+        import cartopy
+        import cartopy.crs as ccrs
+        import cartopy.feature as cfeature
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -41,12 +41,12 @@ import PIL
 from PIL import Image, ImageChops, ImageEnhance, ImageDraw, ImageFont
 from PIL.ImageColor import getcolor, getrgb
 from PIL.ImageOps import grayscale
-#from scipy.ndimage import maximum_filter, minimum_filter
 
 from mapservice import *
 
-#os.environ["CARTOPY_USER_BACKGROUNDS"] = '/explore/dataportal/applications/devel/gmao_data_services/config/wxmaps/share/files'
-os.environ["CARTOPY_USER_BACKGROUNDS"] = '/explore/dataportal/applications/GMAO/fluiddev/fluid_dev/data_services/static/img'
+directory = os.getcwd()
+root_dir = directory.rsplit('/',2)[0]
+os.environ["CARTOPY_USER_BACKGROUNDS"] = glob.glob(f'{root_dir}/*/data_services/static/img')[0] 
 PIL.Image.MAX_IMAGE_PIXELS = 933120000
 os.environ["PYPROJ_GLOBAL_CONTEXT"]='ON'
 novalue = object()
@@ -304,8 +304,6 @@ class Service(MapService):
         for obj in plot:
             
             handler = self.handler.get(obj.macro, self.default)
-            #current_app.logger.info(f'********** {obj.macro} ***************')
-            #current_app.logger.info(str(obj.cmds))
             handler(obj)
 
             self.ccols = obj.state.get('ccols', self.ccols)
@@ -1611,7 +1609,7 @@ class Service(MapService):
         buf = io.BytesIO()
         plt.gca().set_axis_off()
         plt.savefig(buf, format='png', bbox_inches='tight', pad_inches=0,
-                        dpi=300, facecolor=face_color)#,transparent=True)
+                        dpi=300, facecolor=face_color)
 
         buf.seek(0)
         fg = Image.open(buf)
@@ -2329,7 +2327,7 @@ class HorizontalColorbar(Colorbar):
             ncolors = len(cbar.colors)
 
             length = ax.xhigh - ax.xlow
-            if cbar_only: length = 10
+            #if cbar_only: length = 10
             offset = (1.0 - 0.9) * (length / nbars) / 2.0
             xbeg   = (length / nbars) * index + ax.xlow + offset
             ybeg   = ax.ylow - 0.9
