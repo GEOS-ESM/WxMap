@@ -1194,7 +1194,7 @@ class PlotService(object):
 
         if not handle.slice: return
 
-        coords = [float(v) for v in handle.slice.split() if v != ' ']
+        coords = [float(v) for v in handle.slice.split()[0:4] if v != ' ']
 
         handle.lon = '%s %s'%(coords[0], coords[2])
         if coords[0] > coords[2]: handle.lon = '%s %s'%(coords[2], coords[0])
