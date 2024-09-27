@@ -40,7 +40,7 @@ from matplotlib.patches import Rectangle
 import PIL
 from PIL import Image, ImageChops, ImageEnhance, ImageDraw, ImageFont
 from PIL.ImageColor import getcolor, getrgb
-from PIL.ImageOps import grayscale
+from PIL.ImageOps import grayscale, expand
 
 from mapservice import *
 
