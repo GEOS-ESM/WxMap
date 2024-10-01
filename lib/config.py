@@ -21,14 +21,14 @@ directory = os.path.dirname(__file__)
 here = os.path.abspath(directory)
 
 #log_file=f'{here}/../../logs/wxmap_dev.log'
-try: 
-    fileHandler = RotatingFileHandler(log_file, maxBytes=1024, backupCount=10)
-except Exception:
-    log_file = f'{here}/../../logs/wxmap_dev.log'
-    fileHandler = RotatingFileHandler(log_file, maxBytes=1024, backupCount=10)
-
-fileHandler.setFormatter(fileFormatter)
-logger.addHandler(fileHandler)
+#try: 
+#    fileHandler = RotatingFileHandler(log_file, maxBytes=1024, backupCount=10)
+#except Exception:
+#    log_file = f'{here}/../../logs/wxmap_dev.log'
+#    fileHandler = RotatingFileHandler(log_file, maxBytes=1024, backupCount=10)
+#
+#fileHandler.setFormatter(fileFormatter)
+#logger.addHandler(fileHandler)
 
 try:
     from yaml import CLoader as Loader, CDumper as Dumper
@@ -241,7 +241,7 @@ class Config(dict):
 #------------------------------------------------------------------------------    
     
     def read(self, file, **add):
-        
+    
         if file in config_cache: 
             config_cache[file].update(add)
             return config_cache[file]

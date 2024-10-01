@@ -46,7 +46,7 @@ from mapservice import *
 
 directory = os.getcwd()
 root_dir = directory.rsplit('/',2)[0]
-os.environ["CARTOPY_USER_BACKGROUNDS"] = glob.glob(f'{root_dir}/*/data_services/static/img')[0] 
+#os.environ["CARTOPY_USER_BACKGROUNDS"] = glob.glob(f'{root_dir}/*/data_services/static/img')[0] 
 PIL.Image.MAX_IMAGE_PIXELS = 933120000
 os.environ["PYPROJ_GLOBAL_CONTEXT"]='ON'
 novalue = object()
@@ -1574,7 +1574,8 @@ class Service(MapService):
 
     def save_map(self, fname,bmaps, **kwargs):
         
-        face_color        = kwargs.get('face_color','0 0 0')
+        #face_color        = kwargs.get('face_color','0 0 0')
+        face_color        = kwargs.get('face_color','white')
         isGrayscale       = kwargs['grayscale']
         brightness        = kwargs['brightness']
         land_brightness   = kwargs['land_brightness']
