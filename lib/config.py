@@ -37,17 +37,14 @@ except ImportError:
 
 novalue    = object()
 config_cache = {}
+front_end = '/explore/dataportal/applications/GMAO/fluid{server}/fluid_{server}/data_services/'
+current_dir = os.getcwd()
+if 'fluidprod' in current_dir:
+    server='prod'
+else:
+    server='dev'
 replace_dict={
-        #'merra2/pub':'merra2/data/pub',
-        #'/portal/web/cgi-bin/gmao/data-services':'/discover/nobackup/sjrober4/fe/py3',
-        #'/dataportal01/devel/gmao_data_services/config/wxmaps/share/':'/discover/nobackup/sjrober4/be/',
-        #'/dataportal01/devel/gmao_data_services/static/data-services':'/discover/nobackup/sjrober4/fe/py3/data_services',
-        #'/explore/dataportal/applications/data-services-fluid':'/discover/nobackup/sjrober4/fe/py3',
-        #'/explore/dataportal/applications/devel/gmao_data_services/config/wxmaps/share/':'/discover/nobackup/sjrober4/be/',
-        #'/explore/dataportal/applications/devel/gmao_data_services/static/data-services':'/discover/nobackup/sjrober4/fe/py3/data_services',
-        #'/home/sjrober4/backend_SR':'/discover/nobackup/sjrober4/be',
-        #'/portal/web/cgi-bin/gmao/data-services/data_services/wxmaps/':'/explore/dataportal/applications/data-services-fluid/data_services/wxmaps/',
-        '/portal/web/cgi-bin/gmao/data-services/data_services/':'/explore/dataportal/applications/GMAO/fluiddev/fluid_dev/data_services/', # SJR 20240723 
+        '/portal/web/cgi-bin/gmao/data-services/data_services/':front_end.format(server=server),
         '/dataportal01/devel/gmao_data_services/config/wxmaps/share/':'/explore/dataportal/applications/devel/gmao_data_services/config/wxmaps/share/',
         '/dataportal01/devel/gmao_data_services/static/data-services':'/explore/dataportal/applications/devel/gmao_data_services/static/data-services',
         }

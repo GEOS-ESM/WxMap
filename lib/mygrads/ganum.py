@@ -616,8 +616,8 @@ class GaNum(GaCore):
         # Read binary data from stream
         handle = io.BytesIO()
         chsize = 4096 # Read data in 512 byte chunks
-        rcpattern = re.compile(b'\\n\<RC\>\s?-?\d+\s?\<\/RC\>') # pattern of RC tag
-        fwritepattern=re.compile(b'\<FWRITE\>[\\n]*')
+        rcpattern = re.compile(br'\n<RC>\s?-?\d+\s?</RC>') # pattern of RC tag
+        fwritepattern=re.compile(br'<FWRITE>[\n]*')
         chunk = self.p.stdout.read(chsize)
         fwritematch=fwritepattern.search(chunk)
         endmatch = rcpattern.search(chunk)
