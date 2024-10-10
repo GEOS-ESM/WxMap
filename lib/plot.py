@@ -1293,7 +1293,7 @@ class Plot(object):
 
 #       if isinstance(value, dict): return json.dumps(value)
 #       if isinstance(value, dict): return value
-        if not isinstance(value, collections.Hashable): return value
+        if not isinstance(value, collections.abc.Hashable): return value
 
         attribute = self.config(apath + [value], None)
         if attribute is None: return value
