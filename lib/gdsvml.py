@@ -71,10 +71,10 @@ class GDSVML(object):
         self.icolor = 31
 
         if sys.version_info.major > 2:
-            self.colors = {re.sub("\s+"," ",v.strip()):int(k)
+            self.colors = {re.sub(r"\s+"," ",v.strip()):int(k)
                             for k,v in self.default['rgb'].items()}
         else:
-            self.colors = {re.sub("\s+"," ",v.strip()):int(k)
+            self.colors = {re.sub(r"\s+"," ",v.strip()):int(k)
                             for k,v in six.iteritems(self.default['rgb'])}
 
         self.colors = {}
@@ -181,8 +181,8 @@ class GDSVML(object):
             return result
         else:
 
-            list2 = re.sub("\s+"," ",default).split()
-            list1 = re.sub("\s+"," ",state).split() + [None]*len(list2)
+            list2 = re.sub(r"\s+"," ",default).split()
+            list1 = re.sub(r"\s+"," ",state).split() + [None]*len(list2)
 
             if "auto" in list1:
                 return ' '.join(list2)
@@ -194,7 +194,7 @@ class GDSVML(object):
 
     def get_color(self, cmd):
 
-        cmd = re.sub("\s+"," ",cmd.strip()).split()
+        cmd = re.sub(r"\s+"," ",cmd.strip()).split()
         rgb = ' '.join(cmd[3:])
 
         if len(cmd) == 4: return int(cmd[3])
@@ -349,7 +349,7 @@ class GDSVML(object):
 
         if self.search(cmd, self.font):
 
-            cmd = re.sub("\s+"," ",cmd.strip()).split()
+            cmd = re.sub(r"\s+"," ",cmd.strip()).split()
             if len(cmd) != 5: return False
             if cmd[3] != 'file': return False
 
@@ -443,7 +443,7 @@ class GDSVML(object):
 
     def eval(self, cmd):
 
-        command   = re.sub("\s+"," ",cmd.strip()).split()
+        command   = re.sub(r"\s+"," ",cmd.strip()).split()
 
         end_of_plot_event = (self.macro is not None)
 
@@ -504,7 +504,7 @@ class GDSVML(object):
 
     def search(self, cmd, list):
 
-        cmd = re.sub("\s+"," ",cmd.strip())
+        cmd = re.sub(r"\s+"," ",cmd.strip())
 
         if any(re.match(r'^'+s+' ', cmd+' ') for s in list):
             return True

@@ -332,7 +332,7 @@ class Config(dict):
         # Resolve special variables: $(var)
         for var in re.findall(r'\$\((\w+)\)', expr):
             if var in defs:
-                expr = re.sub(r'\$\('+var+'\)',defs[var],expr)
+                expr = re.sub(r'\$\('+var+r'\)',defs[var],expr)
 
         # Resolve defs
         s_interp = Template(expr).safe_substitute(defs)
