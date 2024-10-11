@@ -162,7 +162,7 @@ class Plot(object):
 
         cmds = self.rsubstitute(commands, **defs)
         cmds = cmds.strip().split('\n')
-        cmds = [re.sub("\s+"," ",cmd.strip()) for cmd in cmds if len(cmd) > 0]
+        cmds = [re.sub(r"\s+"," ",cmd.strip()) for cmd in cmds if len(cmd) > 0]
         cmds = self.filter(cmds, self.defs)
 
         layer       = int(kwargs.get('zorder',0))
