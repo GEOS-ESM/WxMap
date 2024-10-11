@@ -954,7 +954,7 @@ class Service(MapService):
         colors = [c for c in self.ccols.split() if c != ' ']
         levels = [l for l in self.clevs.split() if l != ' ']
 
-        args    = re.sub("\s+"," ",obj.cmds[-1].strip())
+        args    = re.sub(r"\s+"," ",obj.cmds[-1].strip())
         options =  json.loads(args[9:])
 
         if not self.cbar:
@@ -977,7 +977,7 @@ class Service(MapService):
     def draw_arrow(self, obj):
 
         ax    = Axes(self.ds)
-        args  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+        args  = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()
 
         if len(args) < 6: return
 
@@ -1045,7 +1045,7 @@ class Service(MapService):
 
         self.symbols.append(params)
 
-        cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+        cmd  = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()
 
         x, y = self.w2xy(cmd[3], cmd[4])
 
@@ -1130,8 +1130,8 @@ class Service(MapService):
             ymargin = int(margin / 100.0 * bg.size[1])
             xpos    = xmargin
             ypos    = ymargin
-
-            img     = img.resize((xsize, ysize), Image.ANTIALIAS)
+            
+            img      = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
 
 #           Paste the logo onto the background image.
 
@@ -1228,7 +1228,7 @@ class Service(MapService):
             xsize   = int(size / 100.0 * bg.size[0])
             ysize   = int(xsize * ratio)
 
-            img     = img.resize((xsize, ysize), Image.ANTIALIAS)
+            img      = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
 
           # Paste the symbol onto the background image.
 
@@ -1254,7 +1254,7 @@ class Service(MapService):
         cmds = '\n'.join(cmds)
         self.ds(cmds)
 
-        cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+        cmd  = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()
 
         x1, y1 = self.w2xy(cmd[2], cmd[3])
         x2, y2 = self.w2xy(cmd[4], cmd[5])
@@ -1278,7 +1278,7 @@ class Service(MapService):
         cmds = '\n'.join(cmds)
         self.ds(cmds)
 
-        cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+        cmd  = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()
 
         x, y = self.w2xy(cmd[2], cmd[3])
         text = ' '.join(cmd[4:])
@@ -1293,7 +1293,7 @@ class Service(MapService):
         cmds = '\n'.join(cmds)
         self.ds(cmds)
 
-        cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+        cmd  = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()
 
         if cmd[-1] != 'xy':
             x1, y1 = self.w2xy(cmd[2], cmd[3])
@@ -1313,7 +1313,7 @@ class Service(MapService):
         cmds = '\n'.join(cmds)
         self.ds(cmds)
 
-        cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+        cmd  = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()
 
         if cmd[-1] != 'xy':
             x1, y1 = self.w2xy(cmd[2], cmd[3])
@@ -1332,7 +1332,7 @@ class Service(MapService):
         cmds = '\n'.join(cmds)
         self.ds(cmds)
 
-        cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()[2:]
+        cmd  = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()[2:]
 
         for i in range(0,len(cmd)-1,2):
             cmd[i], cmd[i+1] = self.w2xy(cmd[i], cmd[i+1])
@@ -1350,7 +1350,7 @@ class Service(MapService):
         cmds = '\n'.join(cmds)
         self.ds(cmds)
 
-        cmd  = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+        cmd  = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()
 
         x, y = self.w2xy(cmd[3], cmd[4])
 
@@ -2043,7 +2043,7 @@ class Service(MapService):
         cmds = '\n'.join(cmds)
         self.ds(cmds)
 
-        cmd   = re.sub("\s+"," ",obj.cmds[-1].strip()).split()
+        cmd   = re.sub(r"\s+"," ",obj.cmds[-1].strip()).split()
         title = ' '.join(cmd[2:])
         title = title.split('|')
 
