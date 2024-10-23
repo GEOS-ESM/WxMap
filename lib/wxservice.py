@@ -49,24 +49,25 @@ class WXService(object):
             return
 
         self.request = copy.deepcopy(request)
+        app_path=str(self.request.get('app_path','app_path'))        
 
         install_path = os.path.dirname(sys.argv[0])
 
         if not install_path: install_path = os.getcwd()
         file = request.get('rc', None)
         if not file: file = os.path.join(install_path, 'wxmap.rc')
-        
+        #print(install_path)
         install_path = os.path.realpath(os.path.dirname(install_path))
         resource = self.config.read_resolve(file,install_path=install_path)
-        self.config.mount(resource, '/')
-        
+        resource = {k:v.replace('$app_path',app_path).replace('app_path',app_path)
+                    if isinstance(v,str) else v for k,v in resource.items()}
+        self.config.mount(resource, '/')        
+
         self.configure()
         self.register(config=self.config)
 
         self.reset(request.get('reset',[]))
-        
         self.configure(request.get('theme',[]), ext='.init')
-
         self.configure(request.get('config',[]))
 
         self.base_config = copy.deepcopy(self.config)
@@ -165,7 +166,7 @@ class WXService(object):
 #------------------------------------------------------------------------------
 
     def configure(self, cfg=None, ext='.yml'):
-        
+
         self.recursion_depth += 1
 
         assert self.recursion_depth <= self.MAX_RECURSION_DEPTH, \
@@ -173,7 +174,6 @@ class WXService(object):
 
         if cfg is None:
             names = self.config.get('config',[])
-            
         elif isinstance(cfg, list):
             names = cfg
         elif isinstance(cfg, dict):
@@ -191,10 +191,9 @@ class WXService(object):
         for name in names:
 
             name, srch_path = self.provenance(name, ext, paths)
-       
+                
             for path in srch_path:
                 for file in self.list(os.path.join(path,name),ext):
-                   
                     resource = self.config.read(file)
 
                     self.reset(resource.get('reset',[]))
@@ -204,7 +203,7 @@ class WXService(object):
                     self.config.mount(resource)
                     ps = self.get_plotservice(resource)
                     if ps: self.register(plotservice=ps)
-                    
+
         self.recursion_depth -= 1
 
 #------------------------------------------------------------------------------
@@ -518,20 +517,24 @@ class WXServiceLite(WXService):
 
         r = copy.deepcopy(request)
         self.request = Request(r)
-        
+        app_path=str(self.request.get('app_path','app_path'))
+
         install_path = os.path.dirname(__file__)
         file = self.request.get('rc', None)
 
         if not file: file = os.path.join(install_path, 'wxmap.rc')
         resource = self.config.read(file)
+        resource = {k:v.replace('$app_path',app_path).replace('app_path',app_path) 
+                    if isinstance(v,str) else v for k,v in resource.items()}
+        #logger.info('CHECK frontend path ' + str(self.request.get('app_path')))
 
         bin_path  = resource.get('bin_path', './')
         self.bin_path  = request.get('bin_path',bin_path)
         self.config.read(file,bin_path=self.bin_path) 
         self.bin_path  = os.path.join(self.bin_path, self.request.get_key())
 
-        self.bin_path = self.bin_path.replace('install_path', os.path.join(here, '../..'))
-
+        #self.bin_path = self.bin_path.replace('app_path', str(self.request.get('app_path')))
+        
         listing = glob.glob(os.path.join(self.bin_path,'*.json'))
         self.num_play = len(listing)
 
