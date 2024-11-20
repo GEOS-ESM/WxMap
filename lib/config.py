@@ -1,104 +1,94 @@
 import importlib
-import six
-import re
 import os
+import re
 import sys
 import copy
 import yaml
 import json
+import platform
 from string import Template
+from typing import Any, Dict, List, Optional, Union
 
-import logging
-from logging.handlers import RotatingFileHandler
+from logging_config import logger
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
-fileFormatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
-log_file="/var/log/fluid/devlog/wxmap_dev.log"
-
-directory = os.path.dirname(__file__)
-here = os.path.abspath(directory)
-
-#log_file=f'{here}/../../logs/wxmap_dev.log'
-#try: 
-#    fileHandler = RotatingFileHandler(log_file, maxBytes=1024, backupCount=10)
-#except Exception:
-#    log_file = f'{here}/../../logs/wxmap_dev.log'
-#    fileHandler = RotatingFileHandler(log_file, maxBytes=1024, backupCount=10)
-#
-#fileHandler.setFormatter(fileFormatter)
-#logger.addHandler(fileHandler)
-
+# YAML Loader and Dumper
 try:
     from yaml import CLoader as Loader, CDumper as Dumper
 except ImportError:
     from yaml import Loader, Dumper
 
-novalue    = object()
-config_cache = {}
-front_end = '/explore/dataportal/applications/GMAO/fluid{server}/fluid_{server}/data_services/'
-current_dir = os.getcwd()
-if 'fluidprod' in current_dir:
-    server='prod'
-else:
-    server='dev'
-replace_dict={
-        '/portal/web/cgi-bin/gmao/data-services/data_services/':front_end.format(server=server),
-        '/dataportal01/devel/gmao_data_services/config/wxmaps/share/':'/explore/dataportal/applications/devel/gmao_data_services/config/wxmaps/share/',
-        '/dataportal01/devel/gmao_data_services/static/data-services':'/explore/dataportal/applications/devel/gmao_data_services/static/data-services',
-        }
+novalue = object()
+config_cache: Dict[str, Any] = {}
+
 class Config(dict):
     """
-    Attributes
-    ---------- 
-    registry: dict
-    
-    
-    Methods
-    ----------
-    __call__ method:
-        get_config(pathname,default=novalue)
-    find(path, name, depth=-1, cfg=None)
-    follow(paths)
-    get_values(pathname,default=None)
-    get_keys(pathname,default=None)
-    get_items(pathname,default=None,flat=True,hide=True)
-    expand(paths)
-    mkpath(root,path)
-    read(file)
-    readJSON(file)
-    read_resolve(file,**kwargs)
-    replace(s,**defs)
-    mount(cfg,root=None)
-    ispartition(dir)
-    fcopy(path)
-    fdcopy(path)
-    serialize(hash)
-    deserialize(hash)
-    copy_yaml(hash)
-    checkNode(config)
-    
-    
+    A configuration class for handling YAML and JSON configurations with variable interpolation and merging capabilities.
+
+    Attributes:
+        registry (dict): Registry to keep track of objects during copy operations.
+
+    Methods:
+        find(path, name, depth=-1, cfg=None): Find all paths to a given key.
+        follow(paths): Follow a path and return the configuration at that path.
+        get_values(pathname, default=None): Get values from the configuration.
+        get_keys(pathname, default=None): Get keys from the configuration.
+        get_items(pathname, default=None, flat=True, hide=True): Get items from the configuration.
+        expand(paths): Expand paths into a list of path components.
+        mkpath(root, path): Create a path in the configuration.
+        read(file, **add): Read a YAML configuration file.
+        readJSON(file): Read a JSON configuration file.
+        read_resolve(file, **kwargs): Read and resolve variables in a YAML file.
+        replace(s, **defs): Replace variables in a string.
+        mount(cfg, root=None): Mount a configuration at a given root.
+        is_partition(dir): Check if a directory is a partition.
+        fcopy(path): Make a flat copy of the configuration at a path.
+        fdcopy(path): Make a deep copy of the configuration at a path.
+        overlay(hash1, hash2): Overlay one configuration onto another.
+        serialize(hash): Serialize the configuration for JSON dumping.
+        deserialize(hash): Deserialize a configuration from JSON.
+        copy_yaml(hash): Make a copy of a YAML configuration.
+        check_node(config): Check and modify paths in the configuration based on the node.
     """
 
-    def __init__(self, *args, **kw):
+    def __init__(self, *args, **kwargs) -> None:
+        self.registry: Dict[int, int] = {}
+        super().__init__(*args, **kwargs)
+        self.get_node()
 
-        self.registry = {}
-        config_cache = {}
-        super(Config,self).__init__(*args, **kw)
+    def get_node(self) -> None:
+        """
+        Get the node name.
 
-#------------------------------------------------------------------------------
+        Returns:
+            The node name.
+        """
+        node = platform.node()
+        if 'dplogin' in node:
+            self.node = 'dataportal'
+        elif 'discover' in node:
+            self.node = 'discover'
+        else:
+            self.node = 'local'
 
-    def find(self, path, name, depth=-1, cfg=None):
+    def find(self, path: List[str], name: str, depth: int = -1, cfg: Optional[Dict] = None) -> List[List[str]]:
+        """
+        Find all paths to a given key in the configuration.
 
+        Args:
+            path: The path to start searching from.
+            name: The name of the key to find.
+            depth: The depth to search (-1 for unlimited).
+            cfg: The configuration dictionary to search in.
+
+        Returns:
+            A list of paths where the key is found.
+        """
         result = []
 
         if cfg is None:
             cfg = self.follow(path)
 
         for key in cfg:
-
             apath = path + [key]
 
             if key == name:
@@ -107,91 +97,137 @@ class Config(dict):
             if depth == 0:
                 continue
 
-            if self.ispartition(cfg[key]):
-                result += self.find(apath,name,depth,cfg=cfg[key])
+            if self.is_partition(cfg[key]):
+                result += self.find(apath, name, depth, cfg=cfg[key])
             elif isinstance(cfg[key], dict):
-                result += self.find(apath,name,depth-1,cfg=cfg[key])
+                result += self.find(apath, name, depth - 1, cfg=cfg[key])
 
         return result
 
-#------------------------------------------------------------------------------
+    def follow(self, paths: Union[str, List[str]]) -> Dict:
+        """
+        Follow a path in the configuration and return the configuration at that path.
 
-    def follow(self, paths):
+        Args:
+            paths: The path to follow.
 
-        cfg   = self
+        Returns:
+            The configuration dictionary at the specified path.
+
+        Raises:
+            KeyError: If the path does not exist.
+        """
+        cfg = self
         apath = ''
 
-        for path in paths:
+        if isinstance(paths, str):
+            paths = [paths]
 
+        for path in paths:
             if path == '/':
                 continue
 
             apath += '/' + str(path)
 
             if path not in cfg:
-                raise KeyError('Config.follow: "' + apath +
-                               '" No such file or directory')
+                raise KeyError(f'Config.follow: "{apath}" No such file or directory')
 
-            if isinstance(cfg[path],dict):
+            if isinstance(cfg[path], dict):
                 cfg = cfg[path]
             else:
-                raise KeyError('Config.follow: "' + apath +
-                                          '" is not a directory')
+                raise KeyError(f'Config.follow: "{apath}" is not a directory')
 
         return cfg
-    
-#------------------------------------------------------------------------------
 
-    def get_values(self, pathname, default=None):
+    def get_values(self, pathname: List[List[str]], default: Any = None) -> List[Any]:
+        """
+        Get values from the configuration based on the given paths.
 
-        return self.get_items(pathname, default).values()
+        Args:
+            pathname: List of paths.
+            default: Default value if key is not found.
 
-#------------------------------------------------------------------------------
-    
-    def get_keys(self, pathname, default=None):
+        Returns:
+            List of values.
+        """
+        return list(self.get_items(pathname, default).values())
 
-        return self.get_items(pathname, default).keys()
+    def get_keys(self, pathname: List[List[str]], default: Any = None) -> List[str]:
+        """
+        Get keys from the configuration based on the given paths.
 
-#------------------------------------------------------------------------------
+        Args:
+            pathname: List of paths.
+            default: Default value if key is not found.
 
-    def get_items(self, pathname, default=None, flat=True, hide=True):
+        Returns:
+            List of keys.
+        """
+        return list(self.get_items(pathname, default).keys())
 
-        items     = {}
+    def get_items(
+        self,
+        pathname: Union[List[str], List[List[str]]],
+        default: Any = None,
+        flat: bool = True,
+        hide: bool = True
+    ) -> Dict:
+        """
+        Get items from the configuration based on the given paths.
+
+        Args:
+            pathname: List of paths.
+            default: Default value if key is not found.
+            flat: Whether to return a flat dictionary.
+            hide: Whether to skip hidden items.
+
+        Returns:
+            Dictionary of items.
+        """
+        items = {}
         pathnames = pathname
 
-        if not isinstance(pathname,list):
+        if not isinstance(pathname, list):
             return items
 
-        if not isinstance(pathname[0],list):
+        if not isinstance(pathname[0], list):
             pathnames = [pathname]
-        
+
         for pn in pathnames:
-
-            path = pn[0:-1]
+            path = pn[:-1]
             name = pn[-1]
-            key  = pn[-2]
-            cfg  = self.follow(path)
+            key = pn[-2]
+            cfg = self.follow(path)
 
-            if hide and cfg.get('hide','no') == 'yes': continue
+            if hide and cfg.get('hide', 'no') == 'yes':
+                continue
 
-            hash = items
-            if not flat: hash = self.mkpath(hash,path[1:-1])
+            hash_map = items
+            if not flat:
+                hash_map = self.mkpath(hash_map, path[1:-1])
 
             if name not in cfg:
-                hash[key] = default
+                hash_map[key] = default
             else:
-                hash[key] = cfg[name]
+                hash_map[key] = cfg[name]
 
         return items
 
-#------------------------------------------------------------------------------    
-    
-    def get_config(self, pathname, default=novalue):
+    def get_config(self, pathname: Union[str, List[str]], default: Any = novalue) -> Any:
+        """
+        Get a configuration value based on the given path.
 
+        Args:
+            pathname: The path to the configuration value.
+            default: Default value if key is not found.
+
+        Returns:
+            The configuration value.
+        """
         pathname = self.expand(pathname)
 
         try:
-            cfg = self.follow(pathname[0:-1])
+            cfg = self.follow(pathname[:-1])
         except KeyError:
             if default is novalue:
                 raise
@@ -201,138 +237,146 @@ class Config(dict):
         if default is novalue:
             return cfg[pathname[-1]]
         else:
-            return cfg.get(pathname[-1],default)
+            return cfg.get(pathname[-1], default)
 
     __call__ = get_config
 
-#------------------------------------------------------------------------------    
-    
-    def expand(self, paths):
+    def expand(self, paths: Union[str, List[Union[str, int]]]) -> List[Union[str, int]]:
+        """
+        Expand a path or list of paths into a list of path components.
 
+        Args:
+            paths: The path(s) to expand.
+
+        Returns:
+            A list of path components.
+        """
         pathname = []
-        if not isinstance(paths,list):
+        if not isinstance(paths, list):
             paths = [paths]
 
         for path in paths:
-
-            if isinstance(path,six.string_types):
+            if isinstance(path, str):
                 pathname += path.split('/')
             else:
                 pathname.append(path)
 
         return pathname
 
-#------------------------------------------------------------------------------
+    def mkpath(self, root: Dict, path: List[str]) -> Dict:
+        """
+        Create a path in the configuration dictionary.
 
-    def mkpath(self, root, path):
+        Args:
+            root: The root dictionary.
+            path: The path components.
 
-        for dir in path:
-
-            if dir not in root:
-                root[dir] = {}
-
-            root = root[dir]
-
+        Returns:
+            The dictionary at the end of the path.
+        """
+        for dir_name in path:
+            if dir_name not in root:
+                root[dir_name] = {}
+            root = root[dir_name]
         return root
 
-#------------------------------------------------------------------------------    
-    
-    def read(self, file, **add):
-    
-        if file in config_cache: 
+    def read(self, file: str, **add) -> Dict:
+        """
+        Read a YAML configuration file.
+
+        Args:
+            file: The file path.
+            **add: Additional key-value pairs to add to the configuration.
+
+        Returns:
+            The configuration dictionary.
+        """
+        if file in config_cache:
             config_cache[file].update(add)
             return config_cache[file]
-    
-        yaml.warnings({'YAMLLoadWarning': False})
+
         with open(file, 'r') as ymlfile:
-            config = self.copy_yaml(yaml.load(ymlfile,Loader))
+            yaml_content = yaml.load(ymlfile, Loader=Loader)
+            config_data = self.copy_yaml(yaml_content)
 
-        config.update(add)
-        config_cache[file]=  self.checkNode(config)
-        config_cache[file]= config
-        
+        config_data.update(add)
+        config_cache[file] = self.check_node(config_data)
         return config_cache[file]
 
-#------------------------------------------------------------------------------
-
-    def readJSON(self, file):
-
-        #if file in config_cache: return config_cache[file]
-
-        with open(file, 'r') as jsonfile:
-            config             = json.load(jsonfile)
-            
-        config = self.deserialize(config)
-        config_cache[file]=self.checkNode(config)
-        config_cache[file] = config
-        return config_cache[file]
-    
-#------------------------------------------------------------------------------
-    
-    def read_resolve(self, file, **kwargs):
-        """Reads a YAML file and resolves/interpolates all defined variables
-        in the configuration using environment settings and root-level
-        parameters values.
-
-        Returns
-        -------
-        d: dict
-          YAML dictionary with all defined variables interpolated.
+    def readJSON(self, file: str) -> Dict:
         """
+        Read a JSON configuration file.
 
-        # Read input file as YAML file
+        Args:
+            file: The file path.
+
+        Returns:
+            The configuration dictionary.
+        """
+        with open(file, 'r') as jsonfile:
+            config_data = json.load(jsonfile)
+
+        config_data = self.deserialize(config_data)
+        config_cache[file] = self.check_node(config_data)
+        return config_cache[file]
+
+    def read_resolve(self, file: str, **kwargs) -> Dict:
+        """
+        Read a YAML file and resolve/interpolate all defined variables in the configuration.
+
+        Args:
+            file: The file path.
+            **kwargs: Additional definitions for variable substitution.
+
+        Returns:
+            The configuration dictionary with variables resolved.
+        """
+        # Read input file as YAML
         with open(file) as f:
-            input_defs = yaml.load(f,Loader=yaml.UnsafeLoader)
+            input_defs = yaml.load(f, Loader=Loader)
 
         # Extract definitions
-        defs = { k:str(v) for k,v in six.iteritems(os.environ) }
+        defs = {k: str(v) for k, v in os.environ.items()}
         defs.update(kwargs)
-        defs.update( {k:str(v) for k,v in six.iteritems(input_defs)
-          if not isinstance(v,dict) and not isinstance(v,list)} )
+        defs.update(
+            {k: str(v) for k, v in input_defs.items() if not isinstance(v, (dict, list))}
+        )
 
-        # Read input file as text file
+        # Read input file as text
         with open(file) as f:
             text = f.read()
 
         # Replace any unresolved variables in the file
         text = self.replace(text, **defs)
 
-        # Return a yaml
-        return yaml.load(text,Loader=yaml.UnsafeLoader)
+        # Return the resolved YAML content
+        return yaml.load(text, Loader=Loader)
 
-    def replace(self, s, **defs):
-        
-        """Interpolate/replace variables in string
-
-        Resolved variable formats are: $var, {{var}} and $(var). Undefined
-        variables remain unchanged in the returned string. This method will
-        recursively resolve variables of variables.
-
-        Parameters
-        ----------
-        s : string, required
-          Input string containing variables to be resolved.
-        defs: dict, required
-          dictionary of definitions for resolving variables expressed
-          as key-word arguments.
-
-        Returns
-        -------
-        s_interp: string
-          Interpolated string. Undefined variables are left unchanged.
+    def replace(self, s: str, **defs) -> str:
         """
+        Interpolate/replace variables in a string.
 
+        Resolved variable formats are: $var, {{var}}, and $(var).
+        Undefined variables remain unchanged.
+
+        Args:
+            s: The input string containing variables to be resolved.
+            **defs: Dictionary of definitions for resolving variables.
+
+        Returns:
+            The interpolated string.
+        """
         expr = s
 
         # Resolve special variables: {{var}}
         for var in re.findall(r'{{(\w+)}}', expr):
             if var in defs:
-                expr = re.sub(r'{{'+var+'}}',defs[var],expr)
+                expr = re.sub(r'{{' + var + '}}', defs[var], expr)
 
         # Resolve special variables: $(var)
         for var in re.findall(r'\$\((\w+)\)', expr):
             if var in defs:
-                expr = re.sub(r'\$\('+var+r'\)',defs[var],expr)
+                expr = re.sub(r'\$\(' + var + r'\)', defs[var], expr)
 
         # Resolve defs
         s_interp = Template(expr).safe_substitute(defs)
@@ -342,196 +386,226 @@ class Config(dict):
             s_interp = self.replace(s_interp, **defs)
 
         return s_interp
-    
-#------------------------------------------------------------------------------
 
-    def mount(self, cfg, root=None):
+    def mount(self, cfg: Dict, root: Optional[str] = None) -> None:
+        """
+        Mount a configuration at a given root.
 
-        hash = self
+        Args:
+            cfg: The configuration dictionary to mount.
+            root: The root path where the configuration should be mounted.
+        """
+        hash_map = self
 
         if root is not None:
+            for dir_name in root.split('/'):
+                if dir_name == '/':
+                    continue
+                if not dir_name:
+                    continue
 
-            for dir in root.split('/'):
+                if dir_name not in hash_map:
+                    hash_map[dir_name] = {}
+                elif not isinstance(hash_map[dir_name], dict):
+                    hash_map[dir_name] = {}
 
-                if dir == '/': continue
-                if not dir: continue
+                hash_map = hash_map[dir_name]
 
-                if dir not in hash:
-                    hash[dir] = {}
-                elif not isinstance(hash[dir], dict):
-                    hash[dir] = {}
+        self.overlay(hash_map, cfg)
 
-                hash = hash[dir]
+    def is_partition(self, dir_entry: Any) -> bool:
+        """
+        Check if a directory is a partition (contains only directories).
 
-        self.overlay(hash,cfg)
-    
-#------------------------------------------------------------------------------
+        Args:
+            dir_entry: The directory entry to check.
 
-    def ispartition(self, dir):
-
-        if not isinstance(dir,dict):
+        Returns:
+            True if the directory is a partition, False otherwise.
+        """
+        if not isinstance(dir_entry, dict):
             return False
 
-        result = [key for key in dir.keys() if not isinstance(dir[key],dict)]
+        result = [key for key in dir_entry.keys() if not isinstance(dir_entry[key], dict)]
 
-        if result:
-            return False
+        return not bool(result)
 
-        return True
-    
-#------------------------------------------------------------------------------
+    def fcopy(self, path: List[str]) -> Dict:
+        """
+        Make a flat copy of the configuration at the specified path.
 
-    def fcopy(self, path):
+        Args:
+            path: The path to copy.
 
+        Returns:
+            A flat dictionary of the configuration.
+        """
         flat_list = {}
-        hash      = self
+        hash_map = self
 
-        for dir in path:
-            hash = hash.get(dir,{})
-            flat_list.update(hash)
-            if dir in flat_list:
-                del flat_list[dir]
+        for dir_name in path:
+            hash_map = hash_map.get(dir_name, {})
+            flat_list.update(hash_map)
+            if dir_name in flat_list:
+                del flat_list[dir_name]
 
         return flat_list
-    
-#------------------------------------------------------------------------------
 
-    def fdcopy(self, path):
+    def fdcopy(self, path: List[str]) -> Dict:
+        """
+        Make a deep copy of the configuration at the specified path.
+
+        Args:
+            path: The path to copy.
+
+        Returns:
+            A deep copy of the configuration.
+        """
         return copy.deepcopy(self.fcopy(path))
-    
-#------------------------------------------------------------------------------
 
-    def overlay(self, hash1, hash2):
+    def overlay(self, hash1: Dict, hash2: Dict) -> None:
+        """
+        Overlay one configuration onto another.
 
+        Args:
+            hash1: The base configuration dictionary.
+            hash2: The configuration dictionary to overlay.
+        """
         for key2 in hash2:
-
             if key2 not in hash1:
                 if isinstance(hash2[key2], dict):
                     hash1[key2] = copy.deepcopy(hash2[key2])
                 else:
                     hash1[key2] = hash2[key2]
-            elif isinstance(hash2[key2],dict) and isinstance(hash1[key2],dict):
+            elif isinstance(hash2[key2], dict) and isinstance(hash1[key2], dict):
                 self.overlay(hash1[key2], hash2[key2])
             else:
                 hash1[key2] = hash2[key2]
-    
-#------------------------------------------------------------------------------
 
-    def serialize(self, hash):
+    def serialize(self, hash_map: Dict) -> None:
+        """
+        Serialize the configuration for JSON dumping.
 
-        for key in hash:
-
-            if isinstance(hash[key],dict):
-                self.serialize(hash[key])
+        Args:
+            hash_map: The configuration dictionary to serialize.
+        """
+        for key in hash_map:
+            if isinstance(hash_map[key], dict):
+                self.serialize(hash_map[key])
 
             try:
-                json.dumps(hash[key])
+                json.dumps(hash_map[key])
             except TypeError:
-                hash[key] = hash[key].__module__ + '.' + \
-                            hash[key].__class__.__name__ + \
-                            ' []'
-    
-#------------------------------------------------------------------------------
+                hash_map[key] = (
+                    f"{hash_map[key].__module__}."
+                    f"{hash_map[key].__class__.__name__} []"
+                )
 
-    def deserialize(self, hash):
+    def deserialize(self, hash_map: Dict) -> Dict:
+        """
+        Deserialize a configuration from JSON.
 
-        for key in hash:
+        Args:
+            hash_map: The configuration dictionary to deserialize.
 
-            if isinstance(hash[key],dict):
-                self.deserialize(hash[key])
+        Returns:
+            The deserialized configuration dictionary.
+        """
+        for key in hash_map:
+            if isinstance(hash_map[key], dict):
+                self.deserialize(hash_map[key])
 
-            if self.is_object_string(hash[key]):
-                object      = hash[key]
-                module_name = object.split('.')[0]
-                class_name  = object.split('.')[1].split()[0]
+            if self.is_object_string(hash_map[key]):
+                obj_str = hash_map[key]
+                module_name, class_name = obj_str.split('.')[0], obj_str.split('.')[1].split()[0]
 
                 try:
-                    module      = importlib.import_module(module_name)
-                    class_      = getattr(module, class_name)
-                    hash[key]   = class_()
+                    module = importlib.import_module(module_name)
+                    class_ = getattr(module, class_name)
+                    hash_map[key] = class_()
                 except Exception as e:
-                    hash[key]   = object
+                    logger.error(f"Error deserializing object '{obj_str}': {e}")
+                    hash_map[key] = obj_str
 
-        return hash
-    
-#------------------------------------------------------------------------------
+        return hash_map
 
-    def is_object_string(self, value):
+    def is_object_string(self, value: Any) -> bool:
+        """
+        Check if a value is a string representation of an object.
 
-        if not isinstance(value, six.string_types): return False
+        Args:
+            value: The value to check.
+
+        Returns:
+            True if the value is an object string, False otherwise.
+        """
+        if not isinstance(value, str):
+            return False
         match = re.match(r'\w+\.\w+ \[\]', value)
-        if match: return True
+        return bool(match)
 
-        return False
-    
-#------------------------------------------------------------------------------
+    def copy_yaml(self, hash_map: Dict) -> Dict:
+        """
+        Make a copy of a YAML configuration.
 
-    def copy_yaml(self, hash):
+        Args:
+            hash_map: The configuration dictionary to copy.
 
-        hashkeys=list(hash.keys())
-        for key in hashkeys:
-
+        Returns:
+            The copied configuration dictionary.
+        """
+        hash_keys = list(hash_map.keys())
+        for key in hash_keys:
             new_key = str(key)
 
-            if not isinstance(key, six.string_types):
-                hash[new_key] = hash[key]
-                del hash[key]
+            if not isinstance(key, str):
+                hash_map[new_key] = hash_map[key]
+                del hash_map[key]
 
-            if isinstance(hash[new_key], dict):
-
-                if id(hash[new_key]) in self.registry:
-                    hash[new_key] = dict(hash[new_key])
-                    self.registry[id(hash[new_key])] = 1
+            if isinstance(hash_map[new_key], dict):
+                if id(hash_map[new_key]) in self.registry:
+                    hash_map[new_key] = dict(hash_map[new_key])
+                    self.registry[id(hash_map[new_key])] = 1
                 else:
-                    self.registry[id(hash[new_key])] = 1
+                    self.registry[id(hash_map[new_key])] = 1
 
-                self.copy_yaml(hash[new_key])
+                self.copy_yaml(hash_map[new_key])
 
-        return hash
-    
-#------------------------------------------------------------------------------
-    
-    def checkNode(self,config):
-        
-        def replace_dportal(path):
-            for k,v in replace_dict.items():
-                if k in path:
-                    path=path.replace(k,v)
-            return path
-        
-        import platform
-        node=platform.node()
-        
-        #if 'dphttp' in node:
-            #return
+        return hash_map
+
+    def check_node(self, config: Dict) -> Dict:
+        """
+        Check and modify paths in the configuration based on the node.
+
+        Args:
+            config: The configuration dictionary.
+
+        Returns:
+            The modified configuration dictionary with uri key
+            that corresponds to the current server.
+        """
+        if self.node == 'dataportal':
+            uri = 'uri_dataportal'
+        elif self.node == 'discover':
+            uri = 'uri_discover'
+        else:
+            uri = 'uri'
 
         if 'stream' in config:
-            for k,v in config['stream'].items():
+            for k, v in config['stream'].items():
                 if 'uri' in v:
-                    config['stream'][k]['uri']=replace_dportal(v['uri'])
-        
-        for k,v in config.items():
-            if 'font' in k or 'path' in k:
-                config[k]=replace_dportal(v)
-                
-        return config
-    
-#------------------------------------------------------------------------------
+                    config['stream'][k]['uri'] = v[uri]
 
-    #def __deepcopy__(self, memo):
-    #    cls = self.__class__
-    #    result = cls.__new__(cls)
-    #    memo[id(self)] = result
-    #    for k, v in self.__dict__.items():
-    #        setattr(result, k, copy.deepcopy(v, memo))
-    #    return result
-    
-    
+        return config
+
+
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
+
 class UsageError(Error):
-    """Exception raise for errors in the input."""
-    def __init__(self, msg):
+    """Exception raised for errors in the input."""
+
+    def __init__(self, msg: str) -> None:
         self.msg = msg
