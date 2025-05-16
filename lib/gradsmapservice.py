@@ -350,6 +350,7 @@ class Service(MapService):
 
         if not basemap_off:
             background = self.draw_map(zorder=0)
+            print(background)
         else: background = None 
         
         geometry = self.get_geometry()
@@ -1130,9 +1131,9 @@ class Service(MapService):
             ymargin = int(margin / 100.0 * bg.size[1])
             xpos    = xmargin
             ypos    = ymargin
-            
-            img      = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
 
+            #img     = img.resize((xsize, ysize), Image.ANTIALIAS)
+            img      = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
 #           Paste the logo onto the background image.
 
             if pos == 'ul':
@@ -1228,7 +1229,7 @@ class Service(MapService):
             xsize   = int(size / 100.0 * bg.size[0])
             ysize   = int(xsize * ratio)
 
-            img      = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
+            img     = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
 
           # Paste the symbol onto the background image.
 
@@ -2637,10 +2638,8 @@ class HersheyDraw(object):
         self.d     = ImageDraw.Draw(im)
         self.fn    = ImageFont.truetype(font, size)
         self.fs    = ImageFont.truetype(font, int(size/2))
-        self.hn    = self.d.textsize('1', font=self.fn)[1]
-        self.hs    = self.d.textsize('1', font=self.fs)[1]
-
-#------------------------------------------------------------------------------
+        self.hn    = self.get_text_dimensions('1', font=self.fn)[1]
+        self.hs    = self.get_text_dimensions('1', font=self.fs)[1]
 
     def text_size(self, text):
         """
@@ -2682,12 +2681,10 @@ class HersheyDraw(object):
                 sText += s[1:]
 
         wn, hn, ws, hs = (0, 0, 0, 0)
-        if nText: wn, hn = self.d.textsize(nText, font=self.fn)
-        if sText: ws, hs = self.d.textsize(sText, font=self.fs)
+        if nText: wn, hn = self.get_text_dimensions(nText, font=self.fn)
+        if sText: ws, hs = self.get_text_dimensions(sText, font=self.fs)
 
         return (wn + ws, max(hn,hs))
-
-#------------------------------------------------------------------------------
 
     def draw_text(self, x, y, text):
         """
@@ -2729,15 +2726,25 @@ class HersheyDraw(object):
 
             if s[0] == 'n':
                 self.d.text( (x, y), s[1:], font=self.fn, fill=self.color)
-                w, h = self.d.textsize(s[1:], font=self.fn)
+                w, h = self.get_text_dimensions(s[1:], font=self.fn)
                 x += w
             elif s[0] == 'a':
                 self.d.text( (x, y), s[1:], font=self.fs,
                                                       fill=self.color)
-                w, h = self.d.textsize(s[1:], font=self.fs)
+                w, h = self.get_text_dimensions(s[1:], font=self.fs)
                 x += w
             elif s[0] == 'b':
                 self.d.text( (x, y+self.hn-self.hs), s[1:], font=self.fs,
                                                       fill=self.color)
-                w, h = self.d.textsize(s[1:], font=self.fs)
+                w, h = self.get_text_dimensions(s[1:], font=self.fs)
                 x += w
+
+    def get_text_dimensions(self, text_string, font):
+
+        ascent, descent = font.getmetrics()
+
+        text_width = font.getmask(text_string).getbbox()[2]
+        text_height = font.getmask(text_string).getbbox()[3] + descent
+
+        return (text_width, text_height)
+
