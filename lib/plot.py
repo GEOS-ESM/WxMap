@@ -8,6 +8,7 @@ import json
 import math
 import collections
 from string import *
+from formats import *
 
 import numpy as np
 
@@ -499,44 +500,66 @@ class Plot(object):
         self.handle  = PlotHandle(**self.request)
         self.defs    = self.handle.__dict__
 
-#------------------------------------------------------------------------------
 
-    def refine_clevs(self, clevs, nsub, type):
-        """"""
-        clevs = [ float(clev) for clev in clevs.split() if clev != ' ' ]
+# -----------------------------------------------------------------------------
 
+
+    def refine_clevs(self, clevs, nsub, type='linear'):
+        """
+        Refines contour levels by sub-dividing each interval into smaller
+        intervals.
+
+        This method refines the contour levels into a string of values
+        where each interval is sub-divided into equally spaced sub-intervals.
+
+        Parameters
+        ----------
+        clevs : string|string[]|float[]
+            String (blank delimited) or list of contour levels
+        nsub : int
+            Number of sub-divisions for each contour interval
+            E.g. [0,1] with nsub=10 will yield [0, 0.1, 0.2, ..., 1]
+        type : string
+            linear : default
+            log : logarithmic scaling
+
+        Returns
+        -------
+        levels : string
+            List-string of formatted contour levels (space delimited)
+
+        See Also
+        --------
+        float_format : method
+            Reformats floating point numbers into string values
+
+        """
         clevs_f = []
+        levels = []
+
+        # Set up interpolation parameters
+
         if type.upper() == 'LOG':
-
-            for index, clev in enumerate(clevs[0:-1]):
-
-                dclev = ( math.log(clevs[index+1]) - math.log(clev) ) / nsub
-                clevs_f.append(str(clev))
-
-                for ns in range(2,nsub+1):
-                    clev_f = math.log(clev) + (ns-1) * dclev
-                    clev_f = math.exp(clev_f)
-                    clev_f = "%3.2f"%clev_f
-                    clevs_f.append(clev_f)
-
-            clevs_f.append(str(clevs[-1]))
-
+            interpolate = np.logspace
+            options = dict(base=np.e, dtype=float)
+            clevs = [np.log(float(clev)) for clev in clevs.split() if clev != ' ']
         else:
+            interpolate = np.linspace
+            options = dict(dtype=float)
+            clevs = [float(clev) for clev in clevs.split() if clev != ' ']
 
-            for index, clev in enumerate(clevs[0:-1]):
+        # Interpolate to sub-divisions
 
-                dclev = ( clevs[index+1] - clev ) / nsub
-                clevs_f.append(str(clev))
+        for index, clev in enumerate(clevs[0:-1]):
+            levels = interpolate(clev, clevs[index+1], nsub+1, **options)
+            clevs_f += [float_format(level) for level in levels[0:-1]]
 
-                for ns in range(2,nsub+1):
-                    clev_f = clev + (ns-1) * dclev
-                    clevs_f.append(str(clev_f))
-
-            clevs_f.append(str(clevs[-1]))
+        clevs_f.append(float_format(levels[-1]))
 
         return ' '.join(clevs_f)
 
 #------------------------------------------------------------------------------
+
 
     def refine_rgb(self, rgba, nsub):
         """"""
@@ -708,31 +731,66 @@ class Plot(object):
 
         self.cmd(('set ccols '+' '.join(ccols) + ' ' + cpad).strip(), zorder=zorder)
 
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+
 
     def set_clevs(self, clevs, cmin, cmax, cint):
-        """"""
-        if clevs: return clevs
-        if cmin is None: return 
-        if cmax is None: return
-        if cint is None: return
+        """
+        Sets contour levels based on the specified min/max/increment.
+
+        This method expands the contour levels into a string of values
+        based on the range [cmin, cmax]. The values are formatted floats
+        using the assigned precision (see float_format method).
+
+        Parameters
+        ----------
+        clevs : string
+            List-string of contour levels (space delimited). If defined, these
+            levels are returned without modification.
+        cmin : string|float
+            Contour minimum value
+        cmax: string|float
+            Contour maximum value
+        cint: string|float
+            Contour interval (increment)
+
+        Returns
+        -------
+        levels : None|string
+            None: contour levels were unspecified
+            string: list-string of formatted contour levels (space delimited)
+
+        See Also
+        --------
+        float_format : method
+            Reformats floating point numbers into string values
+
+        """
+
+        # Return if contour level specification is incomplete
+        # or pre-specified.
+
+        if clevs:
+            return clevs
+        if None in (cmin, cmax, cint):
+            return
+
+        # Construct a list-string of values over the
+        # contour interval [cmin,cmax]
 
         vmin = float(cmin)
         vmax = float(cmax)
         vint = float(cint)
 
-        v    = vmin
         cout = []
-
-        assert vmin <= vmax and vint > 0, 'invalid range for cmin/cmax/cint'
-    
-        while v <= vmax:
-            cout.append(str(v))
+        for v in np.arange(vmin, vmax+vint/2.0, vint):
+            cout.append(float_format(v))
             v += vint
 
         return ' '.join(cout)
 
 #------------------------------------------------------------------------------
+
 
     def set_shade(self, clevs, rgba, nsub=1, type='linear', zorder=0,return_cmap=False, **kwargs):
         """"""
