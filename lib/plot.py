@@ -8,6 +8,7 @@ import json
 import math
 import collections
 from string import *
+from formats import *
 
 import numpy as np
 
@@ -203,10 +204,12 @@ class Plot(object):
                 var        = assignment[0:index]
                 expr       = assignment[index+1:]
 
+            #   print(f'expression: {expr}')
                 expr = self.eval.evaluate(field.Field(expr))
 
                 self.eval.define(var)
 
+            #   print('define ' + var + '=' + expr)
                 self.cmds.append('define ' + var + '=' + expr)
                
                 if self.passive: continue                
@@ -252,40 +255,6 @@ class Plot(object):
 #------------------------------------------------------------------------------
 
     def execute(self, commands=None):
-        """ executes GrADS commands to get/store the values of 
-        the fields to be plotted in figure 
-        
-        Notes: SR updates
-        1. 'draw hilo' is now included with is_display- this is so 
-            values from the field can be stored & used for pymapservice
-        2. self.set_file_grid(fileID) is run before the field values are 
-            calculated/exported from GrADS. This is so the entire lat/lon
-            grid of values will be stored. (Without this, only the defined
-            lat/lon grid for region is stored- which does not cover enough
-            data for most projections)
-        3. self.grids was added to write out the grid variables from GrADS
-            output - more investigation is needed, but values are overwritten
-            when the fieldnames are not separated
-        """
-        def check_regrid(cmd):
-            if 're(' not in cmd:
-                return None, None
-            rexp=cmd.split('re(')[1]
-            flag=0
-            recmd=''
-            for l in rexp:
-                if '(' in l: flag+=1;
-                elif ')' in l:
-                    if not flag: break
-                    flag-=1;
-                elif not flag: recmd+=l
-                 
-            regrid=recmd.split(',')[1:]
-            
-            if len(regrid)==1: dx=dy=float(regrid[0])
-            elif len(regrid)>1: dx=float(regrid[0]); dy = float(regrid[1])
-            else: dx=dy=None
-            return dx,dy            
 
         self.is_regional = True
         self.cmds  = self.get_layer_stack('cmds')
@@ -296,45 +265,28 @@ class Plot(object):
             commands = self.cmds
 
         for cmd in commands:
+
             self.ds.reset_region()
-            #print(cmd) 
-            if cmd.startswith('set dfile'):
-                _,fileID = cmd.rsplit(' ',1)
-        
-            if any([cmd.startswith(f'set {c}') for c in ['lat','lon','mpvals']]):
-                self.geocmds.append(cmd)
-            if self.lang.is_display(cmd) or cmd.startswith('draw hilo'):
+
+            if self.lang.is_display(cmd):
+
                 self.georeference()
                 self.ds.pad_region(pad=8)
-                
-                expr       = []
-                if cmd.startswith('draw hilo'):
-                    args=json.loads(cmd[10:])
-                    expression=args['expr']
-                else:
-                    expression = ''.join(cmd.split(' ')[1:])
-                if self.is_regional and self.mproj in ['nps','sps','orthogr']:
-                    #self.set_file_grid(fileID)
-                    pass
-                
-                for fld in expression.split(';'):
-                    f = self.ds.exp(fld,dx,dy) 
-                    
-                    self.grids.append({'grid':f.grid,'data':f,'name':f.name})
-                    self.fields.append(f)
-                for gc in self.geocmds:
-                    self.ds(gc)
-            elif self.lang.is_define(cmd):
-                dx,dy=check_regrid(cmd)
-                self.georeference()
 
-                if self.is_regional and self.mproj in ['nps','sps','orthogr']:
-                    #self.set_file_grid(fileID)
-                    pass
-                 
+                expr       = []
+                expression = ''.join(cmd.split(' ')[1:])
+
+                for fld in expression.split(';'):
+                    
+                    try:
+                        self.fields.append(self.ds.exp(fld))
+                    except:
+                        self.fields.append(fld)
+
+            elif self.lang.is_define(cmd):
+
                 self.ds.pad_region(pad=8)
                 self.define_random(cmd)
-                
                 self.ds(cmd)
 
             elif self.lang.is_data_service(cmd):
@@ -501,38 +453,58 @@ class Plot(object):
 
 #------------------------------------------------------------------------------
 
-    def refine_clevs(self, clevs, nsub, type):
-        """"""
-        clevs = [ float(clev) for clev in clevs.split() if clev != ' ' ]
 
+    def refine_clevs(self, clevs, nsub, type='linear'):
+        """
+        Refines contour levels by sub-dividing each interval into smaller
+        intervals.
+
+        This method refines the contour levels into a string of values
+        where each interval is sub-divided into equally spaced sub-intervals.
+
+        Parameters
+        ----------
+        clevs : string|string[]|float[]
+            String (blank delimited) or list of contour levels
+        nsub : int
+            Number of sub-divisions for each contour interval
+            E.g. [0,1] with nsub=10 will yield [0, 0.1, 0.2, ..., 1]
+        type : string
+            linear : default
+            log : logarithmic scaling
+
+        Returns
+        -------
+        levels : string
+            List-string of formatted contour levels (space delimited)
+
+        See Also
+        --------
+        float_format : method
+            Reformats floating point numbers into string values
+
+        """
         clevs_f = []
+        levels = []
+
+        # Set up interpolation parameters
+
         if type.upper() == 'LOG':
-
-            for index, clev in enumerate(clevs[0:-1]):
-
-                dclev = ( math.log(clevs[index+1]) - math.log(clev) ) / nsub
-                clevs_f.append(str(clev))
-
-                for ns in range(2,nsub+1):
-                    clev_f = math.log(clev) + (ns-1) * dclev
-                    clev_f = math.exp(clev_f)
-                    clev_f = "%3.2f"%clev_f
-                    clevs_f.append(clev_f)
-
-            clevs_f.append(str(clevs[-1]))
-
+            interpolate = np.logspace
+            options = dict(base=np.e, dtype=float)
+            clevs = [np.log(float(clev)) for clev in clevs.split() if clev != ' ']
         else:
+            interpolate = np.linspace
+            options = dict(dtype=float)
+            clevs = [float(clev) for clev in clevs.split() if clev != ' ']
 
-            for index, clev in enumerate(clevs[0:-1]):
+        # Interpolate to sub-divisions
 
-                dclev = ( clevs[index+1] - clev ) / nsub
-                clevs_f.append(str(clev))
+        for index, clev in enumerate(clevs[0:-1]):
+            levels = interpolate(clev, clevs[index+1], nsub+1, **options)
+            clevs_f += [float_format(level) for level in levels[0:-1]]
 
-                for ns in range(2,nsub+1):
-                    clev_f = clev + (ns-1) * dclev
-                    clevs_f.append(str(clev_f))
-
-            clevs_f.append(str(clevs[-1]))
+        clevs_f.append(float_format(levels[-1]))
 
         return ' '.join(clevs_f)
 
@@ -708,26 +680,60 @@ class Plot(object):
 
         self.cmd(('set ccols '+' '.join(ccols) + ' ' + cpad).strip(), zorder=zorder)
 
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+
 
     def set_clevs(self, clevs, cmin, cmax, cint):
-        """"""
-        if clevs: return clevs
-        if cmin is None: return 
-        if cmax is None: return
-        if cint is None: return
+        """
+        Sets contour levels based on the specified min/max/increment.
+
+        This method expands the contour levels into a string of values
+        based on the range [cmin, cmax]. The values are formatted floats
+        using the assigned precision (see float_format method).
+
+        Parameters
+        ----------
+        clevs : string
+            List-string of contour levels (space delimited). If defined, these
+            levels are returned without modification.
+        cmin : string|float
+            Contour minimum value
+        cmax: string|float
+            Contour maximum value
+        cint: string|float
+            Contour interval (increment)
+
+        Returns
+        -------
+        levels : None|string
+            None: contour levels were unspecified
+            string: list-string of formatted contour levels (space delimited)
+
+        See Also
+        --------
+        float_format : method
+            Reformats floating point numbers into string values
+
+        """
+
+        # Return if contour level specification is incomplete
+        # or pre-specified.
+
+        if clevs:
+            return clevs
+        if None in (cmin, cmax, cint):
+            return
+
+        # Construct a list-string of values over the
+        # contour interval [cmin,cmax]
 
         vmin = float(cmin)
         vmax = float(cmax)
         vint = float(cint)
 
-        v    = vmin
         cout = []
-
-        assert vmin <= vmax and vint > 0, 'invalid range for cmin/cmax/cint'
-    
-        while v <= vmax:
-            cout.append(str(v))
+        for v in np.arange(vmin, vmax+vint/2.0, vint):
+            cout.append(float_format(v))
             v += vint
 
         return ' '.join(cout)
@@ -821,7 +827,7 @@ class Plot(object):
         attr['time_dt'] = self.request['time_dt']
         attr.update(self.config(['shape','track'],{}))
         attr.update(self.config(rpath, {}))
-        tk.track(self, track_files_for_year, **attr)
+        tk.track(self, track_files, **attr)
 
 #------------------------------------------------------------------------------
 
@@ -1293,7 +1299,7 @@ class Plot(object):
 
 #       if isinstance(value, dict): return json.dumps(value)
 #       if isinstance(value, dict): return value
-        if not isinstance(value, collections.Hashable): return value
+        if not isinstance(value, collections.abc.Hashable): return value
 
         attribute = self.config(apath + [value], None)
         if attribute is None: return value
@@ -1468,38 +1474,33 @@ class Plot(object):
 #------------------------------------------------------------------------------
 
     def __iter__(self):
-        """"""
+
         index   = 0
         data    = []
-        grid    = []
-        cmds    = []
+        cmds    = []  
         default = copy.deepcopy(self.lang.default)
-
+        
         self.lang.register({'BASEMAP': not self.is_regional})
-
+                
         for cmd in self.cmds:
-
+        
             cmd.strip('`')
-            cmds.append(cmd)
+            cmds.append(cmd) 
             self.lang.eval(cmd)
-
-            if self.lang.is_display(cmd) or cmd.startswith('draw hilo'):
+        
+            if self.lang.is_display(cmd):
                 n    = len(cmd.split(';'))
                 data = self.fields[index:index+n]
-                grid =  self.grids[index:index+n]
                 index += n
-
+        
             if self.lang.is_annotate(cmd):
                 data = self.lang.value
-
+        
             if self.lang.is_action(cmd):
-                self.lang.add_state(self.map)
                 state   = self.lang.state
                 macro   = self.lang.macro
-                if macro=='DRAW_CBAR': cmap = self.cmap
-                else: cmap=None
-                yield PlotObject(state, macro, data, cmds, default, cmap, grid)
-
+                yield PlotObject(state, macro, data, cmds, default)
+                
                 cmds = []
 
 #------------------------------------------------------------------------------

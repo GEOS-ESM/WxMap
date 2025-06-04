@@ -5,6 +5,9 @@ import mydatetime as dt
 from plot import *
 from math import exp, log
 
+#from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
 novalue = object()
 
 class PlotService(object):
@@ -104,8 +107,11 @@ class PlotService(object):
 
             kwargs = {}
 
-            name   = 'plot_' + self.config(lpath + [layer,'gxout'],'contour')
+            name   = self.config(lpath + [layer,'gxout'],'contour')
+            name   = self.config(path + [layer,'gxout'],name)
+            name   = 'plot_' + name
             method = self.config(lpath + [layer,'method'], None)
+            print('=====> ', name)
 
             if method:
                 f = getattr(self, method)
@@ -143,6 +149,7 @@ class PlotService(object):
 #       handle.ylab        = self.config(path + ['ylab'],  'on')
 
         path               = ['stream',stream]
+        handle.model_name  = self.config(path + ['long_name'])
         handle.model       = self.config(path + ['description'])
         handle.institution = self.config(path + ['institution'])
         handle.subtitle    = '$model|$institution'
@@ -255,6 +262,7 @@ class PlotService(object):
         # Add contextual parameters
 
         self.add_cf_context(plot)
+        self.add_ENSO_context(plot)
 
         plot.cmd("""
           &INIT
@@ -368,6 +376,67 @@ class PlotService(object):
 
         handle.tm_begin = time.strftime(tm_begin)
         handle.tm_end = (time + dt.timedelta(hours=24)).strftime(tm_end)
+
+# -----------------------------------------------------------------------------
+
+
+    def add_ENSO_context(self, plot):
+        """
+        Adds contextual parameters for ENSO instances
+
+        This method defines parameters needed for configuring
+        ENSO specific instances; especially those parameters needed for
+        ENSO Composite statistics.
+
+        Parameters
+        ----------
+        plot : Plot
+            Plot object
+        plot.handle.ENSO_composite_index : string
+            time delta in months from composite reference date
+        plot.handle.ENSO_composite_label : string
+            label describing months before/after reference date
+
+        Notes
+        -----
+        (1) ENSO composite reference date taken from:
+            config['defs/ENSO_composite/ref_date']
+            Default: 1980-12-01
+
+        Returns
+        -------
+        None
+            No return value
+
+        """
+
+        handle  = plot.handle
+        request = plot.request
+
+        time = request['time_dt']
+
+        # Retrieve central event date for composite
+
+        path = ['defs','ENSO_composite','ref_date']
+        refdate = self.config(path, '1980-12-01')
+        refdate = dt.datetime.strptime(str(refdate), '%Y-%m-%d')
+
+        # Determine time delta in months from reference date
+
+        diff = relativedelta(time, refdate)
+        months = diff.years * 12 + diff.months
+
+        # Set contextual parameters
+
+        if months < 0:
+            label = "{:02d} Months Before Peak Event".format(abs(months))
+        elif months > 0:
+            label = "{:02d} Months After Peak Event".format(months)
+        else:
+            label = "Month of Peak Event"
+
+        handle.ENSO_composite_index = str(months)
+        handle.ENSO_composite_label = label
 
 #------------------------------------------------------------------------------
 
@@ -690,6 +759,77 @@ class PlotService(object):
           define $name = maskout($name,$name-$mask)
           d $name
           draw cbar $cbar
+        """, **kwargs
+        )
+
+        handle._STACK_ = handle.name
+
+#------------------------------------------------------------------------------
+
+    def plot_stat(self, plot, name, **kwargs):
+
+        handle  = plot.handle
+        request = plot.request
+        time    = request['time_dt']
+        field   = request['field']
+        theme   = self.name
+
+        layer   = plot.get_layer(name)
+        if not layer: return
+
+        kwargs.update(plot.get_vars(layer))
+        kwargs['layer_name'] = name
+
+        zorder = plot.get_attr(layer,'zorder','0')
+        kwargs['zorder'] = zorder
+
+        path = [theme, 'plot', field]
+        handle.lat     = self.config(path+['lat'],'--auto')
+        handle.lon     = self.config(path+['lon'],'--auto')
+        handle.lev     = self.config(path+['lev'],'--auto')
+        handle.time    = self.config(path+['time'],'--auto')
+        handle.x       = self.config(path+['x'],'--auto')
+        handle.y       = self.config(path+['y'],'--auto')
+        handle.z       = self.config(path+['z'],'--auto')
+        handle.t       = self.config(path+['t'],'--auto')
+        handle.xaxis   = self.config(path+['xaxis'],'--auto')
+        handle.slice   = self.config(path+['slice'],'')
+
+        self.set_coords(plot)
+
+        handle.gxout   = 'stat'
+        handle.gtime   = time.strftime("%H:%Mz%d%b%Y")
+        handle.name    = plot.get_name()
+        handle.expr    = plot.get_attr(layer,'expr',handle._STACK_)
+        handle.csmooth = plot.get_attr(layer,'csmooth','off')
+        handle.mask    = plot.get_attr(layer,'mask','--auto')
+        handle.vrange  = plot.get_attr(layer,'vrange','--auto')
+        handle.x       = plot.get_attr(layer,'x',handle.x)
+        handle.y       = plot.get_attr(layer,'y',handle.y)
+        handle.z       = plot.get_attr(layer,'z',handle.z)
+        handle.t       = plot.get_attr(layer,'t',handle.t)
+        handle.xaxis   = plot.get_attr(layer,'xaxis',handle.xaxis)
+
+        plot.cmd("""
+          set dfile $#
+          set time $gtime
+          set time $time
+          set lev $level
+          set lev $lev
+          set lat $lat
+          set lon $lon
+          set x $x
+          set y $y
+          set t $t
+          set xaxis $xaxis
+          set SLICE $slice
+          set z $z
+          set gxout $gxout
+          set vrange $vrange
+          set grads off
+          define $name = $expr
+          define $name = maskout($name,$name-$mask)
+          d $name
         """, **kwargs
         )
 
@@ -1144,6 +1284,73 @@ class PlotService(object):
           define $dx    = cdiff(lon,x)*3.1416/180
           define $dy    = cdiff(lat,y)*3.1416/180
           define $tadv  = -1*( ($arg_uwnd*$dtx)/(cos(lat*3.1416/180)*$dx) + $arg_vwnd*$dty/$dy )/6.37e+6
+        """
+        )
+
+        return {'expr': expr}
+
+#------------------------------------------------------------------------------
+
+    def diff(self, plot, name):
+        
+        handle  = plot.handle
+        request = plot.request
+        time    = request['time_dt']
+        
+        layer   = plot.get_layer(name)
+        if not layer: return
+          
+        expr = plot.get_attr(layer,'expr')
+          
+        handle.gtime     = time.strftime("%H:%Mz%d%b%Y")
+        handle.diff      = plot.get_name()
+        handle.a         = plot.get_name()
+        handle.b         = plot.get_name()
+        handle.arg_a     = plot.get_attr(layer,'a')
+        handle.arg_b     = plot.get_attr(layer,'b')
+
+        plot.cmd("""
+          set dfile $#
+          set time $gtime
+          set lev $level
+          define $a   = $arg_a
+          define $b   = $arg_b
+          define $diff = $a - $b
+        """
+        )
+
+        return {'expr': expr}
+
+#------------------------------------------------------------------------------
+
+    def impact(self, plot, name):
+
+        handle  = plot.handle
+        request = plot.request
+        time    = request['time_dt']
+
+        layer   = plot.get_layer(name)
+        if not layer: return
+
+        expr = plot.get_attr(layer,'expr')
+
+        handle.gtime     = time.strftime("%H:%Mz%d%b%Y")
+        handle.impact    = plot.get_name()
+        handle.a         = plot.get_name()
+        handle.b         = plot.get_name()
+        handle.c         = plot.get_name()
+        handle.arg_a     = plot.get_attr(layer,'a')
+        handle.arg_b     = plot.get_attr(layer,'b')
+        handle.arg_c     = plot.get_attr(layer,'c')
+
+        plot.cmd("""
+          set dfile $#
+          set time $gtime
+          set lev $level
+          define $a   = $arg_a
+          define $b   = $arg_b
+          define $c   = $arg_c
+          define $impact = abs($a-$c) - abs($b-$c)
         """
         )
 

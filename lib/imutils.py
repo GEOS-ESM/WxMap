@@ -56,8 +56,8 @@ def im_paste_file(bg, fname, xpos, ypos, xsize=None, ysize=None):
 
 def image_trim(im, margin=0):
 
-    bg = Image.new(im.mode, im.size, im.getpixel((0,0)))
-    diff = ImageChops.difference(im, bg)
+    bg = Image.new(im.mode, im.size, im.getpixel((0,0))).convert('RGB')
+    diff = ImageChops.difference(im.convert('RGB'), bg)
     diff = ImageChops.add(diff, diff, 2.0, -100)
     bbox = list(diff.getbbox())
     if bbox:

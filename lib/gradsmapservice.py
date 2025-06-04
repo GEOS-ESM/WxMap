@@ -7,12 +7,15 @@ import os
 import io
 import six
 import glob
+import csv
 
 from string import *
+from imutils import HersheyDraw
 
-from flask import current_app
+#from flask import current_app
 
 import numpy as np
+import pylab as pl
 import numpy.ma as ma
 
 if sys.version_info.major==2: from mpl_toolkits.basemap import Basemap
@@ -98,6 +101,7 @@ class Service(MapService):
                         'DISPLAY_BARB'    : self.display,
                         'DISPLAY_STREAM'  : self.display,
                         'DRAW_GRIDLINES'  : self.draw_gridlines,
+                        'DISPLAY_STAT'    : self.display_stat
                        }
 #------------------------------------------------------------------------------
 
@@ -214,8 +218,8 @@ class Service(MapService):
             im.close()
 
             file, im, xc, yc = cbar
-            xc = (W - im.size[0]) / 2
-            yc = bbox[3] + 10
+            xc = int((W - im.size[0]) / 2)
+            yc = int(bbox[3] + 10)
             bg.paste(im, (xc,yc))
             im.close()
             os.remove(file)
@@ -290,6 +294,7 @@ class Service(MapService):
         self.cbar    = None
         self.ccols   = None
         self.clevs   = None
+        self.rgb     = None
         self.maps    = []
         self.theme   = plot.theme
         self.request = plot.request
@@ -299,6 +304,7 @@ class Service(MapService):
         self.slice   = False
         self.dims    = None
         self.imap    = []
+        self.stats   = []
         self.oname   = kwargs.get('oname', plot.request['oname'])
 
         for obj in plot:
@@ -308,6 +314,8 @@ class Service(MapService):
 
             self.ccols = obj.state.get('ccols', self.ccols)
             self.clevs = obj.state.get('clevs', self.clevs)
+            self.rgb   = obj.state.get('rgb', self.rgb)
+
 
         return self.imshow()
 
@@ -348,7 +356,10 @@ class Service(MapService):
         if not cbar_only: self.make_labels()
         if self.cbar: self.cbar.draw(**self.request)
 
+     #  self.save_colorbar()
+
         if not basemap_off:
+     #      background = '/discover/nobackup/jardizzo/maps/BlackMarble_2016/BlackMarble_2016_4320x2160.enhanced.png'
             background = self.draw_map(zorder=0)
         else: background = None 
         
@@ -359,6 +370,10 @@ class Service(MapService):
         img = self.oname
         img3x = img + '3x.png'
 
+        name, ext = os.path.splitext(img)
+        if ext == ".stat":
+            self.write_stats(img)
+            return img
 
         t_color = 1
         if self.request.get('lights_off', False): t_color = 0
@@ -395,6 +410,99 @@ class Service(MapService):
         return img
 
 #------------------------------------------------------------------------------
+
+    def save_colorbar(self):
+
+        if not self.cbar:
+            return
+
+        oname = self.oname
+        cbar = self.cbar.cbars[0]
+
+        ccols = []
+        for c in cbar.colors:
+            rgba = [float(r)/255.0 for r in self.rgb[str(c)].split()]
+            if rgba[-1] == 0.0:
+                rgba = [0.0,0.0,0.0,1.0]
+            ccols.append(tuple(rgba))
+
+        clevs = []
+        for lev in cbar.levels:
+            clevs.append(float(lev))
+
+        skip = max(int(cbar.options.get('skip',1)),1)
+
+        vmin = 0.0
+        vmax = 100.0
+        rlevs = np.linspace(vmin, vmax, len(clevs))
+
+        ticks_font = font_manager.FontProperties(family='sans-serif',
+           style='normal', size=16, weight='bold', stretch='normal')
+
+        a = np.array([[vmin,vmax]])
+        fig = pl.figure()
+        dpi = fig.get_dpi()
+        fig.set_size_inches(1720/dpi, 88/dpi)
+
+        ax = pl.axes()
+
+        cmap = LinearSegmentedColormap.from_list('mylist', ccols[1:-1],
+                                                 N=len(ccols)-2)
+        cmap.set_under(ccols[0])
+        cmap.set_over(ccols[-1])
+
+        img = pl.imshow(a, cmap=cmap)
+
+        pl.gca().set_visible(False)
+        cax = pl.axes([0.1, 0.2, 0.8, 0.6])
+
+   #    for tick in cax.xaxis.get_major_ticks():
+   #        print(tick)
+   #        tick.label.set_fontproperties(ticks_font)
+
+
+        cax.tick_params(axis='both', colors='white', direction='in')
+        cb = pl.colorbar(orientation="horizontal", extend="both",
+         extendrect=True, extendfrac='auto', drawedges=False, cax=cax)
+        cb.outline.set_edgecolor('white')
+        cb.solids.set_rasterized(True)
+        cb.solids.set_edgecolor("none")
+        cb.solids.set_linewidth(0.0)
+        cb.ax.tick_params(labelsize=25)
+
+        levels = []
+        labels = []
+        for i, lev in enumerate(clevs):
+
+            if i%skip != 0:
+                continue
+
+            levels.append(rlevs[i])
+            labels.append("{}".format(lev,).strip('0').rstrip('.'))
+            if not labels[-1]:
+                labels[-1] = 0
+
+        cb.set_ticks(levels)
+      # cb.set_ticklabels(labels)
+        cb.ax.patch.set_facecolor("black")
+      # Set font properties for x-axis tick labels
+        cb.ax.set_xticklabels(labels, fontsize=16, color='white',
+              fontfamily='sans-serif', fontweight='bold', fontstyle='normal')
+
+        name, ext = os.path.splitext(self.oname)
+        name = name + '.cbar.png'
+      # pl.savefig(name, format='png', facecolor=(0,0,0,0.5),
+        pl.savefig(name, format='png', facecolor=(0,0,0,0),
+                   transparent=False, bbox_inches='tight', pad_inches=0)
+
+    def write_stats(self, file):
+
+        with open(file, 'a') as csvfile:
+            writer = csv.writer(csvfile, delimiter=',',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+            for s in self.stats:
+                writer.writerow(s)
 
     def navigate(self, img, x_offset=0, y_offset=0, fname=None):
 
@@ -1015,11 +1123,34 @@ class Service(MapService):
         self.default(obj)
 
 #------------------------------------------------------------------------------
+
+    def display_stat(self, obj): 
+        
+        cmds = [ cmd for cmd in obj.cmds if self.is_valid(cmd) ]
+        cmds = '\n'.join(cmds)
+
+        self.ds(cmds)
+        print(cmds)
+        
+        rmin = float(self.ds.rword(8,4))
+        rmax = float(self.ds.rword(8,5))
+        rmean = float(self.ds.rword(11,2))
+            
+      # qh = self.ds.query("time")
+      # time_dt = qh.tyme1
+        time_dt = self.request['time_dt']
+        ctime = time_dt.strftime("%Y%m%dT%H%M%S")
+    
+        self.stats.append((ctime,rmin,rmax,rmean))
+        print(ctime,rmin,rmax,rmean)
+
+#------------------------------------------------------------------------------
     
     def default(self, obj):
 
         cmds = [ cmd for cmd in obj.cmds if self.is_valid(cmd) ]
         cmds = '\n'.join(cmds)
+        print(cmds)
         self.ds(cmds)
 
 #------------------------------------------------------------------------------
@@ -1074,6 +1205,8 @@ class Service(MapService):
 #------------------------------------------------------------------------------
 
     def draw_logo(self, to_img, logos, **kwargs):
+
+        return
 
 #       Get the bounding box of the background image after trimming unused
 #       space on the edges.
@@ -1131,7 +1264,7 @@ class Service(MapService):
             xpos    = xmargin
             ypos    = ymargin
 
-            img     = img.resize((xsize, ysize), Image.ANTIALIAS)
+            img     = img.resize((xsize, ysize), Image.LANCZOS)
 
 #           Paste the logo onto the background image.
 
@@ -1228,7 +1361,7 @@ class Service(MapService):
             xsize   = int(size / 100.0 * bg.size[0])
             ysize   = int(xsize * ratio)
 
-            img     = img.resize((xsize, ysize), Image.ANTIALIAS)
+            img     = img.resize((xsize, ysize), Image.LANCZOS)
 
           # Paste the symbol onto the background image.
 
@@ -1636,7 +1769,7 @@ class Service(MapService):
 #       Re-size and position the map image on a background image
 #       matching the size of the final GrADS image.
         
-        #fg = fg.resize((xpixels+3, ypixels+3), Image.ANTIALIAS)
+        #fg = fg.resize((xpixels+3, ypixels+3), Image.LANCZOS)
         fg = fg.resize((xpixels+3, ypixels+3), resample=Image.Resampling.LANCZOS)
         #face_color=(1,1,1,0)
         if isGrayscale:
@@ -2594,150 +2727,3 @@ class DictContainer(object):
         if isinstance(defs, dict):
             self.__dict__.update(defs)
             return
-
-#------------------------------------------------------------------------------
-
-class HersheyDraw(object):
-    """
-    Defines methods for drawing formatted text on an image.
-
-    The methods in this class use the PIL library to draw text
-    on an image. The text may contain format control characters
-    as defined by the GrADS Hershey font for super- and sub-scripting.
-
-    Requirements
-    ------------
-    from PIL import ImageDraw, ImageFont
-    """
-
-    def __init__(self, im, font, size, color, **kwargs):
-        """
-        Initializer
-
-        Parameters
-        ----------
-        im : Image
-            PIL image object.
-        font : string
-            Name of font file (Truetype etc.).
-        size : integer
-            Font size (pixels). Super and sub-scripting font size
-            is set to size/2.
-        color : tuple
-            RGB(A) value for font color (R, G, B, A)
-
-        Returns
-        -------
-        None
-            No return value
-
-        """
-
-        self.color = color
-        self.d     = ImageDraw.Draw(im)
-        self.fn    = ImageFont.truetype(font, size)
-        self.fs    = ImageFont.truetype(font, int(size/2))
-        self.hn    = self.d.textsize('1', font=self.fn)[1]
-        self.hs    = self.d.textsize('1', font=self.fs)[1]
-
-#------------------------------------------------------------------------------
-
-    def text_size(self, text):
-        """
-        Returns the size of the text string in pixels.
-
-        This method returns the size of the string in pixels after
-        resolving the Hershey font control characters.
-
-        Parameters
-        ----------
-        text : string
-            Text string with or without Hershey control characters. Only
-            superscripting (`a), subscripting (`b) and normal (`n) formatting
-            sequences are recognized.
-
-        Returns
-        -------
-        size : tuple
-            width and height of the text string (w, h) where "h" is the
-            maximum height of the string.
-
-        """
-
-        if not text: return (0, 0)
-
-        words = text.split('`')
-        if words[0]: words[0] = 'n' + words[0]
-
-        nText, sText = ('', '')
-
-        for s in words:
-
-            if not s: continue
-            if len(s) == 1: continue
-
-            if s[0] == 'n':
-                nText += s[1:]
-            else:
-                sText += s[1:]
-
-        wn, hn, ws, hs = (0, 0, 0, 0)
-        if nText: wn, hn = self.d.textsize(nText, font=self.fn)
-        if sText: ws, hs = self.d.textsize(sText, font=self.fs)
-
-        return (wn + ws, max(hn,hs))
-
-#------------------------------------------------------------------------------
-
-    def draw_text(self, x, y, text):
-        """
-        Draws text on an image.
-
-        This method uses the PIL library to draw text on the image.
-        The text may contain format control characters as defined by
-        the GrADS Hershey font for super- and sub-scripting.
-
-        Parameters
-        ----------
-        x : integer
-            Left pixel location of string.
-
-        y : integer
-            Top pixel location of string.
-
-        text : string
-            Text string with or without Hershey control characters. Only
-            superscripting (`a), subscripting (`b) and normal (`n) formatting
-            sequences are recognized.
-
-        Returns
-        -------
-        None
-            No return value
-
-        """
-
-        if not text: return
-
-        words = text.split('`')
-        if words[0]: words[0] = 'n' + words[0]
- 
-        for s in words:
-
-            if not s: continue
-            if len(s) == 1: continue
-
-            if s[0] == 'n':
-                self.d.text( (x, y), s[1:], font=self.fn, fill=self.color)
-                w, h = self.d.textsize(s[1:], font=self.fn)
-                x += w
-            elif s[0] == 'a':
-                self.d.text( (x, y), s[1:], font=self.fs,
-                                                      fill=self.color)
-                w, h = self.d.textsize(s[1:], font=self.fs)
-                x += w
-            elif s[0] == 'b':
-                self.d.text( (x, y+self.hn-self.hs), s[1:], font=self.fs,
-                                                      fill=self.color)
-                w, h = self.d.textsize(s[1:], font=self.fs)
-                x += w

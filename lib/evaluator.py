@@ -28,14 +28,18 @@ class Evaluator(object):
             return f.name
 
         string = ''
+        name = self.request['field']
 
         for obj in self.parse(f.expression):
 
             if type(obj) is field.Field:
                 string += self.evaluate(obj.update(f))
+         #      print(f'Expression: {name}: {string}')
             else:
                 string += obj
+         #      print(f'Expression: {name}: {string}')
 
+    #   print(f'Expression: {name}: {string}')
         return string
 
 #------------------------------------------------------------------------------
