@@ -1,5 +1,4 @@
-import six
-import os 
+import os
 import json
 import mydatetime as dt
 
@@ -14,8 +13,6 @@ class Toolkit(object):
                 next
 
             shape(plot, shapes[name])
-
-#------------------------------------------------------------------------------
 
     def line(self, plot, lines, **kwargs):
 
@@ -46,8 +43,6 @@ class Toolkit(object):
                 """, zorder=zorder
                 )
 
-#------------------------------------------------------------------------------
-
     def polygon(self, plot, polygons, **kwargs):
 
         handle = plot.handle
@@ -55,10 +50,6 @@ class Toolkit(object):
         handle.line_width = kwargs.get('line_width','5')
         handle.line_style = kwargs.get('line_style','1')
         zorder            = kwargs.get('zorder','-1')
-        fname             = kwargs.get('file', None)
-
-        if fname and not isinstance(marks, dict):
-            marks = self.read_from_file(fname, **kwargs)
 
         for poly in polygons:
 
@@ -78,8 +69,6 @@ class Toolkit(object):
                   draw polyf $poly
                 """, zorder=zorder
                 )
-
-#------------------------------------------------------------------------------
 
     def rectangle(self, plot, rectangles, **kwargs):
 
@@ -124,8 +113,6 @@ class Toolkit(object):
                     """, zorder=zorder
                     )
 
-#------------------------------------------------------------------------------
-
     def string(self, plot, strings, **kwargs):
 
         handle = plot.handle
@@ -168,8 +155,6 @@ class Toolkit(object):
                   """, zorder=zorder
                   )
 
-#------------------------------------------------------------------------------
-
     def mark(self, plot, marks, **kwargs):
 
         handle = plot.handle
@@ -204,8 +189,6 @@ class Toolkit(object):
                 """, zorder=zorder
                 )
 
-#------------------------------------------------------------------------------
-
     def station_mark(self, plot, marks, **kwargs):
 
         handle = plot.handle
@@ -217,11 +200,6 @@ class Toolkit(object):
         handle.outer_size   = kwargs.get('outer_size','.20')
         handle.outer_line   = kwargs.get('outer_line','.25')
         zorder              = kwargs.get('zorder','-1')
-        fname               = kwargs.get('file', None)
-
-        if fname and not isinstance(marks, dict):
-            marks = self.read_from_file(fname, **kwargs)
-
 
         if not handle.outer_line:
             handle.outer_line = '--auto'
@@ -238,7 +216,7 @@ class Toolkit(object):
 
                 collection = dict(kwargs)
                 collection.update(marks[mark])
-                self.station_mark(plot, collection.get('data',None), **collection)
+                self.station_mark(plot, collection['data'], **collection)
 
             else:
 
@@ -258,8 +236,6 @@ class Toolkit(object):
                   draw mark $mark_type2 $mark $inner_size $navigate
                 """, zorder=zorder
                 )
-
-#------------------------------------------------------------------------------
 
     def symbol(self, plot, symbols, **kwargs):
 
@@ -315,13 +291,12 @@ class Toolkit(object):
                 else:
 
                   # Symbol is a weather symbol type.
+
                     plot.cmd("""
                       set rgb $* $line_color
                       draw wxsym $type $location $size $* $line_width
                     """, zorder=zorder
                     )
-
-#------------------------------------------------------------------------------
 
     def track(self, plot, tracks, **kwargs):
 
@@ -369,29 +344,27 @@ class Toolkit(object):
                 start_dt   = plot_dt - dt.timedelta(hours=window)
                 track_data = self.read_track_data(t, **kwargs)
 
-                for name,record in six.iteritems(track_data):
+                for name,record in track_data.iteritems():
 
-                    first_dt = self.track_unpack(record[0])[0]
-                    last_dt  = self.track_unpack(record[-1])[0]
+                   first_dt = self.track_unpack(record[0])[0]
+                   last_dt  = self.track_unpack(record[-1])[0]
 
-                     # Skip the entire feature if the track epoch does
-                     # not contain the plot date/time.
+                 # Skip the entire feature if the track epoch does
+                 # not contain the plot date/time.
 
-                    if first_dt > plot_dt: continue
-                    if last_dt  < plot_dt: continue
+                   if first_dt > plot_dt: continue
+                   if last_dt  < plot_dt: continue
 
-                    record = [self.track_unpack(r) for r in record]
-                    record = self.track_interpolate(record)
+                   record = [self.track_unpack(r) for r in record]
+                   record = self.track_interpolate(record)
 
-                    kwargs['reflon'] = wlon
-                    self.track_plot(plot,name,record,start_dt,plot_dt,**kwargs)
+                   kwargs['reflon'] = wlon
+                   self.track_plot(plot,name,record,start_dt,plot_dt,**kwargs)
 
-                    if (elon - wlon) <= 180.0: continue # Assume no wrap-around
+                   if (elon - wlon) <= 180.0: continue # Assume no wrap-around
 
-                    kwargs['reflon'] = elon
-                    self.track_plot(plot,name,record,start_dt,plot_dt,**kwargs)
-
-#------------------------------------------------------------------------------
+                   kwargs['reflon'] = elon
+                   self.track_plot(plot,name,record,start_dt,plot_dt,**kwargs)
 
     def track_plot(self, plot, name, record, start_dt, end_dt, **kwargs):
 
@@ -473,8 +446,6 @@ class Toolkit(object):
         loc  = locations[-1]
         self.string(plot, [loc + ' ' + name], **kwargs)
 
-#------------------------------------------------------------------------------
-
     def read_track_data(self, file, **kwargs):
 
         time_dt = kwargs['time_dt']
@@ -493,8 +464,6 @@ class Toolkit(object):
 
         return feature
 
-#------------------------------------------------------------------------------
-
     def dirdif(self, dir1, dir2):
 
         if dir1 < 0.0: dir1 += 360.0
@@ -503,8 +472,6 @@ class Toolkit(object):
         if abs(dir2 - dir1) <= 180.0: return dir2 - dir1
         if dir2 > 180.0: return dir2 - dir1 - 360.0
         return dir2 - dir1 + 360.0
-
-#------------------------------------------------------------------------------
 
     def track_interpolate(self, record):
 
@@ -562,16 +529,12 @@ class Toolkit(object):
 
         return recout    
 
-#------------------------------------------------------------------------------
-
     def track_unpack(self, record):
 
         year, month, day, hour, type, lat, lon = record[0:7]
         time_dt = dt.datetime(year, month, day, hour)
 
         return [time_dt, str(type)] + record[5:]
-
-#------------------------------------------------------------------------------
 
     def read_from_file(self, fname, **kwargs):
 
@@ -592,8 +555,6 @@ class Toolkit(object):
             jdata = json.load(f)
 
         return jdata
-
-#------------------------------------------------------------------------------
 
     __call__ = draw
 
