@@ -50,7 +50,7 @@ class WXService(object):
 
         self.request = copy.deepcopy(request)
         app_path=str(self.request.get('app_path','app_path'))        
-
+        resource_dict = self.request.get('resource_dict',{})
         install_path = os.path.dirname(sys.argv[0])
 
         if not install_path: install_path = os.getcwd()
@@ -58,7 +58,7 @@ class WXService(object):
         if not file: file = os.path.join(install_path, 'wxmap.rc')
         #print(install_path)
         install_path = os.path.realpath(os.path.dirname(install_path))
-        resource = self.config.read_resolve(file,install_path=install_path)
+        resource = self.config.read_resolve(file,install_path=install_path,**resource_dict)
         resource = {k:v.replace('$app_path',app_path).replace('app_path',app_path)
                     if isinstance(v,str) else v for k,v in resource.items()}
         self.config.mount(resource, '/')        
@@ -392,6 +392,12 @@ class WXService(object):
         return dict(zip(['stream', 'field', 'region', 'level'],
                    [streams,  fields,  regions,  levels]))
 
+#-----------------------------------------------------------------------------
+
+    def get_field_levels(self,field):
+        path = [self.ps.name, 'plot', field, 'levels']
+        return self.config(path,[])
+
 #------------------------------------------------------------------------------
 
     def get_user_interface(self):
@@ -518,12 +524,13 @@ class WXServiceLite(WXService):
         r = copy.deepcopy(request)
         self.request = Request(r)
         app_path=str(self.request.get('app_path','app_path'))
+        resource_dict = self.request.get('resource_dict',{})
 
         install_path = os.path.dirname(__file__)
         file = self.request.get('rc', None)
 
         if not file: file = os.path.join(install_path, 'wxmap.rc')
-        resource = self.config.read(file)
+        resource = self.config.read_resolve(file,**resource_dict)
         resource = {k:v.replace('$app_path',app_path).replace('app_path',app_path) 
                     if isinstance(v,str) else v for k,v in resource.items()}
         #logger.info('CHECK frontend path ' + str(self.request.get('app_path')))

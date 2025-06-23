@@ -1953,7 +1953,7 @@ class Service(MapService):
 #------------------------------------------------------------------------------
 
     def get_map_key(self, bmaps):
-
+        key_prefix = self.request.get('basemap_prefix','')
         keystr = ''
         basemap_keys = ['lat', 'lon', 'mpvals', 'mproj',
                         'geometry', 'lights_off', 'grayscale',
@@ -1972,7 +1972,9 @@ class Service(MapService):
             keystr += json.dumps(d)
 
         keystr = keystr.replace("u'", "'")
-        return str(uuid.uuid3(uuid.NAMESPACE_DNS,keystr))
+        key = f"{key_prefix}{uuid.uuid3(uuid.NAMESPACE_DNS,keystr)}"
+        # return str(uuid.uuid3(uuid.NAMESPACE_DNS,keystr))
+        return key
 
 #------------------------------------------------------------------------------
 
