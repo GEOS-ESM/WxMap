@@ -350,7 +350,7 @@ class Service(MapService):
 
         if not basemap_off:
             background = self.draw_map(zorder=0)
-            print(background)
+            # print(background)
         else: background = None 
         
         geometry = self.get_geometry()

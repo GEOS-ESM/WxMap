@@ -81,9 +81,9 @@ class TaskManager(object):
         """
 
         ntask = len(self.task)
-        processes = self.task.keys()
+        process_keys = list(self.task.keys())
 
-        for process in processes:
+        for process in process_keys:
             p = self.task[process]
 
             if p.poll() == None:

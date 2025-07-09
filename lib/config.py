@@ -6,6 +6,7 @@ import sys
 import copy
 import yaml
 import json
+import datetime as dt
 from string import Template
 
 import logging
@@ -423,8 +424,10 @@ class Config(dict):
 
             if isinstance(hash[key],dict):
                 self.serialize(hash[key])
-
+                
             try:
+                if isinstance(hash[key], (dt.datetime, dt.date)):
+                    hash[key] = hash[key].isoformat()
                 json.dumps(hash[key])
             except TypeError:
                 hash[key] = hash[key].__module__ + '.' + \

@@ -45,7 +45,7 @@ class Service(GaNum,DataService):
             self.fileID = fh.fileinfo.fid
             return fh
 
-        print("**OPENING** ",file)
+        # print("**OPENING** ",file)
         fh   = super(Service,self).open(file)
 
         self.fileID = fh.fid
