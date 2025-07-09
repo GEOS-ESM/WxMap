@@ -143,6 +143,7 @@ class PlotService(object):
 #       handle.ylab        = self.config(path + ['ylab'],  'on')
 
         path               = ['stream',stream]
+        handle.model_name  = self.config(path + ['long_name'])
         handle.model       = self.config(path + ['description'])
         handle.institution = self.config(path + ['institution'])
         handle.subtitle    = '$model|$institution'
@@ -255,6 +256,7 @@ class PlotService(object):
         # Add contextual parameters
 
         self.add_cf_context(plot)
+        self.add_ENSO_context(plot)
 
         plot.cmd("""
           &INIT
@@ -368,6 +370,67 @@ class PlotService(object):
 
         handle.tm_begin = time.strftime(tm_begin)
         handle.tm_end = (time + dt.timedelta(hours=24)).strftime(tm_end)
+
+# -----------------------------------------------------------------------------
+
+
+    def add_ENSO_context(self, plot):
+        """
+        Adds contextual parameters for ENSO instances
+
+        This method defines parameters needed for configuring
+        ENSO specific instances; especially those parameters needed for
+        ENSO Composite statistics.
+
+        Parameters
+        ----------
+        plot : Plot
+            Plot object
+        plot.handle.ENSO_composite_index : string
+            time delta in months from composite reference date
+        plot.handle.ENSO_composite_label : string
+            label describing months before/after reference date
+
+        Notes
+        -----
+        (1) ENSO composite reference date taken from:
+            config['defs/ENSO_composite/ref_date']
+            Default: 1980-12-01
+
+        Returns
+        -------
+        None
+            No return value
+
+        """
+
+        handle  = plot.handle
+        request = plot.request
+
+        time = request['time_dt']
+
+        # Retrieve central event date for composite
+
+        path = ['defs','ENSO_composite','ref_date']
+        refdate = self.config(path, '1980-12-01')
+        refdate = dt.datetime.strptime(str(refdate), '%Y-%m-%d')
+
+        # Determine time delta in months from reference date
+
+        diff = relativedelta(time, refdate)
+        months = diff.years * 12 + diff.months
+
+        # Set contextual parameters
+
+        if months < 0:
+            label = "{:02d} Months Before Peak Event".format(abs(months))
+        elif months > 0:
+            label = "{:02d} Months After Peak Event".format(months)
+        else:
+            label = "Month of Peak Event"
+
+        handle.ENSO_composite_index = str(months)
+        handle.ENSO_composite_label = label
 
 #------------------------------------------------------------------------------
 

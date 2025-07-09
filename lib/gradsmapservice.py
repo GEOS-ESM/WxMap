@@ -956,6 +956,7 @@ class Service(MapService):
         levels = [l for l in self.clevs.split() if l != ' ']
 
         args    = re.sub(r"\s+"," ",obj.cmds[-1].strip())
+
         options =  json.loads(args[9:])
 
         if not self.cbar:
@@ -1131,9 +1132,9 @@ class Service(MapService):
             ymargin = int(margin / 100.0 * bg.size[1])
             xpos    = xmargin
             ypos    = ymargin
-
-            #img     = img.resize((xsize, ysize), Image.ANTIALIAS)
+            
             img      = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
+
 #           Paste the logo onto the background image.
 
             if pos == 'ul':
@@ -1229,7 +1230,7 @@ class Service(MapService):
             xsize   = int(size / 100.0 * bg.size[0])
             ysize   = int(xsize * ratio)
 
-            img     = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
+            img      = img.resize((xsize, ysize), Image.Resampling.LANCZOS)
 
           # Paste the symbol onto the background image.
 
