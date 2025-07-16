@@ -303,7 +303,6 @@ class Plot(object):
         var = cmd.split('=')[0].split()[1]
         expr = cmd.replace('RANDOM', '1')
         self.ds(expr)
-        print('var = ', var)
         f = self.ds.exp(var)
 
         ydim, xdim = f.shape

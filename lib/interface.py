@@ -127,6 +127,10 @@ def parse_args(args=None):
     )
 
     parser.add_argument(
+        '--save_cbar', action='store_true', help='Write out colorbar'
+    )
+
+    parser.add_argument(
         '--label_size', metavar='LABEL_SIZE', default=None,
         help='Size of lat/lon labels (default: %(default)s)'
     )

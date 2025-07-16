@@ -110,7 +110,7 @@ class Service(MapService):
 
 #------------------------------------------------------------------------------
     def get_maps(self, plots):
-        
+
         if len(plots) == 1: return self.get_map(plots[0])
 
         for i, plot in enumerate(plots):
@@ -356,10 +356,11 @@ class Service(MapService):
         if not cbar_only: self.make_labels()
         if self.cbar: self.cbar.draw(**self.request)
 
-     #  self.save_colorbar()
+        if self.request.get('save_cbar', False):
+            self.save_colorbar()
 
         if not basemap_off:
-     #      background = '/discover/nobackup/jardizzo/maps/BlackMarble_2016/BlackMarble_2016_4320x2160.enhanced.png'
+          # background = '/discover/nobackup/jardizzo/maps/BlackMarble_2016/BlackMarble_2016_6480x3240.enhanced.png'
             background = self.draw_map(zorder=0)
         else: background = None 
         
@@ -434,6 +435,8 @@ class Service(MapService):
 
         vmin = 0.0
         vmax = 100.0
+        vmid = vmin + (vmax-vmin) / 2.0
+        vrange = vmax - vmin
         rlevs = np.linspace(vmin, vmax, len(clevs))
 
         ticks_font = font_manager.FontProperties(family='sans-serif',
@@ -444,8 +447,6 @@ class Service(MapService):
         dpi = fig.get_dpi()
         fig.set_size_inches(1720/dpi, 88/dpi)
 
-        ax = pl.axes()
-
         cmap = LinearSegmentedColormap.from_list('mylist', ccols[1:-1],
                                                  N=len(ccols)-2)
         cmap.set_under(ccols[0])
@@ -455,19 +456,14 @@ class Service(MapService):
 
         pl.gca().set_visible(False)
         cax = pl.axes([0.1, 0.2, 0.8, 0.6])
+     #  cax.tick_params(axis='both', colors='white', direction='in')
 
-   #    for tick in cax.xaxis.get_major_ticks():
-   #        print(tick)
-   #        tick.label.set_fontproperties(ticks_font)
-
-
-        cax.tick_params(axis='both', colors='white', direction='in')
         cb = pl.colorbar(orientation="horizontal", extend="both",
          extendrect=True, extendfrac='auto', drawedges=False, cax=cax)
         cb.outline.set_edgecolor('white')
-        cb.solids.set_rasterized(True)
-        cb.solids.set_edgecolor("none")
-        cb.solids.set_linewidth(0.0)
+      # cb.solids.set_rasterized(True)
+      # cb.solids.set_edgecolor("none")
+      # cb.solids.set_linewidth(0.0)
         cb.ax.tick_params(labelsize=25)
 
         levels = []
@@ -482,9 +478,12 @@ class Service(MapService):
             if not labels[-1]:
                 labels[-1] = 0
 
+        levels = [vmin+0.05*vrange, vmid, vmax-0.05*vrange]
+        labels = ['LOW', 'MODERATE', 'HIGH']
+
         cb.set_ticks(levels)
-      # cb.set_ticklabels(labels)
         cb.ax.patch.set_facecolor("black")
+        cb.ax.patch.set_alpha(1.0)
       # Set font properties for x-axis tick labels
         cb.ax.set_xticklabels(labels, fontsize=16, color='white',
               fontfamily='sans-serif', fontweight='bold', fontstyle='normal')
@@ -492,8 +491,25 @@ class Service(MapService):
         name, ext = os.path.splitext(self.oname)
         name = name + '.cbar.png'
       # pl.savefig(name, format='png', facecolor=(0,0,0,0.5),
+      # pl.savefig(name, format='png', facecolor=(0,0,0,0),
         pl.savefig(name, format='png', facecolor=(0,0,0,0),
-                   transparent=False, bbox_inches='tight', pad_inches=0)
+                   transparent=True, bbox_inches='tight', pad_inches=0.01)
+
+        img = Image.open(name).convert("RGBA")
+        background = Image.new("RGBA", img.size, (0, 0, 0, 255))
+        img = Image.alpha_composite(background, img)
+
+        datas = img.getdata()
+        newData = []
+        for item in datas:
+            if item[0] == 0 and item[1] == 0 and item[2] == 0 and item[3] == 255:
+                newData.append((0, 0, 0, 0))
+            else:
+                newData.append(item)
+
+        img.putdata(newData)
+        img.save(name)
+        img.close()
 
     def write_stats(self, file):
 
@@ -684,6 +700,8 @@ class Service(MapService):
         data  = obj.data[0]
         grid  = data.grid
         kdim, jdim, idim = ma.shape(obj.data)
+      # jdim = grid.lat.size
+      # idim = grid.lon.size
 
         for j in range(0,jdim):
             for i in range(0,idim):
