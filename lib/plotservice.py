@@ -1,3 +1,4 @@
+import os
 import copy
 import json
 import calendar
@@ -77,6 +78,7 @@ class PlotService(object):
         path      = [theme, 'plot', field]
         layout    = self.config(path+['layout'], {})
         panels    = self.config(path+['panels'], [{}])
+        oname_ext = os.path.splitext(request['oname'])[1]
 
       # End recursion when panels are exhausted.
 
@@ -110,8 +112,9 @@ class PlotService(object):
             name   = self.config(lpath + [layer,'gxout'],'contour')
             name   = self.config(path + [layer,'gxout'],name)
             name   = 'plot_' + name
+            if oname_ext == '.stat':
+                name = 'plot_stat'
             method = self.config(lpath + [layer,'method'], None)
-            print('=====> ', name)
 
             if method:
                 f = getattr(self, method)

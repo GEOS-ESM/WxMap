@@ -407,6 +407,10 @@ class Service(MapService):
                 self.draw_symbol(img, self.symbols)
 
             self.navigate(img)
+
+        # Convert image to B/W
+      # im1 = Image.open(img).convert("L")
+      # im1.save('bw.png', format='png')
             
         return img
 
@@ -445,7 +449,12 @@ class Service(MapService):
         a = np.array([[vmin,vmax]])
         fig = pl.figure()
         dpi = fig.get_dpi()
-        fig.set_size_inches(1720/dpi, 88/dpi)
+     #  fig.set_size_inches(1720/dpi, 88/dpi)
+     #  fig.set_size_inches(683.0/dpi, 37.0/dpi)
+     #  fig.set_size_inches(800.0/dpi, 43.0/dpi)
+     #  fig.set_size_inches(1000.0/dpi, 54.0/dpi)
+        fig.set_size_inches(900.0/dpi, 46.0/dpi)
+
 
         cmap = LinearSegmentedColormap.from_list('mylist', ccols[1:-1],
                                                  N=len(ccols)-2)
@@ -464,7 +473,8 @@ class Service(MapService):
       # cb.solids.set_rasterized(True)
       # cb.solids.set_edgecolor("none")
       # cb.solids.set_linewidth(0.0)
-        cb.ax.tick_params(labelsize=25)
+      # cb.ax.tick_params(labelsize=25)
+        cb.ax.xaxis.set_tick_params(pad=1)
 
         levels = []
         labels = []
@@ -479,13 +489,13 @@ class Service(MapService):
                 labels[-1] = 0
 
         levels = [vmin+0.05*vrange, vmid, vmax-0.05*vrange]
-        labels = ['LOW', 'MODERATE', 'HIGH']
+        labels = ['low', 'moderate', 'high']
 
         cb.set_ticks(levels)
         cb.ax.patch.set_facecolor("black")
         cb.ax.patch.set_alpha(1.0)
       # Set font properties for x-axis tick labels
-        cb.ax.set_xticklabels(labels, fontsize=16, color='white',
+        cb.ax.set_xticklabels(labels, fontsize=10, color='white',
               fontfamily='sans-serif', fontweight='bold', fontstyle='normal')
 
         name, ext = os.path.splitext(self.oname)
@@ -1148,7 +1158,6 @@ class Service(MapService):
         cmds = '\n'.join(cmds)
 
         self.ds(cmds)
-        print(cmds)
         
         rmin = float(self.ds.rword(8,4))
         rmax = float(self.ds.rword(8,5))
@@ -1160,7 +1169,6 @@ class Service(MapService):
         ctime = time_dt.strftime("%Y%m%dT%H%M%S")
     
         self.stats.append((ctime,rmin,rmax,rmean))
-        print(ctime,rmin,rmax,rmean)
 
 #------------------------------------------------------------------------------
     
@@ -1168,7 +1176,6 @@ class Service(MapService):
 
         cmds = [ cmd for cmd in obj.cmds if self.is_valid(cmd) ]
         cmds = '\n'.join(cmds)
-        print(cmds)
         self.ds(cmds)
 
 #------------------------------------------------------------------------------
@@ -1621,7 +1628,6 @@ class Service(MapService):
 
         lat = (lat1 + lat2) / 2.0
 
-        #print('clevs = ' + str(clevs))
         for lon in clevs:
 
             ilon = int(lon)
