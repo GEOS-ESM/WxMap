@@ -1051,6 +1051,8 @@ class Plot(object):
             map['mproj'] = mproj
             map['mpvals'] = map.get('mpvals',None)
             map['frame']  = map.get('frame', 'on')
+            if fullframe:
+                map['frame'] = 'off'
             map['grid']   = map.get('grid', '--auto')
             map['xlint'] = map.get('xlint', '--auto')
             map['ylint'] = map.get('ylint', '--auto')

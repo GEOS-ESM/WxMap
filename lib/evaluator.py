@@ -285,7 +285,8 @@ class Evaluator(object):
             name  = '.'.join([arg for arg in names if arg])
             return field.Field(name, {'dexpr': dexpr})
 
-        fh = self.ds.open(self.request,stream=stream,collection=collection)
+        fh = self.ds.open(self.request,stream=stream,collection=collection,
+                          var=name)
 
         native = fh.field.get(lname,None)
 
