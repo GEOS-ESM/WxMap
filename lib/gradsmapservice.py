@@ -360,7 +360,6 @@ class Service(MapService):
             self.save_colorbar()
 
         if not basemap_off:
-          # background = '/discover/nobackup/jardizzo/maps/BlackMarble_2016/BlackMarble_2016_6480x3240.enhanced.png'
             background = self.draw_map(zorder=0)
         else: background = None 
         
@@ -453,7 +452,8 @@ class Service(MapService):
      #  fig.set_size_inches(683.0/dpi, 37.0/dpi)
      #  fig.set_size_inches(800.0/dpi, 43.0/dpi)
      #  fig.set_size_inches(1000.0/dpi, 54.0/dpi)
-        fig.set_size_inches(900.0/dpi, 46.0/dpi)
+     #  fig.set_size_inches(900.0/dpi, 46.0/dpi)
+        fig.set_size_inches(1800.0/dpi, 92.0/dpi)
 
 
         cmap = LinearSegmentedColormap.from_list('mylist', ccols[1:-1],
@@ -495,7 +495,7 @@ class Service(MapService):
         cb.ax.patch.set_facecolor("black")
         cb.ax.patch.set_alpha(1.0)
       # Set font properties for x-axis tick labels
-        cb.ax.set_xticklabels(labels, fontsize=10, color='white',
+        cb.ax.set_xticklabels(labels, fontsize=20, color='white',
               fontfamily='sans-serif', fontweight='bold', fontstyle='normal')
 
         name, ext = os.path.splitext(self.oname)
@@ -1176,6 +1176,7 @@ class Service(MapService):
 
         cmds = [ cmd for cmd in obj.cmds if self.is_valid(cmd) ]
         cmds = '\n'.join(cmds)
+        print(cmds)
         self.ds(cmds)
 
 #------------------------------------------------------------------------------
@@ -1948,7 +1949,8 @@ class Service(MapService):
 
     def add_map_layer(self, map, bmap):
         
-        service     = bmap['service']
+        service   = bmap['service']
+        user_image = bmap.get('file', None)
         
         if NoBM:
             if service == 'shaderelief':
@@ -1958,7 +1960,9 @@ class Service(MapService):
             elif service == 'etopo':
                 map.background_img(name='etopo', resolution='med')
         else:
-            if service == 'shaderelief':
+            if user_image:
+                map.warpimage(image=user_image)
+            elif service == 'shaderelief':
                 map.shadedrelief()
             elif service == 'bluemarble':
                 map.bluemarble()
