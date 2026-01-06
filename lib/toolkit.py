@@ -344,7 +344,7 @@ class Toolkit(object):
                 start_dt   = plot_dt - dt.timedelta(hours=window)
                 track_data = self.read_track_data(t, **kwargs)
 
-                for name,record in track_data.iteritems():
+                for name,record in track_data.items():
 
                    first_dt = self.track_unpack(record[0])[0]
                    last_dt  = self.track_unpack(record[-1])[0]
