@@ -23,6 +23,8 @@ import evaluator
 import toolkit
 
 from mygrads.gacm import *
+from myutils import find_source
+
 __all__ = ['Plot','PlotHandle','PlotObject']
 
 novalue = object()
@@ -1120,11 +1122,12 @@ class Plot(object):
 
         for map in maps:
             if 'shape_file' in map:
-                shape_file = map['shape_file']
+                shape_file = time_dt.strftime(map['shape_file'])
                 if not os.path.isabs(shape_file):
-                    map['shape_file'] = os.path.join(shape_path, shape_file)
-
-                map['shape_file'] = time_dt.strftime(map['shape_file'])
+                    path = find_source(shape_path, shape_file+'*')
+                    if not path:
+                        raise FileNotFoundError(f'{shape_file} not found in {shape_path}')
+                    map['shape_file'] = os.path.join(path, shape_file)
 
                 if map.get('fill_color',None):
 
