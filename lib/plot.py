@@ -1126,7 +1126,10 @@ class Plot(object):
                 if not os.path.isabs(shape_file):
                     path = find_source(shape_path, shape_file+'*')
                     if not path:
-                        raise FileNotFoundError(f'{shape_file} not found in {shape_path}')
+                        if self.passive:
+                            path = shape_path.split(':')[0]
+                        else:
+                            raise FileNotFoundError(f'{shape_file} not found in {shape_path}')
                     map['shape_file'] = os.path.join(path, shape_file)
 
                 if map.get('fill_color',None):

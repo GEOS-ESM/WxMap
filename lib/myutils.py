@@ -134,6 +134,9 @@ def add_dt(dattim, iso_duration):
         factor = -1
         iso_duration = iso_duration[1:]
 
+    if 'P' not in iso_duration:
+        iso_duration = 'P' + iso_duration
+
     if 'T' not in iso_duration:
         iso_duration += 'T0H'
         

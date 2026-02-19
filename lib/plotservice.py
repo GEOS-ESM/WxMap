@@ -494,6 +494,7 @@ class PlotService(object):
         handle.xaxis   = self.config(path+['xaxis'],'--auto')
         handle.slice   = self.config(path+['slice'],'')
         handle.zlog    = self.config(path+['zlog'],'--auto')
+        handle.yflip   = self.config(path+['yflip'],'--auto')
         handle.label   = self.config(path+['label'],'')
         handle.tag     = self.config(path+['tag'],'')
 #       handle.ylab    = self.config(path+['ylab'],'--auto')
@@ -546,6 +547,7 @@ class PlotService(object):
           set lon $lon
           set SLICE $slice
           set zlog $zlog
+          set yflip $yflip
           set x $x
           set y $y
           set z $z
@@ -632,6 +634,7 @@ class PlotService(object):
         handle.xaxis   = self.config(path+['xaxis'],'--auto')
         handle.slice   = self.config(path+['slice'],'')
         handle.zlog    = self.config(path+['zlog'],'--auto')
+        handle.yflip   = self.config(path+['yflip'],'--auto')
 
         self.set_coords(plot)
 
@@ -668,6 +671,7 @@ class PlotService(object):
           set xaxis $xaxis
           set SLICE $slice
           set zlog $zlog
+          set yflip $yflip
           set z $z
           set grads off
           set gxout grid
@@ -718,6 +722,7 @@ class PlotService(object):
         handle.xaxis   = self.config(path+['xaxis'],'--auto')
         handle.slice   = self.config(path+['slice'],'')
         handle.zlog    = self.config(path+['zlog'],'--auto')
+        handle.yflip   = self.config(path+['yflip'],'--auto')
 
         self.set_coords(plot)
 
@@ -751,6 +756,7 @@ class PlotService(object):
           set xaxis $xaxis
           set SLICE $slice
           set zlog $zlog
+          set yflip $yflip
           set z $z
           set datawarn off
           set gxout $gxout
@@ -885,6 +891,7 @@ class PlotService(object):
         handle.xaxis   = self.config(path+['xaxis'],'--auto')
         handle.slice   = self.config(path+['slice'],'')
         handle.zlog    = self.config(path+['zlog'],'--auto')
+        handle.yflip   = self.config(path+['yflip'],'--auto')
 
         self.set_coords(plot)
 
@@ -925,6 +932,7 @@ class PlotService(object):
           set xaxis $xaxis
           set SLICE $slice
           set zlog $zlog
+          set yflip $yflip
           set datawarn off
           set gxout barb
           set grads off
@@ -967,6 +975,7 @@ class PlotService(object):
         handle.xaxis   = self.config(path+['xaxis'],'--auto')
         handle.slice   = self.config(path+['slice'],'')
         handle.zlog    = self.config(path+['zlog'],'--auto')
+        handle.yflip   = self.config(path+['yflip'],'--auto')
 
         self.set_coords(plot)
 
@@ -1011,6 +1020,7 @@ class PlotService(object):
           set xaxis $xaxis
           set SLICE $slice
           set zlog $zlog
+          set yflip $yflip
           set datawarn off
           set gxout vector
           set grads off
@@ -1060,6 +1070,7 @@ class PlotService(object):
         handle.xaxis   = self.config(path+['xaxis'],'--auto')
         handle.slice   = self.config(path+['slice'],'')
         handle.zlog    = self.config(path+['zlog'],'--auto')
+        handle.yflip   = self.config(path+['yflip'],'--auto')
 
         self.set_coords(plot)
 
@@ -1097,6 +1108,7 @@ class PlotService(object):
           set xaxis $xaxis
           set SLICE $slice
           set zlog $zlog
+          set yflip $yflip
           set datawarn off
           set gxout stream
           set grads off

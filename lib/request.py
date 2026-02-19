@@ -3,6 +3,7 @@ import uuid
 import mydatetime as dt
 
 from string import *
+from myutils import add_dt
 
 novalue = object()
 
@@ -120,7 +121,7 @@ class Request(dict):
 
             yield Request(request, self.encoder)
 
-            t += tinc
+            t = add_dt(t, tinc)
 
 #------------------------------------------------------------------------------
 

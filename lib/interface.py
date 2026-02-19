@@ -86,8 +86,8 @@ def parse_args(args=None):
         help='Ending time in ISO format'
     )
     parser.add_argument(
-        '--t_deltat', metavar='HOURS', type=int, default='3',
-        help='Time increment in hours (default: %(default)s)'
+        '--t_deltat', metavar='HOURS', type=str, default='PT3H',
+        help='Time increment as ISO duration (default: %(default)s)'
     )
     parser.add_argument(
         '-o', '--oname', metavar='ONAME', default='%Y%m%dT%H%M%S.png',
@@ -185,7 +185,14 @@ def parse_args(args=None):
     p_args['time_dt']  = dt.datetime.strptime(p_args['time_dt'],'%Y%m%dT%H%M%S')
     p_args['start_dt'] = dt.datetime.strptime(p_args['start_dt'],'%Y%m%dT%H%M%S')
     p_args['end_dt']   = dt.datetime.strptime(p_args['end_dt'],'%Y%m%dT%H%M%S')
-    p_args['t_deltat'] = dt.timedelta(hours=p_args['t_deltat'])
+
+    try:
+        int(p_args['t_deltat'])
+        t_deltat = 'PT' + p_args['t_deltat'] + 'H'
+    except:
+        t_deltat = p_args['t_deltat']
+ 
+    p_args['t_deltat'] = t_deltat
 
     if p_args.get('fullframe', False):
         p_args['parea'] = '0 11 0 8.5'
