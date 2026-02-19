@@ -1,0 +1,20 @@
+source /usr/share/lmod/lmod/init/bash
+
+module purge
+
+module use -a /discover/swdev/gmao_SIteam/modulefiles-SLES15
+
+module load GEOSenv
+module load comp/gcc/11.4.0
+module load comp/intel/2021.6.0
+module load mpi/impi/2021.13
+module load ffmpeg/5.0
+module load ImageMagick
+module load python/GEOSpyD/Min24.4.0-0_py3.11
+
+export GAVERSION=2.1.0.oga.1
+export PYTHONPATH=$INSTALL_PATH/lib
+
+export PATH="${PATH}:$INSTALL_PATH/utils:$SHARE/dasilva/opengrads/Contents"
+
+umask 022

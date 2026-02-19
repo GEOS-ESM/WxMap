@@ -5,5 +5,6 @@ INSTALL_PATH=`realpath $install_path`
 
 cat modules | sed 's@$INSTALL_PATH@'$INSTALL_PATH@g > $INSTALL_PATH/utils/pyg_modules
 cat csh_modules | sed 's@$INSTALL_PATH@'$INSTALL_PATH@g > $INSTALL_PATH/utils/modules.csh
+cat bash_modules | sed 's@$INSTALL_PATH@'$INSTALL_PATH@g > $INSTALL_PATH/utils/modules.bash
 
 exit 0
