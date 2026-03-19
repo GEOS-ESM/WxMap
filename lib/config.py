@@ -495,6 +495,8 @@ class Config(dict):
                 self.serialize(hash_map[key])
 
             try:
+                if isinstance(hash_map[key],(dt.date,dt.datetime)):
+                    hash_map[key] = hash_map[key].isoformat()
                 json.dumps(hash_map[key])
             except TypeError:
                 hash_map[key] = (
@@ -595,7 +597,8 @@ class Config(dict):
         if 'stream' in config:
             for k, v in config['stream'].items():
                 if 'uri' in v:
-                    config['stream'][k]['uri'] = v[uri]
+                    uri_only = config['stream'][k]['uri']
+                    config['stream'][k]['uri'] = v.get(uri,uri_only)
 
         return config
 

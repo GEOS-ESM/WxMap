@@ -697,7 +697,7 @@ class Service(MapService):
             lons.append(str(lon))
 
             for index, var in enumerate(vars):
-                match = re.match('skip\(\w+,(\d+),(\d+)\)', var)
+                match = re.match(r'skip\(\w+,(\d+),(\d+)\)', var)
                 if match: skip = (match.group(1), match.group(2))
                 var = var.split('(')[-1].split(',')[0]
                 self.ds(template%(index+1, var, lon, lat))

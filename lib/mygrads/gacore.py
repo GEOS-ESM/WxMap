@@ -38,6 +38,7 @@ import os
 import subprocess
 import re 
 import io
+import traceback
 
 from time     import sleep
 from datetime import datetime
@@ -93,11 +94,26 @@ class GrADSError(Exception):
     """
     Defines GrADS general exception errors.
     """
+    def __init__(self, value, exc_info=None):
+        self.value = value
+        self.exc_info = exc_info
+
+    def __str__(self):
+        msg = self.value
+        if self.exc_info:
+            etype, eval_, tb = self.exc_info
+            tb_str = ''.join(traceback.format_exception(*self.exc_info))
+            msg += f" (Caused by {etype.__name__}: {eval_})"
+        return msg
+
+class GrADSFileReadError(Exception):
+    """
+    Defines GrADS general exception errors.
+    """
     def __init__(self, value):
         self.value = value
     def __str__(self):
         return repr(self.value)
-
 
 class GaCore(GrADSObject):
     """
@@ -337,7 +353,7 @@ class GaCore(GrADSObject):
                 rc,Lines = self._parseReader(Quiet=Quiet,cmd=cmd_)
                 if rc != 0: 
                     if Verb==1:   print("rc = ", rc, ' for ' + cmd_)
-                    raise GrADSError('GrADS returned rc=%d for <%s>'%(rc,cmd_))
+                    raise GrADSFileReadError('GrADS returned rc=%d for <%s>'%(rc,cmd_))
                 else:
                     if Verb>1:    print("rc = ", rc, ' for ' + cmd_)
             else:
