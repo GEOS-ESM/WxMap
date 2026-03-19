@@ -3,7 +3,9 @@ import uuid
 import mydatetime as dt
 
 from string import *
+import logging
 
+_log = logging.getLogger('wxmaps')
 novalue = object()
 
 class Request(dict):

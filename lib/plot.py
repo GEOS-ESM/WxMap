@@ -7,6 +7,7 @@ import glob
 import json
 import math
 import collections
+import logging
 from string import *
 from formats import *
 
@@ -26,6 +27,7 @@ from mygrads.gacm import *
 __all__ = ['Plot','PlotHandle','PlotObject']
 
 novalue = object()
+_log = logging.getLogger('wxmaps')
 
 class Plot(object):
     """

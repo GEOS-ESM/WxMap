@@ -1,4 +1,7 @@
 import copy
+import logging
+
+_log = logging.getLogger('wxmaps')
 
 class Encoder(object):
 

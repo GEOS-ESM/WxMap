@@ -1,4 +1,7 @@
 import re
+import logging 
+
+_log = logging.getLogger('wxmaps')
 
 class Field(object):
 

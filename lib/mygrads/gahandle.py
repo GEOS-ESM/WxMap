@@ -3,7 +3,11 @@
 #except:
 #    GaHandleObject = object
 import six
+import logging
+
 __version__ = '1.1.0'
+
+_log = logging.getLogger('wxmaps')
 
 class GaHandle(object):
     """

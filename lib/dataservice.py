@@ -2,10 +2,13 @@ import six
 import os
 import sys
 import fnmatch
+import logging
 from string import *
 import mydatetime as dt
 
 __all__ = ['DataService','FileHandle','GEOSDDF']
+
+_log = logging.getLogger('wxmaps')
 
 class DataService(object):
 

@@ -9,8 +9,8 @@ import mydatetime as dt
 import logging
 from logging.handlers import RotatingFileHandler
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+_log = logging.getLogger('wxmaps')
+# logger.setLevel(logging.INFO)
 
 import config
 

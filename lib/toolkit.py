@@ -2,6 +2,9 @@ import six
 import os 
 import json
 import mydatetime as dt
+import logging
+
+_log = logging.getLogger('wxmaps')
 
 class Toolkit(object):
   

@@ -2,6 +2,9 @@ import re
 import sys
 import field
 import gdsvml
+import logging 
+
+_log = logging.getLogger('wxmaps')
 
 class Evaluator(object):
 

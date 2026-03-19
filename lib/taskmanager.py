@@ -11,7 +11,9 @@ import time
 import shlex
 import subprocess
 import multiprocessing
+import logging
 
+_log = logging.getLogger('wxmaps')
 class TaskManager(object):
     """Provides methods for managing multiple tasks in parallel.
 

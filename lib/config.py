@@ -9,8 +9,8 @@ import platform
 import datetime as dt
 from string import Template
 from typing import Any, Dict, List, Optional, Union
-
-from logging_config import logger
+import logging
+_log = logging.getLogger('wxmaps')
 
 # YAML Loader and Dumper
 try:
@@ -527,7 +527,7 @@ class Config(dict):
                     class_ = getattr(module, class_name)
                     hash_map[key] = class_()
                 except Exception as e:
-                    logger.error(f"Error deserializing object '{obj_str}': {e}")
+                    _log.error(f"Error deserializing object '{obj_str}': {e}")
                     hash_map[key] = obj_str
 
         return hash_map

@@ -7,7 +7,7 @@ import os
 import io
 import six
 import glob
-
+import logging 
 from string import *
 
 from flask import current_app
@@ -43,6 +43,8 @@ from PIL.ImageColor import getcolor, getrgb
 from PIL.ImageOps import grayscale, expand
 
 from mapservice import *
+
+_log = logging.getLogger('wxmaps')
 
 directory = os.getcwd()
 root_dir = directory.rsplit('/',2)[0]

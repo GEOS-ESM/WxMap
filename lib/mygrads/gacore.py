@@ -39,6 +39,7 @@ import subprocess
 import re 
 import io
 import traceback
+import logging
 
 from time     import sleep
 from datetime import datetime
@@ -89,6 +90,7 @@ try:
 except:
     GrADSObject = object
 
+_log = logging.getLogger('wxmaps')
 
 class GrADSError(Exception):
     """

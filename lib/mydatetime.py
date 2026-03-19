@@ -1,7 +1,8 @@
 import re
 import datetime as dt
 import sys
-
+import logging
+_log = logging.getLogger('wxmaps')
 class datetime(dt.datetime):
     @classmethod
     def __new__(cls, *args, **kwargs):

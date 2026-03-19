@@ -37,6 +37,8 @@ from datetime import datetime
 import datetime as dt
 from collections import OrderedDict
 from argparse import Namespace
+import logging
+
 try:
     from mygrads.gacore       import *
     from mygrads.numtypes     import *
@@ -56,6 +58,8 @@ from numpy.linalg import svd, lstsq
 py_version=sys.version_info.major
 if py_version==2: StringTypes=(str,unicode)
 else: StringTypes=(str,bytes)
+
+_log = logging.getLogger('wxmaps')
 
 class GaNum(GaCore):
     """

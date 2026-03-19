@@ -5,6 +5,9 @@ import mydatetime as dt
 from dateutil.relativedelta import relativedelta
 from plot import *
 from math import exp, log
+import logging
+
+_log = logging.getLogger('wxmaps')
 
 novalue = object()
 

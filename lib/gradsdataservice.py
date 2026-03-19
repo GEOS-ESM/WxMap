@@ -2,7 +2,8 @@ import six
 import gdsvml
 from dataservice import *
 from mygrads.ganum import GaNum
-
+import logging 
+_log = logging.getLogger('wxmaps')
 class Service(GaNum,DataService):
 
     def __init__(self, config=None, window=False):
