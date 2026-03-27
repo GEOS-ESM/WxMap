@@ -109,6 +109,11 @@ class GaNum(GaCore):
             
             if missing in arr:
                 undef=missing
+                missing_all = np.all(arr == undef)
+                if self.Verbose:
+                    _log.info(f'MISSING DATA IN ARRAY for expr: {expr}')
+                    _log.info(f'MISSING ALL?: {missing_all}')
+
             return GaField(arr,name=expr,grid=grid,mask=(arr==undef))
 #       If IPC extension is not available, then try expr() instead
 #       ----------------------------------------------------------
@@ -129,7 +134,7 @@ class GaNum(GaCore):
 
 #       Retrieve dimension environment
 #       ------------------------------
-        dh = self.query("dims", Quiet=True) 
+        dh = self.query("dims",Quiet=True,Verbose=False) 
         t1, t2 = dh.t
         z1, z2 = dh.z 
         nx, ny, nz, nt = (dh.nx, dh.ny, dh.nz, dh.nt)
@@ -158,12 +163,12 @@ class GaNum(GaCore):
         grid.lev = zeros(nz,dtype=float32)         
         try:
             for t in range(t1,t2+1):
-                self.cmd("set t %d"%t,Quiet=True) 
-                self.cmd("q time",Quiet=True)
+                self.cmd("set t %d"%t,Quiet=True,Verbose=False) 
+                self.cmd("q time",Quiet=True,Verbose=False)
                 grid.time.append(self.rword(1,3))
                 k = 0
                 for z in range(z1,z2+1):
-                    self.cmd("set z %d"%z,Quiet=True)
+                    self.cmd("set z %d"%z,Quiet=True,Verbose=False)
                     field = self._exp2d(expr)
                     if Data is None:
                         ny_, nx_ = field.shape # may differ from dh.nx/dh.ny
@@ -217,7 +222,7 @@ class GaNum(GaCore):
         """
 
         if dh==None:
-            dh = self.query("dims",Quiet=True)
+            dh = self.query("dims",Quiet=True,Verbose=False)
 
 #       Check environmnet
 #       -----------------
@@ -324,7 +329,7 @@ class GaNum(GaCore):
                 
 #       Retrieve dimension environment
 #       ------------------------------
-        dh = self.query("dims", Quiet=True) 
+        dh = self.query("dims",Quiet=True,Verbose=False) 
         t1, t2 = dh.t
         z1, z2 = dh.z 
         nx, ny, nz, nt = (dh.nx, dh.ny, dh.nz, dh.nt)
@@ -480,7 +485,7 @@ class GaNum(GaCore):
         env = self.env()
         
         env_orig=env
-        dh = self.query("dims",Quiet=True)
+        dh = self.query("dims",Quiet=True,Verbose=False)
         grid = GaGrid(expr)        
         grid.denv = dh
         grid.qc   = qc
@@ -763,7 +768,7 @@ class GaNum(GaCore):
 
 #       At least 2 time steps
 #       ---------------------
-        dh = self.query("dims",Quiet=True)
+        dh = self.query("dims",Quiet=True,Verbose=False)
         if dh.nt < 2:
             raise GrADSError(
                   'need at least 2 time steps for EOFS but got nt=%d'%dh.nt)
@@ -960,7 +965,7 @@ class GaNum(GaCore):
 #       Check dim environment
 #       ---------------------
         if dh==None:
-            dh = self.query("dims", Quiet=True)
+            dh = self.query("dims",Quiet=True,Verbose=False)
         if dh.nx==1 or dh.ny==1:
             raise GrADSError(
             "expecting varying x/y dimensions but got (nx,ny) = (%d,%d)"\
@@ -972,10 +977,10 @@ class GaNum(GaCore):
 #       Evaluate GrADS expression
 #       -------------------------
         if dh.lon[0]>180. or dh.lon[1]>180:
-            self.cmd('set lon -180 180',Quiet=True) # assume global grid
+            self.cmd('set lon -180 180',Quiet=True,Verbose=False) # assume global grid
         Z = self.exp(expr)
         g = Z.grid
-        self.cmd('set x %s %s'%dh.x,Quiet=True)
+        self.cmd('set x %s %s'%dh.x,Quiet=True,Verbose=False)
 
 #       Loop over vertical levels
 #       -------------------------
@@ -1032,7 +1037,7 @@ class GaNum(GaCore):
         
         # Retrieve dimension environment
         # ------------------------------
-        dh = self.query("dims", Quiet=True) 
+        dh = self.query("dims",Quiet=True,Verbose=False) 
 
         # Loop over time, performing interpolation
         # ----------------------------------------
@@ -1041,7 +1046,7 @@ class GaNum(GaCore):
         V  = ma.masked_array(zeros((len(lons),dh.nt,dh.nz)),dtype=float32)
         for t in dh.ti:
             n = t - dh.ti[0]
-            self.cmd('set t %d'%t, Quiet=True)
+            self.cmd('set t %d'%t,Quiet=True,Verbose=False)
             v, g.lev = self._interpXY ( expr, lons, lats, 
                                            levs=levs, 
                                            **kwopts)
@@ -1049,7 +1054,7 @@ class GaNum(GaCore):
                 V[:,n,0] = v
             else:
                 V[:,n,:] = v
-            qh =self.query("time",Quiet=True)
+            qh =self.query("time",Quiet=True,Verbose=False)
             g.time.append(qh.t1)
 
         g.dims = ['obs',]
@@ -1112,24 +1117,24 @@ class GaNum(GaCore):
         
         # Retrieve dimension environment
         # ------------------------------
-        dh = self.query("dims", Quiet=True) 
+        dh = self.query("dims",Quiet=True,Verbose=False) 
 
         # Find GrADS times bracketing the input time array
         # ------------------------------------------------
-        self.cmd('set time %s'%dt2gat(tyme[0]),Quiet=True)
-        qh = self.query("dims",Quiet=True)
+        self.cmd('set time %s'%dt2gat(tyme[0]),Quiet=True,Verbose=False)
+        qh = self.query("dims",Quiet=True,Verbose=False)
         tbeg = int(qh.t[0])
         if tyme[0] < gat2dt(qh.time[0]):
             tbeg = tbeg - 1
-        self.cmd('set time %s'%dt2gat(tyme[-1]),Quiet=True)
-        qh = self.query("dims",Quiet=True)
+        self.cmd('set time %s'%dt2gat(tyme[-1]),Quiet=True,Verbose=False)
+        qh = self.query("dims",Quiet=True,Verbose=False)
         tend = int(qh.t[0])
         if tyme[-1] > gat2dt(qh.time[0]):
             tend = tend + 1
 
         # Check if (tbeg,tend) is in range of default file
         # ------------------------------------------------
-        fh = self.query("file",Quiet=True)
+        fh = self.query("file",Quiet=True,Verbose=False)
         if tbeg<1 or tbeg>fh.nt:
             raise GrADSError("(tbeg,tend) outside of range (1,%d)"%fh.nt)
 
@@ -1242,10 +1247,10 @@ class GaNum(GaCore):
         Side effect: the grads time is set to "t".
         """
         if type(t) == type(1):
-            self.cmd('set t %d'%t,Quiet=True)
+            self.cmd('set t %d'%t,Quiet=True,Verbose=False)
         elif type(t) == type("abc"):
-            self.cmd('set time %s'%t,Quiet=True)
-        qh = self.query("dims",Quiet=True)
+            self.cmd('set time %s'%t,Quiet=True,Verbose=False)
+        qh = self.query("dims",Quiet=True,Verbose=False)
         return gat2dt(qh.time[0])
 
 #   ..................................................................
@@ -1256,14 +1261,14 @@ class GaNum(GaCore):
         on input.
         Side effect: dimension environment is modified.
         """
-        self.cmd('set lon %f %f'%(lons.min(),lons.max()),Quiet=True)
-        self.cmd('set lat %f %f'%(lats.min(),lats.max()),Quiet=True)
-        fh = self.query("file",Quiet=True)
-        qh = self.query("dims",Quiet=True)
+        self.cmd('set lon %f %f'%(lons.min(),lons.max()),Quiet=True,Verbose=False)
+        self.cmd('set lat %f %f'%(lats.min(),lats.max()),Quiet=True,Verbose=False)
+        fh = self.query("file",Quiet=True,Verbose=False)
+        qh = self.query("dims",Quiet=True,Verbose=False)
         x1, x2 = (qh.xi[0]-1,qh.xi[1]+1)
         y1, y2 = (max(1,qh.yi[0]-1),min(fh.ny,qh.yi[1]+1)) # in [1,ny]
-        self.cmd('set x %d %d'%(x1,x2),Quiet=True)
-        self.cmd('set y %d %d'%(y1,y2),Quiet=True)
+        self.cmd('set x %d %d'%(x1,x2),Quiet=True,Verbose=False)
+        self.cmd('set y %d %d'%(y1,y2),Quiet=True,Verbose=False)
    
 #.....................................................................
 

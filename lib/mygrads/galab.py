@@ -138,7 +138,7 @@ class GaLab(GaNum):
             self.AREA_THRESH = area_thresh 
  
         if dh==None:
-            dh = self.query("dims", Quiet=True)
+            dh = self.query("dims",Quiet=True,Verbose=False)
 
 #       Coping with roundoff...
 #       -----------------------
@@ -319,14 +319,14 @@ class GaLab(GaNum):
 #       Set the mode on/off
 #       -------------------
         if mode is not None:
-	    if mode=='off' or mode=='OFF' or mode=='Off':
+            if mode=='off' or mode=='OFF' or mode=='Off':
                 self.blue = None
- 	    elif mode=='on' or mode=='ON' or mode=='On':
-	        self.blue = ma.zeros((1,1,4)) # Will be filled in at first use
-	    else:
+            elif mode=='on' or mode=='ON' or mode=='On':
+                self.blue = ma.zeros((1,1,4)) # Will be filled in at first use
+            else:
                 raise GrADSError('Invalid Blue Marble mode')
-	    self.blue_stamp = None # will force update on first use
-	    self.blue_size = (-1,-1)            
+            self.blue_stamp = None # will force update on first use
+            self.blue_size = (-1,-1)
             return None
 
 #       Make sure we have a basemap
@@ -419,7 +419,7 @@ class GaLab(GaNum):
 #       Check dim environment
 #       ---------------------
         if dh==None:
-            dh = self.query("dims", Quiet=True)
+            dh = self.query("dims",Quiet=True,Verbose=False)
         if dh.nz>1 or dh.nt>1:
             raise GrADSError('Not a horizontal slice; ' + \
                   'expected (nz,nt)=(1,1) but got (%d,%d)'%(dh.nz,dh.nt))
@@ -480,7 +480,7 @@ class GaLab(GaNum):
 #       Check dim environment
 #       ---------------------
         if dh==None:
-            dh = self.query("dims", Quiet=True)
+            dh = self.query("dims",Quiet=True,Verbose=False)
         if dh.nz>1 or dh.nt>1:
             raise GrADSError('Not a horizontal slice; ' + \
                   'expected (nz,nt)=(1,1) but got (%d,%d)'%(dh.nz,dh.nt))
@@ -493,10 +493,10 @@ class GaLab(GaNum):
         
 #       Evaluate GrADS expression
 #       -------------------------
-        if self.transf: self.cmd('set lon -180 180',Quiet=True)
+        if self.transf: self.cmd('set lon -180 180',Quiet=True,Verbose=False)
         Z = self.exp(expr)
         g = Z.grid
-        if self.transf: self.cmd('set x %s %s'%dh.x,Quiet=True)
+        if self.transf: self.cmd('set x %s %s'%dh.x,Quiet=True,Verbose=False)
 
 #       Sizes for transformation/blue marble
 #       ------------------------------------
@@ -626,7 +626,7 @@ class GaLab(GaNum):
 #       Check dim environment
 #       ---------------------
         if dh==None:
-            dh = self.query("dims", Quiet=True)
+            dh = self.query("dims",Quiet=True,Verbose=False)
         if dh.nz>1 or dh.nt>1:
             raise GrADSError('Not a horizontal slice; ' + \
                   'expected (nz,nt)=(1,1) but got (%d,%d)'%(dh.nz,dh.nt))
@@ -655,10 +655,10 @@ class GaLab(GaNum):
 
 #       Evaluate GrADS expression
 #       -------------------------
-        if self.transf: self.cmd('set lon -180 180',Quiet=True)
+        if self.transf: self.cmd('set lon -180 180',Quiet=True,Verbose=False)
         Z = self.exp(expr)
         g = Z.grid
-        if self.transf: self.cmd('set x %s %s'%dh.x,Quiet=True)        
+        if self.transf: self.cmd('set x %s %s'%dh.x,Quiet=True,Verbose=False)        
 
 #       Setup axis
 #       ----------
@@ -770,11 +770,11 @@ class GaLab(GaNum):
 
 #       Evaluate GrADS expression
 #       -------------------------
-        if self.transf: self.cmd('set lon -180 180',Quiet=True)
+        if self.transf: self.cmd('set lon -180 180',Quiet=True,Verbose=False)
         U = self.exp(uexpr)
         V = self.exp(vexpr)
         g = U.grid
-        if self.transf: self.cmd('set x %s %s'%dh.x,Quiet=True)        
+        if self.transf: self.cmd('set x %s %s'%dh.x,Quiet=True,Verbose=False)        
 
 #       Setup axis
 #       ----------
@@ -825,9 +825,9 @@ class GaLab(GaNum):
         imsize = (800,600)"""
         imfile = mkstemp('.png') 
         if imsize is None:
-            self.cmd('gxyat %s'%imfile,Quiet=True)
+            self.cmd('gxyat %s'%imfile,Quiet=True,Verbose=False)
         else:
-            self.cmd('gxyat -x %d -y %d %s'%(imsize[0],imsize[1],imfile),Quiet=True)
+            self.cmd('gxyat -x %d -y %d %s'%(imsize[0],imsize[1],imfile),Quiet=True,Verbose=False)
         axes([0,0,1,1],frameon=False)
         axis('off')
         imshow(imread(imfile))

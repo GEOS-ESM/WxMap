@@ -140,7 +140,7 @@ class GaCore(GrADSObject):
     
     def __init__ (self, 
                   Bin='grads', Echo=True, Opts='', Port=False, 
-                  Strict=False, Verb=0, Window=None):
+                  Strict=False, Verb=0, Window=None, Verbose=True):
         """
         Starts the GrADS process using Popen function. Optional input
         parameters are:
@@ -214,6 +214,7 @@ class GaCore(GrADSObject):
 #       ------------
         self.Reader = Reader
         self.Writer = Writer
+        self.Verbose = Verbose
         self.Echo = Echo
         self.Verb = Verb
         self.Strict = Strict
@@ -225,7 +226,7 @@ class GaCore(GrADSObject):
 
 #       Record GrADS version
 #       --------------------
-        self.cmd('q config',Quiet=True)
+        self.cmd('q config',Quiet=True,Verbose=False)
         self.Version = self.rword(1,2)
         self.byteorder = self.rword(1,4)
         if ( self.byteorder!='big-endian' and self.byteorder!='little-endian'):
@@ -235,11 +236,11 @@ class GaCore(GrADSObject):
 #       --------------------------------
         self.HAS_UDXT = False
         self.HAS_UDCT = False # old v1.9.0-rc1 style (deprecated)
-        self.cmd('q udxt',Quiet=True)
+        self.cmd('q udxt',Quiet=True,Verbose=False)
         if self.rword(1,1)!='Invalid':
             self.HAS_UDXT = True
         else:
-            self.cmd('q udct',Quiet=True) # as in v1.9.0-rc1
+            self.cmd('q udct',Quiet=True,Verbose=False) # as in v1.9.0-rc1
             if self.rword(1,1)!='Invalid':
                 self.HAS_UDXT = True
                 self.HAS_UDCT = True
@@ -248,7 +249,7 @@ class GaCore(GrADSObject):
 #       ------------------------------
         if self.HAS_UDXT is True:
             try:
-                self.cmd('ipc_close',Quiet=True)
+                self.cmd('ipc_close',Quiet=True,Verbose=False)
                 self.HAS_IPC = True
             except GrADSError:
                 self.HAS_IPC = False
@@ -309,7 +310,7 @@ class GaCore(GrADSObject):
 
 #........................................................................
 
-    def cmd ( self, gacmd, Quiet=False, Block=True,encoding='utf-8',sendOutput=False, **kwopt ):
+    def cmd ( self, gacmd, Quiet=True, Block=True,encoding='utf-8',sendOutput=False, Verbose=None, **kwopt ):
         """
         Sends a command to GrADS. When Block=True, the output is captured 
         and can be retrieved by methods rline() and rword(). On input,
@@ -338,7 +339,8 @@ class GaCore(GrADSObject):
                    for string interpolation.
                    
         """
-        
+        if not Verbose:
+            Verbose = getattr(self, 'Verbose', False) 
         if len(kwopt)>0:
             Cmds = Template(gacmd).substitute(kwopt).split('\n')
         else:
@@ -352,7 +354,7 @@ class GaCore(GrADSObject):
             
             self.Writer.flush()
             if Block:
-                rc,Lines = self._parseReader(Quiet=Quiet,cmd=cmd_)
+                rc,Lines = self._parseReader(Quiet=Quiet,cmd=cmd_,Verbose=Verbose)
                 if rc != 0: 
                     if Verb==1:   print("rc = ", rc, ' for ' + cmd_)
                     raise GrADSFileReadError('GrADS returned rc=%d for <%s>'%(rc,cmd_))
@@ -399,7 +401,7 @@ class GaCore(GrADSObject):
 #       OK, just issue another regular command and let the
 #       parser do its job
 #       --------------------------------------------------
-        self.cmd('query config',Quiet=True)
+        self.cmd('query config',Quiet=True,Verbose=False)
 
 #........................................................................
 
@@ -458,8 +460,8 @@ class GaCore(GrADSObject):
                 fid = int(self.rword(i,8))
                 break
             
-        fh = self.query('file %d'%fid, Quiet=True)
-        qh = self.query('ctlinfo %d'%fid, Quiet=True)
+        fh = self.query('file %d'%fid,Quiet=True,Verbose=False)
+        qh = self.query('ctlinfo %d'%fid,Quiet=True,Verbose=False)
         fh.undef = qh.undef # will need that for fwrite later
 
         return fh
@@ -476,7 +478,7 @@ class GaCore(GrADSObject):
 
 #........................................................................
 
-    def query ( self, what, Quiet=False ):
+    def query ( self, what, Quiet=False, Verbose=True ):
         """
         Queries GrADS internal state and returns a GaHandle object
         with the results of the query:
@@ -621,7 +623,7 @@ class GaCore(GrADSObject):
 #       -----------
         try:
             self.flush()
-            self.cmd('query '+what,Quiet)
+            self.cmd('query '+what,Quiet,Verbose=False)
             qh.rc = self.rc
         except GrADSError: 
             raise GrADSError('Cannot query GrADS about <'+what+'>')
@@ -944,11 +946,11 @@ class GaCore(GrADSObject):
         if ch.denv.ny==1: ch.shape.remove(1)
         if ch.denv.nx==1: ch.shape.remove(1)
 
-        self.cmd("set x 1",Quiet=True)
-        self.cmd("set y 1",Quiet=True)
-        self.cmd("set z 1",Quiet=True)
+        self.cmd("set x 1",Quiet=True,Verbose=False)
+        self.cmd("set y 1",Quiet=True,Verbose=False)
+        self.cmd("set z 1",Quiet=True,Verbose=False)
         if self.Version[1]=='2':
-            self.cmd("set e 1",Quiet=True)
+            self.cmd("set e 1",Quiet=True,Verbose=False)
 
 #       ensemble coordinates
 #       --------------------
@@ -956,52 +958,52 @@ class GaCore(GrADSObject):
             ch.ens = []
             for n in range(dh.ne):
                 e = dh.ei[0] + n
-                self.cmd("set e %d"%e,Quiet=True)
-                self.cmd("q ens",Quiet=True)
+                self.cmd("set e %d"%e,Quiet=True,Verbose=False)
+                self.cmd("q ens",Quiet=True,Verbose=False)
                 ch.ens.append(self.rword(1,3))
-                self.cmd("set e 1",Quiet=True)
+                self.cmd("set e 1",Quiet=True,Verbose=False)
                 
 #       Time coordinates
 #       ----------------
         ch.time = []
         for n in range(dh.nt):
             t = dh.ti[0] + n
-            self.cmd("set t %d"%t,Quiet=True)
-            self.cmd("q time",Quiet=True)
+            self.cmd("set t %d"%t,Quiet=True,Verbose=False)
+            self.cmd("q time",Quiet=True,Verbose=False)
             ch.time.append(self.rword(1,3))
-        self.cmd("set t 1",Quiet=True)
+        self.cmd("set t 1",Quiet=True,Verbose=False)
 
 #       Level coordinates
 #       -----------------
-        self.cmd("set z %d %d"%dh.zi,Quiet=True)
+        self.cmd("set z %d %d"%dh.zi,Quiet=True,Verbose=False)
         ch.lev  = self.eval('lev')
-        self.cmd("set z 1",Quiet=True)
+        self.cmd("set z 1",Quiet=True,Verbose=False)
 
 #       Latitude coordinates
 #       --------------------
-        self.cmd("set y %d %d"%dh.yi,Quiet=True)
+        self.cmd("set y %d %d"%dh.yi,Quiet=True,Verbose=False)
         ch.lat  = self.eval('lat')
-        self.cmd("set y 1",Quiet=True)
+        self.cmd("set y 1",Quiet=True,Verbose=False)
 
 #       Longitude coordinates
 #       ---------------------
-        self.cmd("set x %d %d"%dh.xi,Quiet=True)
+        self.cmd("set x %d %d"%dh.xi,Quiet=True,Verbose=False)
         ch.lon = self.eval('lon')
-        self.cmd("set x 1",Quiet=True)
+        self.cmd("set x 1",Quiet=True,Verbose=False)
 
 #       Retore dimension environment
 #       ----------------------------
         if self.Version[1]=='2':
-            self.cmd("set e %d %d"%dh.ei,Quiet=True)
-        self.cmd("set t %d %d"%dh.ti,Quiet=True)
-        self.cmd("set z %d %d"%dh.zi,Quiet=True)
-        self.cmd("set y %d %d"%dh.yi,Quiet=True)
-        self.cmd("set x %d %d"%dh.xi,Quiet=True)
+            self.cmd("set e %d %d"%dh.ei,Quiet=True,Verbose=False)
+        self.cmd("set t %d %d"%dh.ti,Quiet=True,Verbose=False)
+        self.cmd("set z %d %d"%dh.zi,Quiet=True,Verbose=False)
+        self.cmd("set y %d %d"%dh.yi,Quiet=True,Verbose=False)
+        self.cmd("set x %d %d"%dh.xi,Quiet=True,Verbose=False)
 
 #       Undef
 #       -----
         try:
-            self.cmd('q undef',Quiet=True)
+            self.cmd('q undef',Quiet=True,Verbose=False)
             ch.undef = float(self.rword(1,7))
         except: # for legacy reasons, before q undef was available
             self.cmd("q ctlinfo",Quiet=True)
@@ -1084,24 +1086,24 @@ class GaCore(GrADSObject):
         self.flush()
 #       Retrieve dimension environment
 #       ------------------------------
-        dh = self.query("dims", Quiet=True) 
+        dh = self.query("dims",Quiet=True,Verbose=False) 
         nx, ny, nz, nt, ne = (dh.nx, dh.ny, dh.nz, dh.nt, dh.ne)
 
 #       Tell GrADS to write expression to pipe
 #       --------------------------------------
-        self.cmd('query gxout', Quiet=True) 
+        self.cmd('query gxout',Quiet=True,Verbose=False) 
         gxout = self.rword(4,6) # save gxout state
-        self.cmd('set gxout fwrite', Quiet=True) 
-        self.cmd('set fwrite -', Quiet=True)
+        self.cmd('set gxout fwrite',Quiet=True,Verbose=False) 
+        self.cmd('set fwrite -',Quiet=True,Verbose=False)
  
 #       For now, can only handle up to 3 varying dimensions
 #       ---------------------------------------------------
         if dh.rank<=2: 
             self.cmd('display %s'%expr, Block=False) # non-blocking
         elif dh.rank==3: # xyz, xyt, xzt, yzt
-            if   ne>1: self.cmd('set loopdim e', Quiet=True)
-            elif nt>1: self.cmd('set loopdim t', Quiet=True)
-            elif nz>1: self.cmd('set loopdim z', Quiet=True)
+            if   ne>1: self.cmd('set loopdim e',Quiet=True,Verbose=False)
+            elif nt>1: self.cmd('set loopdim t',Quiet=True,Verbose=False)
+            elif nz>1: self.cmd('set loopdim z',Quiet=True,Verbose=False)
             self.cmd('display %s'%expr, Block=False) # non-blocking
         else:
             raise GrADSError('can only handle 3 varying dimensions')
@@ -1131,7 +1133,7 @@ class GaCore(GrADSObject):
 #       Restore gxout settings
 #       ----------------------
         self.cmd('disable fwrite')
-        self.cmd('set gxout %s'%gxout, Quiet=True) 
+        self.cmd('set gxout %s'%gxout,Quiet=True,Verbose=False) 
 
 #       Something went wrong
 #       --------------------
@@ -1162,12 +1164,12 @@ class GaCore(GrADSObject):
             dh = ga.query('dims')
         """
         try:
-            self.cmd("set x %d %d"%dh.x,Quiet=True)
-            self.cmd("set y %d %d"%dh.y,Quiet=True)
-            self.cmd("set z %d %d"%dh.z,Quiet=True)
-            self.cmd("set t %d %d"%dh.t,Quiet=True)
+            self.cmd("set x %d %d"%dh.x,Quiet=True,Verbose=False)
+            self.cmd("set y %d %d"%dh.y,Quiet=True,Verbose=False)
+            self.cmd("set z %d %d"%dh.z,Quiet=True,Verbose=False)
+            self.cmd("set t %d %d"%dh.t,Quiet=True,Verbose=False)
             if self.Version[1]=='2':
-                self.cmd("set e %d %d"%dh.e,Quiet=True)
+                self.cmd("set e %d %d"%dh.e,Quiet=True,Verbose=False)
         except GrADSError:
             raise GrADSError('Cannot restore dimension environment')
 
@@ -1175,12 +1177,12 @@ class GaCore(GrADSObject):
 
 #   This should be private
 #   ----------------------
-    def _parseReader ( self, Quiet=False, marker='IPC',encoding='utf-8',cmd=''):
+    def _parseReader ( self, Quiet=False, marker='IPC',encoding='utf-8',cmd='',Verbose=False):
         """
         Internal method to parse the GrADS output. Not user callable.
         """
-
-        if Quiet:  Echo = False
+        if Verbose: Echo = False
+        elif Quiet:  Echo = False
         else:      Echo = self.Echo
         Lines = []
         Words = []
@@ -1218,7 +1220,8 @@ class GaCore(GrADSObject):
             else:
                 Lines.append(got[:-1])
                 Words.append(tokens)
-                if Echo: pass
+                if Echo: 
+                    _log.info(got[:-1])
                 #if Echo: print(got[:-1])
             got = self.pyreader(encoding=encoding)
             if got == '':
@@ -1260,6 +1263,11 @@ class GaCore(GrADSObject):
         """
         Writes out GrADS commands, encodes command if using python3
         """
+        if self.Verbose:
+            if not any([cmd.startswith(s) for s in ['query','set','draw']]):
+                pass
+            if cmd.startswith('define'):
+                _log.info(f'GrADS COMMAND:{cmd}')
         #print(cmd)
         if py_version==2:
             self.Writer.write(cmd)

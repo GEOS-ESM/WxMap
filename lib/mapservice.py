@@ -2,11 +2,12 @@ import gdsvml
 
 class MapService(object):
 
-    def __init__(self, config=None, dataservice=None):
+    def __init__(self, config=None, dataservice=None, verbose=False):
 
         self.ds     = dataservice
         self.lang   = gdsvml.GDSVML()
         self.config = config
+        self.verbose= verbose
 
 #------------------------------------------------------------------------------
 

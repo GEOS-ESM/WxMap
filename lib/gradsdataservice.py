@@ -6,7 +6,7 @@ import logging
 _log = logging.getLogger('wxmaps')
 class Service(GaNum,DataService):
 
-    def __init__(self, config=None, window=False):
+    def __init__(self, config=None, window=False, verbose=False):
 
         self.files   = []
         self.fileID  = 1
@@ -15,16 +15,17 @@ class Service(GaNum,DataService):
         self.dfile = 1
         self.lonvals = None
         self.mpvals = None
+        self.verbose = verbose
 
         DataService.__init__(self, config)
 
         try:
-            GaNum.__init__(self, Bin='/opt/opengrads/grads --with-version 2.1.0.oga.1',Window=window, Echo=False)
+            GaNum.__init__(self, Bin='/opt/opengrads/grads --with-version 2.1.0.oga.1',Window=window, Echo=False, Verbose=verbose)
         except:
             try:
-                GaNum.__init__(self, Bin='/opt/opengrads-2.0.2/grads --with-version 2.0.2.oga.2',Window=window, Echo=False)
+                GaNum.__init__(self, Bin='/opt/opengrads-2.0.2/grads --with-version 2.0.2.oga.2',Window=window, Echo=False, Verbose=verbose)
             except:
-                GaNum.__init__(self, Bin='grads',Window=window, Echo=True)
+                GaNum.__init__(self, Bin='grads',Window=window, Echo=True, Verbose=verbose)
 
 #------------------------------------------------------------------------------
 

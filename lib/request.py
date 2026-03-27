@@ -14,6 +14,9 @@ class Request(dict):
 
         super(Request,self).__init__(request)
 
+        self.verbose = request.get('verbose',False)
+        if self.verbose:
+            _log.info('Verbose TRUE!')
         self.encoder = encoder
         self.hotkeys  = ['fcst_dt', 'time_dt', 'field', 'level', 'region',
                          'geometry', 'stream', 'collection', 'basemap']
