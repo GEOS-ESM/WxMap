@@ -112,7 +112,8 @@ class GaNum(GaCore):
                 missing_all = np.all(arr == undef)
                 if self.Verbose:
                     _log.info(f'MISSING DATA IN ARRAY for expr: {expr}')
-                    _log.info(f'MISSING ALL?: {missing_all}')
+                    if missing_all:
+                        _log.warning(f'MISSING ALL DATA')
 
             return GaField(arr,name=expr,grid=grid,mask=(arr==undef))
 #       If IPC extension is not available, then try expr() instead
