@@ -48,9 +48,9 @@ class Service(GaNum,DataService):
             return fh
 
         if self.verbose:
-            _log.info("**OPENING** ",file)
+            _log.info(f"**OPENING** {file}")
         else:
-            _log.debug("**OPENING** ",file)
+            _log.debug(f"**OPENING** {file}")
             
         fh   = super(Service,self).open(file)
 
