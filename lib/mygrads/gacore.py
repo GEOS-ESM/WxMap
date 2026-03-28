@@ -51,8 +51,10 @@ from time     import time
 from array    import array as array
 try:
     from mygrads.gahandle import *
+    from mygrads.gastats import *
 except Exception:
     from gahandle import *
+    from gastats import *
 
 py_version=sys.version_info.major
 if py_version==2: StringTypes=(str,unicode)
@@ -140,7 +142,7 @@ class GaCore(GrADSObject):
     
     def __init__ (self, 
                   Bin='grads', Echo=True, Opts='', Port=False, 
-                  Strict=False, Verb=0, Window=None, Verbose=True):
+                  Strict=False, Verb=0, Window=None, Verbose=False):
         """
         Starts the GrADS process using Popen function. Optional input
         parameters are:
@@ -219,6 +221,8 @@ class GaCore(GrADSObject):
         self.Verb = Verb
         self.Strict = Strict
         self.rc = 0
+        self._defined_variables = {}
+        self._layers = {}
 
 #       Parse out inital splash screen
 #       -------------------------------
@@ -310,7 +314,7 @@ class GaCore(GrADSObject):
 
 #........................................................................
 
-    def cmd ( self, gacmd, Quiet=True, Block=True,encoding='utf-8',sendOutput=False, Verbose=None, **kwopt ):
+    def cmd ( self, gacmd, Quiet=True, Block=True,encoding='utf-8',sendOutput=False, Verbose=False, **kwopt ):
         """
         Sends a command to GrADS. When Block=True, the output is captured 
         and can be retrieved by methods rline() and rword(). On input,
@@ -339,8 +343,6 @@ class GaCore(GrADSObject):
                    for string interpolation.
                    
         """
-        if not Verbose:
-            Verbose = getattr(self, 'Verbose', False) 
         if len(kwopt)>0:
             Cmds = Template(gacmd).substitute(kwopt).split('\n')
         else:
@@ -405,7 +407,7 @@ class GaCore(GrADSObject):
 
 #........................................................................
 
-    def open ( self, fname, ftype='default', Quiet=False ):
+    def open ( self, fname, ftype='default', Quiet=True ):
         """
         Opens a GrADS file, returning the relevant metadata. On input,
         ftype can be used to specify which GrADS open command to open
@@ -468,7 +470,7 @@ class GaCore(GrADSObject):
                       
 #........................................................................
 
-    def jopen ( self, fname, ftype='default', Quiet=False ):
+    def jopen ( self, fname, ftype='default', Quiet=True ):
         """
         Similar to open() but returns a Java HashMap instead.
         This method only makes sense under Jython.
@@ -478,7 +480,7 @@ class GaCore(GrADSObject):
 
 #........................................................................
 
-    def query ( self, what, Quiet=False, Verbose=True ):
+    def query ( self, what, Quiet=True, Verbose=False ):
         """
         Queries GrADS internal state and returns a GaHandle object
         with the results of the query:
@@ -623,7 +625,7 @@ class GaCore(GrADSObject):
 #       -----------
         try:
             self.flush()
-            self.cmd('query '+what,Quiet,Verbose=False)
+            self.cmd(f'query {what}',Quiet,Verbose=Verbose)
             qh.rc = self.rc
         except GrADSError: 
             raise GrADSError('Cannot query GrADS about <'+what+'>')
@@ -892,7 +894,7 @@ class GaCore(GrADSObject):
 
 #........................................................................
 
-    def jquery ( self, what, Quiet=False ):
+    def jquery ( self, what, Quiet=True):
         """
         Queries GrADS internal state and returns a Java Hashtable with 
         the results. This method only makes sense under Jython.
@@ -1015,6 +1017,21 @@ class GaCore(GrADSObject):
 #       All done
 #       --------
         return ch
+
+    def get_stats(self,variable):
+        self.cmd('query gxout',Quiet=True,Verbose=False) 
+        gxout = self.rword(4,6) # save gxout state
+        self.cmd('set gxout stat')
+        try:
+            Lines,rc = self.cmd(f'display {variable}',sendOutput=True)
+        except Exception:
+            Lines = []
+            rc = 0
+        stats = parse_grads_stat(Lines)
+        print(stats.valid_ratio)
+        print(stats)
+        self.cmd(f'set gxout {gxout}')
+        return stats
 
 #........................................................................
 
@@ -1172,16 +1189,27 @@ class GaCore(GrADSObject):
                 self.cmd("set e %d %d"%dh.e,Quiet=True,Verbose=False)
         except GrADSError:
             raise GrADSError('Cannot restore dimension environment')
-
 #........................................................................
 
 #   This should be private
 #   ----------------------
-    def _parseReader ( self, Quiet=False, marker='IPC',encoding='utf-8',cmd='',Verbose=False):
+
+    def _add_defined(self,cmd):
+        if '=' not in cmd:
+            return
+        _cmd = cmd.replace('define','',1)
+        _cmd = _cmd.split('=',1)
+        key = _cmd[0].strip()
+        value = _cmd[1].strip()
+        self._defined_variables[key] = value
+        self._layers[key] = {'missing': False, 'time_avg': False, 'flag':False}
+        return
+
+    def _parseReader ( self, Quiet=True, marker='IPC',encoding='utf-8',cmd='',Verbose=False):
         """
         Internal method to parse the GrADS output. Not user callable.
         """
-        if Verbose: Echo = False
+        if Verbose: Echo = True
         elif Quiet:  Echo = False
         else:      Echo = self.Echo
         Lines = []
@@ -1266,8 +1294,10 @@ class GaCore(GrADSObject):
         if self.Verbose:
             if not any([cmd.startswith(s) for s in ['query','set','draw']]):
                 pass
-            if cmd.startswith('define'):
+            if any([cmd.startswith(s) for s in ['define','open']]):
                 _log.info(f'GrADS COMMAND:{cmd}')
+            if cmd.startswith('define'):
+                self._add_defined(cmd)
         #print(cmd)
         if py_version==2:
             self.Writer.write(cmd)

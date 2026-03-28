@@ -106,14 +106,29 @@ class GaNum(GaCore):
         missing=-9.99e8
         if py_version==3:
             arr,undef,grid=self.py3exp(expr,dx,dy)
-            
-            if missing in arr:
+
+            if missing in arr: #For some reason undef isn't always in line with missing data? 
                 undef=missing
-                missing_all = np.all(arr == undef)
-                if self.Verbose:
-                    _log.info(f'MISSING DATA IN ARRAY for expr: {expr}')
-                    if missing_all:
-                        _log.warning(f'MISSING ALL DATA')
+
+            missing_all = np.all(arr == undef)
+            if self.Verbose:
+                _log.info(f'MISSING DATA IN ARRAY for expr: {expr}')
+                qh = self.query('file')
+                qh2 = self.query('dims')
+                qh3 = self.query('ctlinfo')
+                qh.Vars = {}
+                print(qh)
+                print(qh2)
+                print(qh3)
+            if missing_all:
+                self._layers[expr]['missing'] = True
+                if 't=0' in self._defined_variables.get(expr,''):
+                    self._layers[expr]['time_avg'] = True
+                else:
+                    _log.warning(f"MISSING ALL DATA FOR EXPR {expr} = {self._defined_variables.get(expr)}")
+                    stats = self.get_stats(expr)
+                    if stats.all_missing:
+                        self._layers[expr]['flag'] = True
 
             return GaField(arr,name=expr,grid=grid,mask=(arr==undef))
 #       If IPC extension is not available, then try expr() instead
