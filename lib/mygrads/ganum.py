@@ -121,14 +121,14 @@ class GaNum(GaCore):
                 print(qh2)
                 print(qh3)
             if missing_all:
-                self._layers[expr]['missing'] = True
+                self._layers.get(expr,{}).update({'missing':True})
                 if 't=0' in self._defined_variables.get(expr,''):
-                    self._layers[expr]['time_avg'] = True
+                    self._layers.get(expr,{}).update({'time_avg':True})
                 else:
                     _log.warning(f"MISSING ALL DATA FOR EXPR {expr} = {self._defined_variables.get(expr)}")
                     stats = self.get_stats(expr)
                     if stats.all_missing:
-                        self._layers[expr]['flag'] = True
+                        self._layers.get(expr,{}).update({'flag':True})
 
             return GaField(arr,name=expr,grid=grid,mask=(arr==undef))
 #       If IPC extension is not available, then try expr() instead
