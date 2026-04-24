@@ -68,6 +68,20 @@ def image_trim(im, margin=0):
         return im.crop(bbox)
     return im
 
+class ImageScaler(object):
+        
+    def __init__(self, image_size, base_size=None):
+
+        self.base = (2048, 1024)
+        if base_size:
+            self.base = base_size
+    
+        self.size = image_size
+        self.factor = self.size[0] / self.base[0]
+        
+    def __call__(self, pixels):
+        return int(round(pixels * self.factor))
+
 class HersheyDrawOld(object):
     """
     Defines methods for drawing formatted text on an image.
