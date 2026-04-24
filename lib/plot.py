@@ -658,7 +658,7 @@ class Plot(object):
 
         for val in x:
             rgba = cmap(val)
-            rgba = [ str(min(float(c)*255.0,255)) for c in rgba ]
+            rgba = [ str(round(min(float(c)*255.0,255))) for c in rgba ]
             rgba = ' '.join(rgba)
             colors.append(rgba)
 
