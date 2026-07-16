@@ -10,8 +10,6 @@ import glob
 import logging 
 from string import *
 
-from flask import current_app
-
 import numpy as np
 import numpy.ma as ma
 
