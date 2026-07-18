@@ -1,0 +1,43 @@
+[build-system]
+requires = ["uv_build>=0.10.0,<0.11.0"]
+build-backend = "uv_build"
+
+[project]
+name = "wxmap"
+version = "0.1.0"
+description = "FLUID Weather Map Application for NCCS/Discover"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "six",
+    "PyYAML",
+    "Pillow",
+    "pyproj",
+    "python-dateutil",
+    "scipy",
+    "cartopy",
+]
+
+[project.optional-dependencies]
+viz3d = ["mayavi"]
+yaml-roundtrip = ["ruamel.yaml"]
+netcdf = ["netCDF4"]
+
+[project.scripts]
+wxmap = "wxmap.wxmap_run:main"
+
+[tool.uv.build-backend]
+include = [
+  "src/wxmap/**",
+  "src/mygrads/**",
+]
+
+exclude = [
+  "**/__pycache__/**",
+  "**/*.pyc",
+  "**/.DS_Store",
+  "tests/**",
+  "test*.py",
+]

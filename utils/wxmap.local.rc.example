@@ -1,0 +1,13 @@
+# Example wxmap.local.rc
+# =======================
+# Copy this file to wxmap.local.rc (same directory as wxmap.rc) to override
+# any subset of the settings in wxmap.rc for this checkout only.
+# wxmap.local.rc is gitignored -- it is never committed, so each
+# checkout/user can point at their own paths without touching the tracked
+# defaults in wxmap.rc.
+#
+# Only include the keys you want to change; everything else keeps using
+# the value from wxmap.rc.
+
+# shape_path: /my/own/maps
+# grads_bin: /opt/opengrads-2.0.2/grads --with-version 2.0.2.oga.2
