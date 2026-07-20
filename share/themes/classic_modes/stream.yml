@@ -16,6 +16,7 @@ stream:
     institution: NASA Global Modeling and Assimilation Office
     description: Rotated EOF eigenvectors (from MERRA-2, DJF, 1980DEC-2019FEB)
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/modes/rev-H2-DJF19802018.ctl
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/modes/rev-H2-DJF19802018.ctl
     logos: [nasa-logo-ul, gmao-logo-ur]
 
   RPC:
@@ -25,6 +26,7 @@ stream:
     institution: NASA Global Modeling and Assimilation Office
     description: Rotated EOF Principal Component (1980-2018, DJF, 250mb Height)
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/modes/rpc-H2-DJF19802018.ctl
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/modes/rpc-H2-DJF19802018.ctl
     logos: [nasa-logo-ul, gmao-logo-ur]
 
   ENSO:
@@ -34,6 +36,7 @@ stream:
     institution: NASA Global Modeling and Assimilation Office
     description: Nino3.4 sst anomaly DJF (12/1950-02/2019)
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/modes/Nino3.4-DJFmonth-5018.ctl
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/modes/Nino3.4-DJFmonth-5018.ctl
     logos: [nasa-logo-ul, gmao-logo-ur]
 
   AO:
@@ -43,6 +46,7 @@ stream:
     institution: NASA Global Modeling and Assimilation Office
     description: AO DJF (12/1950-02/2019)
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/modes/AO-DJFmonth-5018.ctl
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/modes/AO-DJFmonth-5018.ctl
     logos: [nasa-logo-ul, gmao-logo-ur]
 
   NAO:
@@ -52,6 +56,7 @@ stream:
     institution: NASA Global Modeling and Assimilation Office
     description: Tele_index DJF monthly (12/1950-02/2019)  
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/modes/Tele_index-NH-DJFmonth-5018.ctl
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/modes/Tele_index-NH-DJFmonth-5018.ctl
     logos: [nasa-logo-ul, gmao-logo-ur]
 
   PNA:
@@ -61,4 +66,5 @@ stream:
     institution: NASA Global Modeling and Assimilation Office
     description: Tele_index DJF monthly (12/1950-02/2019)
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/modes/Tele_index-NH-DJFmonth-5018.ctl
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/modes/Tele_index-NH-DJFmonth-5018.ctl
     logos: [nasa-logo-ul, gmao-logo-ur]

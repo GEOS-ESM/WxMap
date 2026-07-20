@@ -1,7 +1,7 @@
 theme:
 
   long_name: Classic Weather Maps (Public)
-  service: !!python/object/apply:wxmapstheme.Service []
+  service: !!python/object/apply:wxmap.wxmapstheme.Service []
   
   attribute:
   

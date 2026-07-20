@@ -7,6 +7,7 @@ stream:
     institution: Global Modeling and Assimilation Office (GMAO)
     description: GEOS S2S_2.1
     uri: /discover/nobackup/jardizzo/S2S/data/opendap/seasonal/s2s.$collection.monthly.%Y%m.latest
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/S2S-2_1/opendap/forecast/Y%Y/M%m/s2s.^%%b.geosgcm_surf.monthly.%Y%m
     service: !!python/object/apply:dataservice.GEOSDDF []
     logos: [nasa-logo-ul, gmao-logo-ur]
 
@@ -17,5 +18,6 @@ stream:
     institution: Global Modeling and Assimilation Office (GMAO)
     description: GEOS S2S_2.1
     uri: /discover/nobackup/projects/gmao/oceanval/post_processing/data/S2S-2_1/ensmean/DRFT/jan/jan.$collection.drift.1982_201101.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/S2S-2_1/drft/^%%b/^%%b.geosgcm_surf.drift.^%b.nc4
     service: !!python/object/apply:dataservice.GEOSDDF []
     logos: [nasa-logo-ul, gmao-logo-ur]

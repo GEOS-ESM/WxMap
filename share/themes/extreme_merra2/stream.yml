@@ -8,6 +8,7 @@ stream:
     downloading: enabled
     access: public
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/products/opendap/$collection
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/products/opendap/$collection
     service: !!python/object/apply:dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
@@ -20,21 +21,25 @@ stream:
 
     <<: *merra
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/percentiles/current/MERRA2.statM_2d_pct_Nx.%Y%m.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/climatestatistics/based_on_1991-2020/percentiles/MERRA2.statM_2d_pct_Nx.v2_0.%Y%m.nc4
 
   M2PERCs:
 
     <<: *merra
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/percentiles/current/MERRA2.statS_2d_pct_Nx.%Y%m.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/climatestatistics/based_on_1991-2020/percentiles/MERRA2.statS_2d_pct_Nx.v2_0.%Y%m.nc4
 
   CCDIm:
 
     <<: *merra
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/NCAindices/MERRA2.statM_2d_edi_Nx.%Y%m.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/climatestatistics/based_on_1991-2020/NCAindices/MERRA2.statM_2d_edi_Nx.v2_0.%Y%m.nc4
 
   CCDIs:
 
     <<: *merra
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/NCAindices/MERRA2.statS_2d_edi_Nx.%Y%m.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/climatestatistics/based_on_1991-2020/NCAindices/MERRA2.statS_2d_edi_Nx.v2_0.%Y%m.nc4
 
   MONTHLY: *merra
 

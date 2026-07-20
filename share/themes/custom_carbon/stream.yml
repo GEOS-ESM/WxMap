@@ -5,6 +5,7 @@ stream:
     description: NASA/GMAO MERRA-2 Carbon Constituents (M2CC)
     long_name: m2cc_ana
     uri: /discover/nobackup/projects/gmao/geos_carb/pub/$collection/Y%Y/M%m/m2cc_ana.$collection.%Y%m%d_%H00z.nc4
+    uri_dataportal: /css/gmao/geos_carb/pub/carbon/vPRE/netcdf/$collection/%Y/%m/geos_carbon_vPREr0.$collection.%Y%m%d_%H00z.nc4
     type: analysis
     animation: enabled
     service: !!python/object/apply:dataservice.GEOSDDF []

@@ -8,6 +8,7 @@ stream:
     downloading: enabled
     access: public
     uri: /discover/nobackup/projects/gmao/merra2/pub/supplemental/f517_fp/opendap/fcast/$collection/$collection.%%Y%%m%%d_%%H
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/f517_fp/opendap/fcast/$collection/$collection.%%Y%%m%%d_%%H.portal
     service: !!python/object/apply:dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
@@ -24,6 +25,7 @@ stream:
     downloading: enabled
     access: public
     uri: /discover/nobackup/projects/gmao/geos_cf/pub/GEOS-CF_NRT/opendap/fcast/$collection/$collection.%%Y%%m%%d_%%Hz
+    uri_dataportal: /css/gmao/geos-cf/NRTv2/pub/opendap/fcst/$collection/$collection.%%Y%%m%%d_%%Hz
     service: !!python/object/apply:dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
@@ -37,3 +39,4 @@ stream:
     <<: *geoscffc
 
     uri: /discover/nobackup/projects/gmao/geos_cf/priv/GEOS-CF_NRT/forecast/Y%%Y/M%%m/D%%d/H%%H/GEOS-CF.v01.fcst.chm_inst_1hr_g1440x721_p23.%%Y%%m%%d_%%Hz+%Y%m%d_%H%Mz.nc4
+    uri_dataportal: /css/gmao/geos-cf/NRTv2/priv/fcst/Y%%Y/M%%m/D%%d/GEOS-CF.v01.fcst.chm_inst_1hr_glo_L1440x721_p23.%%Y%%m%%d_%%Hz+%Y%m%d_%H%Mz.nc4

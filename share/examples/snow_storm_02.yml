@@ -15,7 +15,8 @@ stream:
     long_name: MERRA-2
     description: Modern-Era Retrospective Analysis (MERRA-2)
     uri: /discover/nobackup/projects/gmao/merra2/data/products/opendap/$collection
-
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/products/opendap/$collection
+    
 field:
 
   MERRA2:

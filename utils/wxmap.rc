@@ -1,55 +1,65 @@
+# WxMap resource file (wxmap.rc)
+# ===============================
+# Site/install-wide defaults for WxMap. This file is tracked in git and
+# should hold values that are correct for most installs.
+#
+# Overrides, lowest to highest priority:
+#   1. This file (wxmap.rc)
+#   2. wxmap.local.rc, if present next to this file -- gitignored, for
+#      per-checkout overrides. See wxmap.local.rc.example.
+#   3. An explicit --rc <file> passed on the command line.
+#
+# Any key here can also be given a per-node variant that wins automatically
+# when running on that node, e.g.:
+#   shape_path:            /some/generic/default
+#   shape_path_discover:   /discover/nobackup/jardizzo/maps
+#   shape_path_dataportal: /explore/.../maps
+# (node is one of "discover", "dataportal", or "local" -- see Config.get_node)
 
-# config_path is the path to all default and user-defined directories
-# containing WxMap instances (also referred to as themes) and configuration
-# files.
-# =========================================================================
+# Configuration lookup
+# ---------------------
+# config_path lists all directories WxMap searches for instances/themes and
+# configuration files. config selects the default configuration/theme.
 
 config_path: $install_path/share:$install_path/share/themes:$install_path/share/missions:$install_path/share/examples
-
-# Define the default configuration ($install_path/share/wxmap)
-# ============================================================
-
 config: [wxmap]
 
-# shape_path is the path to the installed shapefile database
-# ==========================================================
+config_path_dataportal: /explore/dataportal/applications/GMAO/fluiddev/config/config_dev/share:/explore/dataportal/applications/GMAO/fluiddev/config/config_dev/share/themes:/explore/dataportal/applications/GMAO/fluiddev/config/config_dev/share/missions:/explore/dataportal/applications/GMAO/fluiddev/config/config_dev/share/special:/explore/dataportal/applications/GMAO/fluiddev/config/config_dev/share/examples
 
-shape_path: /discover/nobackup/jardizzo/maps
+# Paths
+# -----
 
-# logo_path is the path to the installed logo images for branding maps produced
-# by WxMap.
-# =============================================================================
+shape_path: /discover/nobackup/jardizzo/maps   # installed shapefile database
+logo_path:  $install_path/share/files          # logo images for map branding
+map_path:   /discover/nobackup/$USER/fluid/map # cache of background map images
+track_path: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/track  # tropical storm track files
+bin_path:   $install_path/bin                  # compiled JSON derived from YAML (used by the WxMap front-end)
 
-logo_path: $install_path/share/files
+shape_path_dataportal: /explore/dataportal/applications/devel/gmao_data_services/static/data-services/wxmaps/maps
+map_path_dataportal: /home/$USER/fluid/map
+track_path_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/climatestatistics/track
 
-# map_path is the path where WxMap caches background map images for fast
-# retrieval.
-# ======================================================================
+# GrADS
+# -----
+# grads_bin is the command used to launch the GrADS binary (path + any
+# flags). If launching this fails, WxMap falls back to running "grads"
+# resolved from $PATH.
 
-map_path: /discover/nobackup/$USER/fluid/map
+grads_bin: grads
+grads_bin_discover:   /discover/nobackup/projects/gmao/share/dasilva/opengrads/Contents/grads
+grads_bin_dataportal: /explore/dataportal/applications/GMAO/grads-dev/Contents/grads
 
-# track_path is the path where storm track files are located. These files are
-# used to plot tropical storm tracks on map images.
-# ===========================================================================
+# Fonts
+# -----
 
-track_path: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/climatestatistics/track
+font:  $install_path/share/files/helr45w.ttf   # regular
+bfont: $install_path/share/files/helr65w.ttf   # bold
+mfont: $install_path/share/files/VeraMono.ttf  # monospace
 
-# Default font files for regular, bold and monospace are defined below.
-# =====================================================================
-
-font: $install_path/share/files/helr45w.ttf
-bfont: $install_path/share/files/helr65w.ttf
-mfont: $install_path/share/files/VeraMono.ttf
-
-# bin_path is the location of "compiled" JSON files derived from YAML. This is
-# mainly used by the WxMap front-end for faster ingest of configuration.
-# ============================================================================
-
-bin_path: $install_path/bin
-
-# The keymap settings below are used to normalize the caching signature for
-# generated images to be insensitive to the listed parameters.
-# =========================================================================
+# Cache key normalization
+# ------------------------
+# keymap maps the path/file settings above to stable placeholder values so
+# the image-cache signature doesn't change just because these settings do.
 
 keymap:
   shape_path: /data/maps

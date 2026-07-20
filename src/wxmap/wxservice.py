@@ -52,18 +52,18 @@ class WXService(object):
         self.request = copy.deepcopy(request)
         app_path=str(self.request.get('app_path','app_path'))
         resource_dict = self.request.get('resource_dict',{})
-        install_path = str(Path(__file__).parents[2])
+        install_path = str(Path(__file__).parents[2].resolve())
 
         if not install_path: install_path = os.getcwd()
-        #print(install_path)
-        rc_install_path = os.path.realpath(os.path.dirname(install_path))
+        
+        # rc_install_path = os.path.realpath(os.path.dirname(install_path))
 
         default_file, local_file, requested_file = self._rc_files(
             install_path, request.get('rc', None))
 
         def _load_rc(path):
             return self._resolve_rc(path, app_path, resource_dict,
-                                     install_path=rc_install_path)
+                                     install_path=install_path)
 
         # Layered, lowest to highest priority: tracked defaults, then an
         # optional gitignored per-checkout override (wxmap.local.rc, see
@@ -118,7 +118,7 @@ class WXService(object):
         install_path = str(Path(__file__).parents[2])
 
         if not install_path: install_path = os.getcwd()
-        #print(install_path)
+        
         rc_install_path = os.path.realpath(os.path.dirname(install_path))
 
         default_file, local_file, requested_file = self._rc_files(
@@ -248,7 +248,7 @@ class WXService(object):
             names = [cfg]
 
         paths  = self.config.get('config_path',None)
-
+        
         if not paths:
             paths = [os.getcwd()]
         else:
@@ -259,9 +259,10 @@ class WXService(object):
             name, srch_path = self.provenance(name, ext, paths)
                 
             for path in srch_path:
+                
                 for file in self.list(os.path.join(path,name),ext):
                     resource = self.config.read(file)
-
+                    
                     self.reset(resource.get('reset',[]))
                     self.configure(resource.get('theme',[]),ext='.init')
                     self.configure(resource.get('config',[]))

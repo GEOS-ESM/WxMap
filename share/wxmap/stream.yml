@@ -11,7 +11,7 @@ stream:
 #   uri: /discover/nobackup/projects/gmao/gmao_ops//pub//f517_fp/das/Y2017/M%m/D%d/f516_fp.inst1_2d_hwl_Nx.%Y%m%d_%H00z.nc4
 #   uri: /gpfsm/dnb02/jardizzo/assim/opendap/assim/$collection
 #   uri: /discover/nobackup/rgovinda/f517_fp/inst1_2d_hwl_Nx.ctl
-    service: !!python/object/apply:dataservice.GEOSDDF []
+    service: !!python/object/apply:wxmap.dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
     institution: NASA - Global Modeling and Assimilation Office (GMAO)
@@ -34,7 +34,7 @@ stream:
     downloading: enabled
     access: public
     uri: /discover/nobackup/projects/gmao/yotc/pub/fp/opendap/fcast/$collection/$collection.%%Y%%m%%d_%%H
-    service: !!python/object/apply:dataservice.GEOSDDF []
+    service: !!python/object/apply:wxmap.dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
     institution: NASA Global Modeling and Assimilation Office
@@ -51,7 +51,7 @@ stream:
     downloading: enabled
     access: public
     uri: http://nomads.ncep.noaa.gov/dods/gfs_0p25/gfs%%Y%%m%%d/gfs_0p25_%%Hz
-#   service: !!python/object/apply:dataservice.GFSddf []
+#   service: !!python/object/apply:wxmap.dataservice.GFSddf []
     animation: enabled
     max_frames: 20
     reference: http://www.emc.ncep.noaa.gov/GFS/doc.php
@@ -66,7 +66,8 @@ stream:
     downloading: enabled
     access: public
     uri: /discover/nobackup/projects/gmao/merra2/data/products/opendap/$collection
-    service: !!python/object/apply:dataservice.GEOSDDF []
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/products/opendap/$collection
+    service: !!python/object/apply:wxmap.dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
     institution: Global Modeling and Assimilation Office (GMAO)
@@ -83,7 +84,8 @@ stream:
     access: private
 #   uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/qfed2.emis_ch4.006.%%Y%%m%%d.nc
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/qfed/qfed2.emis_co.006.%Y%m%d.nc4
-    service: !!python/object/apply:dataservice.GEOSDDF []
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/qfed/qfed2.emis_co.061.%Y%m%d.nc4
+    service: !!python/object/apply:wxmap.dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
     institution: Global Modeling and Assimilation Office (GMAO)
@@ -96,54 +98,63 @@ stream:
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/perc_PRECTOTCORR_MERRA2.tavgM_2d_flx_Nx.%Y%m.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/perc_PRECTOTCORR_MERRA2.tavgM_2d_flx_Nx.%Y%m.nc4
 
   M2PERCDLY:
 
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/perc_daily_PRECTOTCORR_MERRA2.tavg1_2d_flx_Nx.%Y%m.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/perc_daily_PRECTOTCORR_MERRA2.tavg1_2d_flx_Nx.%Y%m.nc4
 
   M2ENSODLYJFM:
 
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/enso_daily_PRECTOTCORR_MERRA2.tavg1_2d_flx_Nx.JFM.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/enso_daily_PRECTOTCORR_MERRA2.tavg1_2d_flx_Nx.JFM.nc4
 
   M2ENSODLYOND:
 
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/enso_daily_PRECTOTCORR_MERRA2.tavg1_2d_flx_Nx.OND.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/enso_daily_PRECTOTCORR_MERRA2.tavg1_2d_flx_Nx.OND.nc4
 
   M2ENSOMONJFM:
 
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/enso_monthly_PRECTOTCORR_MERRA2.tavgM_2d_flx_Nx.JFM.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/enso_monthly_PRECTOTCORR_MERRA2.tavgM_2d_flx_Nx.JFM.nc4
 
   M2ENSOMONOND:
 
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/enso_monthly_PRECTOTCORR_MERRA2.tavgM_2d_flx_Nx.OND.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/enso_monthly_PRECTOTCORR_MERRA2.tavgM_2d_flx_Nx.OND.nc4
 
   M2PERCMONT2M:
 
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/perc_T2M_MERRA2.tavgM_2d_slv_Nx.%Y%m.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/perc_T2M_MERRA2.tavgM_2d_slv_Nx.%Y%m.nc4
 
   M2PERCMONW10M:
 
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/perc_wind10m_MERRA2.tavgM_2d_slv_Nx.%Y%m.nc4
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/perc_wind10m_MERRA2.tavgM_2d_slv_Nx.%Y%m.nc4
 
   M2MONW10M:
 
     <<: *merra
 
     uri: /discover/nobackup/projects/gmao/merra2/data/pub/supplemental/w10m_tavgM_2d_slv_Nx.ctl
+    uri_dataportal: /discover/nobackup/projects/gmao/merra2/pub/supplemental/w10m_tavgM_2d_slv_Nx.ctl
 
   MASKDATA:
   
@@ -154,6 +165,7 @@ stream:
     downloading: disabled
     access: private
     uri: /home/jardizzo/data/MASKDATA/lwmask1440721.tabl
+    uri_dataportal: /explore/dataportal/applications/GMAO/fluiddev/static/files/lwmask1440721.tabl
     animation: disabled
     max_frames: 1
     institution: Global Modeling and Assimilation Office (GMAO)
@@ -185,7 +197,7 @@ stream:
     hide: 'yes'
 #   uri: /discover/nobackup/projects/gmao/yotc/scratch/f516_fp/WXM/opendap/fcast/$collection/$collection.%Y%m%d_%Hz
     uri: /discover/nobackup/projects/gmao/yotc/pub/f516_fp/.internal/wxm/opendap/fcast/$collection/$collection.%%Y%%m%%d_%%Hz
-    service: !!python/object/apply:dataservice.GEOSDDF []
+    service: !!python/object/apply:wxmap.dataservice.GEOSDDF []
     animation: enabled
     max_frames: 20
     institution: Global Modeling and Assimilation Office (GMAO)
