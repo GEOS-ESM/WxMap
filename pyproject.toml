@@ -7,7 +7,7 @@ name = "wxmap"
 version = "0.1.0"
 description = "FLUID Weather Map Application for NCCS/Discover"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
     "numpy",
     "matplotlib",
