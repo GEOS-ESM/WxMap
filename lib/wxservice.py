@@ -400,6 +400,23 @@ class WXService(object):
 
 #------------------------------------------------------------------------------
 
+    def _get_items_interface(self, group, default):
+        od_group = collections.OrderedDict()
+        od_item  = collections.OrderedDict()
+        od_group.update(group)
+
+        for item in group.get('items', []):
+
+            if isinstance(item, dict):
+                od_item.update(item)
+            elif item in ['defaults','default']:
+                od_item=default
+            else:
+                od_item[item] = default.get(item, 'Unknown')
+
+        od_group['items'] = od_item 
+        return od_group
+    
     def get_user_interface(self):
 
         response  = self.get_capabilities()
@@ -416,27 +433,36 @@ class WXService(object):
             ui[section_name] = od_section
 
             for group_name in section.get('groups', []):
-
+                
                 group = section.get(group_name, {})
-                od_group = collections.OrderedDict()
-                od_item  = collections.OrderedDict()
-                od_group.update(group)
+                od_group = self._get_items_interface(group, default)
+                # od_group = collections.OrderedDict()
+                # od_item  = collections.OrderedDict()
+                # od_group.update(group)
 
-                for item in group.get('items', []):
+                # for item in group.get('items', []):
 
-                    if isinstance(item, dict):
-                        od_item.update(item)
-                    elif item in ['defaults','default']:
-                        od_item=default
-                    else:
-                        od_item[item] = default.get(item, 'Unknown')
+                #     if isinstance(item, dict):
+                #         od_item.update(item)
+                #     elif item in ['defaults','default']:
+                #         od_item=default
+                #     else:
+                #         od_item[item] = default.get(item, 'Unknown')
 
-                od_group['items'] = od_item
+                # od_group['items'] = od_item
                 od_section[group_name] = od_group
 
             if not od_section:
+                _log.debug(section_name)
+                if 'region' in section_name:
+                    _log.debug(f"DEFAULT: {default}")
+
+                    _log.debug(f"INTERFACE SECTION: {section}")
                 od_group = collections.OrderedDict()
-                od_group['items'] = default
+                if 'items' in section:
+                    od_group = self._get_items_interface(section, default)
+                else:
+                    od_group['items'] = default
                 od_section['default'] = od_group
 
         return ui
