@@ -166,13 +166,15 @@ class PlotService(object):
         handle.grid        = self.config(path + ['grid'],  handle.grid)
         handle.labsiz      = self.config(path + ['label_size'], handle.labsiz)
 
+        region             = request.get('region','')
+        default_parea      = self.config['region'].get(region,{}).get('parea','off')
         path               = [theme, 'plot', field]
         handle.font        = self.config(path + ['font'],  handle.font)
         handle.mfont       = self.config(path + ['mfont'], handle.mfont)
         handle.bfont       = self.config(path + ['bfont'], handle.bfont)
         handle.grid        = self.config(path + ['grid'],  handle.grid)
         handle.labsiz      = self.config(path + ['label_size'], handle.labsiz)
-        handle.parea       = self.config(path + ['parea'],'off')
+        handle.parea       = self.config(path + ['parea'],default_parea)
         lights             = self.config(path + ['lights'],'on')
         layers             = self.config(path + ['layers'],[])
         handle.title       = self.config(path + ['title'],'')
