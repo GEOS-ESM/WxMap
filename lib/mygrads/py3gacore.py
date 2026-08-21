@@ -358,7 +358,10 @@ class Grads:
         guess_size = int(np.prod(guess_shape))
         try:
             # Convert binary data to 32-bit floats
-            arr = np.fromstring(handle.getvalue(), dtype=np.float32)
+            # (np.fromstring in binary mode was removed; frombuffer is the
+            # direct replacement, but returns a read-only view, so copy() to
+            # keep the writable-array semantics the rest of this module expects)
+            arr = np.frombuffer(handle.getvalue(), dtype=np.float32).copy()
         except:
             raise PygradsError('Problems occurred while exporting GrADS expression: '+expr
                                +'\nCommon reasons:'

@@ -38,7 +38,7 @@ except Exception:
 from datetime  import datetime
 import numpy as np 
 
-class GaGrid(object):
+class GaGrid:
     """
     A simple class for holding GrADS coordinate variables as well as
     dimension environment information and other necessary metadata for
@@ -88,7 +88,7 @@ class GaGrid(object):
                 g.__dict__[a] = deepcopy(v)
         return g
 
-class GaField (ma.MaskedArray):
+class GaField(ma.MaskedArray):
     """
     This is GraDS version of a n-dimensional array: a masked array with
     a *grid* containing coordinate/dimension information attached to it.
@@ -122,41 +122,55 @@ class GaField (ma.MaskedArray):
     The fill_value is not used for computation within this module.
 
     """
+    def __new__(
+        cls,
+        data,
+        name=None,
+        grid=None,
+        mask=ma.nomask,
+        **kwargs,
+    ):
+        obj = ma.array(
+            data,
+            mask=mask,
+            **kwargs,
+        ).view(cls)
 
-    def __new__(self, data, name=None, grid=None, **kwargs):
-        self.name = name
-        if grid==None:
-            self.grid = GaGrid(name)
-        else:
-            self.grid = grid.copy()
-        self = ma.MaskedArray.__new__(self,data, **kwargs)
-        return self
-        #return ma.MaskedArray.__new__(self,data, **kwargs)
+        obj.name = name
+        obj.grid = grid.copy() if grid is not None else GaGrid(name)
 
-    def __init__(self, data, name=None, grid=None, mask=None,**kwargs):
-        """
-        Creates a GaField object, an extesion of MaskedArray with
-        grid information attached.
-        """
-        #self=ma.array(data,mask=mask)
-        #ma.MaskedArray.__new__(self,data, **kwargs)
-        self = np.ma.MaskedArray(data,mask)
-        self.name = name
-        if grid==None:
-            self.grid = GaGrid(name)
-        else:
-            self.grid = grid.copy()
-        
-    def copy ( self ):
-        """
-        Returns a copy of a GaField.
-        """
-        return GaField(self.data.copy(),
-                       name=self.name[:],
-                       mask=self.mask.copy(),
-                       grid=self.grid.copy())
+        return obj
 
-#   Use closure to overload most operations
+    def __array_finalize__(self, obj):
+        # Must run first: this is what sets up MaskedArray's own internal
+        # state (_mask, _fill_value, _hardmask, ...). Skipping it leaves
+        # those unset, e.g. crashing on print() with an AttributeError on
+        # '_mask'.
+        super().__array_finalize__(obj)
+        if obj is None:
+            return
+
+        self.name = getattr(obj, "name", None)
+
+        grid = getattr(obj, "grid", None)
+        self.grid = grid.copy() if grid is not None else None
+
+    def copy(self):
+        obj = super().copy()
+
+        # __array_finalize__ receives an intermediate plain ndarray (not
+        # self) as `obj` during MaskedArray.copy(), so name/grid don't
+        # propagate through it here - reassign explicitly from self instead.
+        obj.name = self.name
+        obj.grid = self.grid.copy() if self.grid is not None else None
+
+        return obj
+
+#   Use closure to overload most operations. MaskedArray's own operator
+#   implementations don't consistently invoke __array_wrap__/
+#   __array_finalize__ (e.g. __add__/__gt__ skip it, __abs__ doesn't), so
+#   name/grid have to be reattached explicitly per operation rather than
+#   relying on the general numpy subclassing hooks above.
 #   ---------------------------------------
     def ga_ops ( op ):
         def wrapper(self,*args,**kwargs):
@@ -166,16 +180,26 @@ class GaField (ma.MaskedArray):
 
     __int__ = ga_ops(ma.MaskedArray.__int__)
     __ror__ = ga_ops(ma.MaskedArray.__ror__)
-#   __repr__ = ga_ops(ma.MaskedArray.__repr__)
     __rsub__ = ga_ops(ma.MaskedArray.__rsub__)
-    __rdiv__ = ga_ops(ma.MaskedArray.__rtruediv__)
     __rmul__ = ga_ops(ma.MaskedArray.__rmul__)
     __rmod__ = ga_ops(ma.MaskedArray.__rmod__)
     __rshift__ = ga_ops(ma.MaskedArray.__rshift__)
+
     __abs__ = ga_ops(ma.MaskedArray.__abs__)
+
+    # __div__/__idiv__ (Python 2 division protocol) were dropped: '/' has
+    # used __truediv__ since Python 3, and __div__/__idiv__ don't exist on
+    # MaskedArray under newer numpy, so keeping them crashes at class
+    # definition time.
+    __truediv__ = ga_ops(ma.MaskedArray.__truediv__)
+    __rtruediv__ = ga_ops(ma.MaskedArray.__rtruediv__)
+    __itruediv__ = ga_ops(ma.MaskedArray.__itruediv__)
+
+    __floordiv__ = ga_ops(ma.MaskedArray.__floordiv__)
     __rfloordiv__ = ga_ops(ma.MaskedArray.__rfloordiv__)
+    __ifloordiv__ = ga_ops(ma.MaskedArray.__ifloordiv__)
+
     __isub__ = ga_ops(ma.MaskedArray.__isub__)
-    __div__ = ga_ops(ma.MaskedArray.__div__)
     __pow__ = ga_ops(ma.MaskedArray.__pow__)
     __lshift__ = ga_ops(ma.MaskedArray.__lshift__)
     __gt__ = ga_ops(ma.MaskedArray.__gt__)
@@ -187,23 +211,19 @@ class GaField (ma.MaskedArray):
     __neg__ = ga_ops(ma.MaskedArray.__neg__)
     __iadd__ = ga_ops(ma.MaskedArray.__iadd__)
     __le__ = ga_ops(ma.MaskedArray.__le__)
-    __floordiv__ = ga_ops(ma.MaskedArray.__floordiv__)
     __sub__ = ga_ops(ma.MaskedArray.__sub__)
     __ge__ = ga_ops(ma.MaskedArray.__ge__)
-    __rtruediv__ = ga_ops(ma.MaskedArray.__rtruediv__)
     __and__ = ga_ops(ma.MaskedArray.__and__)
-    __truediv__ = ga_ops(ma.MaskedArray.__truediv__)
     __lt__ = ga_ops(ma.MaskedArray.__lt__)
     __rand__ = ga_ops(ma.MaskedArray.__rand__)
     __float__ = ga_ops(ma.MaskedArray.__float__)
     __ne__ = ga_ops(ma.MaskedArray.__ne__)
-    __idiv__ = ga_ops(ma.MaskedArray.__idiv__)
     __add__ = ga_ops(ma.MaskedArray.__add__)
     __imul__ = ga_ops(ma.MaskedArray.__imul__)
     __xor__ = ga_ops(ma.MaskedArray.__xor__)
     __mul__ = ga_ops(ma.MaskedArray.__mul__)
-#  __sqrt__ = ga_ops(ma.MaskedArray.__sqrt__)
     __or__ = ga_ops(ma.MaskedArray.__or__)
+
     ravel = ga_ops(ma.MaskedArray.ravel)
 
 __Months__ = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
