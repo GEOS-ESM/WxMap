@@ -355,11 +355,12 @@ class Service(MapService):
         
         geometry = self.get_geometry()
         geometry = 'x' + str(geometry[0]) + ' ' + 'y' + str(geometry[1])
+        geom2x = 'x2048 y1536'
         geom3x = 'x3072 y2304'
-
+ 
         img = self.oname
+        img2x = img + '2x.png'
         img3x = img + '3x.png'
-
 
         t_color = 1
         if self.request.get('lights_off', False): t_color = 0
@@ -386,6 +387,21 @@ class Service(MapService):
             im1.paste(im2, (177,65), im2)
             im1.save(img, format='png')
             os.remove(img3x)
+        elif region == 'nurture_polar':
+            self.ds('gxprint ' + img2x + ' ' + geom2x)
+            self.draw_symbol(img2x, self.symbols)
+            im1 = Image.open(img).convert("RGBA")
+            im2 = Image.open(img2x).convert("RGBA")
+            im2 = im2.crop((608, 712, 1438, 1214))
+            cbar = im1.crop((849, 64, 962, 701))
+            im2 = expand(im2, border=3, fill=(0,0,0))
+            draw = ImageDraw.Draw(im1)
+            mask = (182, 63, 1023, 705)
+            draw.rectangle(mask, fill="white", outline="white")
+            im1.paste(im2, (59,130), im2)
+            im1.paste(cbar, (900,64), cbar)
+            im1.save(img, format='png')
+            os.remove(img2x)
         else:
             if not cbar_only:
                 self.draw_logo(img, self.logos)
@@ -1445,14 +1461,15 @@ class Service(MapService):
         ylend = int(options.get('ylend', lat2))
         xlint = round(options.get('xlint', (lon2-lon1)/5.0))
         ylint = round(options.get('ylint', (lat2-lat1)/5.0))
-
+        labsiz = options.get('labsiz', '0.04')
+        
         xlevs = list(range(int(xlbeg), int(xlend+1), int(xlint)))
         clevs = xlevs
         clevs += [x-360 for x in xlevs if x >= 180]
         clevs += [x+360 for x in xlevs if x < 0]
         clevs = sorted(list(set(clevs)))
         clevs = [str(x) for x in clevs]
-
+        
         self.ds('set gxout contour')
         self.ds('set clevs ' + ' '.join(clevs))
         self.ds('set clab off')
@@ -1462,6 +1479,8 @@ class Service(MapService):
         self.ds('set cthick 1')
         self.ds('d lon')
 
+        self.ds('set font 0')
+        self.ds(f'set strsiz {labsiz}')
 #       self.ds('set gxout contour')
 #       self.ds('set clevs -180 0 180')
 #       self.ds('set clab off')
