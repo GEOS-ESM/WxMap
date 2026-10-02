@@ -339,78 +339,259 @@ class Service(MapService):
 #------------------------------------------------------------------------------
 
     def imshow(self):
-        
-        cbar_only = self.request.get('cbar_only', False)
-        region = self.request.get('region')
-        basemap_off= self.request.get('basemap_off',False)
-        if cbar_only: self.clear_map()
 
-        if not cbar_only: self.make_labels()
-        if self.cbar: self.cbar.draw(**self.request)
+        cbar_only = self.request.get("cbar_only", False)
+        region = self.request.get("region")
+        basemap = not self.request.get("basemap_off", False)
+        plot_only = self.request.get("plot_only", False)
 
-        if not basemap_off:
-            background = self.draw_map(zorder=0)
-            # print(background)
-        else: background = None 
-        
-        geometry = self.get_geometry()
-        geometry = 'x' + str(geometry[0]) + ' ' + 'y' + str(geometry[1])
-        geom2x = 'x2048 y1536'
-        geom3x = 'x3072 y2304'
- 
+        if cbar_only:
+            self.clear_map()
+        if not cbar_only:
+            self.make_labels()
+        if self.cbar:
+            self.cbar.draw(**self.request)
+
+        if self.request.get("save_cbar", False):
+            self.save_colorbar()
+
         img = self.oname
-        img2x = img + '2x.png'
-        img3x = img + '3x.png'
+        geometry = self.get_geometry()
 
-        t_color = 1
-        if self.request.get('lights_off', False): t_color = 0
+        name, ext = os.path.splitext(img)
+        if ext == ".stat":
+            self.write_stats(img)
+            return img
 
-        if background:
-            background_flag=False
-            try: #temporary route around background if it isn't working # SJR 20240617 
-                self.ds(f'gxprint {img} {geometry} -b {background} -t  {str(t_color)}')
-            except Exception as exc:
-                background_flag=True
-                import traceback
-                self.gxprint(img,background,geometry,t_color)
-        else: 
-            self.ds('gxprint ' + img + ' ' + geometry)
+        bkg_color = "white"
+        if self.request.get("lights_off", False):
+            bkg_color = "black"
 
-        if region == 'arcsix': # Special polar plot for ARCSIX mission
-            self.ds('gxprint ' + img3x + ' ' + geom3x)
-            self.draw_symbol(img3x, self.symbols)
-            self.navigate(img3x,x_offset=-1207+177+3,y_offset=-1068+65+3,fname=img)
-            im1 = Image.open(img).convert("RGBA")
-            im2 = Image.open(img3x).convert("RGBA")
-            im2 = im2.crop((1207, 1068, 1875, 1713))
-            im2 = expand(im2, border=3, fill=(0,0,0))
-            im1.paste(im2, (177,65), im2)
-            im1.save(img, format='png')
-            os.remove(img3x)
-        elif region == 'nurture_polar':
-            self.ds('gxprint ' + img2x + ' ' + geom2x)
-            self.draw_symbol(img2x, self.symbols)
-            im1 = Image.open(img).convert("RGBA")
-            im2 = Image.open(img2x).convert("RGBA")
-            im2 = im2.crop((608, 712, 1438, 1214))
-            cbar = im1.crop((849, 64, 962, 701))
-            im2 = expand(im2, border=3, fill=(0,0,0))
-            draw = ImageDraw.Draw(im1)
-            mask = (182, 63, 1023, 705)
-            draw.rectangle(mask, fill="white", outline="white")
-            im1.paste(im2, (59,130), im2)
-            im1.paste(cbar, (900,64), cbar)
-            im1.save(img, format='png')
-            os.remove(img2x)
+        if region == "arcsix":
+
+            self.arcsix(
+                img, geometry, basemap, bkg_color=bkg_color, fullframe=plot_only
+            )
+
+        elif region == "nurture_polar":
+
+            self.nurture(
+                img, geometry, basemap, bkg_color=bkg_color, fullframe=plot_only
+            )
+
         else:
+
+            if basemap:
+                background = self.draw_map(zorder=0)
+            else:
+                background = None
+
+            self.mkimage(img, geometry, background=background, bkg_color=bkg_color)
+
             if not cbar_only:
                 self.draw_logo(img, self.logos)
                 self.draw_symbol(img, self.symbols)
 
             self.navigate(img)
-            
+
         return img
 
+    def nurture(self, oname, geometry, basemap, bkg_color="white", fullframe=False):
+        """
+        Creates a cropped polar-stereographic projection for the NURTURE
+        field campaign.
+
+        This method uses a pixel zoom to extract a rectangular image from the
+        GrADS polar-stereographic projection. The settings in this method are
+        sensitive to the region settings, which must be set as follows:
+
+        lon: -237 123
+        lat: 10 90
+        mproj: nps
+        mpvals: -237 123 10 90
+
+        Any changes to these regional coordinates will break the calibrated
+        pixel settings. Also, the pixel settings are calibrated relative to
+        the default image size of 1024x768. They will scale to the
+        user-specified dimension (at least that is the plan!).
+
+        Parameters
+        ----------
+        oname : string
+            Name of output image.
+        geometry : tuple
+            2D tuple of the X and Y pixel size of the output image.
+        basemap : boolean
+            If true, draw basemap.
+        bkg_color : string
+            Background color of the image (default is 'white')
+        fullframe : boolean
+            If true, user has requested that the data portion of the image
+            extend to the edges (i.e. no titles or colorbars).
+
+        Returns
+        -------
+        None
+            No return value
+
+        """
+
+        xsize = geometry[0]
+        ysize = geometry[1]
+        if fullframe:
+            factor = 4
+        else:
+            factor = 2
+        geomfx = (xsize * factor, ysize * factor)
+
+        X1 = ImageScaler(xsize, 1024)
+        Y1 = ImageScaler(ysize, 768)
+        X2 = ImageScaler(xsize * factor, 2048)
+        Y2 = ImageScaler(ysize * factor, 1536)
+
+        img = oname
+        imgfx = img + "fx.png"
+
+        if basemap:
+            background = self.draw_map(zorder=0, geometry=geomfx, fullframe=False)
+        else:
+            background = None
+
+        self.mkimage(img, geometry)
+        self.mkimage(imgfx, geomfx, background, bkg_color)
+
+        self.draw_symbol(imgfx, self.symbols)
+        im1 = Image.open(img).convert("RGBA")
+        im2 = Image.open(imgfx).convert("RGBA")
+        im2 = im2.crop((X2(608), Y2(712), X2(1438), Y2(1214)))
+
+        if fullframe:
+            im1 = im2.resize((xsize, ysize), Image.LANCZOS)
+        else:
+
+            # An attempt is made here to move the colorbar over and center
+            # the plot; hence the extraction of the colorbar. Masking is done
+            # to clear the old plot area to make way for the pasting of the
+            # cropped image back onto the original.
+
+            cbar = im1.crop((X1(849), Y1(64), X1(962), Y1(701)))
+            im2 = expand(im2, border=3, fill=(0, 0, 0))
+            draw = ImageDraw.Draw(im1)
+            mask = (X1(182), Y1(63), X1(1023), Y1(705))
+            draw.rectangle(mask, fill=bkg_color, outline=bkg_color)
+            im1.paste(im2, (X1(59), Y1(130)), im2)
+            im1.paste(cbar, (X1(900), Y1(64)), cbar)
+
+        im1.save(img, format="png")
+
+        im1.close()
+        im2.close()
+        os.remove(imgfx)
+
+        return
+
+    def arcsix(self, oname, geometry, basemap, bkg_color="white", fullframe=False):
+        """
+        Creates a cropped polar-stereographic projection for the ARCSIX
+        field campaign.
+
+        This method uses a pixel zoom to extract a rectangular image from the
+        GrADS polar-stereographic projection. The settings in this method are
+        sensitive to the region settings, which must be set as follows:
+
+        lon: -220 140
+        lat: 35 90
+        mproj: nps
+        mpvals: -220 140 35 90
+
+        Any changes to these regional coordinates will break the calibrated
+        pixel settings. Also, the pixel settings are calibrated relative to
+        the default image size of 1024x768. They will scale to the
+        user-specified dimension (at least that is the plan!).
+
+        Parameters
+        ----------
+        oname : string
+            Name of output image.
+        geometry : tuple
+            2D tuple of the X and Y pixel size of the output image.
+        basemap : boolean
+            If true, draw basemap.
+        bkg_color : string
+            Background color of the image (default is 'white')
+        fullframe : boolean
+            If true, user has requested that the data portion of the image
+            extend to the edges (i.e. no titles or colorbars).
+
+        Returns
+        -------
+        None
+            No return value
+
+        """
+
+        xsize = geometry[0]
+        ysize = geometry[1]
+        if fullframe:
+            factor = 6
+        else:
+            factor = 3
+        geomfx = (xsize * factor, ysize * factor)
+
+        X1 = ImageScaler(xsize, 1024)
+        Y1 = ImageScaler(ysize, 768)
+        X2 = ImageScaler(xsize * factor, 3072)
+        Y2 = ImageScaler(ysize * factor, 2304)
+
+        img = oname
+        imgfx = img + "fx.png"
+
+        if basemap:
+            background = self.draw_map(zorder=0, geometry=geomfx, fullframe=False)
+        else:
+            background = None
+
+        self.mkimage(img, geometry)
+        self.mkimage(imgfx, geomfx, background, bkg_color)
+
+        self.draw_symbol(imgfx, self.symbols)
+        self.navigate(imgfx,x_offset=-X2(1207)+X1(177)+3,y_offset=-Y2(1068)+Y1(65)+3,fname=img)
+        im1 = Image.open(img).convert("RGBA")
+        im2 = Image.open(imgfx).convert("RGBA")
+        im2 = im2.crop((X2(1207), Y2(1068), X2(1875), Y2(1713)))
+
+        if fullframe:
+            im1 = im2.resize((xsize, ysize), Image.LANCZOS)
+        else:
+            im2 = expand(im2, border=3, fill=(0, 0, 0))
+            im1.paste(im2, (X1(177), Y1(65)), im2)
+
+        im1.save(img, format="png")
+
+        im1.close()
+        im2.close()
+        os.remove(imgfx)
+
+        return
+
+    def mkimage(self, oname, geometry, background=None, bkg_color="white"):
+
+        colors = dict(white=1, black=0)
+        bkg_color = colors.get(bkg_color, 1)
+
+        geometry = f"x{geometry[0]} y{geometry[1]}"
+        cmd = f"gxprint {oname} {geometry}"
+
+        if background:
+            print(f"Background: {background}")
+            try:
+                self.ds(cmd + f" -b {background} -t {bkg_color}")
+            except Exception as exc:
+                import traceback
+
+                self.gxprint(oname, background, geometry, bkg_color)
+        else:
+            self.ds(cmd)
 #------------------------------------------------------------------------------
 
     def navigate(self, img, x_offset=0, y_offset=0, fname=None):
@@ -1561,30 +1742,32 @@ class Service(MapService):
 
 #------------------------------------------------------------------------------
 
-    def draw_map(self, zorder=0):
+    def draw_map(self, zorder=0, **kwargs):
 
         bmaps = [b for b in self.maps if b.get('zorder',0) == zorder]
         if not bmaps:
             return None
-
+            
+        bmaps[0].update(kwargs)
+        
         name  = self.get_map_key(bmaps) + '.png'
         path  = self.config.get('map_path', os.getcwd())
         path  = Template(path).safe_substitute(os.environ)
         fname = os.path.join(path, name)
-        
+            
         if os.path.isfile(fname): return fname
-
+                
         try:
             os.makedirs(path, 0o755)
         except Exception as exc:
             pass
-        
+            
         m = self.get_map_handle(**bmaps[0])
-
+        
         self.create_mask(m, **bmaps[0])
 
         #for bmap in bmaps: self.add_map_layer(m, bmap)
-        
+
         #fname = self.save_map(fname, **bmaps[0])
         fname = self.save_map(fname,bmaps,**bmaps[0])
         return fname
@@ -2770,3 +2953,12 @@ class HersheyDraw(object):
 
         return (text_width, text_height)
 
+class ImageScaler(object):
+        
+    def __init__(self, image_size, base_size=None):
+        
+        self.size = image_size
+        self.factor = image_size / base_size
+        
+    def __call__(self, pixels):
+        return int(round(pixels * self.factor))
